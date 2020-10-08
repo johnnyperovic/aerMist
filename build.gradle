@@ -30,16 +30,10 @@ ext {
     retrofit_version = '2.9.0'
     glide_version = "4.11.0"
     threetenabp_version = '1.2.4'
-    lottie_version = "3.4.2"
+    lottie_version = "3.4.4"
     koin_version = "2.2.0-beta-1"
     crashlytics_version = "17.2.2"
     timber_version = "4.7.1"
-    room_version = "2.3.0-alpha02"
-    libPhoneNumber_version = "8.12.9"
-    locationServices_version = "17.1.0"
-    visionServices_version = "20.1.2"
-    paging_version = "2.1.2"
-    places_version = "2.4.0"
 }
 
 allprojects {

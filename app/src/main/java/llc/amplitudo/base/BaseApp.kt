@@ -4,10 +4,7 @@ import android.app.Application
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
 import com.bumptech.glide.load.model.GlideUrl
 import com.jakewharton.threetenabp.AndroidThreeTen
-import llc.amplitudo.base.di.miscModule
-import llc.amplitudo.base.di.networkModule
-import llc.amplitudo.base.di.repoModule
-import llc.amplitudo.base.di.roomModule
+import llc.amplitudo.base.di.*
 import llc.amplitudo.base.shared.GlideApp
 import okhttp3.OkHttpClient
 import org.koin.android.ext.android.inject
@@ -34,8 +31,8 @@ class BaseApp : Application() {
                 listOf(
                     networkModule,
                     repoModule,
-                    miscModule,
-                    roomModule
+                    viewModelModule,
+                    miscModule
                 )
             )
         }
@@ -53,6 +50,6 @@ class BaseApp : Application() {
             )
 
         // Initialize timber
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        Timber.plant(Timber.DebugTree())
     }
 }
