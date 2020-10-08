@@ -1,0 +1,187 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+// apply plugin: 'com.google.gms.google-services'
+// apply plugin: 'com.google.firebase.crashlytics'
+
+String appName = "Android Base Project"
+
+def majorVersion = "0.0"
+
+static def generateVersionCode() {
+    def result = "git rev-list --all --count".execute().text.trim()
+    if (result.empty) result = "PowerShell -Command git rev-list HEAD --count".execute().text.trim()
+    if (result.empty) result = 1
+    return result.toInteger()
+}
+
+Properties keystore
+Boolean keystoreFileExists = project.file('keystore.properties').exists()
+if (keystoreFileExists) {
+    keystore = new Properties()
+    keystore.load(project.file('keystore.properties').newDataInputStream())
+}
+
+android {
+    signingConfigs {
+        if (keystoreFileExists) {
+            release {
+                keyAlias keystore['KeyAlias']
+                keyPassword keystore['KeyPassword']
+                storeFile file(keystore['StorePath'])
+                storePassword keystore['StorePassword']
+            }
+            debug {
+/*                keyAlias keystore['DebugKeyAlias']
+                keyPassword keystore['DebugKeyPassword']
+                storeFile file(keystore['DebugStorePath'])
+                storePassword keystore['DebugStorePassword']*/
+            }
+        }
+    }
+
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+    defaultConfig {
+        applicationId "llc.amplitudo.base"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode generateVersionCode()
+        versionName "${majorVersion}.${generateVersionCode()}"
+
+        manifestPlaceholders = [
+                appIcon       : "@mipmap/ic_launcher",
+                appIconRounded: "@mipmap/ic_launcher_round",
+        ]
+
+        resValue "string", "app_name", appName
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        production {
+            initWith(buildTypes.release)
+            applicationIdSuffix '.production'
+            versionNameSuffix ' - Production'
+
+            manifestPlaceholders = [
+                    appIcon       : "@mipmap/ic_launcher",
+                    appIconRounded: "@mipmap/ic_launcher_round",
+            ]
+
+            resValue "string", "app_name", "${appName} Production"
+
+            buildConfigField("String", "MAPS_API_KEY", "\"AIzaSyC1BZ4JkHM_aYSINyg7YFOXv-TQ1hYyup4\"")
+        }
+        staging {
+            initWith(buildTypes.debug)
+            applicationIdSuffix '.staging'
+            versionNameSuffix ' - Staging'
+
+            manifestPlaceholders = [
+                    appIcon       : "@mipmap/ic_launcher",
+                    appIconRounded: "@mipmap/ic_launcher_round",
+            ]
+
+            resValue "string", "app_name", "${appName} Staging"
+
+            buildConfigField("String", "MAPS_API_KEY", "\"AIzaSyC1BZ4JkHM_aYSINyg7YFOXv-TQ1hYyup4\"")
+        }
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+    flavorDimensions "apiUrl"
+    productFlavors {
+        localApi {
+            dimension "apiUrl"
+            buildConfigField("String", "BASE_URL", "\"ENTER LOCAL API URL/\"")
+        }
+        remoteApi {
+            dimension "apiUrl"
+            buildConfigField("String", "BASE_URL", "\"ENTER REMOTE API URL/\"")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // AppCompat
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+
+    // Kotlin Core
+    implementation "androidx.core:core-ktx:$coreKtx_version"
+
+    // Preference
+    implementation "androidx.preference:preference-ktx:$preference_version"
+
+    // Constraint Layout
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayout_version"
+
+    // Material
+    implementation "com.google.android.material:material:$material_version"
+
+    // Architecture Components
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    // Navigation Component
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+    // OkHttp
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    // Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    // ThreeTen
+    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp_version"
+
+    // Lottie
+    implementation "com.airbnb.android:lottie:$lottie_version"
+
+    // Koin
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
+    // Crashlytics
+    implementation "com.google.firebase:firebase-crashlytics:$crashlytics_version"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timber_version"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+
+    // LibPhoneNumber
+    implementation "com.googlecode.libphonenumber:libphonenumber:$libPhoneNumber_version"
+
+    // Location Services
+    implementation "com.google.android.gms:play-services-location:$locationServices_version"
+
+    // Vision Services
+    implementation "com.google.android.gms:play-services-vision:$visionServices_version"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    // Places
+    implementation "com.google.android.libraries.places:places:$places_version"
+}
+
