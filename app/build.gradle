@@ -143,6 +143,7 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -163,25 +164,5 @@ dependencies {
 
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
-
-    // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-
-    // LibPhoneNumber
-    implementation "com.googlecode.libphonenumber:libphonenumber:$libPhoneNumber_version"
-
-    // Location Services
-    implementation "com.google.android.gms:play-services-location:$locationServices_version"
-
-    // Vision Services
-    implementation "com.google.android.gms:play-services-vision:$visionServices_version"
-
-    // Paging
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
-    // Places
-    implementation "com.google.android.libraries.places:places:$places_version"
 }
 
