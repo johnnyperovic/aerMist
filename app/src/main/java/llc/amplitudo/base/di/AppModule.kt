@@ -1,22 +1,19 @@
 package llc.amplitudo.base.di
 
 import androidx.preference.PreferenceManager
-import androidx.room.Room
 import com.google.gson.GsonBuilder
-import com.google.i18n.phonenumbers.PhoneNumberUtil
 import llc.amplitudo.base.BuildConfig
+import llc.amplitudo.base.api.ApiService
+import llc.amplitudo.base.repo.UserRepository
+import llc.amplitudo.base.ui.MainViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.threeten.bp.LocalDate
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.ZonedDateTime
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 
 val networkModule = module {
@@ -24,6 +21,8 @@ val networkModule = module {
         val okHttpClient = OkHttpClient.Builder()
             .connectTimeout(15, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
 
         if (BuildConfig.DEBUG)
             okHttpClient.addInterceptor(
@@ -32,6 +31,17 @@ val networkModule = module {
 
         okHttpClient.build()
     }
+
+    single {
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(get())
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+            .build()
+            .create(ApiService::class.java)
+    }
+
 
 /*    single {
         Retrofit.Builder()
@@ -51,15 +61,13 @@ val networkModule = module {
 }
 
 val repoModule = module {
-    // single { SampleRepository(get()) }
+    single { UserRepository(get()) }
 }
 
 val viewModelModule = module {
-    // viewModel { MainViewModel(get()) }
+    viewModel { MainViewModel() }
 }
 val miscModule = module {
-    single { PhoneNumberUtil.getInstance() }
-
     single { PreferenceManager.getDefaultSharedPreferences(androidContext()) }
 
 /*    single {
@@ -70,15 +78,4 @@ val miscModule = module {
             .registerTypeAdapter(ZonedDateTime::class.java, ThreeTenZonedDateTimeTypeAdapter())
             .create()
     }*/
-}
-
-val roomModule = module {
-/*    single {
-        Room.databaseBuilder(androidApplication(), RemoneyDatabase::class.java, "remoney-db")
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-    single { get<RemoneyDatabase>().cardDao() }
-    single { get<RemoneyDatabase>().transactionDao() }*/
 }
