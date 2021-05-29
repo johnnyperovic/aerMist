@@ -4,7 +4,7 @@
     "type": "COMPATIBLE_SCREEN_MANIFEST",
     "kind": "Directory"
   },
-  "applicationId": "llc.amplitudo.base",
+  "applicationId": "llc.aerMis.base",
   "variantName": "localApiDebug",
   "elements": []
 }

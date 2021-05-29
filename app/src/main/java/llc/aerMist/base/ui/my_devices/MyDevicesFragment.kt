@@ -213,7 +213,7 @@ class MyDevicesFragment : Fragment() {
         }
 
         override fun onScanFinished(scanResultList: List<BleDevice>) {
-            Log.e("d", "Scan done123 " + scanResultList.size)
+            Log.e("d", "Scan done from MyDevicesFragment" + scanResultList.size)
             availableDevicesList = scanResultList
             list = scanResultList
             for (item in scanResultList) {

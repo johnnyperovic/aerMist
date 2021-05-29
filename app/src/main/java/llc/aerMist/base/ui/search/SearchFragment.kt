@@ -1,22 +1,14 @@
 package llc.aerMist.base.ui.search
 
-import android.Manifest
 import android.app.Activity
-import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
-import android.content.IntentFilter
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.clj.fastble.callback.BleScanCallback
 import com.clj.fastble.data.BleDevice
 import com.google.gson.Gson
@@ -25,8 +17,6 @@ import llc.aerMist.base.R
 import llc.aerMist.base.adapters.AvailableDevicesAdapter
 import llc.aerMist.base.helpers.BluetoothController
 import llc.aerMist.base.models.MyDevice
-import llc.aerMist.base.observers.NewObservableCoordinator
-import llc.aerMist.base.shared.kotlin.nameToInitials
 import llc.aerMist.base.shared.util.PreferenceCache
 import llc.aerMist.base.ui.popup.AddDevicePopup
 import org.koin.android.ext.android.inject
@@ -144,9 +134,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun deviceItemClicked(device: BleDevice) {
+        bluetoothController.bluetoothManager.cancelScan()
         deviceName = device.name
         Log.e("D", "Device name " + device.name)
-
         addDeviceDialog = AddDevicePopup(device)
         addDeviceDialog.isCancelable = false
         addDeviceDialog.show(childFragmentManager, "")

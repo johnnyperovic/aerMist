@@ -3,13 +3,20 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+// TODO: Uncomment if using Crashlytics/Google services, delete if not
 // apply plugin: 'com.google.gms.google-services'
 // apply plugin: 'com.google.firebase.crashlytics'
 
-String appName = "Android Base Project"
+// TODO: Change application name
+String appName = "aerMist"
 
+// TODO: Change fixed version value (leave at 0.0 for new project)
 def majorVersion = "0.0"
 
+/**
+ * Function to calculate dynamic version value
+ * based on the number of commits to the repository
+ **/
 static def generateVersionCode() {
     def result = "git rev-list --all --count".execute().text.trim()
     if (result.empty) result = "PowerShell -Command git rev-list HEAD --count".execute().text.trim()
@@ -17,6 +24,8 @@ static def generateVersionCode() {
     return result.toInteger()
 }
 
+// TODO: Add keystore.jks file in app root folder, and if needed, keystore_debug.jks file
+// TODO: Change values in app/keystore.properties file
 Properties keystore
 Boolean keystoreFileExists = project.file('keystore.properties').exists()
 if (keystoreFileExists) {
@@ -25,6 +34,15 @@ if (keystoreFileExists) {
 }
 
 android {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     signingConfigs {
         if (keystoreFileExists) {
             release {
@@ -34,6 +52,7 @@ android {
                 storePassword keystore['StorePassword']
             }
             debug {
+                // TODO: Uncomment if using a debug keystore, delete if not
 /*                keyAlias keystore['DebugKeyAlias']
                 keyPassword keystore['DebugKeyPassword']
                 storeFile file(keystore['DebugStorePath'])
@@ -45,7 +64,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     defaultConfig {
-        applicationId "llc.amplitudo.base"
+        applicationId "llc.aerMis.base"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode generateVersionCode()
@@ -69,6 +88,7 @@ android {
             applicationIdSuffix '.production'
             versionNameSuffix ' - Production'
 
+            // TODO: Insert correct icons for production build type
             manifestPlaceholders = [
                     appIcon       : "@mipmap/ic_launcher",
                     appIconRounded: "@mipmap/ic_launcher_round",
@@ -83,6 +103,7 @@ android {
             applicationIdSuffix '.staging'
             versionNameSuffix ' - Staging'
 
+            // TODO: Insert correct icons for staging build type
             manifestPlaceholders = [
                     appIcon       : "@mipmap/ic_launcher",
                     appIconRounded: "@mipmap/ic_launcher_round",
@@ -99,19 +120,27 @@ android {
     flavorDimensions "apiUrl"
     productFlavors {
         localApi {
+            // TODO: Change base url for local API
             dimension "apiUrl"
-            buildConfigField("String", "BASE_URL", "\"ENTER LOCAL API URL/\"")
+            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
         }
         remoteApi {
+            // TODO: Change base url for remote API
             dimension "apiUrl"
-            buildConfigField("String", "BASE_URL", "\"ENTER REMOTE API URL/\"")
+            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
         }
     }
 }
 
 dependencies {
+    //TODO: Scan dependencies for new versions
+    // (Analyze->Run Inspection by Name...->"Newer library versions available")
+    // If needed, change versions by changing variables in project build.gradle file
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_version"
 
     // AppCompat
     implementation "androidx.appcompat:appcompat:$appcompat_version"
@@ -150,19 +179,19 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
-    // ThreeTen
-    implementation "com.jakewharton.threetenabp:threetenabp:$threetenabp_version"
-
     // Lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
 
     // Koin
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
+    // TODO: Uncomment if using Crashlytics, delete if not
     // Crashlytics
-    implementation "com.google.firebase:firebase-crashlytics:$crashlytics_version"
+    // implementation "com.google.firebase:firebase-crashlytics:$crashlytics_version"
 
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
+    //BLE
+    implementation 'com.clj.fastble:FastBleLib:2.3.4'
 }
 

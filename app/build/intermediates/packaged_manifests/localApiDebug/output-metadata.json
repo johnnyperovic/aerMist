@@ -4,14 +4,14 @@
     "type": "PACKAGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "llc.amplitudo.base",
+  "applicationId": "llc.aerMis.base",
   "variantName": "localApiDebug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 15,
-      "versionName": "0.0.15",
+      "versionCode": 7,
+      "versionName": "0.0.7",
       "outputFile": "AndroidManifest.xml"
     }
   ]

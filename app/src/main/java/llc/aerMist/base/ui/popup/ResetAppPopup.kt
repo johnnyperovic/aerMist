@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.add_device_popup.view.*
 import kotlinx.android.synthetic.main.add_device_popup.view.cancelBtn
 import kotlinx.android.synthetic.main.dialog_reset_app.view.*
 import llc.aerMist.base.R
-import llc.aerMist.base.models.MyDevice
 import llc.aerMist.base.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 

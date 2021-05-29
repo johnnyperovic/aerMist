@@ -1,25 +1,28 @@
 buildscript {
     ext.kotlin_version = '1.4.10'
     ext.navigation_version = "2.3.0"
-    ext.googleServices_version = "4.3.3"
-    ext.crashlyticsGradle_version = "2.0.0-beta03"
+    // TODO: Uncomment if using Crashlytics/Google services, delete if not
+    //ext.googleServices_version = "4.3.3"
+    //ext.crashlyticsGradle_version = "2.0.0-beta03"
 
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
-        classpath "com.google.gms:google-services:$googleServices_version"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsGradle_version"
+        // TODO: Uncomment if using Crashlytics/Google services, delete if not
+        //classpath "com.google.gms:google-services:$googleServices_version"
+        //classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsGradle_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
-
+// TODO: Change dependency versions, if needed
 ext {
+    desugar_version = "1.0.10"
     appcompat_version = "1.2.0"
     coreKtx_version = '1.3.2'
     preference_version = "1.1.1"
@@ -29,7 +32,6 @@ ext {
     okhttp_version = "4.9.0"
     retrofit_version = '2.9.0'
     glide_version = "4.11.0"
-    threetenabp_version = '1.2.4'
     lottie_version = "3.4.4"
     koin_version = "2.2.0-beta-1"
     crashlytics_version = "17.2.2"
