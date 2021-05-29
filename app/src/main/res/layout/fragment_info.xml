@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.info.InfoFragment">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:src="@drawable/aermist_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="57dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisis nunc quis vitae amet, phasellus magna cursus cursus. Semper ipsum eu, at netus pellentesque et. Ullamcorper ipsum senectus dui amet, ut ac. Sit mauris sit in sollicitudin molestie amet bibendum vulputate sapien. Libero, ullamcorper penatibus sit tortor eu lectus commodo malesuada. Mi aliquam sit eget fermentum, eu vulputate dui ornare. Risus augue ac tortor nulla vestibulum mauris, bibendum leo. Iaculis id viverra morbi dui. Lacus, consequat elementum dignissim lectus consequat mauris. Elementum faucibus nulla condimentum risus. "
+        android:textColor="@color/dark_text"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <Button
+        android:id="@+id/btnResetApp"
+        android:layout_width="140dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="48dp"
+        android:backgroundTint="@color/gray"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/reset_app"
+        android:textAllCaps="false"
+        android:textColor="@color/dark_text"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info" />
+</androidx.constraintlayout.widget.ConstraintLayout>

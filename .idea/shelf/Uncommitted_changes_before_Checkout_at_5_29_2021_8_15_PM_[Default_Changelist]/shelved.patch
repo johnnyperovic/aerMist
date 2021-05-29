@@ -1,0 +1,859 @@
+Index: app/src/main/res/navigation/nav_graph.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<navigation xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:id=\"@+id/nav_graph\"\r\n    app:startDestination=\"@id/loginFragment\">\r\n\r\n    <fragment\r\n        android:id=\"@+id/loginFragment\"\r\n        android:name=\"llc.amplitudo.base.ui.login.LoginFragment\"\r\n        android:label=\"LoginFragment\"\r\n        tools:layout=\"@layout/fragment_login\">\r\n        <action\r\n            android:id=\"@+id/action_loginFragment_to_mainFragment\"\r\n            app:destination=\"@id/mainFragment\"\r\n            app:enterAnim=\"@anim/slide_in_bottom\"\r\n            app:exitAnim=\"@anim/slide_out_top\"\r\n            app:popEnterAnim=\"@anim/slide_in_top\"\r\n            app:popExitAnim=\"@anim/slide_out_bottom\"\r\n            app:popUpTo=\"@+id/loginFragment\"\r\n            app:popUpToInclusive=\"true\" />\r\n    </fragment>\r\n\r\n    <fragment\r\n        android:id=\"@+id/mainFragment\"\r\n        android:name=\"llc.amplitudo.base.ui.main.MainFragment\"\r\n        android:label=\"MainFragment\"\r\n        tools:layout=\"@layout/fragment_main\" />\r\n</navigation>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/navigation/nav_graph.xml	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/res/navigation/nav_graph.xml	(date 1622203767768)
+@@ -3,27 +3,93 @@
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:id="@+id/nav_graph"
+-    app:startDestination="@id/loginFragment">
++    app:startDestination="@id/splashFragment">
+ 
+     <fragment
+-        android:id="@+id/loginFragment"
+-        android:name="llc.amplitudo.base.ui.login.LoginFragment"
++        android:id="@+id/splashFragment"
++        android:name="llc.aerMist.base.ui.splash.SplashFragment"
+         android:label="LoginFragment"
+-        tools:layout="@layout/fragment_login">
++        tools:layout="@layout/fragment_splash">
++        <action
++            android:id="@+id/action_splashFragment_to_welcomeFragment"
++            app:destination="@id/welcomeFragment"
++            app:enterAnim="@anim/slide_in_bottom"
++            app:exitAnim="@anim/slide_out_top"
++            app:popEnterAnim="@anim/slide_in_top"
++            app:popExitAnim="@anim/slide_out_bottom"
++            app:popUpTo="@+id/splashFragment"
++            app:popUpToInclusive="true" />
++    </fragment>
++
++    <fragment
++        android:id="@+id/welcomeFragment"
++        android:name="llc.aerMist.base.ui.welcome.WelcomeFragment"
++        android:label="MainFragment"
++        tools:layout="@layout/fragment_welcome">
++        <action
++            android:id="@+id/action_welcome_to_searchFragment"
++            app:destination="@id/searchFragment"
++            app:enterAnim="@anim/slide_in_bottom"
++            app:exitAnim="@anim/slide_out_top"
++            app:popEnterAnim="@anim/slide_in_top"
++            app:popExitAnim="@anim/slide_out_bottom"
++            app:popUpTo="@+id/searchFragment"
++            app:popUpToInclusive="true" />
++        <action
++            android:id="@+id/action_welcome_to_my_devices"
++            app:destination="@+id/myDevicesFragment"
++            app:enterAnim="@anim/slide_in_bottom"
++            app:exitAnim="@anim/slide_out_top"
++            app:popEnterAnim="@anim/slide_in_top"
++            app:popExitAnim="@anim/slide_out_bottom"
++            app:popUpTo="@+id/myDevicesFragment"
++            app:popUpToInclusive="true" />
++    </fragment>
++    <fragment
++        android:id="@+id/searchFragment"
++        android:name="llc.aerMist.base.ui.search.SearchFragment"
++        android:label="SearchFragment"
++        tools:layout="@layout/search_fragment">
++        <action
++            android:id="@+id/action_available_devices_to_my_devices"
++            app:destination="@+id/myDevicesFragment"
++            app:enterAnim="@anim/slide_in_bottom"
++            app:exitAnim="@anim/slide_out_top"
++            app:popEnterAnim="@anim/slide_in_top"
++            app:popExitAnim="@anim/slide_out_bottom"
++            app:popUpTo="@+id/myDevicesFragment"
++            app:popUpToInclusive="true" />
++    </fragment>
++    <fragment
++        android:id="@+id/myDevicesFragment"
++        android:name="llc.aerMist.base.ui.my_devices.MyDevicesFragment"
++        android:label="DivaceFragment"
++        tools:layout="@layout/my_devices_fragment">
+         <action
+-            android:id="@+id/action_loginFragment_to_mainFragment"
+-            app:destination="@id/mainFragment"
++            android:id="@+id/action_my_devices_to_available_devices"
++            app:destination="@+id/searchFragment"
+             app:enterAnim="@anim/slide_in_bottom"
+             app:exitAnim="@anim/slide_out_top"
+             app:popEnterAnim="@anim/slide_in_top"
+             app:popExitAnim="@anim/slide_out_bottom"
+-            app:popUpTo="@+id/loginFragment"
++            app:popUpTo="@+id/searchFragment"
++            app:popUpToInclusive="true" />
++        <action
++            android:id="@+id/action_my_devices_to_main_fragment"
++            app:destination="@+id/mainFragment"
++            app:enterAnim="@anim/slide_in_bottom"
++            app:exitAnim="@anim/slide_out_top"
++            app:popEnterAnim="@anim/slide_in_top"
++            app:popExitAnim="@anim/slide_out_bottom"
++            app:popUpTo="@+id/mainFragment"
+             app:popUpToInclusive="true" />
+     </fragment>
+ 
+     <fragment
+         android:id="@+id/mainFragment"
+-        android:name="llc.amplitudo.base.ui.main.MainFragment"
++        android:name="llc.aerMist.base.ui.main.MainFragment"
+         android:label="MainFragment"
+         tools:layout="@layout/fragment_main" />
++
++
+ </navigation>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    package=\"llc.amplitudo.base\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />\r\n    <uses-permission android:name=\"android.permission.VIBRATE\" />\r\n\r\n    <application\r\n        android:name=\".BaseApp\"\r\n        android:allowBackup=\"true\"\r\n        android:configChanges=\"uiMode|locale\"\r\n        android:fullBackupContent=\"@xml/backup_descriptor\"\r\n        android:icon=\"${appIcon}\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"${appIconRounded}\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\"\r\n        android:usesCleartextTraffic=\"true\"\r\n        tools:targetApi=\"m\">\r\n\r\n        <uses-library\r\n            android:name=\"org.apache.http.legacy\"\r\n            android:required=\"false\" />\r\n\r\n        <activity android:name=\".ui.MainActivity\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/AndroidManifest.xml	(date 1622044214715)
+@@ -1,14 +1,20 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+-    package="llc.amplitudo.base">
++    package="llc.aerMist.base">
+ 
+     <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+     <uses-permission android:name="android.permission.VIBRATE" />
+-
++    <uses-permission android:name="android.permission.BLUETOOTH" />
++    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
++    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
++    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
++    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
++    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+     <application
+-        android:name=".BaseApp"
++        android:name="llc.aerMist.base.BaseApp"
+         android:allowBackup="true"
+         android:configChanges="uiMode|locale"
+         android:fullBackupContent="@xml/backup_descriptor"
+@@ -24,7 +30,9 @@
+             android:name="org.apache.http.legacy"
+             android:required="false" />
+ 
+-        <activity android:name=".ui.MainActivity">
++        <activity
++            android:name="llc.aerMist.base.ui.MainActivity"
++            android:screenOrientation="portrait">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+ 
+Index: app/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/.gitignore	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/.gitignore	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
+@@ -1,1 +0,0 @@
+-/build
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\napply plugin: 'kotlin-android'\r\napply plugin: 'kotlin-android-extensions'\r\napply plugin: 'kotlin-kapt'\r\napply plugin: \"androidx.navigation.safeargs.kotlin\"\r\n// TODO: Uncomment if using Crashlytics/Google services, delete if not\r\n// apply plugin: 'com.google.gms.google-services'\r\n// apply plugin: 'com.google.firebase.crashlytics'\r\n\r\n// TODO: Change application name\r\nString appName = \"Android Base Project\"\r\n\r\n// TODO: Change fixed version value (leave at 0.0 for new project)\r\ndef majorVersion = \"0.0\"\r\n\r\n/**\r\n * Function to calculate dynamic version value\r\n * based on the number of commits to the repository\r\n**/\r\nstatic def generateVersionCode() {\r\n    def result = \"git rev-list --all --count\".execute().text.trim()\r\n    if (result.empty) result = \"PowerShell -Command git rev-list HEAD --count\".execute().text.trim()\r\n    if (result.empty) result = 1\r\n    return result.toInteger()\r\n}\r\n\r\n// TODO: Add keystore.jks file in app root folder, and if needed, keystore_debug.jks file\r\n// TODO: Change values in app/keystore.properties file\r\nProperties keystore\r\nBoolean keystoreFileExists = project.file('keystore.properties').exists()\r\nif (keystoreFileExists) {\r\n    keystore = new Properties()\r\n    keystore.load(project.file('keystore.properties').newDataInputStream())\r\n}\r\n\r\nandroid {\r\n    kotlinOptions {\r\n        jvmTarget = JavaVersion.VERSION_1_8.toString()\r\n    }\r\n\r\n    compileOptions {\r\n        coreLibraryDesugaringEnabled true\r\n        sourceCompatibility JavaVersion.VERSION_1_8\r\n        targetCompatibility JavaVersion.VERSION_1_8\r\n    }\r\n    signingConfigs {\r\n        if (keystoreFileExists) {\r\n            release {\r\n                keyAlias keystore['KeyAlias']\r\n                keyPassword keystore['KeyPassword']\r\n                storeFile file(keystore['StorePath'])\r\n                storePassword keystore['StorePassword']\r\n            }\r\n            debug {\r\n                // TODO: Uncomment if using a debug keystore, delete if not\r\n/*                keyAlias keystore['DebugKeyAlias']\r\n                keyPassword keystore['DebugKeyPassword']\r\n                storeFile file(keystore['DebugStorePath'])\r\n                storePassword keystore['DebugStorePassword']*/\r\n            }\r\n        }\r\n    }\r\n\r\n    compileSdkVersion 30\r\n    buildToolsVersion \"30.0.2\"\r\n    defaultConfig {\r\n        // TODO: Change package name to project appropriate one (use llc.amplitudo.*)\r\n        applicationId \"llc.amplitudo.base\"\r\n        minSdkVersion 21\r\n        targetSdkVersion 30\r\n        versionCode generateVersionCode()\r\n        versionName \"${majorVersion}.${generateVersionCode()}\"\r\n\r\n        manifestPlaceholders = [\r\n                appIcon       : \"@mipmap/ic_launcher\",\r\n                appIconRounded: \"@mipmap/ic_launcher_round\",\r\n        ]\r\n\r\n        resValue \"string\", \"app_name\", appName\r\n    }\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled true\r\n            shrinkResources true\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n        production {\r\n            initWith(buildTypes.release)\r\n            applicationIdSuffix '.production'\r\n            versionNameSuffix ' - Production'\r\n\r\n            // TODO: Insert correct icons for production build type\r\n            manifestPlaceholders = [\r\n                    appIcon       : \"@mipmap/ic_launcher\",\r\n                    appIconRounded: \"@mipmap/ic_launcher_round\",\r\n            ]\r\n\r\n            resValue \"string\", \"app_name\", \"${appName} Production\"\r\n\r\n            buildConfigField(\"String\", \"MAPS_API_KEY\", \"\\\"AIzaSyC1BZ4JkHM_aYSINyg7YFOXv-TQ1hYyup4\\\"\")\r\n        }\r\n        staging {\r\n            initWith(buildTypes.debug)\r\n            applicationIdSuffix '.staging'\r\n            versionNameSuffix ' - Staging'\r\n\r\n            // TODO: Insert correct icons for staging build type\r\n            manifestPlaceholders = [\r\n                    appIcon       : \"@mipmap/ic_launcher\",\r\n                    appIconRounded: \"@mipmap/ic_launcher_round\",\r\n            ]\r\n\r\n            resValue \"string\", \"app_name\", \"${appName} Staging\"\r\n\r\n            buildConfigField(\"String\", \"MAPS_API_KEY\", \"\\\"AIzaSyC1BZ4JkHM_aYSINyg7YFOXv-TQ1hYyup4\\\"\")\r\n        }\r\n    }\r\n    buildFeatures {\r\n        dataBinding = true\r\n    }\r\n    flavorDimensions \"apiUrl\"\r\n    productFlavors {\r\n        localApi {\r\n            // TODO: Change base url for local API\r\n            dimension \"apiUrl\"\r\n            buildConfigField(\"String\", \"BASE_URL\", \"\\\"https://jsonplaceholder.typicode.com/\\\"\")\r\n        }\r\n        remoteApi {\r\n            // TODO: Change base url for remote API\r\n            dimension \"apiUrl\"\r\n            buildConfigField(\"String\", \"BASE_URL\", \"\\\"https://jsonplaceholder.typicode.com/\\\"\")\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n    //TODO: Scan dependencies for new versions\r\n    // (Analyze->Run Inspection by Name...->\"Newer library versions available\")\r\n    // If needed, change versions by changing variables in project build.gradle file\r\n\r\n    implementation fileTree(include: ['*.jar'], dir: 'libs')\r\n    implementation \"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version\"\r\n    coreLibraryDesugaring \"com.android.tools:desugar_jdk_libs:$desugar_version\"\r\n\r\n    // AppCompat\r\n    implementation \"androidx.appcompat:appcompat:$appcompat_version\"\r\n\r\n    // Kotlin Core\r\n    implementation \"androidx.core:core-ktx:$coreKtx_version\"\r\n\r\n    // Preference\r\n    implementation \"androidx.preference:preference-ktx:$preference_version\"\r\n\r\n    // Constraint Layout\r\n    implementation \"androidx.constraintlayout:constraintlayout:$constraintLayout_version\"\r\n\r\n    // Material\r\n    implementation \"com.google.android.material:material:$material_version\"\r\n\r\n    // Architecture Components\r\n    implementation \"androidx.lifecycle:lifecycle-extensions:$lifecycle_version\"\r\n    implementation \"androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version\"\r\n    implementation \"androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version\"\r\n\r\n    // Navigation Component\r\n    implementation \"androidx.navigation:navigation-fragment-ktx:$navigation_version\"\r\n    implementation \"androidx.navigation:navigation-ui-ktx:$navigation_version\"\r\n\r\n    // OkHttp\r\n    implementation \"com.squareup.okhttp3:logging-interceptor:$okhttp_version\"\r\n\r\n    // Retrofit\r\n    implementation \"com.squareup.retrofit2:retrofit:$retrofit_version\"\r\n    implementation \"com.squareup.retrofit2:converter-gson:$retrofit_version\"\r\n    implementation \"com.squareup.retrofit2:converter-scalars:$retrofit_version\"\r\n\r\n    // Glide\r\n    implementation \"com.github.bumptech.glide:glide:$glide_version\"\r\n    implementation \"com.github.bumptech.glide:okhttp3-integration:$glide_version\"\r\n    kapt \"com.github.bumptech.glide:compiler:$glide_version\"\r\n\r\n    // Lottie\r\n    implementation \"com.airbnb.android:lottie:$lottie_version\"\r\n\r\n    // Koin\r\n    implementation \"org.koin:koin-androidx-viewmodel:$koin_version\"\r\n\r\n    // TODO: Uncomment if using Crashlytics, delete if not\r\n    // Crashlytics\r\n    // implementation \"com.google.firebase:firebase-crashlytics:$crashlytics_version\"\r\n\r\n    // Timber\r\n    implementation \"com.jakewharton.timber:timber:$timber_version\"\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/build.gradle	(date 1622021686787)
+@@ -8,7 +8,7 @@
+ // apply plugin: 'com.google.firebase.crashlytics'
+ 
+ // TODO: Change application name
+-String appName = "Android Base Project"
++String appName = "aerMist"
+ 
+ // TODO: Change fixed version value (leave at 0.0 for new project)
+ def majorVersion = "0.0"
+@@ -140,6 +140,7 @@
+ 
+     implementation fileTree(include: ['*.jar'], dir: 'libs')
+     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
++    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_version"
+ 
+     // AppCompat
+@@ -191,5 +192,7 @@
+ 
+     // Timber
+     implementation "com.jakewharton.timber:timber:$timber_version"
++    //BLE
++    implementation 'com.clj.fastble:FastBleLib:2.3.4'
+ }
+ 
+Index: app/src/main/java/llc/aerMist/base/ui/splash/SplashFragment.kt
+===================================================================
+--- app/src/main/java/llc/aerMist/base/ui/splash/SplashFragment.kt	(date 1621095086678)
++++ app/src/main/java/llc/aerMist/base/ui/splash/SplashFragment.kt	(date 1621095086678)
+@@ -0,0 +1,34 @@
++package llc.aerMist.base.ui.splash
++
++import android.os.Bundle
++import android.os.Handler
++import android.view.LayoutInflater
++import android.view.View
++import android.view.ViewGroup
++import androidx.fragment.app.Fragment
++import androidx.navigation.fragment.findNavController
++import llc.aerMist.base.R
++
++class SplashFragment : Fragment() {
++    override fun onCreateView(
++        inflater: LayoutInflater,
++        container: ViewGroup?,
++        savedInstanceState: Bundle?
++    ): View? {
++        return inflater.inflate(R.layout.fragment_splash, container, false)
++    }
++
++    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
++        super.onViewCreated(view, savedInstanceState)
++
++        Handler().postDelayed({
++           navigateToMain()
++        }, 2000)
++    }
++
++    private fun navigateToMain() {
++        findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
++    }
++
++}
++
+Index: app/src/main/java/llc/aerMist/base/ui/welcome/WelcomeFragment.kt
+===================================================================
+--- app/src/main/java/llc/aerMist/base/ui/welcome/WelcomeFragment.kt	(date 1622203837284)
++++ app/src/main/java/llc/aerMist/base/ui/welcome/WelcomeFragment.kt	(date 1622203837284)
+@@ -0,0 +1,153 @@
++package llc.aerMist.base.ui.welcome
++
++import android.Manifest
++import android.content.pm.PackageManager
++import android.os.Build
++import android.os.Bundle
++import android.util.Log
++import android.view.View
++import android.widget.Toast
++import androidx.core.app.ActivityCompat
++import androidx.core.content.ContextCompat
++import androidx.fragment.app.Fragment
++import androidx.navigation.fragment.findNavController
++import com.google.gson.Gson
++import kotlinx.android.synthetic.main.fragment_welcome.*
++import llc.aerMist.base.R
++import llc.aerMist.base.models.MyDevice
++import llc.aerMist.base.shared.util.PreferenceCache
++import llc.aerMist.base.shared.util.SettingsManager
++import org.koin.android.ext.android.inject
++
++
++class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
++    private val settingsManager: SettingsManager by inject()
++    private val prefs: PreferenceCache by inject()
++
++    private val locationPermission = Manifest.permission.ACCESS_FINE_LOCATION
++    private val REQUEST_PERMISSIONS_REQUEST_CODE = 2;
++    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
++        super.onViewCreated(view, savedInstanceState)
++
++//        main_toggle_mode.setOnClickListener {
++//            settingsManager.changeUiMode(requireActivity(), Configuration.UI_MODE_NIGHT_YES)
++//        }
++    }
++
++    override fun onActivityCreated(savedInstanceState: Bundle?) {
++        super.onActivityCreated(savedInstanceState)
++        if (!checkPermissions()) {
++            requestPermissions2()
++        }
++        if (hasDevicesFromDB()) {
++            navigateToMyDevices()
++        }
++        btnSearch.setOnClickListener {
++            navigateToSearch()
++        }
++    }
++
++    private fun navigateToSearch() {
++        findNavController().navigate(R.id.action_welcome_to_searchFragment)
++    }
++
++    private fun navigateToMyDevices(){
++        findNavController().navigate(R.id.action_welcome_to_my_devices)
++    }
++
++    //    private fun checkLocationPermission(): Boolean {
++//        return (ContextCompat.checkSelfPermission(
++//            requireContext(),
++//            locationPermission
++//        ) == PackageManager.PERMISSION_GRANTED)
++//    }
++//
++//    private fun requestLocationPermission() {
++//        ActivityCompat.requestPermissions(
++//            requireActivity(),
++//            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2
++//        )
++//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
++//            requestPermissions(arrayOf(locationPermission), 2)
++//    }
++//
++//    override fun onRequestPermissionsResult(
++//        requestCode: Int,
++//        permissions: Array<out String>,
++//        grantResults: IntArray
++//    ) {
++//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
++//        if (requestCode == 2) {
++//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
++//                Toast.makeText(requireContext(), "Location permission enabled", Toast.LENGTH_SHORT)
++//                    .show()
++//            } else {
++//                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT)
++//                    .show()
++//            }
++//        }
++//    }
++    private fun checkPermissions(): Boolean {
++        val permissionState = ActivityCompat.checkSelfPermission(
++            requireContext(),
++            Manifest.permission.ACCESS_FINE_LOCATION
++        )
++        return permissionState == PackageManager.PERMISSION_GRANTED
++    }
++
++    /**
++     * this method request to permission asked.
++     */
++    private fun requestPermissions2() {
++        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
++            requireActivity(),
++            Manifest.permission.ACCESS_FINE_LOCATION
++        )
++        if (shouldProvideRationale) {
++            Log.i("TAG", "Displaying permission rationale to provide additional context.")
++        } else {
++            Log.i("TAG", "Requesting permission")
++            // previously and checked "Never ask again".
++            ActivityCompat.requestPermissions(
++                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
++                REQUEST_PERMISSIONS_REQUEST_CODE
++            )
++        }
++    }
++
++    /**
++     * Callback received when a permissions request has been completed.
++     */
++    override fun onRequestPermissionsResult(
++        requestCode: Int, permissions: Array<String?>,
++        grantResults: IntArray
++    ) {
++        Log.i("TAG", "onRequestPermissionResult")
++        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
++            if (grantResults.size <= 0) {
++                // If user interaction was interrupted, the permission request is cancelled and you
++                // receive empty arrays.
++                Log.i("TAG", "User interaction was cancelled.")
++            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
++                // Permission was granted. Kick off the process of building and connecting
++                // GoogleApiClient.
++                //  buildGoogleApiClient()
++            } else {
++                // Permission denied.
++            }
++        }
++    }
++
++    fun hasDevicesFromDB(): Boolean {
++        val deviceOne = prefs.firstDevice
++        val deviceTwo = prefs.secondDevice
++        val deviceThree = prefs.thirdDevice
++        val deviceFour = prefs.fourthDevice
++        var hasDevice = false
++        if (deviceOne.length > 0 || deviceTwo.length > 0 || deviceThree.length > 0 || deviceFour.length > 0) {
++            hasDevice = true
++        }
++
++        return hasDevice
++    }
++}
+\ No newline at end of file
+Index: app/src/main/java/llc/amplitudo/base/vo/AuthenticationRequest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base.vo\r\n\r\ndata class AuthenticationRequest(\r\n    val email: String,\r\n    val password: String\r\n)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/vo/AuthenticationRequest.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/vo/AuthenticationRequest.kt	(date 1621095086768)
+@@ -1,4 +1,4 @@
+-package llc.amplitudo.base.vo
++package llc.aerMist.base.vo
+ 
+ data class AuthenticationRequest(
+     val email: String,
+Index: app/src/main/java/llc/amplitudo/base/shared/MyAppGlideModule.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base.shared\r\n\r\nimport com.bumptech.glide.annotation.Excludes\r\nimport com.bumptech.glide.annotation.GlideModule\r\nimport com.bumptech.glide.integration.okhttp3.OkHttpLibraryGlideModule\r\nimport com.bumptech.glide.module.AppGlideModule\r\n\r\n@Excludes(OkHttpLibraryGlideModule::class)\r\n@GlideModule\r\nclass MyAppGlideModule : AppGlideModule()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/shared/MyAppGlideModule.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/shared/MyAppGlideModule.kt	(date 1621095086872)
+@@ -1,4 +1,4 @@
+-package llc.amplitudo.base.shared
++package llc.aerMist.base.shared
+ 
+ import com.bumptech.glide.annotation.Excludes
+ import com.bumptech.glide.annotation.GlideModule
+Index: app/src/main/res/layout/fragment_welcome.xml
+===================================================================
+--- app/src/main/res/layout/fragment_welcome.xml	(date 1621371526959)
++++ app/src/main/res/layout/fragment_welcome.xml	(date 1621371526959)
+@@ -0,0 +1,66 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++
++    <ImageView
++        android:id="@+id/sunImg"
++        android:layout_width="wrap_content"
++        android:layout_height="240dp"
++        android:src="@drawable/oragne_sun" />
++
++    <ImageView
++        android:id="@+id/tvWelcome"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="200dp"
++        android:src="@drawable/welcome"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toTopOf="parent" />
++
++    <TextView
++        android:id="@+id/introTv"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginTop="17dp"
++        android:text="@string/lets_start_connecting"
++        android:textColor="#3A3A3A"
++        android:textSize="16sp"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@id/tvWelcome" />
++
++    <ImageView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:src="@drawable/blue_sun"
++        app:layout_constraintBottom_toBottomOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintTop_toTopOf="@id/tvWelcome" />
++
++    <ImageView
++        android:id="@+id/orangeLine"
++        android:layout_width="wrap_content"
++        android:layout_height="0dp"
++        android:src="@drawable/orange_line"
++        app:layout_constraintTop_toBottomOf="@id/introTv"
++        app:layout_constraintBottom_toTopOf="@id/btnSearch"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintEnd_toEndOf="parent"
++        android:scaleType="fitCenter"
++        />
++
++    <TextView
++        android:id="@+id/btnSearch"
++        android:layout_width="match_parent"
++        android:layout_height="42dp"
++        android:layout_margin="16dp"
++        android:text="@string/search"
++        android:textColor="@color/white"
++        android:gravity="center"
++        android:textSize="14sp"
++        android:background="@drawable/orange_radius_8"
++        app:layout_constraintBottom_toBottomOf="parent" />
++</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
+Index: app/src/main/java/llc/amplitudo/base/shared/kotlin/Extensions.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@file:Suppress(\"unused\")\r\n\r\npackage llc.amplitudo.base.shared.kotlin\r\n\r\nimport android.animation.Animator\r\nimport android.animation.AnimatorListenerAdapter\r\nimport android.content.Context\r\nimport android.content.res.Resources\r\nimport android.graphics.Color\r\nimport android.graphics.drawable.ColorDrawable\r\nimport android.graphics.drawable.TransitionDrawable\r\nimport android.view.View\r\nimport android.view.WindowManager\r\nimport android.view.inputmethod.InputMethodManager\r\nimport android.widget.ImageView\r\nimport android.widget.PopupWindow\r\nimport android.widget.TextView\r\nimport androidx.appcompat.app.AlertDialog\r\nimport androidx.appcompat.widget.SearchView\r\nimport androidx.core.content.ContextCompat\r\nimport androidx.lifecycle.LifecycleOwner\r\nimport androidx.lifecycle.LiveData\r\nimport androidx.lifecycle.Observer\r\nimport com.google.android.material.snackbar.Snackbar\r\nimport llc.amplitudo.base.BuildConfig.BASE_URL\r\nimport llc.amplitudo.base.R\r\nimport llc.amplitudo.base.shared.base.Resource\r\nimport okhttp3.Request\r\nimport java.util.*\r\nimport kotlin.jvm.internal.Intrinsics\r\nimport kotlin.math.roundToInt\r\n\r\n\r\nfun String?.isValidPassword() = this?.length in 7..19\r\n\r\nfun String?.isValidEmail(): Boolean {\r\n    return if (this.isNullOrEmpty()) false\r\n    else android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()\r\n}\r\n\r\nfun ImageView.setVisible(loading: Boolean, visible: Boolean) {\r\n\r\n}\r\n\r\nfun <T> LiveData<Resource<T>>.observeWithLoading(\r\n    context: Context,\r\n    lifecycleOwner: LifecycleOwner,\r\n    observer: Observer<Resource<T>>\r\n) {\r\n    val loading = AlertDialog.Builder(context)\r\n        .setView(R.layout.popup_loading)\r\n        .setCancelable(false)\r\n        .create()\r\n    loading.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))\r\n\r\n    observe(lifecycleOwner, { t ->\r\n        if (t is Resource.Loading) loading.show()\r\n        else loading.cancel()\r\n        observer.onChanged(t)\r\n    })\r\n}\r\n\r\nfun View.setVisible(visible: Boolean) {\r\n    visibility = if (visible) View.VISIBLE\r\n    else View.GONE\r\n}\r\n\r\nfun View.hideKeyboard() {\r\n    (context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager)?.apply {\r\n        hideSoftInputFromWindow(windowToken, 0)\r\n    }\r\n}\r\n\r\nfun View.setAsRootView() {\r\n    isFocusable = true\r\n    isFocusableInTouchMode = true\r\n    isClickable = true\r\n\r\n    onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->\r\n        if (hasFocus) v.hideKeyboard()\r\n    }\r\n}\r\n\r\nfun View.showError(mError: String?) {\r\n    var error = mError\r\n    val defaultError = context?.getString(R.string.default_error)\r\n    error = if (error.isNullOrEmpty() && !defaultError.isNullOrEmpty()) defaultError\r\n    else \"\"\r\n    Snackbar.make(\r\n        this,\r\n        error,\r\n        Snackbar.LENGTH_SHORT\r\n    ).show()\r\n}\r\n\r\nfun Context.showInfoDialog(messageResId: Int) {\r\n    AlertDialog.Builder(this)\r\n        .setMessage(messageResId)\r\n        .setPositiveButton(\r\n            R.string.ok,\r\n            null\r\n        )\r\n        .show()\r\n}\r\n\r\nfun Context.showConfirmationDialog(titleResId: Int, messageResId: Int, action: () -> Unit) {\r\n    AlertDialog.Builder(this)\r\n        .setTitle(titleResId)\r\n        .setMessage(messageResId)\r\n        .setPositiveButton(\r\n            R.string.yes\r\n        ) { _, _ ->\r\n            action.invoke()\r\n        }\r\n        .setNegativeButton(\r\n            R.string.no, null\r\n        )\r\n        .show()\r\n}\r\n\r\nfun View.showWithAnimation() {\r\n    if (visibility != View.VISIBLE)\r\n        this.apply {\r\n            alpha = 0f\r\n            visibility = View.VISIBLE\r\n\r\n            animate()\r\n                .alpha(1f)\r\n                .setDuration(150)\r\n                .setListener(null)\r\n        }\r\n}\r\n\r\nfun View.hideWithAnimation() {\r\n    if (this.visibility == View.VISIBLE) {\r\n        this.animate()\r\n            .alpha(0f)\r\n            .setDuration(150)\r\n            .setListener(object : AnimatorListenerAdapter() {\r\n                override fun onAnimationEnd(animation: Animator) {\r\n                    this@hideWithAnimation.visibility = View.GONE\r\n                }\r\n            })\r\n    }\r\n}\r\n\r\nfun View.changeBackgroundAnimated(drawableId: Int) {\r\n    val colorDrawables = arrayOf(\r\n        background,\r\n        ContextCompat.getDrawable(context, drawableId)\r\n    )\r\n    val transitionDrawable = TransitionDrawable(colorDrawables)\r\n    background = transitionDrawable\r\n    transitionDrawable.startTransition(200)\r\n}\r\n\r\nfun SearchView.getSearchText(): TextView {\r\n    return findViewById(androidx.appcompat.R.id.search_src_text)\r\n}\r\n\r\nfun PopupWindow.setElementOnClick(id: Int, function: () -> Unit) {\r\n    contentView.findViewById<View>(id).setOnClickListener {\r\n        function()\r\n    }\r\n}\r\n\r\nfun PopupWindow.dimBackground() {\r\n    val container = this.contentView.rootView\r\n    val context = this.contentView.context\r\n    val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager\r\n    val lp = container.layoutParams as WindowManager.LayoutParams\r\n    lp.flags = lp.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND\r\n    lp.dimAmount = 0.5f\r\n    wm.updateViewLayout(container, lp)\r\n}\r\n\r\nfun Int.dp(): Int {\r\n    val metrics = Resources.getSystem().displayMetrics\r\n    val px = this * (metrics.densityDpi / 160f)\r\n    return px.roundToInt()\r\n}\r\n\r\nfun String?.nameToInitials(): String {\r\n    return if (!this.isNullOrBlank()) {\r\n        this.split(' ')\r\n            .mapNotNull { it.firstOrNull()?.toString() }\r\n            .reduce { acc, s -> acc + s }\r\n            .toUpperCase(Locale.getDefault())\r\n    } else \"\"\r\n}\r\n\r\nfun Request.signWithToken(accessToken: String?) =\r\n    if (this.url.toString().contains(BASE_URL) && !accessToken.isNullOrEmpty()) {\r\n        newBuilder()\r\n            .header(\"Authorization\", \"Bearer $accessToken\")\r\n            .build()\r\n    } else this\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/shared/kotlin/Extensions.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/shared/kotlin/Extensions.kt	(date 1621095086862)
+@@ -1,6 +1,6 @@
+ @file:Suppress("unused")
+ 
+-package llc.amplitudo.base.shared.kotlin
++package llc.aerMist.base.shared.kotlin
+ 
+ import android.animation.Animator
+ import android.animation.AnimatorListenerAdapter
+@@ -22,12 +22,11 @@
+ import androidx.lifecycle.LiveData
+ import androidx.lifecycle.Observer
+ import com.google.android.material.snackbar.Snackbar
+-import llc.amplitudo.base.BuildConfig.BASE_URL
+-import llc.amplitudo.base.R
+-import llc.amplitudo.base.shared.base.Resource
++import llc.aerMist.base.BuildConfig.BASE_URL
++import llc.aerMist.base.R
++import llc.aerMist.base.shared.base.Resource
+ import okhttp3.Request
+ import java.util.*
+-import kotlin.jvm.internal.Intrinsics
+ import kotlin.math.roundToInt
+ 
+ 
+Index: app/src/main/java/llc/amplitudo/base/shared/widgets/ProgressImageView.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base.shared.widgets\r\n\r\nimport android.annotation.TargetApi\r\nimport android.content.Context\r\nimport android.graphics.drawable.Drawable\r\nimport android.os.Build\r\nimport android.util.AttributeSet\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.FrameLayout\r\nimport android.widget.ImageView\r\nimport androidx.annotation.DrawableRes\r\nimport androidx.core.content.ContextCompat\r\nimport androidx.core.view.children\r\nimport com.bumptech.glide.load.DataSource\r\nimport com.bumptech.glide.load.engine.GlideException\r\nimport com.bumptech.glide.request.RequestListener\r\nimport com.bumptech.glide.request.target.Target\r\nimport llc.amplitudo.base.R\r\nimport llc.amplitudo.base.shared.GlideApp\r\nimport llc.amplitudo.base.shared.kotlin.setVisible\r\n\r\n//\r\n// Example:\r\n//\r\n// <nv.android.shared.widgets.ProgressImageView\r\n//         ...\r\n//         app:imageUrl=\"https://...\"\r\n//         app:errorImage=\"@drawable/...\">\r\n//\r\n//      <ProgressBar\r\n//              android:layout_width=\"wrap_content\"\r\n//              android:layout_height=\"wrap_content\"\r\n//              android:layout_gravity=\"center\"/>\r\n//\r\n// </nv.android.shared.widgets.ProgressImageView>\r\n//\r\n\r\n@Suppress(\"unused\")\r\nclass ProgressImageView : FrameLayout, RequestListener<Drawable> {\r\n\r\n    private lateinit var mImageView: ImageView\r\n    private var mLoadingPlaceholder: View? = null\r\n    private var mImageUrl: String? = null\r\n    private var mErrorDrawable: Drawable? = null\r\n    private var mState =\r\n        State.CREATED\r\n\r\n    @JvmOverloads\r\n    constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)\r\n            : super(context, attrs, defStyleAttr) {\r\n        initProgressImageView(attrs)\r\n    }\r\n\r\n    @TargetApi(Build.VERSION_CODES.LOLLIPOP)\r\n    constructor(\r\n        context: Context,\r\n        attrs: AttributeSet? = null,\r\n        defStyleAttr: Int = 0,\r\n        defStyleRes: Int = 0\r\n    )\r\n            : super(context, attrs, defStyleAttr, defStyleRes) {\r\n        initProgressImageView(attrs)\r\n    }\r\n\r\n    private fun initProgressImageView(attrs: AttributeSet? = null) {\r\n        readAttributeSet(attrs)\r\n        initImageView(attrs)\r\n    }\r\n\r\n    override fun onAttachedToWindow() {\r\n        super.onAttachedToWindow()\r\n        mLoadingPlaceholder = if (childCount == 2) children.last() else null\r\n        if (mImageUrl != null) loadImage()\r\n    }\r\n\r\n    private fun initImageView(attrs: AttributeSet?) {\r\n        mImageView = ImageView(context, attrs)\r\n        mImageView.layoutParams = LayoutParams(\r\n            LayoutParams.MATCH_PARENT,\r\n            LayoutParams.MATCH_PARENT\r\n        )\r\n        addView(mImageView)\r\n    }\r\n\r\n    private fun readAttributeSet(attrs: AttributeSet?) {\r\n        attrs?.let {\r\n            val typedArray =\r\n                context.obtainStyledAttributes(it, R.styleable.ProgressImageView, 0, 0)\r\n            mImageUrl = typedArray.getString(R.styleable.ProgressImageView_imageUrl)\r\n            mErrorDrawable = typedArray.getDrawable(R.styleable.ProgressImageView_errorImage)\r\n            typedArray.recycle()\r\n        }\r\n    }\r\n\r\n    private fun setLoading(state: Boolean) {\r\n        if (state)\r\n            mState = State.LOADING\r\n        mImageView.setVisible(!state, false)\r\n        mLoadingPlaceholder?.setVisible(state)\r\n    }\r\n\r\n    private fun loadImage() {\r\n        GlideApp.with(this)\r\n            .load(mImageUrl)\r\n            .apply { mErrorDrawable?.let { error(it) } }\r\n            .listener(this)\r\n            .into(mImageView)\r\n        setLoading(true)\r\n    }\r\n\r\n    fun setImageUrl(url: String) {\r\n        mImageUrl = url\r\n        loadImage()\r\n    }\r\n\r\n    fun getImageView(): ImageView = mImageView\r\n\r\n    fun getPlaceholderView(): View? = mLoadingPlaceholder\r\n\r\n    fun getImageUrl() = mImageUrl\r\n\r\n    fun getErrorDrawable() = mErrorDrawable\r\n\r\n    fun setErrorDrawable(@DrawableRes imageDrawableRes: Int) {\r\n        setErrorDrawable(ContextCompat.getDrawable(context, (imageDrawableRes)))\r\n    }\r\n\r\n    @Suppress(\"MemberVisibilityCanBePrivate\")\r\n    fun setErrorDrawable(drawable: Drawable?) {\r\n        mErrorDrawable = drawable\r\n        if (mErrorDrawable == null) {\r\n            mImageView.setImageDrawable(drawable)\r\n            return\r\n        }\r\n        if (mState == State.ERROR)\r\n            mImageView.setImageDrawable(drawable)\r\n    }\r\n\r\n    override fun addView(child: View?) {\r\n        if (childCount > 1)\r\n            throw IllegalStateException(\"ProgressImageView can host only one direct child\")\r\n        super.addView(child)\r\n    }\r\n\r\n    override fun addView(child: View?, index: Int) {\r\n        if (childCount > 1)\r\n            throw IllegalStateException(\"ProgressImageView can host only one direct child\")\r\n        super.addView(child, index)\r\n    }\r\n\r\n    override fun addView(child: View?, params: ViewGroup.LayoutParams?) {\r\n        if (childCount > 1)\r\n            throw IllegalStateException(\"ProgressImageView can host only one direct child\")\r\n        super.addView(child, params)\r\n    }\r\n\r\n    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {\r\n        if (childCount > 1)\r\n            throw IllegalStateException(\"ProgressImageView can host only one direct child\")\r\n        super.addView(child, index, params)\r\n    }\r\n\r\n    override fun onLoadFailed(\r\n        e: GlideException?,\r\n        model: Any?,\r\n        target: Target<Drawable>?,\r\n        isFirstResource: Boolean\r\n    ): Boolean {\r\n        setLoading(false)\r\n        mState = State.ERROR\r\n        return false\r\n    }\r\n\r\n    override fun onResourceReady(\r\n        resource: Drawable?,\r\n        model: Any?,\r\n        target: Target<Drawable>?,\r\n        dataSource: DataSource?,\r\n        isFirstResource: Boolean\r\n    ): Boolean {\r\n        setLoading(false)\r\n        mState = State.LOADED\r\n        return false\r\n    }\r\n\r\n    private enum class State {\r\n        CREATED,\r\n        LOADING,\r\n        LOADED,\r\n        ERROR\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/shared/widgets/ProgressImageView.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/shared/widgets/ProgressImageView.kt	(date 1621095086658)
+@@ -1,4 +1,4 @@
+-package llc.amplitudo.base.shared.widgets
++package llc.aerMist.base.shared.widgets
+ 
+ import android.annotation.TargetApi
+ import android.content.Context
+@@ -16,9 +16,9 @@
+ import com.bumptech.glide.load.engine.GlideException
+ import com.bumptech.glide.request.RequestListener
+ import com.bumptech.glide.request.target.Target
+-import llc.amplitudo.base.R
+-import llc.amplitudo.base.shared.GlideApp
+-import llc.amplitudo.base.shared.kotlin.setVisible
++import llc.aerMist.base.R
++import llc.aerMist.base.shared.GlideApp
++import llc.aerMist.base.shared.kotlin.setVisible
+ 
+ //
+ // Example:
+Index: app/src/main/res/layout/fragment_splash.xml
+===================================================================
+--- app/src/main/res/layout/fragment_splash.xml	(date 1621078010653)
++++ app/src/main/res/layout/fragment_splash.xml	(date 1621078010653)
+@@ -0,0 +1,15 @@
++<?xml version="1.0" encoding="utf-8"?>
++<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent">
++<ImageView
++    android:layout_width="wrap_content"
++    android:layout_height="wrap_content"
++    android:src="@drawable/aermist_logo"
++    app:layout_constraintStart_toStartOf="parent"
++    app:layout_constraintEnd_toEndOf="parent"
++    app:layout_constraintTop_toTopOf="parent"
++    app:layout_constraintBottom_toBottomOf="parent"/>
++
++</androidx.constraintlayout.widget.ConstraintLayout>
+Index: app/src/main/java/llc/amplitudo/base/shared/widgets/LottieImageView.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base.shared.widgets\r\n\r\nimport android.annotation.TargetApi\r\nimport android.content.Context\r\nimport android.graphics.drawable.Drawable\r\nimport android.os.Build\r\nimport android.util.AttributeSet\r\nimport android.view.View\r\nimport android.widget.FrameLayout\r\nimport android.widget.ImageView\r\nimport androidx.annotation.DrawableRes\r\nimport androidx.core.content.ContextCompat\r\nimport com.airbnb.lottie.LottieAnimationView\r\nimport com.bumptech.glide.load.DataSource\r\nimport com.bumptech.glide.load.engine.GlideException\r\nimport com.bumptech.glide.request.RequestListener\r\nimport com.bumptech.glide.request.target.Target\r\nimport llc.amplitudo.base.R\r\nimport llc.amplitudo.base.shared.GlideApp\r\nimport llc.amplitudo.base.shared.kotlin.setVisible\r\n\r\n//\r\n// Example:\r\n//\r\n// <llc.amplitudo.shared.widgets.LottieImageView\r\n//     ...\r\n//     app:lottie_fileName=\"loading.json\"\r\n//     app:lottie_loop=\"true\"\r\n//     app:imageUrl=\"https://...\"\r\n//     app:errorImage=\"@drawable/..\"/>\r\n//\r\n\r\n@Suppress(\"unused\")\r\nclass LottieImageView : FrameLayout, RequestListener<Drawable> {\r\n\r\n    private lateinit var mImageView: ImageView\r\n    private lateinit var mLoadingAnimation: LottieAnimationView\r\n    private var mImageUrl: String? = null\r\n    private var mErrorDrawable: Drawable? = null\r\n    private var mState = State.CREATED\r\n\r\n    @JvmOverloads\r\n    constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)\r\n            : super(context, attrs, defStyleAttr) {\r\n        initLottieImageView(attrs)\r\n    }\r\n\r\n    @TargetApi(Build.VERSION_CODES.LOLLIPOP)\r\n    constructor(\r\n        context: Context,\r\n        attrs: AttributeSet? = null,\r\n        defStyleAttr: Int = 0,\r\n        defStyleRes: Int = 0\r\n    )\r\n            : super(context, attrs, defStyleAttr, defStyleRes) {\r\n        initLottieImageView(attrs)\r\n    }\r\n\r\n    private fun initLottieImageView(attrs: AttributeSet? = null) {\r\n        readAttributeSet(attrs)\r\n        initImageView(attrs)\r\n        initLottieAnimationView(attrs)\r\n    }\r\n\r\n    override fun onAttachedToWindow() {\r\n        super.onAttachedToWindow()\r\n        if (mImageUrl != null) loadImage()\r\n    }\r\n\r\n    private fun readAttributeSet(attrs: AttributeSet?) {\r\n        attrs?.let {\r\n            val typedArray =\r\n                context.obtainStyledAttributes(it, R.styleable.LottieImageView, 0, 0)\r\n            mImageUrl = typedArray.getString(R.styleable.LottieImageView_imageUrl)\r\n            mErrorDrawable = typedArray.getDrawable(R.styleable.LottieImageView_errorImage)\r\n            typedArray.recycle()\r\n        }\r\n    }\r\n\r\n    private fun initImageView(attrs: AttributeSet?) {\r\n        mImageView = ImageView(context, attrs)\r\n        mImageView.layoutParams = LayoutParams(\r\n            LayoutParams.MATCH_PARENT,\r\n            LayoutParams.MATCH_PARENT\r\n        )\r\n        addView(mImageView)\r\n    }\r\n\r\n    private fun initLottieAnimationView(attrs: AttributeSet?) {\r\n        mLoadingAnimation = LottieAnimationView(context, attrs)\r\n        mLoadingAnimation.layoutParams = LayoutParams(\r\n            LayoutParams.MATCH_PARENT,\r\n            LayoutParams.MATCH_PARENT\r\n        )\r\n        mLoadingAnimation.visibility = View.GONE\r\n        addView(mLoadingAnimation)\r\n    }\r\n\r\n    fun setImageUrl(url: String) {\r\n        mImageUrl = url\r\n        loadImage()\r\n    }\r\n\r\n    private fun loadImage() {\r\n        setLoading(true)\r\n        val req = GlideApp.with(this)\r\n            .load(mImageUrl)\r\n            .listener(this)\r\n        if(mErrorDrawable != null)\r\n            req.error(mErrorDrawable)\r\n        req.into(mImageView)\r\n    }\r\n\r\n    fun getImageView(): ImageView = mImageView\r\n\r\n    fun getLottieAnimationView(): LottieAnimationView = mLoadingAnimation\r\n\r\n    fun getImageUrl() = mImageUrl\r\n\r\n    fun getErrorPlaceholderImage() = mErrorDrawable\r\n\r\n    fun setErrorDrawable(@DrawableRes imageDrawableRes: Int) {\r\n        setErrorDrawable(ContextCompat.getDrawable(context, imageDrawableRes))\r\n    }\r\n\r\n    @Suppress(\"MemberVisibilityCanBePrivate\")\r\n    fun setErrorDrawable(drawable: Drawable?) {\r\n        mErrorDrawable = drawable\r\n        if(mErrorDrawable == null) {\r\n            mImageView.setImageDrawable(drawable)\r\n            return\r\n        }\r\n        if(mState == State.ERROR)\r\n            mImageView.setImageDrawable(drawable)\r\n    }\r\n\r\n    private fun setLoading(state: Boolean) {\r\n        if(state)\r\n            mState = State.LOADING\r\n        mImageView.setVisible(!state, false)\r\n        mLoadingAnimation.apply {\r\n            setVisible(state)\r\n            if(state) playAnimation() else cancelAnimation()\r\n        }\r\n    }\r\n\r\n    override fun onLoadFailed(\r\n        e: GlideException?,\r\n        model: Any?,\r\n        target: Target<Drawable>?,\r\n        isFirstResource: Boolean\r\n    ): Boolean {\r\n        setLoading(false)\r\n        mState = State.ERROR\r\n        return false // returns false because we want Glide to show error placeholder\r\n    }\r\n\r\n    override fun onResourceReady(\r\n        resource: Drawable?,\r\n        model: Any?,\r\n        target: Target<Drawable>?,\r\n        dataSource: DataSource?,\r\n        isFirstResource: Boolean\r\n    ): Boolean {\r\n        setLoading(false)\r\n        mState = State.LOADED\r\n        return false // returns false because we want Glide to show loaded image\r\n    }\r\n\r\n    private enum class State {\r\n        CREATED,\r\n        LOADING,\r\n        LOADED,\r\n        ERROR\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/shared/widgets/LottieImageView.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/shared/widgets/LottieImageView.kt	(date 1621095086673)
+@@ -1,4 +1,4 @@
+-package llc.amplitudo.base.shared.widgets
++package llc.aerMist.base.shared.widgets
+ 
+ import android.annotation.TargetApi
+ import android.content.Context
+@@ -15,9 +15,9 @@
+ import com.bumptech.glide.load.engine.GlideException
+ import com.bumptech.glide.request.RequestListener
+ import com.bumptech.glide.request.target.Target
+-import llc.amplitudo.base.R
+-import llc.amplitudo.base.shared.GlideApp
+-import llc.amplitudo.base.shared.kotlin.setVisible
++import llc.aerMist.base.R
++import llc.aerMist.base.shared.GlideApp
++import llc.aerMist.base.shared.kotlin.setVisible
+ 
+ //
+ // Example:
+Index: app/src/main/java/llc/amplitudo/base/BaseApp.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base\r\n\r\nimport android.app.Application\r\nimport com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader\r\nimport com.bumptech.glide.load.model.GlideUrl\r\nimport llc.amplitudo.base.di.*\r\nimport llc.amplitudo.base.shared.GlideApp\r\nimport okhttp3.OkHttpClient\r\nimport org.koin.android.ext.android.inject\r\nimport org.koin.android.ext.koin.androidContext\r\nimport org.koin.android.ext.koin.androidLogger\r\nimport org.koin.core.context.startKoin\r\nimport org.koin.core.logger.Level\r\nimport timber.log.Timber\r\nimport java.io.InputStream\r\n\r\n@Suppress(\"unused\")\r\nclass BaseApp : Application() {\r\n\r\n    private val sharedOkHttpClient: OkHttpClient by inject()\r\n\r\n    override fun onCreate() {\r\n        super.onCreate()\r\n\r\n        // Initialize Koin\r\n        startKoin {\r\n            androidContext(this@BaseApp)\r\n            androidLogger(Level.ERROR)\r\n            modules(\r\n                listOf(\r\n                    networkModule,\r\n                    dataModule,\r\n                    viewModelModule,\r\n                    miscModule\r\n                )\r\n            )\r\n        }\r\n\r\n        // Initialize Glide with shared instance of OkHttpClient\r\n        GlideApp.get(this)\r\n            .registry\r\n            .replace(\r\n                GlideUrl::class.java,\r\n                InputStream::class.java,\r\n                OkHttpUrlLoader.Factory(sharedOkHttpClient)\r\n            )\r\n\r\n        // Initialize timber\r\n        Timber.plant(Timber.DebugTree())\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/BaseApp.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/BaseApp.kt	(date 1621095086669)
+@@ -1,10 +1,10 @@
+-package llc.amplitudo.base
++package llc.aerMist.base
+ 
+ import android.app.Application
+ import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader
+ import com.bumptech.glide.load.model.GlideUrl
+-import llc.amplitudo.base.di.*
+-import llc.amplitudo.base.shared.GlideApp
++import llc.aerMist.base.di.*
++import llc.aerMist.base.shared.GlideApp
+ import okhttp3.OkHttpClient
+ import org.koin.android.ext.android.inject
+ import org.koin.android.ext.koin.androidContext
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"default_error\">Unknown error</string>\r\n    <string name=\"yes\">Yes</string>\r\n    <string name=\"no\">No</string>\r\n    <string name=\"ok\">OK</string>\r\n    <string name=\"email_label\">Email:</string>\r\n    <string name=\"password_label\">Password:</string>\r\n    <string name=\"login\">Login</string>\r\n    <string name=\"toggle_language\">Toggle language</string>\r\n    <string name=\"change_theme\">Change theme</string>\r\n    <string name=\"reset\">Reset</string>\r\n    <string name=\"log_out\">Log out</string>\r\n    <string name=\"debug_menu\">Debug menu</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/res/values/strings.xml	(date 1622033625958)
+@@ -11,4 +11,28 @@
+     <string name="reset">Reset</string>
+     <string name="log_out">Log out</string>
+     <string name="debug_menu">Debug menu</string>
++    <string name="lets_start_connecting">Let\'s start by connecting to\n compatible devices</string>
++    <string name="searching_for_nearby_devices">Searching for nearby devices...</string>
++    <string name="add">Add</string>
++    <string name="cancel">Cancel</string>
++    <string name="device">Device:</string>
++    <string name="device_name">Device name:</string>
++    <string name="done">Done</string>
++    <string name="search">Search</string>
++    <string name="active">Active:00:00:00 Filter: 00:00:00</string>
++    <string name="filter">Filter</string>
++    <string name="home">Home</string>
++    <string name="devices">Devices</string>
++    <string name="info">Info</string>
++    <string name="all_device">All devices</string>
++    <string name="interval">Interval</string>
++    <string name="non_stop">Non-stop</string>
++    <string name="schedule">Schedule</string>
++    <string name="manage_devices">Manage devices</string>
++    <string name="reset_app">Reset app</string>
++    <string name="add_device">Add device</string>
++    <string name="you_want_to_reset">Are you shure you want to reset\n aerMist app?</string>
++    <string name="you_will_lose_all_your_setting">You will loose all your settings\n and saved devices</string>
++    <string name="off">Off</string>
++    <string name="on">On</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<resources>\r\n    <color name=\"colorPrimary\">#6200EE</color>\r\n    <color name=\"colorPrimaryDark\">#3700B3</color>\r\n    <color name=\"colorAccent\">#03DAC5</color>\r\n\r\n    <color name=\"white\">#FFFFFF</color>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/colors.xml	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/res/values/colors.xml	(date 1621849964338)
+@@ -1,8 +1,13 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <resources>
+-    <color name="colorPrimary">#6200EE</color>
++    <color name="colorPrimary">#F36D21</color>
+     <color name="colorPrimaryDark">#3700B3</color>
+-    <color name="colorAccent">#03DAC5</color>
+-
++    <color name="colorAccent">#F36D21</color>
+     <color name="white">#FFFFFF</color>
++    <color name="orange">#F36D21</color>
++    <color name="light_gray">#E0E0E0</color>
++    <color name="dark_text">#3A3A3A</color>
++    <color name="gray">#F0F0F0</color>
++    <color name="someGrayColor">#A8A8A8</color>
++    <color name="imgGray">#C4C4C4</color>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <!-- Base application theme. -->\r\n    <style name=\"AppTheme\" parent=\"Theme.MaterialComponents.DayNight.NoActionBar\">\r\n        <!-- Customize your theme here. -->\r\n        <item name=\"colorPrimary\">@color/colorPrimary</item>\r\n        <item name=\"colorPrimaryDark\">@color/colorPrimaryDark</item>\r\n        <item name=\"colorAccent\">@color/colorAccent</item>\r\n        <item name=\"android:windowFullscreen\">true</item>\r\n    </style>\r\n\r\n    <style name=\"PopupAnimation\">\r\n        <item name=\"android:windowEnterAnimation\">@anim/fade_in</item>\r\n        <item name=\"android:windowExitAnimation\">@anim/fade_out</item>\r\n    </style>\r\n\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/res/values/styles.xml	(date 1621773630571)
+@@ -13,4 +13,19 @@
+         <item name="android:windowExitAnimation">@anim/fade_out</item>
+     </style>
+ 
++    <style name="TextAppearance.Tabs" parent="TextAppearance.Design.Tab">
++        <item name="android:textSize">16sp</item>
++        <item name="android:fontFamily">@font/roboto_regular</item>
++
++    </style>
++
++    <style name="TextAppearance.Tabs.Selected">
++        <item name="tabTextAppearance">@style/tab_text</item>
++
++    </style>
++
++    <style name="tab_text">
++        <item name="android:textSize">16sp</item>
++        <item name="android:fontFamily">@font/roboto_regular</item>
++    </style>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/java/llc/amplitudo/base/di/AppModule.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base.di\r\n\r\nimport com.google.gson.GsonBuilder\r\nimport llc.amplitudo.base.BuildConfig\r\nimport llc.amplitudo.base.data.remote.ApiService\r\nimport llc.amplitudo.base.data.remote.AuthorizationInterceptor\r\nimport llc.amplitudo.base.data.remote.RemoteDataSource\r\nimport llc.amplitudo.base.data.remote.TokenRefreshAuthenticator\r\nimport llc.amplitudo.base.data.repo.UserRepository\r\nimport llc.amplitudo.base.shared.util.PreferenceCache\r\nimport llc.amplitudo.base.shared.util.SettingsManager\r\nimport llc.amplitudo.base.shared.util.ShakeDetector\r\nimport llc.amplitudo.base.ui.MainViewModel\r\nimport llc.amplitudo.base.ui.login.LoginViewModel\r\nimport okhttp3.OkHttpClient\r\nimport okhttp3.logging.HttpLoggingInterceptor\r\nimport org.koin.android.ext.koin.androidApplication\r\nimport org.koin.android.ext.koin.androidContext\r\nimport org.koin.androidx.viewmodel.dsl.viewModel\r\nimport org.koin.dsl.module\r\nimport retrofit2.Retrofit\r\nimport retrofit2.converter.gson.GsonConverterFactory\r\nimport retrofit2.converter.scalars.ScalarsConverterFactory\r\nimport java.util.concurrent.TimeUnit\r\n\r\nval networkModule = module {\r\n\r\n    single { AuthorizationInterceptor(get()) }\r\n\r\n    single { TokenRefreshAuthenticator() }\r\n\r\n    single {\r\n        val okHttpClient = OkHttpClient.Builder()\r\n            .connectTimeout(15, TimeUnit.SECONDS)\r\n            .writeTimeout(15, TimeUnit.SECONDS)\r\n            .connectTimeout(15, TimeUnit.SECONDS)\r\n            .retryOnConnectionFailure(true)\r\n            .addInterceptor(get<AuthorizationInterceptor>())\r\n            .authenticator(get<TokenRefreshAuthenticator>())\r\n\r\n        if (BuildConfig.DEBUG)\r\n            okHttpClient.addInterceptor(\r\n                HttpLoggingInterceptor()\r\n                    .apply { level = HttpLoggingInterceptor.Level.BODY })\r\n\r\n        okHttpClient.build()\r\n    }\r\n\r\n    single {\r\n        Retrofit.Builder()\r\n            .baseUrl(BuildConfig.BASE_URL)\r\n            .client(get())\r\n            .addConverterFactory(ScalarsConverterFactory.create())\r\n            .addConverterFactory(GsonConverterFactory.create(get()))\r\n            .build()\r\n            .create(ApiService::class.java)\r\n    }\r\n}\r\n\r\nval dataModule = module {\r\n    single { RemoteDataSource(get()) }\r\n    single { UserRepository(get(), get<AuthorizationInterceptor>(), get()) }\r\n}\r\n\r\nval viewModelModule = module {\r\n    viewModel { MainViewModel() }\r\n    viewModel { LoginViewModel(androidApplication(), get()) }\r\n}\r\nval miscModule = module {\r\n    single { ShakeDetector(androidContext()) }\r\n\r\n    single { PreferenceCache(androidContext()) }\r\n\r\n    single { SettingsManager(get()) }\r\n\r\n    single {\r\n        GsonBuilder()\r\n            .create()\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/di/AppModule.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/di/AppModule.kt	(date 1621095086729)
+@@ -1,20 +1,18 @@
+-package llc.amplitudo.base.di
++package llc.aerMist.base.di
+ 
+ import com.google.gson.GsonBuilder
+-import llc.amplitudo.base.BuildConfig
+-import llc.amplitudo.base.data.remote.ApiService
+-import llc.amplitudo.base.data.remote.AuthorizationInterceptor
+-import llc.amplitudo.base.data.remote.RemoteDataSource
+-import llc.amplitudo.base.data.remote.TokenRefreshAuthenticator
+-import llc.amplitudo.base.data.repo.UserRepository
+-import llc.amplitudo.base.shared.util.PreferenceCache
+-import llc.amplitudo.base.shared.util.SettingsManager
+-import llc.amplitudo.base.shared.util.ShakeDetector
+-import llc.amplitudo.base.ui.MainViewModel
+-import llc.amplitudo.base.ui.login.LoginViewModel
++import llc.aerMist.base.BuildConfig
++import llc.aerMist.base.data.remote.ApiService
++import llc.aerMist.base.data.remote.AuthorizationInterceptor
++import llc.aerMist.base.data.remote.RemoteDataSource
++import llc.aerMist.base.data.remote.TokenRefreshAuthenticator
++import llc.aerMist.base.data.repo.UserRepository
++import llc.aerMist.base.shared.util.PreferenceCache
++import llc.aerMist.base.shared.util.SettingsManager
++import llc.aerMist.base.shared.util.ShakeDetector
++import llc.aerMist.base.ui.MainViewModel
+ import okhttp3.OkHttpClient
+ import okhttp3.logging.HttpLoggingInterceptor
+-import org.koin.android.ext.koin.androidApplication
+ import org.koin.android.ext.koin.androidContext
+ import org.koin.androidx.viewmodel.dsl.viewModel
+ import org.koin.dsl.module
+@@ -64,7 +62,7 @@
+ 
+ val viewModelModule = module {
+     viewModel { MainViewModel() }
+-    viewModel { LoginViewModel(androidApplication(), get()) }
++    //viewModel { LoginViewModel(androidApplication(), get()) }
+ }
+ val miscModule = module {
+     single { ShakeDetector(androidContext()) }
+Index: app/src/main/java/llc/amplitudo/base/ui/MainViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base.ui\r\n\r\nimport androidx.lifecycle.ViewModel\r\n\r\nclass MainViewModel: ViewModel()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/ui/MainViewModel.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/ui/MainViewModel.kt	(date 1621095086692)
+@@ -1,4 +1,4 @@
+-package llc.amplitudo.base.ui
++package llc.aerMist.base.ui
+ 
+ import androidx.lifecycle.ViewModel
+ 
+Index: app/src/main/java/llc/amplitudo/base/ui/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package llc.amplitudo.base.ui\r\n\r\nimport android.content.Context\r\nimport kotlinx.android.synthetic.main.activity_main.*\r\nimport llc.amplitudo.base.R\r\nimport llc.amplitudo.base.shared.util.SettingsManager\r\nimport llc.amplitudo.base.shared.util.ShakeDetector\r\nimport llc.amplitudo.base.shared.base.BaseActivity\r\nimport llc.amplitudo.base.ui.popup.DebugPopup\r\nimport org.koin.android.ext.android.inject\r\n\r\nclass MainActivity : BaseActivity(R.layout.activity_main) {\r\n    private val settingsManager: SettingsManager by inject()\r\n    private val shakeDetector: ShakeDetector by inject()\r\n\r\n    override fun onResume() {\r\n        super.onResume()\r\n        shakeDetector.attachOnShakeListener(this)\r\n    }\r\n\r\n    override fun onPause() {\r\n        shakeDetector.detachOnShakeListener(this)\r\n        super.onPause()\r\n    }\r\n\r\n    override fun onShake(count: Int) {\r\n        DebugPopup(this, nav_host_fragment.requireView(), {}, {}).show()\r\n    }\r\n\r\n    override fun attachBaseContext(newBase: Context?) {\r\n        super.attachBaseContext(settingsManager.attachBaseContext(newBase))\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/llc/amplitudo/base/ui/MainActivity.kt	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ app/src/main/java/llc/aerMist/base/ui/MainActivity.kt	(date 1622028712796)
+@@ -1,12 +1,12 @@
+-package llc.amplitudo.base.ui
++package llc.aerMist.base.ui
+ 
+ import android.content.Context
+ import kotlinx.android.synthetic.main.activity_main.*
+-import llc.amplitudo.base.R
+-import llc.amplitudo.base.shared.util.SettingsManager
+-import llc.amplitudo.base.shared.util.ShakeDetector
+-import llc.amplitudo.base.shared.base.BaseActivity
+-import llc.amplitudo.base.ui.popup.DebugPopup
++import llc.aerMist.base.R
++import llc.aerMist.base.shared.util.SettingsManager
++import llc.aerMist.base.shared.util.ShakeDetector
++import llc.aerMist.base.shared.base.BaseActivity
++import llc.aerMist.base.ui.popup.DebugPopup
+ import org.koin.android.ext.android.inject
+ 
+ class MainActivity : BaseActivity(R.layout.activity_main) {
+@@ -15,16 +15,16 @@
+ 
+     override fun onResume() {
+         super.onResume()
+-        shakeDetector.attachOnShakeListener(this)
++     //   shakeDetector.attachOnShakeListener(this)
+     }
+ 
+     override fun onPause() {
+-        shakeDetector.detachOnShakeListener(this)
++      //  shakeDetector.detachOnShakeListener(this)
+         super.onPause()
+     }
+ 
+     override fun onShake(count: Int) {
+-        DebugPopup(this, nav_host_fragment.requireView(), {}, {}).show()
++     //   DebugPopup(this, nav_host_fragment.requireView(), {}, {}).show()
+     }
+ 
+     override fun attachBaseContext(newBase: Context?) {
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>buildscript {\r\n    ext.kotlin_version = '1.4.10'\r\n    ext.navigation_version = \"2.3.0\"\r\n    // TODO: Uncomment if using Crashlytics/Google services, delete if not\r\n    //ext.googleServices_version = \"4.3.3\"\r\n    //ext.crashlyticsGradle_version = \"2.0.0-beta03\"\r\n\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:4.1.0'\r\n        classpath \"org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version\"\r\n        classpath \"androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version\"\r\n        // TODO: Uncomment if using Crashlytics/Google services, delete if not\r\n        //classpath \"com.google.gms:google-services:$googleServices_version\"\r\n        //classpath \"com.google.firebase:firebase-crashlytics-gradle:$crashlyticsGradle_version\"\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n// TODO: Change dependency versions, if needed\r\next {\r\n    desugar_version = \"1.0.10\"\r\n    appcompat_version = \"1.2.0\"\r\n    coreKtx_version = '1.3.2'\r\n    preference_version = \"1.1.1\"\r\n    constraintLayout_version = \"2.0.1\"\r\n    material_version = \"1.2.1\"\r\n    lifecycle_version = \"2.2.0\"\r\n    okhttp_version = \"4.9.0\"\r\n    retrofit_version = '2.9.0'\r\n    glide_version = \"4.11.0\"\r\n    lottie_version = \"3.4.4\"\r\n    koin_version = \"2.2.0-beta-1\"\r\n    crashlytics_version = \"17.2.2\"\r\n    timber_version = \"4.7.1\"\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        maven { url 'https://jitpack.io' }\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision dc5a076f27224eba3867e071243e56a2107fb9bc)
++++ build.gradle	(date 1621077617861)
+@@ -10,7 +10,7 @@
+         jcenter()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:4.1.0'
++        classpath 'com.android.tools.build:gradle:4.1.3'
+         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
+         // TODO: Uncomment if using Crashlytics/Google services, delete if not
