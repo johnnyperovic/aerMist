@@ -1038,6 +1038,7 @@ color background_floating_material_dark
 color background_floating_material_light
 color background_material_dark
 color background_material_light
+color blueBg
 color bnv_tab_item_foreground
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
@@ -1055,6 +1056,7 @@ color checkbox_themeable_attribute_color
 color colorAccent
 color colorPrimary
 color colorPrimaryDark
+color dark_gray
 color dark_text
 color design_bottom_navigation_shadow_color
 color design_box_stroke_color
@@ -1661,6 +1663,8 @@ drawable abc_vector_test
 drawable aermist_logo
 drawable avd_hide_password
 drawable avd_show_password
+drawable ble_icon
+drawable blue_radius_8
 drawable blue_sun
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
@@ -1679,6 +1683,7 @@ drawable design_snackbar_background
 drawable devices_img
 drawable gray_radius_8
 drawable gray_rectangle_container
+drawable green_circle
 drawable green_dot
 drawable home_icon
 drawable ic_arrow_down_24dp
@@ -1690,7 +1695,6 @@ drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable info_circle
 drawable interval_img
-drawable logo
 drawable material_ic_calendar_black_24dp
 drawable material_ic_clear_black_24dp
 drawable material_ic_edit_black_24dp
@@ -1722,10 +1726,10 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable oragne_sun
+drawable orange_circle
 drawable orange_image2
 drawable orange_line
 drawable orange_radius_8
-drawable popup_rounded_background
 drawable preference_list_divider_material
 drawable radius_16_
 drawable red_dot
@@ -1839,15 +1843,18 @@ id barrier
 id baseline
 id beginOnFirstDraw
 id beginning
+id bleBg
 id blocking
 id bottom
 id bounce
 id btnAddNewDevice
 id btnCancel
 id btnDone
+id btnEdit
 id btnOnOf
 id btnResetApp
 id btnSearch
+id btnStart
 id buttonPanel
 id cancelBtn
 id cancelDialog
@@ -1881,8 +1888,6 @@ id customPanel
 id cut
 id dataBinding
 id date_picker_actions
-id debug_log_out
-id debug_reset
 id decelerate
 id decelerateAndComplete
 id decor_content_parent
@@ -1959,6 +1964,7 @@ id graph
 id graph_wrap
 id group_divider
 id groups
+id guideline
 id hardware
 id hideable
 id home
@@ -1986,18 +1992,12 @@ id labeled
 id largeLabel
 id layout
 id left
+id line
 id line1
 id line3
 id linear
 id listMode
 id list_item
-id loading_animation
-id login_continue
-id login_email
-id login_logo
-id login_password
-id login_scene_end
-id login_scene_start
 id logo
 id lottie_layer_name
 id mainFragment
@@ -2007,6 +2007,8 @@ id media_actions
 id message
 id middle
 id mini
+id mistTv
+id mistValue
 id month_grid
 id month_navigation_bar
 id month_navigation_fragment_toggle
@@ -2051,6 +2053,7 @@ id normal
 id notification_background
 id notification_main_column
 id notification_main_column_container
+id numberOfDevicesTv
 id off
 id on
 id onAttachStateChangeListener
@@ -2116,6 +2119,7 @@ id secondDeviceName
 id secondDeviceState
 id secondDotColor
 id secondInfoDots
+id secondLine
 id seekbar
 id seekbar_value
 id select_dialog_listview
@@ -2145,6 +2149,7 @@ id src_atop
 id src_in
 id src_over
 id standard
+id standbyTv
 id start
 id startHorizontal
 id startVertical
@@ -2157,6 +2162,8 @@ id subTitle
 id submenuarrow
 id submit_area
 id sunImg
+id suspendTv
+id suspendValue
 id switchWidget
 id tabMode
 id tag_accessibility_actions
@@ -2362,8 +2369,6 @@ layout notification_template_media
 layout notification_template_media_custom
 layout notification_template_part_chronometer
 layout notification_template_part_time
-layout popup_debug
-layout popup_loading
 layout preference
 layout preference_category
 layout preference_category_material
@@ -2440,20 +2445,18 @@ string app_name
 string appbar_scrolling_view_behavior
 string bottom_sheet_behavior
 string cancel
-string change_theme
 string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern
 string chip_text
 string clear_text_end_icon_content_description
 string copy
-string debug_menu
 string default_error
 string device
 string device_name
 string devices
 string done
-string email_label
+string edit
 string error_icon_content_description
 string expand_button_title
 string exposed_dropdown_menu_content_description
@@ -2467,11 +2470,10 @@ string info
 string interval
 string item_view_role_description
 string lets_start_connecting
-string log_out
-string login
 string manage_devices
 string material_slider_range_end
 string material_slider_range_start
+string mist
 string mtrl_badge_numberless_content_description
 string mtrl_chip_close_icon_content_description
 string mtrl_exceed_max_badge_number_content_description
@@ -2515,7 +2517,6 @@ string not_set
 string off
 string ok
 string on
-string password_label
 string password_toggle_content_description
 string path_password_eye
 string path_password_eye_mask_strike_through
@@ -2528,9 +2529,11 @@ string schedule
 string search
 string search_menu_title
 string searching_for_nearby_devices
+string standby
+string start
 string status_bar_notification_info_overflow
 string summary_collapsed_preference_list
-string toggle_language
+string suspend
 string v7_preference_off
 string v7_preference_on
 string yes
@@ -2789,7 +2792,6 @@ style Platform_V21_AppCompat_Light
 style Platform_V25_AppCompat
 style Platform_V25_AppCompat_Light
 style Platform_Widget_AppCompat_Spinner
-style PopupAnimation
 style Preference
 style Preference_Category
 style Preference_Category_Material
@@ -2955,8 +2957,6 @@ style TextAppearance_MaterialComponents_Overline
 style TextAppearance_MaterialComponents_Subtitle1
 style TextAppearance_MaterialComponents_Subtitle2
 style TextAppearance_MaterialComponents_Tooltip
-style TextAppearance_Tabs
-style TextAppearance_Tabs_Selected
 style TextAppearance_Widget_AppCompat_ExpandedMenu_Item
 style TextAppearance_Widget_AppCompat_Toolbar_Subtitle
 style TextAppearance_Widget_AppCompat_Toolbar_Title
@@ -3268,7 +3268,6 @@ style Widget_MaterialComponents_Toolbar_PrimarySurface
 style Widget_MaterialComponents_Toolbar_Surface
 style Widget_MaterialComponents_Tooltip
 style Widget_Support_CoordinatorLayout
-style tab_text
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
 styleable ActionBarLayout android_layout_gravity
 styleable ActionMenuItemView android_minWidth
@@ -3425,7 +3424,6 @@ styleable ViewBackgroundHelper android_background backgroundTint backgroundTintM
 styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
 xml backup_descriptor
-xml fragment_login_scene
 xml standalone_badge
 xml standalone_badge_gravity_bottom_end
 xml standalone_badge_gravity_bottom_start

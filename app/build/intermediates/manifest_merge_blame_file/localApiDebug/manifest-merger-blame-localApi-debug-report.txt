@@ -1,8 +1,8 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="llc.amplitudo.base"
-4    android:versionCode="15"
-5    android:versionName="0.0.15" >
+3    package="llc.aerMis.base"
+4    android:versionCode="11"
+5    android:versionName="0.0.11" >
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
@@ -10,104 +10,107 @@
 9        android:targetSdkVersion="30" />
 9-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 10
-11    <uses-permission android:name="android.permission.INTERNET" />
-11-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:6:5-67
-11-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:6:22-64
-12    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-12-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:7:5-79
-12-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:7:22-76
-13    <uses-permission android:name="android.permission.VIBRATE" />
-13-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:8:5-66
-13-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:8:22-63
-14    <uses-permission android:name="android.permission.BLUETOOTH" />
-14-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:9:5-68
-14-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:9:22-65
-15    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-15-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:10:5-74
-15-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:10:22-71
-16    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-16-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:11:5-81
-16-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:11:22-78
-17    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-17-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:12:5-85
-17-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:12:22-82
-18    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-18-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:13:5-79
-18-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:13:22-76
-19    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-19-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:14:5-80
-19-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:14:22-77
-20    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-20-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:12:5-85
-20-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:12:22-82
-21
-22    <application
-23        android:name="llc.aerMist.base.BaseApp"
-23-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:17:9-48
-24        android:allowBackup="true"
-24-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:18:9-35
-25        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-25-->[androidx.core:core:1.3.2] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\739a7ab444232952a74653db8a4253f8\core-1.3.2\AndroidManifest.xml:24:18-86
-26        android:configChanges="uiMode|locale"
-26-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:19:9-46
-27        android:debuggable="true"
-28        android:fullBackupContent="@xml/backup_descriptor"
-28-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:20:9-59
-29        android:icon="@mipmap/ic_launcher"
-29-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:21:9-34
-30        android:label="@string/app_name"
-30-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:22:9-41
-31        android:roundIcon="@mipmap/ic_launcher_round"
-31-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:23:9-46
-32        android:supportsRtl="true"
-32-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:24:9-35
-33        android:testOnly="true"
-34        android:theme="@style/AppTheme"
-34-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:25:9-40
-35        android:usesCleartextTraffic="true" >
-35-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:26:9-44
-36        <uses-library
-36-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:29:9-31:40
-37            android:name="org.apache.http.legacy"
-37-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:30:13-50
-38            android:required="false" />
-38-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:31:13-37
-39
-40        <activity
-40-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:33:9-41:20
-41            android:name="llc.aerMist.base.ui.MainActivity"
-41-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:34:13-60
-42            android:screenOrientation="portrait" >
-42-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:35:13-49
-43            <intent-filter>
-43-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:36:13-40:29
-44                <action android:name="android.intent.action.MAIN" />
-44-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:37:17-69
-44-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:37:25-66
-45
-46                <category android:name="android.intent.category.LAUNCHER" />
-46-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:39:17-77
-46-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:39:27-74
-47            </intent-filter>
-48        </activity>
-49
-50        <meta-data
-50-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\97e13bf7a066b15ac853053f7e7dca65\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:11:9-13:43
-51            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-51-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\97e13bf7a066b15ac853053f7e7dca65\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:12:13-84
-52            android:value="GlideModule" />
-52-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\97e13bf7a066b15ac853053f7e7dca65\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:13:13-40
-53
-54        <provider
-54-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:25:9-29:43
-55            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
-55-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:26:13-79
-56            android:authorities="llc.amplitudo.base.lifecycle-process"
-56-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:27:13-69
-57            android:exported="false"
-57-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:28:13-37
-58            android:multiprocess="true" />
-58-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:29:13-40
-59    </application>
-60
-61</manifest>
+11    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+11-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:6:5-74
+11-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:6:22-71
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:7:5-67
+12-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:7:22-64
+13    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+13-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:8:5-79
+13-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:8:22-76
+14    <uses-permission android:name="android.permission.VIBRATE" />
+14-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:9:5-66
+14-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:9:22-63
+15    <uses-permission android:name="android.permission.BLUETOOTH" />
+15-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:10:5-68
+15-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:10:22-65
+16    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+16-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:6:5-74
+16-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:6:22-71
+17    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+17-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:12:5-81
+17-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:12:22-78
+18    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+18-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:13:5-85
+18-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:13:22-82
+19    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+19-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:14:5-79
+19-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:14:22-76
+20    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+20-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:15:5-80
+20-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:15:22-77
+21    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+21-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:13:5-85
+21-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:13:22-82
+22
+23    <application
+24        android:name="llc.aerMist.base.BaseApp"
+24-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:18:9-48
+25        android:allowBackup="true"
+25-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:19:9-35
+26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+26-->[androidx.core:core:1.3.2] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\739a7ab444232952a74653db8a4253f8\core-1.3.2\AndroidManifest.xml:24:18-86
+27        android:configChanges="uiMode|locale"
+27-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:20:9-46
+28        android:debuggable="true"
+29        android:fullBackupContent="@xml/backup_descriptor"
+29-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:21:9-59
+30        android:icon="@mipmap/ic_launcher"
+30-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:22:9-34
+31        android:label="@string/app_name"
+31-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:23:9-41
+32        android:roundIcon="@mipmap/ic_launcher_round"
+32-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:24:9-46
+33        android:supportsRtl="true"
+33-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:25:9-35
+34        android:testOnly="true"
+35        android:theme="@style/AppTheme"
+35-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:26:9-40
+36        android:usesCleartextTraffic="true" >
+36-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:27:9-44
+37        <uses-library
+37-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:30:9-32:40
+38            android:name="org.apache.http.legacy"
+38-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:31:13-50
+39            android:required="false" />
+39-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:32:13-37
+40
+41        <activity
+41-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:34:9-42:20
+42            android:name="llc.aerMist.base.ui.MainActivity"
+42-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:35:13-60
+43            android:screenOrientation="portrait" >
+43-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:36:13-49
+44            <intent-filter>
+44-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:37:13-41:29
+45                <action android:name="android.intent.action.MAIN" />
+45-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:38:17-69
+45-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:38:25-66
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+47-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:40:17-77
+47-->C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:40:27-74
+48            </intent-filter>
+49        </activity>
+50
+51        <meta-data
+51-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\97e13bf7a066b15ac853053f7e7dca65\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:11:9-13:43
+52            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+52-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\97e13bf7a066b15ac853053f7e7dca65\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:12:13-84
+53            android:value="GlideModule" />
+53-->[com.github.bumptech.glide:okhttp3-integration:4.11.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\97e13bf7a066b15ac853053f7e7dca65\jetified-okhttp3-integration-4.11.0\AndroidManifest.xml:13:13-40
+54
+55        <provider
+55-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:25:9-29:43
+56            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+56-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:26:13-79
+57            android:authorities="llc.aerMis.base.lifecycle-process"
+57-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:27:13-69
+58            android:exported="false"
+58-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:28:13-37
+59            android:multiprocess="true" />
+59-->[androidx.lifecycle:lifecycle-process:2.2.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\e8c69ceb745e0b03ae80f0a44dfe8273\jetified-lifecycle-process-2.2.0\AndroidManifest.xml:29:13-40
+60    </application>
+61
+62</manifest>

@@ -4,14 +4,14 @@
     "type": "PROCESSED_RES",
     "kind": "Directory"
   },
-  "applicationId": "llc.amplitudo.base",
+  "applicationId": "llc.aerMis.base",
   "variantName": "processLocalApiDebugResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 15,
-      "versionName": "0.0.15",
+      "versionCode": 11,
+      "versionName": "0.0.11",
       "outputFile": "resources-localApiDebug.ap_"
     }
   ]
