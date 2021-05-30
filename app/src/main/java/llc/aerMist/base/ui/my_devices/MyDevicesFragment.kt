@@ -79,7 +79,6 @@ class MyDevicesFragment : Fragment() {
       //  bluetoothController.bluetoothManager.cancelScan()
         bluetoothController.list.clear()
         bluetoothController.startScan()
-        Log.e("D", "Velicina liste " + bluetoothController.list.size)
         //  initRecycler()
         setFirstDevice()
         setSecondDevice()
@@ -99,7 +98,7 @@ class MyDevicesFragment : Fragment() {
             val charset = Charsets.UTF_8
             val byteArray = "19497846679023918".toByteArray(charset)
             val byteArrayON = "19497846679023662".toByteArray(charset)
-            Log.e("D","velicina "+firstGate.services.size)
+            Log.e("D","gate size "+firstGate.services.size)
             if (value == "On") {
                 btnOnOf.text = getString(R.string.off)
 
@@ -189,13 +188,12 @@ class MyDevicesFragment : Fragment() {
 
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
-            Log.e("D", "SVAKA CAST")
+            Log.e("D", "SUCCESS")
         }
 
         override fun onWriteFailure(exception: BleException?) {
-            Log.e("D", "NECE MOCI OVE NOCI " + exception?.description)
-            Log.e("D", "NECE MOCI OVE NOCI " + exception?.code)
-
+            Log.e("D", "Notification faild " + exception?.description)
+            Log.e("D", "Notification faild " + exception?.code)
         }
 
     }
