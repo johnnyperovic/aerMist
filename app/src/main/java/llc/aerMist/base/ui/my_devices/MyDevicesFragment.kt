@@ -96,7 +96,7 @@ class MyDevicesFragment : Fragment() {
             val value = btnOnOf.text
             val testData = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
             val charset = Charsets.UTF_8
-            val byteArray = "19497846679023918".toByteArray(charset)
+            val byteArray = "1949 7846 6790 2391 8".toByteArray(charset)
             val byteArrayON = "19497846679023662".toByteArray(charset)
             Log.e("D","gate size "+firstGate.services.size)
             if (value == "On") {
