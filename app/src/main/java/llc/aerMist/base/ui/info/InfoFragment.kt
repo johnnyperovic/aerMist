@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_info.*
 import llc.aerMist.base.R
-import llc.aerMist.base.ui.popup.AddDevicePopup
 import llc.aerMist.base.ui.popup.ResetAppPopup
 
 

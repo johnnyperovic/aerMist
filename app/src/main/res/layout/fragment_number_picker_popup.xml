@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
+    android:background="@drawable/white_container_12"
+    android:paddingBottom="15dp">
+
+    <TextView
+        android:id="@+id/sprayTimeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/spray_time"
+        android:textColor="@color/dark_text"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/sprayTimePicker"
+        app:layout_constraintEnd_toEndOf="@id/sprayTimePicker"
+        app:layout_constraintStart_toStartOf="@id/sprayTimePicker" />
+
+    <TextView
+        android:id="@+id/suspendTimeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/minutes"
+        android:textColor="@color/dark_text"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/sprayTimePicker"
+        app:layout_constraintEnd_toEndOf="@id/saveBtn"
+        app:layout_constraintStart_toStartOf="@id/saveBtn" />
+
+    <NumberPicker
+        android:id="@+id/sprayTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/cancelBtn"
+        app:layout_constraintEnd_toEndOf="@id/cancelBtn"
+        app:layout_constraintStart_toStartOf="@id/cancelBtn" />
+    <NumberPicker
+        android:id="@+id/suspendTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/saveBtn"
+        app:layout_constraintEnd_toEndOf="@id/saveBtn"
+        app:layout_constraintStart_toStartOf="@id/saveBtn" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineCenter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/cancelBtn"
+        android:layout_width="140dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/gray_radius_8"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="@string/cancel"
+        android:textColor="@color/dark_text"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/saveBtn"
+        android:layout_width="140dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/orange_radius_8"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guidelineCenter"
+        app:layout_constraintTop_toTopOf="@id/cancelBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

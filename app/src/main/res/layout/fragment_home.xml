@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:background="@color/gray"
     android:layout_height="match_parent"
+    android:id="@+id/homeFragmentMainLayot"
     tools:context=".ui.home.HomeFragment">
 
     <TextView
@@ -32,6 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/allDeviceTv" />
     <androidx.cardview.widget.CardView
+        android:id="@+id/carViewHome"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="0dp"

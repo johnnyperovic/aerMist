@@ -4,8 +4,16 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\anim\\fade_in.xml"
     },
     {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-v24_gray_circle.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-v24\\gray_circle.png"
+    },
+    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_welcome.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\welcome.png"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_fragment_set_time_popup.xml.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\fragment_set_time_popup.xml"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_fragment_splash.xml.flat",
@@ -240,6 +248,10 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\anim\\slide_out_left.xml"
     },
     {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-v24_blue_bg_img.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-v24\\blue_bg_img.png"
+    },
+    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-v24_green_dot.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-v24\\green_dot.png"
     },
@@ -250,6 +262,10 @@
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\anim_slide_out_bottom.xml.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\anim\\slide_out_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_white_container_border_radius_8.xml.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\white_container_border_radius_8.xml"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\mipmap-anydpi-v26_ic_launcher.xml.flat",
@@ -280,12 +296,20 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-v24\\non_stop.png"
     },
     {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_fragment_set_schedule.xml.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\fragment_set_schedule.xml"
+    },
+    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\font_roboto_medium.ttf.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\font\\roboto_medium.ttf"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_home_icon.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\home_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_fragment_number_picker_popup.xml.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\fragment_number_picker_popup.xml"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_orange_image2.png.flat",

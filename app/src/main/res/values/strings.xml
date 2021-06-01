@@ -48,4 +48,8 @@
     <string name="stop_time">Stop time</string>
     <string name="add_time">Add time</string>
     <string name="spray_mode">Spray mode</string>
+    <string name="hours">Hours</string>
+    <string name="save">Save</string>
+    <string name="minutes">Minutes</string>
+    <string name="spray_time">Spray time</string>
 </resources>
