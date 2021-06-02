@@ -1,4 +1,4 @@
-llc.aerMist.base
+llc.aerMist.app
 anim abc_fade_in
 anim abc_fade_out
 anim abc_grow_fade_in_from_bottom
@@ -1700,7 +1700,9 @@ drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable info_circle
+drawable interval_blue
 drawable interval_img
+drawable interval_orange_img
 drawable material_ic_calendar_black_24dp
 drawable material_ic_clear_black_24dp
 drawable material_ic_edit_black_24dp
@@ -1719,6 +1721,8 @@ drawable mtrl_popupmenu_background_dark
 drawable mtrl_tabs_default_indicator
 drawable navigation_empty_icon
 drawable non_stop
+drawable non_stop_blue
+drawable non_stop_orange_img
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -1739,8 +1743,10 @@ drawable orange_radius_8
 drawable preference_list_divider_material
 drawable radius_16_
 drawable rain_img
+drawable rain_jpg
 drawable red_dot
 drawable schedule_icon
+drawable schedule_orange_img
 drawable small_logo
 drawable tab_color_selector
 drawable test_custom_background
@@ -1952,6 +1958,7 @@ id fill_horizontal
 id fill_vertical
 id filled
 id firstCardView
+id firstDevice
 id firstDeviceActiveHours
 id firstDeviceName
 id firstDeviceState
@@ -1965,6 +1972,7 @@ id flip
 id floating
 id forever
 id fourthCardView
+id fourthDevice
 id fourthDeviceActiveHours
 id fourthDeviceName
 id fourthDeviceState
@@ -2154,6 +2162,7 @@ id search_plate
 id search_src_text
 id search_voice_btn
 id secondCardView
+id secondDevice
 id secondDeviceActiveHours
 id secondDeviceName
 id secondDeviceState
@@ -2195,6 +2204,7 @@ id src_over
 id standard
 id standbyTv
 id start
+id startBtn
 id startHorizontal
 id startTimeTv
 id startTimeValue
@@ -2248,6 +2258,7 @@ id textinput_placeholder
 id textinput_prefix_text
 id textinput_suffix_text
 id thirdCardView
+id thirdDevice
 id thirdDeviceActiveHours
 id thirdDeviceName
 id thirdDeviceState
@@ -2385,6 +2396,7 @@ layout fragment_schedule
 layout fragment_set_schedule
 layout fragment_set_time_popup
 layout fragment_splash
+layout fragment_start_global_mode_popup
 layout fragment_welcome
 layout image_frame
 layout item_available_device
@@ -2519,6 +2531,7 @@ string clear_text_end_icon_content_description
 string copy
 string default_error
 string device
+string device_are_offline
 string device_name
 string devices
 string done
@@ -2607,6 +2620,8 @@ string spray_mode
 string spray_time
 string standby
 string start
+string start_anyway
+string start_global_mode
 string start_time
 string status_bar_notification_info_overflow
 string stop

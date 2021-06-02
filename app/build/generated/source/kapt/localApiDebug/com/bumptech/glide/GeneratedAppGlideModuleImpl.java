@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import java.util.HashSet;
 import java.util.Set;
-import llc.aerMist.base.shared.MyAppGlideModule;
+import llc.aerMist.app.shared.MyAppGlideModule;
 
 @SuppressWarnings("deprecation")
 final class GeneratedAppGlideModuleImpl extends GeneratedAppGlideModule {
@@ -14,7 +14,7 @@ final class GeneratedAppGlideModuleImpl extends GeneratedAppGlideModule {
   public GeneratedAppGlideModuleImpl(Context context) {
     appGlideModule = new MyAppGlideModule();
     if (Log.isLoggable("Glide", Log.DEBUG)) {
-      Log.d("Glide", "Discovered AppGlideModule from annotation: llc.aerMist.base.shared.MyAppGlideModule");
+      Log.d("Glide", "Discovered AppGlideModule from annotation: llc.aerMist.app.shared.MyAppGlideModule");
       Log.d("Glide", "AppGlideModule excludes LibraryGlideModule from annotation: com.bumptech.glide.integration.okhttp3.OkHttpLibraryGlideModule");
     }
   }

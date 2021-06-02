@@ -6,7 +6,7 @@
     app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/homeFragment"
-        android:name="llc.aerMist.base.ui.home.HomeFragment"
+        android:name="llc.aerMist.app.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
@@ -21,17 +21,17 @@
     </fragment>
     <fragment
         android:id="@+id/deviceFragment"
-        android:name="llc.aerMist.base.ui.devices.DevicesFragment"
+        android:name="llc.aerMist.app.ui.devices.DevicesFragment"
         android:label="DeviceFragment"
         tools:layout="@layout/fragment_devices" />
     <fragment
         android:id="@+id/infoFragment"
-        android:name="llc.aerMist.base.ui.info.InfoFragment"
+        android:name="llc.aerMist.app.ui.info.InfoFragment"
         android:label="InfoFragment"
         tools:layout="@layout/fragment_info" />
     <fragment
         android:id="@+id/setScheduleFragment"
-        android:name="llc.aerMist.base.ui.home.schedulere.SetScheduleFragment"
+        android:name="llc.aerMist.app.ui.home.schedulere.SetScheduleFragment"
         android:label="SetScheduleFragment"
         tools:layout="@layout/fragment_set_schedule" />
 </navigation>

@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.manager.Lifecycle;
 import com.bumptech.glide.manager.RequestManagerRetriever;
 import com.bumptech.glide.manager.RequestManagerTreeNode;
-import llc.aerMist.base.shared.GlideRequests;
+import llc.aerMist.app.shared.GlideRequests;
 
 /**
  * Generated code, do not modify

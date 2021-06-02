@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/rain_img"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             android:visibility="visible" />
         <Constraint
             android:id="@+id/maiBlueBg"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="llc.aerMist.base.ui.splash.SplashFragment"
+        android:name="llc.aerMist.app.ui.splash.SplashFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="llc.aerMist.base.ui.welcome.WelcomeFragment"
+        android:name="llc.aerMist.app.ui.welcome.WelcomeFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_welcome">
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="llc.aerMist.base.ui.search.SearchFragment"
+        android:name="llc.aerMist.app.ui.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/search_fragment">
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <fragment
         android:id="@+id/myDevicesFragment"
-        android:name="llc.aerMist.base.ui.my_devices.MyDevicesFragment"
+        android:name="llc.aerMist.app.ui.my_devices.MyDevicesFragment"
         android:label="DivaceFragment"
         tools:layout="@layout/my_devices_fragment">
         <action
@@ -87,7 +87,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="llc.aerMist.base.ui.main.MainFragment"
+        android:name="llc.aerMist.app.ui.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" />
 

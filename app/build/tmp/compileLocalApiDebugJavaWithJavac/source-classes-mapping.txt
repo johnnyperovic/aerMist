@@ -1,28 +1,28 @@
+llc/aerMist/app/BuildConfig.java
+ llc.aerMist.app.BuildConfig
+llc/aerMist/app/BR.java
+ llc.aerMist.app.BR
+llc/aerMist/app/DataBinderMapperImpl.java
+ llc.aerMist.app.DataBinderMapperImpl
+ llc.aerMist.app.DataBinderMapperImpl$InnerBrLookup
+ llc.aerMist.app.DataBinderMapperImpl$InnerLayoutIdLookup
+llc/aerMist/app/shared/GlideRequest.java
+ llc.aerMist.app.shared.GlideRequest
 com/bumptech/glide/GeneratedRequestManagerFactory.java
  com.bumptech.glide.GeneratedRequestManagerFactory
-llc/aerMist/base/shared/GlideRequests.java
- llc.aerMist.base.shared.GlideRequests
-llc/aerMist/base/shared/GlideRequest.java
- llc.aerMist.base.shared.GlideRequest
 com/bumptech/glide/GeneratedAppGlideModuleImpl.java
  com.bumptech.glide.GeneratedAppGlideModuleImpl
 androidx/databinding/DataBinderMapperImpl.java
  androidx.databinding.DataBinderMapperImpl
-llc/aerMist/base/DataBinderMapperImpl.java
- llc.aerMist.base.DataBinderMapperImpl
- llc.aerMist.base.DataBinderMapperImpl$InnerBrLookup
- llc.aerMist.base.DataBinderMapperImpl$InnerLayoutIdLookup
+llc/aerMist/app/shared/GlideApp.java
+ llc.aerMist.app.shared.GlideApp
+llc/aerMist/app/shared/GlideRequests.java
+ llc.aerMist.app.shared.GlideRequests
 androidx/databinding/library/baseAdapters/BR.java
  androidx.databinding.library.baseAdapters.BR
-llc/aerMist/base/shared/GlideApp.java
- llc.aerMist.base.shared.GlideApp
-llc/aerMist/base/BuildConfig.java
- llc.aerMist.base.BuildConfig
-llc/aerMist/base/shared/GlideOptions.java
- llc.aerMist.base.shared.GlideOptions
+llc/aerMist/app/shared/GlideOptions.java
+ llc.aerMist.app.shared.GlideOptions
+llc/aerMist/app/DataBindingTriggerClass.java
+ llc.aerMist.app.DataBindingTriggerClass
 androidx/databinding/DataBindingComponent.java
  androidx.databinding.DataBindingComponent
-llc/aerMist/base/DataBindingTriggerClass.java
- llc.aerMist.base.DataBindingTriggerClass
-llc/aerMist/base/BR.java
- llc.aerMist.base.BR

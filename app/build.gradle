@@ -64,7 +64,7 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "llc.aerMis.base"
+        applicationId "llc.aerMis"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode generateVersionCode()
@@ -131,9 +131,6 @@ android {
 }
 
 dependencies {
-    //TODO: Scan dependencies for new versions
-    // (Analyze->Run Inspection by Name...->"Newer library versions available")
-    // If needed, change versions by changing variables in project build.gradle file
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

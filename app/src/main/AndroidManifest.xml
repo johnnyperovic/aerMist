@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="llc.aerMist.base">
+    package="llc.aerMist.app">
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,8 +14,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <application
-        android:name="llc.aerMist.base.BaseApp"
+        android:name="llc.aerMist.app.AerMist"
         android:allowBackup="true"
         android:configChanges="uiMode|locale"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -32,7 +33,7 @@
             android:required="false" />
 
         <activity
-            android:name="llc.aerMist.base.ui.MainActivity"
+            android:name="llc.aerMist.app.ui.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +42,5 @@
             </intent-filter>
         </activity>
     </application>
-
-
 
 </manifest>
