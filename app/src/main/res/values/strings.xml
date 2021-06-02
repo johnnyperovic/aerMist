@@ -52,4 +52,6 @@
     <string name="save">Save</string>
     <string name="minutes">Minutes</string>
     <string name="spray_time">Spray time</string>
+    <string name="stop">Stop</string>
+    <string name="misting">Misting</string>
 </resources>
