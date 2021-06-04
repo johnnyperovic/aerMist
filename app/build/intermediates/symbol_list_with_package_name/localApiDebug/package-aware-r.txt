@@ -1667,6 +1667,7 @@ drawable avd_hide_password
 drawable avd_show_password
 drawable ble_icon
 drawable blue_bg_img
+drawable blue_gradient
 drawable blue_radius_8
 drawable blue_sun
 drawable btn_checkbox_checked_mtrl
@@ -1677,7 +1678,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
-drawable calendar_icon
+drawable calendar_blue_icon
 drawable container_light_blue
 drawable design_bottom_navigation_item_background
 drawable design_fab_background
@@ -1685,7 +1686,9 @@ drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable device_icon
 drawable devices_img
+drawable grafika
 drawable gray_circle
 drawable gray_radius_8
 drawable gray_rectangle_container
@@ -1699,10 +1702,10 @@ drawable ic_mtrl_checked_circle
 drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
-drawable info_circle
-drawable interval_blue
-drawable interval_img
-drawable interval_orange_img
+drawable info_icon
+drawable interval_blue_icon
+drawable interval_icon
+drawable interval_orange_icon
 drawable material_ic_calendar_black_24dp
 drawable material_ic_clear_black_24dp
 drawable material_ic_edit_black_24dp
@@ -1721,8 +1724,9 @@ drawable mtrl_popupmenu_background_dark
 drawable mtrl_tabs_default_indicator
 drawable navigation_empty_icon
 drawable non_stop
-drawable non_stop_blue
-drawable non_stop_orange_img
+drawable non_stop_blue_icon
+drawable non_stop_icon
+drawable non_stop_orange_icon
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -1746,7 +1750,7 @@ drawable rain_img
 drawable rain_jpg
 drawable red_dot
 drawable schedule_icon
-drawable schedule_orange_img
+drawable schedule_orange_icon
 drawable small_logo
 drawable tab_color_selector
 drawable test_custom_background

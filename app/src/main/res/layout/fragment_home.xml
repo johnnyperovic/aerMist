@@ -60,20 +60,19 @@
                 android:layout_height="match_parent"
                 card_view:layoutDescription="@xml/fragment_home_scene">
 
-                <ImageView
+                <View
                     android:id="@+id/maiBlueBg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/blue_bg_img"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"
+                    android:background="@drawable/blue_gradient"/>
 
                 <ImageView
                     android:id="@+id/rainImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/rain_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/grafika"
                     android:visibility="invisible" />
 
                 <ImageView
@@ -91,7 +90,7 @@
                     android:id="@+id/tab_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/calendar_icon"
+                    android:src="@drawable/non_stop_blue_icon"
                     android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="@id/whiteCircle"
                     card_view:layout_constraintBottom_toBottomOf="@id/whiteCircle"
@@ -134,8 +133,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="10dp"
-                android:padding="5dp"
-                android:src="@drawable/interval_img"
+                android:src="@drawable/interval_icon"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent" />
@@ -157,8 +155,8 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="48dp"
-                android:padding="5dp"
-                android:src="@drawable/non_stop"
+                android:scaleType="centerCrop"
+                android:src="@drawable/non_stop_icon"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="@id/intervalImg" />
 
@@ -179,8 +177,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="48dp"
-                android:padding="5dp"
-                android:src="@drawable/non_stop"
+                android:src="@drawable/schedule_icon"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintTop_toTopOf="@id/intervalImg" />
 

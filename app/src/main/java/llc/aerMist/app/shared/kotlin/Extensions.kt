@@ -89,7 +89,7 @@ fun View.showWithAnimation() {
 
             animate()
                 .alpha(1f)
-                .setDuration(150)
+                .setDuration(550)
                 .setListener(null)
         }
 }
@@ -98,10 +98,10 @@ fun View.hideWithAnimation() {
     if (this.visibility == View.VISIBLE) {
         this.animate()
             .alpha(0f)
-            .setDuration(150)
+            .setDuration(550)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
-                    this@hideWithAnimation.visibility = View.GONE
+                    this@hideWithAnimation.visibility = View.INVISIBLE
                 }
             })
     }

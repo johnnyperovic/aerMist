@@ -5,19 +5,10 @@
 
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/rainImg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/rain_img"
-            android:visibility="invisible"
-            />
-        <Constraint
             android:id="@+id/maiBlueBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/blue_bg_img"
-            android:scaleType="centerCrop"
+            android:background="@drawable/blue_gradient"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="invisible"/>
@@ -40,7 +31,7 @@
             app:layout_constraintTop_toTopOf="@id/whiteCircle"
             app:layout_constraintBottom_toBottomOf="@id/whiteCircle"
             android:visibility="invisible"
-            android:src="@drawable/calendar_icon"/>
+            android:src="@drawable/non_stop_blue_icon"/>
         <Constraint
             android:id="@+id/tabName"
             android:layout_width="wrap_content"
@@ -75,15 +66,14 @@
             android:id="@+id/rainImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/rain_img"
+            android:src="@drawable/grafika"
             android:scaleType="centerCrop"
             android:visibility="visible" />
         <Constraint
             android:id="@+id/maiBlueBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/blue_bg_img"
-            android:scaleType="centerInside"
+            android:background="@drawable/blue_gradient"
             android:visibility="visible"/>
         <Constraint
             android:id="@+id/whiteCircle"
@@ -104,7 +94,7 @@
             app:layout_constraintTop_toTopOf="@id/whiteCircle"
             app:layout_constraintBottom_toBottomOf="@id/whiteCircle"
             android:visibility="visible"
-            android:src="@drawable/calendar_icon"/>
+            android:src="@drawable/non_stop_blue_icon"/>
         <Constraint
             android:id="@+id/tabName"
             android:layout_width="wrap_content"
