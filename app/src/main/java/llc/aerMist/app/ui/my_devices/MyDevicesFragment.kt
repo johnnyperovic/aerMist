@@ -94,14 +94,14 @@ class MyDevicesFragment : Fragment() {
             navigateToMain()
         }
         btnOnOf.setOnClickListener {
-            val value = btnOnOf.text
+            val value = btnOnOf.text.toString().toLowerCase()
             val testData = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
             val charset = Charsets.UTF_8
             val byteArrayON = "EE0100.".toByteArray(charset)
             val byteArrayOF = "EE0101.".toByteArray(charset)
             Log.e("D","gate size "+firstGate.services.size)
             Log.e("D","BTN VALUE  "+value)
-            if (value == getString(R.string.on)) {
+            if (value == getString(R.string.on).toLowerCase()) {
                 btnOnOf.text = getString(R.string.off)
 
                 bluetoothController.writeCommand(
