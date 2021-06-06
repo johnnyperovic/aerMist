@@ -325,7 +325,7 @@ class MyDevicesFragment : Fragment() {
             }
             for ((index, byte) in data.withIndex()) {
                 newData[index] = byte.toUInt()
-                Log.e("D", "UIntArray " + index + "." + byte.toUInt())
+                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             //     connectionStateCoordinator.bluetoothByteArray.value = newData
             var i = 0
