@@ -125,7 +125,7 @@ class MyDevicesFragment : Fragment() {
                     Log.e("d", "UUID " + service.characteristics.get(0).uuid)
 
                     if (service.characteristics.get(0).uuid.toString()
-                            .equals("d973f2e1-b19e-11e2-9e96-0800200c9a66")
+                            .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
                     ) {
                         bluetoothController.blueGattAdapter.addResult(service)
                         Log.e(
