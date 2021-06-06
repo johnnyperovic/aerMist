@@ -137,7 +137,7 @@ class MyDevicesFragment : Fragment() {
                     }
                 }
             }
-          //  bluetoothController.bleDeviceMain = bleDevicee
+           bluetoothController.bleDeviceMain = firstBleDevice
             connectionStateCoordinator.gatt = firstGate
          //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
