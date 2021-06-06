@@ -97,8 +97,8 @@ class MyDevicesFragment : Fragment() {
             val value = btnOnOf.text
             val testData = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
             val charset = Charsets.UTF_8
-            val byteArrayON = "EE0100.".toByteArray(charset)
-            val byteArrayOF = "EE0101.".toByteArray(charset)
+            val byteArrayOF = "EE0100.".toByteArray(charset)
+            val byteArrayON = "EE0101.".toByteArray(charset)
             Log.e("D","gate size "+firstGate.services.size)
             Log.e("D","BTN VALUE  "+value)
             if (value == getString(R.string.on)) {
@@ -109,6 +109,7 @@ class MyDevicesFragment : Fragment() {
                     byteArrayOF,
                     firstGate.services.get(2).characteristics.get(0)
                 )
+
             } else {
                 btnOnOf.text = getString(R.string.on)
                 bluetoothController.writeCommand(
