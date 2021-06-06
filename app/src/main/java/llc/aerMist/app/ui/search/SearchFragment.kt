@@ -33,7 +33,7 @@ class SearchFragment : Fragment() {
     lateinit var secondDevice: String
     lateinit var thirdDevice: String
     lateinit var fourthDevice: String
-    var deviceDBList = arrayListOf<String>()
+   // var deviceDBList = arrayListOf<String>()
     private var hasDevice=false
 
     private var deviceName = ""
@@ -47,7 +47,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hasDevicesFromDB()
+       // hasDevicesFromDB()
         bluetoothController =
             BluetoothController(null, null, scanCallback, null, requireContext())
         bluetoothController.bluetoothManager
@@ -106,18 +106,11 @@ class SearchFragment : Fragment() {
         override fun onScanning(bleDevice: BleDevice) {
             Log.e("onScanning", "bleDevice.name " + bleDevice.name)
             if (bleDevice.name != null) {
-                Log.e("d", "BLE DEVICE NAME " + bleDevice.name)
-                if (deviceDBList.size > 0) {
-                    for (item in deviceDBList) {
-                        Log.e("d", "BD NAME " + item)
-                        if (item != bleDevice.name && bleDevice.name.length>0) {
-                            bluetoothController.list.add(bleDevice)
-                            adapter?.notifyDataSetChanged()
-                        }
-                    }
-                } else {
+                if (bleDevice.name.contains("FG")) {
+
                     bluetoothController.list.add(bleDevice)
                     adapter?.notifyDataSetChanged()
+                    Log.e("d", "BLE DEVICE NAME " + bleDevice.name)
                 }
             }
         }
@@ -142,38 +135,5 @@ class SearchFragment : Fragment() {
         addDeviceDialog.show(childFragmentManager, "")
     }
 
-    fun hasDevicesFromDB() {
-        val deviceOne = prefs.firstDevice
-        val deviceTwo = prefs.secondDevice
-        val deviceThree = prefs.thirdDevice
-        val deviceFour = prefs.fourthDevice
-        val gson = Gson()
-        if (deviceOne.length > 0) {
-            val deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
-            firstDevice = deviceOneObj.name
-            hasDevice = true
-            deviceDBList.add(firstDevice)
-        }
-        if (deviceTwo.length > 0) {
-            val deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
-            secondDevice = deviceTwoObj.name
-            hasDevice = true
-            deviceDBList.add(secondDevice)
 
-        }
-        if (deviceThree.length > 0) {
-            val deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
-            thirdDevice = deviceThreeObj.name
-            hasDevice = true
-            deviceDBList.add(thirdDevice)
-
-        }
-        if (deviceFour.length > 0) {
-            val deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
-            fourthDevice = deviceFourObj.name
-            hasDevice = true
-            deviceDBList.add(fourthDevice)
-
-        }
-    }
 }
