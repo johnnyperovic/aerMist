@@ -97,8 +97,8 @@ class MyDevicesFragment : Fragment() {
             val value = btnOnOf.text
             val testData = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
             val charset = Charsets.UTF_8
-            val byteArrayOF = "EE0100.".toByteArray(charset)
-            val byteArrayON = "EE0101.".toByteArray(charset)
+            val byteArrayON = "EE0100.".toByteArray(charset)
+            val byteArrayOF = "EE0101.".toByteArray(charset)
             Log.e("D","gate size "+firstGate.services.size)
             Log.e("D","BTN VALUE  "+value)
             if (value == getString(R.string.on)) {
@@ -117,6 +117,44 @@ class MyDevicesFragment : Fragment() {
                     byteArrayON,
                     firstGate.services.get(2).characteristics.get(0)
                 )
+            }
+
+            Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
+            for (service in firstGate.services) {
+                if (service.characteristics.size > 0) {
+                    Log.e("d", "UUID " + service.characteristics.get(0).uuid)
+
+                    if (service.characteristics.get(0).uuid.toString()
+                            .equals("d973f2e1-b19e-11e2-9e96-0800200c9a66")
+                    ) {
+                        bluetoothController.blueGattAdapter.addResult(service)
+                        Log.e(
+                            "d",
+                            "SERVICE characteristics descriptors " + service.characteristics.get(
+                                0
+                            ).descriptors
+                        )
+                    }
+                }
+            }
+          //  bluetoothController.bleDeviceMain = bleDevicee
+            connectionStateCoordinator.gatt = firstGate
+         //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
+
+
+            if (bluetoothController.blueGattAdapter.getCount() > 0) {
+                val service = bluetoothController.blueGattAdapter.getItem(0)
+                bluetoothController.readNotification(
+                    bluetoothController.bleDeviceMain,
+                    service?.characteristics!!.get(0)
+                )
+
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Notifications faild",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -248,43 +286,6 @@ class MyDevicesFragment : Fragment() {
                 firstGate = gatt
             }
 
-            Log.e("D", "onConnectSuccess SERVICE SIZE " + gatt.services.size)
-            for (service in gatt.services) {
-                if (service.characteristics.size > 0) {
-                    Log.e("d", "UUID " + service.characteristics.get(0).uuid)
-
-                    if (service.characteristics.get(0).uuid.toString()
-                            .equals("d973f2e1-b19e-11e2-9e96-0800200c9a66")
-                    ) {
-                        bluetoothController.blueGattAdapter.addResult(service)
-                        Log.e(
-                            "d",
-                            "SERVICE characteristics descriptors " + service.characteristics.get(
-                                0
-                            ).descriptors
-                        )
-                    }
-                }
-            }
-            bluetoothController.bleDeviceMain = bleDevicee
-            connectionStateCoordinator.gatt = gatt
-            Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
-
-
-            if (bluetoothController.blueGattAdapter.getCount() > 0) {
-                val service = bluetoothController.blueGattAdapter.getItem(0)
-                bluetoothController.readNotification(
-                    bluetoothController.bleDeviceMain,
-                    service?.characteristics!!.get(0)
-                )
-
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Notifications faild",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
         }
 
         override fun onDisConnected(
