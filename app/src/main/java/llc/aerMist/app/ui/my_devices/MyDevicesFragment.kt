@@ -101,7 +101,7 @@ class MyDevicesFragment : Fragment() {
             val byteArrayOF = "EE0101.".toByteArray(charset)
             Log.e("D","gate size "+firstGate.services.size)
             Log.e("D","BTN VALUE  "+value)
-            if (value == "ON") {
+            if (value == getString(R.string.on)) {
                 btnOnOf.text = getString(R.string.off)
 
                 bluetoothController.writeCommand(
