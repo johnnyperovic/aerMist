@@ -358,13 +358,13 @@ class MyDevicesFragment : Fragment() {
             connectionStateCoordinator.bluetoothConnectionState.value = "distanceDisconnected"
             connectionStateCoordinator.isDeviceConnected = false
             if (bleDevice.name == firstDevice) {
-                firstDotColor?.setImageDrawable(resources.getDrawable(R.drawable.red_dot))
+                firstDotColor?.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.red_dot))
                 firstDeviceState?.text = "Ofline"
                 firstProgressBar?.visibility = View.GONE
                 firstInfoDots?.visibility = View.VISIBLE
             }
             if (bleDevice.name == secondDevice) {
-                secondDotColor?.setImageDrawable(resources.getDrawable(R.drawable.red_dot))
+                secondDotColor?.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.red_dot))
                 secondDeviceState?.text = "Ofline"
                 secondProgressBar?.visibility = View.GONE
                 secondInfoDots?.visibility = View.VISIBLE

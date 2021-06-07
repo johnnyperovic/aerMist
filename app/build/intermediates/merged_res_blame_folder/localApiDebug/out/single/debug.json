@@ -60,12 +60,12 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\tab_color_selector.xml"
     },
     {
-        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-mdpi_non_stop_blue_icon.png.flat",
-        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-mdpi\\non_stop_blue_icon.png"
-    },
-    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_item_available_device.xml.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\item_available_device.xml"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-mdpi_non_stop_blue_icon.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-mdpi\\non_stop_blue_icon.png"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_small_logo.png.flat",
