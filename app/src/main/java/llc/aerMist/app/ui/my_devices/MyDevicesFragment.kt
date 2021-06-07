@@ -81,8 +81,8 @@ class MyDevicesFragment : Fragment() {
                 turnOn(byteArrayON)
             } else {
                 turnOf(byteArrayOF)
-                Log.e("D", "ULAZI U OF")
                 btnOnOf.text = getString(R.string.on)
+                Log.e("D", "ULAZI U OF")
 
             }
 
