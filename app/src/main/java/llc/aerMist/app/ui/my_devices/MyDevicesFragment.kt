@@ -100,11 +100,11 @@ class MyDevicesFragment : Fragment() {
             if (value == getString(R.string.on).toLowerCase()) {
                 secondOnOfBtn.text = getString(R.string.off)
 
-                turnOn(byteArrayON)
+                turnOnSecond(byteArrayON)
                 readSecondResponse()
             } else {
                 secondOnOfBtn.text = getString(R.string.on)
-                turnOf(byteArrayOF)
+                turnOfSecond(byteArrayOF)
                 readSecondResponse()
             }
         }
@@ -154,6 +154,22 @@ class MyDevicesFragment : Fragment() {
             firstGate.services.get(2).characteristics.get(0)
         )
     }
+    fun turnOnSecond(input: ByteArray) {
+        bluetoothController.writeCommand(
+            secondBleDevice,
+            input,
+            secondGate.services.get(2).characteristics.get(0)
+        )
+    }
+
+    fun turnOfSecond(input: ByteArray) {
+        bluetoothController.writeCommand(
+            secondBleDevice,
+            input,
+            secondGate.services.get(2).characteristics.get(0)
+        )
+    }
+
 
     fun readResponse() {
         Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
@@ -214,7 +230,7 @@ class MyDevicesFragment : Fragment() {
                 }
             }
         }
-        bluetoothController.bleDeviceMain = firstBleDevice
+        bluetoothController.bleDeviceMain = secondBleDevice
         connectionStateCoordinator.gatt = secondGate
         //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
