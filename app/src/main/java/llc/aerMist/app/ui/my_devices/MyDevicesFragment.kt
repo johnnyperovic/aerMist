@@ -212,7 +212,7 @@ class MyDevicesFragment : Fragment() {
     }
 
     fun readSecondResponse() {
-        Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
+        Log.e("D", "onConnectSuccess SERVICE SIZE " + secondGate.services.size)
         for (service in secondGate.services) {
             if (service.characteristics.size > 0) {
                 Log.e("d", "UUID " + service.characteristics.get(0).uuid)
@@ -233,7 +233,6 @@ class MyDevicesFragment : Fragment() {
         bluetoothController.bleDeviceMain = secondBleDevice
         connectionStateCoordinator.gatt = secondGate
         //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
-
 
         if (bluetoothController.blueGattAdapter.getCount() > 0) {
             val service = bluetoothController.blueGattAdapter.getItem(0)
