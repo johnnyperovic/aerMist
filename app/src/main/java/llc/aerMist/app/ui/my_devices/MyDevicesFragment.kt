@@ -342,7 +342,7 @@ class MyDevicesFragment : Fragment() {
                 secondDeviceState?.text = getString(R.string.online)
                 secondProgressBar?.visibility = View.GONE
                 secondInfoDots?.visibility = View.VISIBLE
-                btnOnOf?.visibility = View.VISIBLE
+                secondOnOfBtn?.visibility = View.VISIBLE
                 secondBleDevice = bleDevicee
                 secondGate = gatt
             }
