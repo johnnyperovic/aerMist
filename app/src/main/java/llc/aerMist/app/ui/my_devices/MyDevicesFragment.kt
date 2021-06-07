@@ -362,14 +362,12 @@ class MyDevicesFragment : Fragment() {
                 firstDeviceState?.text = "Ofline"
                 firstProgressBar?.visibility = View.GONE
                 firstInfoDots?.visibility = View.VISIBLE
-                btnOnOf?.visibility = View.INVISIBLE
             }
             if (bleDevice.name == secondDevice) {
                 secondDotColor?.setImageDrawable(resources.getDrawable(R.drawable.red_dot))
                 secondDeviceState?.text = "Ofline"
                 secondProgressBar?.visibility = View.GONE
                 secondInfoDots?.visibility = View.VISIBLE
-                btnOnOf?.visibility = View.INVISIBLE
             }
         }
     }
