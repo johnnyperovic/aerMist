@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.clj.fastble.callback.BleGattCallback
@@ -39,6 +40,9 @@ class MyDevicesFragment : Fragment() {
     lateinit var firstDevice: String
     lateinit var firstBleDevice: BleDevice
     lateinit var firstGate: BluetoothGatt
+    var secondDevice: String = ""
+    lateinit var secondBleDevice: BleDevice
+    lateinit var secondGate: BluetoothGatt
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,15 +50,64 @@ class MyDevicesFragment : Fragment() {
         return inflater.inflate(R.layout.my_devices_fragment, container, false)
     }
 
+
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val deviceOne = prefs.firstDevice
-        val gson = Gson()
-        if (deviceOne.length > 0) {
-            val deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
-            firstDevice = deviceOneObj.name
+        setFirstDevice()
+        setSecondDevice()
+        setThirdDevice()
+        setFourthDevice()
+
+        initBleConroller()
+
+        btnAddNewDevice.setOnClickListener {
+            bluetoothController.bluetoothManager.cancelScan()
+            navigateToAvailableDevices()
         }
+        btnDone.setOnClickListener {
+            navigateToMain()
+        }
+        btnOnOf.setOnClickListener {
+            val value = btnOnOf.text.toString().toLowerCase()
+            val charset = Charsets.UTF_8
+            val byteArrayON = "EE0100.".toByteArray(charset)
+            val byteArrayOF = "EE0101.".toByteArray(charset)
+            Log.e("D", "gate size " + firstGate.services.size)
+            Log.e("D", "BTN VALUE  " + value)
+            if (value == getString(R.string.on).toLowerCase()) {
+                Log.e("D", "ULAZI U ON")
+                btnOnOf.text = getString(R.string.off)
+                turnOn(byteArrayON)
+            } else {
+                turnOf(byteArrayOF)
+                Log.e("D", "ULAZI U OF")
+                btnOnOf.text = getString(R.string.on)
+
+            }
+
+        }
+        secondOnOfBtn.setOnClickListener {
+            val value = secondOnOfBtn.text.toString().toLowerCase()
+            val charset = Charsets.UTF_8
+            val byteArrayON = "EE0100.".toByteArray(charset)
+            val byteArrayOF = "EE0101.".toByteArray(charset)
+            Log.e("D", "gate size " + firstGate.services.size)
+            Log.e("D", "BTN VALUE  " + value)
+            if (value == getString(R.string.on).toLowerCase()) {
+                secondOnOfBtn.text = getString(R.string.off)
+
+                turnOn(byteArrayON)
+                readResponse()
+            } else {
+                secondOnOfBtn.text = getString(R.string.on)
+                turnOf(byteArrayOF)
+                readResponse()
+            }
+        }
+    }
+
+    fun initBleConroller() {
         bluetoothController =
             BluetoothController(
                 notifyCallback,
@@ -77,91 +130,71 @@ class MyDevicesFragment : Fragment() {
 //            .setScanTimeOut(10000)
 //            .build()
 //        BleManager.getInstance().initScanRule(scanRuleConfig)
-      //  bluetoothController.bluetoothManager.cancelScan()
-        bluetoothController.list.clear()
+        //  bluetoothController.bluetoothManager.cancelScan()
+        connectionStateCoordinator.listBleDevices.clear()
         bluetoothController.startScan()
-        //  initRecycler()
-        setFirstDevice()
-        setSecondDevice()
-        setThirdDevice()
-        setFourthDevice()
 
-        btnAddNewDevice.setOnClickListener {
-            bluetoothController.bluetoothManager.cancelScan()
-            navigateToAvailableDevices()
-        }
-        btnDone.setOnClickListener {
-            navigateToMain()
-        }
-        btnOnOf.setOnClickListener {
-            val value = btnOnOf.text.toString().toLowerCase()
-            val testData = UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")
-            val charset = Charsets.UTF_8
-            val byteArrayON = "EE0100.".toByteArray(charset)
-            val byteArrayOF = "EE0101.".toByteArray(charset)
-            Log.e("D","gate size "+firstGate.services.size)
-            Log.e("D","BTN VALUE  "+value)
-            if (value == getString(R.string.on).toLowerCase()) {
-                btnOnOf.text = getString(R.string.off)
+    }
 
-                bluetoothController.writeCommand(
-                    firstBleDevice,
-                    byteArrayOF,
-                    firstGate.services.get(2).characteristics.get(0)
-                )
+    fun turnOn(input: ByteArray) {
+        bluetoothController.writeCommand(
+            firstBleDevice,
+            input,
+            firstGate.services.get(2).characteristics.get(0)
+        )
+    }
 
-            } else {
-                btnOnOf.text = getString(R.string.on)
-                bluetoothController.writeCommand(
-                    firstBleDevice,
-                    byteArrayON,
-                    firstGate.services.get(2).characteristics.get(0)
-                )
-            }
+    fun turnOf(input: ByteArray) {
+        bluetoothController.writeCommand(
+            firstBleDevice,
+            input,
+            firstGate.services.get(2).characteristics.get(0)
+        )
+    }
 
-            Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
-            for (service in firstGate.services) {
-                if (service.characteristics.size > 0) {
-                    Log.e("d", "UUID " + service.characteristics.get(0).uuid)
+    fun readResponse() {
+        Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
+        for (service in firstGate.services) {
+            if (service.characteristics.size > 0) {
+                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
 
-                    if (service.characteristics.get(0).uuid.toString()
-                            .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                    ) {
-                        bluetoothController.blueGattAdapter.addResult(service)
-                        Log.e(
-                            "d",
-                            "SERVICE characteristics descriptors " + service.characteristics.get(
-                                0
-                            ).descriptors
-                        )
-                    }
+                if (service.characteristics.get(0).uuid.toString()
+                        .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
+                ) {
+                    bluetoothController.blueGattAdapter.addResult(service)
+                    Log.e(
+                        "d",
+                        "SERVICE characteristics descriptors " + service.characteristics.get(
+                            0
+                        ).descriptors
+                    )
                 }
             }
-           bluetoothController.bleDeviceMain = firstBleDevice
-            connectionStateCoordinator.gatt = firstGate
-         //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
+        }
+        bluetoothController.bleDeviceMain = firstBleDevice
+        connectionStateCoordinator.gatt = firstGate
+        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
 
-            if (bluetoothController.blueGattAdapter.getCount() > 0) {
-                val service = bluetoothController.blueGattAdapter.getItem(0)
-                bluetoothController.readNotification(
-                    bluetoothController.bleDeviceMain,
-                    service?.characteristics!!.get(0)
-                )
+        if (bluetoothController.blueGattAdapter.getCount() > 0) {
+            val service = bluetoothController.blueGattAdapter.getItem(0)
+            bluetoothController.readNotification(
+                bluetoothController.bleDeviceMain,
+                service?.characteristics!!.get(0)
+            )
 
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Notifications faild",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "Notifications faild",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
     private fun navigateToAvailableDevices() {
         bluetoothController.bluetoothManager.cancelScan()
-        findNavController().navigate(R.id.action_my_devices_to_available_devices)
+        findNavController().navigate(R.id.action_my_devices_to_search_devices)
     }
 
     private fun navigateToMain() {
@@ -177,6 +210,7 @@ class MyDevicesFragment : Fragment() {
             val deviceOneObj: MyDevice
             deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
             firstDeviceName.text = deviceOneObj.newName
+            firstDevice = deviceOneObj.name
             deviceTotalNumber = deviceTotalNumber + 1
         } else {
             firstCardView.visibility = View.GONE
@@ -192,6 +226,7 @@ class MyDevicesFragment : Fragment() {
             val deviceTwoObj: MyDevice
             deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
             secondDeviceName.text = deviceTwoObj.newName
+            secondDevice = deviceTwoObj.name
             deviceTotalNumber = deviceTotalNumber + 1
         } else {
             secondCardView.visibility = View.GONE
@@ -224,12 +259,13 @@ class MyDevicesFragment : Fragment() {
         } else {
             fourthCardView.visibility = View.GONE
         }
-        deviceNumber.text = deviceTotalNumber.toString() + "/4 devices"
+        deviceNumber.text = "$deviceTotalNumber/4 devices"
     }
 
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
             Log.e("D", "onWriteSuccess ")
+            readResponse()
         }
 
         override fun onWriteFailure(exception: BleException?) {
@@ -246,7 +282,13 @@ class MyDevicesFragment : Fragment() {
         override fun onScanning(bleDevice: BleDevice) {
             Log.e("onScanning", "bleDevice.name " + bleDevice.name)
             if (bleDevice.name != null) {
-                bluetoothController.list.add(bleDevice)
+                connectionStateCoordinator.listBleDevices.add(bleDevice)
+                if (bleDevice.name == firstDevice) {
+                    bluetoothController.connect(bleDevice)
+                }
+                if (bleDevice.name == secondDevice) {
+                    bluetoothController.connect(bleDevice)
+                }
 
             }
         }
@@ -255,11 +297,11 @@ class MyDevicesFragment : Fragment() {
             Log.e("d", "Scan done from MyDevicesFragment" + scanResultList.size)
             availableDevicesList = scanResultList
             list = scanResultList
-            for (item in scanResultList) {
-                if (item.name == firstDevice) {
-                    bluetoothController.connect(item)
-                }
-            }
+//            for (item in scanResultList) {
+//                if (item.name == firstDevice) {
+//                    bluetoothController.connect(item)
+//                }
+            //         }
         }
     }
 
@@ -277,15 +319,33 @@ class MyDevicesFragment : Fragment() {
             connectionStateCoordinator.bluetoothConnectionState.value = "connected"
             Log.e("d", "BLE DEVICE onConnect  " + bleDevicee.name)
             if (bleDevicee.name == firstDevice) {
-                firstDotColor?.setImageDrawable(resources.getDrawable(R.drawable.green_dot))
-                firstDeviceState?.text = "Online"
+                firstDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.green_dot
+                    )
+                )
+                firstDeviceState?.text = getString(R.string.online)
                 firstProgressBar?.visibility = View.GONE
                 firstInfoDots?.visibility = View.VISIBLE
                 btnOnOf?.visibility = View.VISIBLE
                 firstBleDevice = bleDevicee
                 firstGate = gatt
             }
-
+            if (bleDevicee.name == secondDevice) {
+                secondDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.green_dot
+                    )
+                )
+                secondDeviceState?.text = getString(R.string.online)
+                secondProgressBar?.visibility = View.GONE
+                secondInfoDots?.visibility = View.VISIBLE
+                btnOnOf?.visibility = View.VISIBLE
+                secondBleDevice = bleDevicee
+                secondGate = gatt
+            }
         }
 
         override fun onDisConnected(
@@ -302,6 +362,13 @@ class MyDevicesFragment : Fragment() {
                 firstDeviceState?.text = "Ofline"
                 firstProgressBar?.visibility = View.GONE
                 firstInfoDots?.visibility = View.VISIBLE
+                btnOnOf?.visibility = View.INVISIBLE
+            }
+            if (bleDevice.name == secondDevice) {
+                secondDotColor?.setImageDrawable(resources.getDrawable(R.drawable.red_dot))
+                secondDeviceState?.text = "Ofline"
+                secondProgressBar?.visibility = View.GONE
+                secondInfoDots?.visibility = View.VISIBLE
                 btnOnOf?.visibility = View.INVISIBLE
             }
         }

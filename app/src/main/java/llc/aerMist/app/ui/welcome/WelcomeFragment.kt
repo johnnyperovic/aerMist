@@ -15,14 +15,7 @@ import org.koin.android.ext.android.inject
 
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
     private val prefs: PreferenceCache by inject()
-
-    private val locationPermission = Manifest.permission.ACCESS_FINE_LOCATION
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 2;
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -45,38 +38,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         findNavController().navigate(R.id.action_welcome_to_my_devices)
     }
 
-    //    private fun checkLocationPermission(): Boolean {
-//        return (ContextCompat.checkSelfPermission(
-//            requireContext(),
-//            locationPermission
-//        ) == PackageManager.PERMISSION_GRANTED)
-//    }
-//dadaadada
-//    private fun requestLocationPermission() {
-//        ActivityCompat.requestPermissions(
-//            requireActivity(),
-//            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2
-//        )
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-//            requestPermissions(arrayOf(locationPermission), 2)
-//    }
-//
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<out String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == 2) {
-//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                Toast.makeText(requireContext(), "Location permission enabled", Toast.LENGTH_SHORT)
-//                    .show()
-//            } else {
-//                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
-//        }
-//    }
+
     private fun checkPermissions(): Boolean {
         val permissionState = ActivityCompat.checkSelfPermission(
             requireContext(),

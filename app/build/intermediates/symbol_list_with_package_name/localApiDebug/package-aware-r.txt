@@ -1832,8 +1832,8 @@ id action_menu_presenter
 id action_mode_bar
 id action_mode_bar_stub
 id action_mode_close_button
-id action_my_devices_to_available_devices
 id action_my_devices_to_main_fragment
+id action_my_devices_to_search_devices
 id action_schedule_to_set_schedule_fragment
 id action_splashFragment_to_welcomeFragment
 id action_text
@@ -2173,6 +2173,8 @@ id secondDeviceState
 id secondDotColor
 id secondInfoDots
 id secondLine
+id secondOnOfBtn
+id secondProgressBar
 id seekbar
 id seekbar_value
 id select_dialog_listview
@@ -2604,8 +2606,10 @@ string no
 string non_stop
 string not_set
 string off
+string offline
 string ok
 string on
+string online
 string password_toggle_content_description
 string path_password_eye
 string path_password_eye_mask_strike_through

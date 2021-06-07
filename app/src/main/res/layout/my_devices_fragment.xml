@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="42dp"
-            android:text="Offline"
+            android:text="@string/offline"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="47dp"
-            android:src="@drawable/green_dot" />
+            android:src="@drawable/red_dot" />
 
         <TextView
             android:id="@+id/secondDeviceState"
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="42dp"
-            android:text="Online"
+            android:text="@string/offline"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -149,8 +149,18 @@
             android:src="@drawable/three_dots"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="invisible"/>
+        <ProgressBar
+            android:id="@+id/secondProgressBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="16sp"
+            android:src="@drawable/three_dots"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/secondDeviceActiveHours"
             android:layout_width="wrap_content"
@@ -341,7 +351,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnAddNewDevice" />
-
+    <Button
+        android:id="@+id/secondOnOfBtn"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/gray"
+        android:fontFamily="@font/roboto_medium"
+        android:text="@string/on"
+        android:textColor="@color/dark_text"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnOnOf" />
     <TextView
         android:id="@+id/btnDone"
         android:layout_width="match_parent"

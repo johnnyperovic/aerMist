@@ -4,12 +4,17 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothGattCharacteristic
 import android.content.Context
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.clj.fastble.BleManager
 import com.clj.fastble.callback.*
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.scan.BleScanRuleConfig
+import com.google.gson.Gson
 import llc.aerMist.app.adapters.BlueGattAdapter
+import llc.aerMist.app.models.MyDevice
 import llc.aerMist.app.observers.NewObservableCoordinator
+import llc.aerMist.app.shared.util.PreferenceCache
+import org.koin.android.ext.android.inject
 
 import java.util.*
 import kotlin.collections.ArrayList
@@ -26,9 +31,9 @@ class BluetoothController(
     var blueGattAdapter: BlueGattAdapter = BlueGattAdapter()
     val bluetoothManager: BleManager = BleManager.getInstance()
     val connectionStateCoordinator = NewObservableCoordinator
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
     var isMyDevice = false
-    var list: ArrayList<BleDevice> = ArrayList()
 
     fun readNotification(bleDevice: BleDevice?, characteristic: BluetoothGattCharacteristic) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -42,8 +47,6 @@ class BluetoothController(
     }
 
     fun writeCommand(bleDevice: BleDevice,input: ByteArray, characteristic: BluetoothGattCharacteristic) {
-        // input here is the built-in Bluetooth equipment manufacturers command format
-        //  val input: ByteArray =  GenOpenBytes(bleDevice.name.substring(5), "13995534706", -0x1, "0123456")
 
         bluetoothManager.write(
             bleDevice,
@@ -92,5 +95,22 @@ class BluetoothController(
         connectionStateCoordinator.isDeviceAuthorized = false
         connectionStateCoordinator.bluetoothByteArray.value = UIntArray(14)
         Log.i("BluetoothController", "Device disconnected")
+    }
+    fun startConnectingMyDevices()
+    {
+        val deviceOne = prefs.getString("first_device","")
+        val gson = Gson()
+        if (deviceOne!!.length > 0) {
+            val deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
+          val  firstDevice = deviceOneObj.name
+            Log.e("D","naziv "+firstDevice)
+                    if (connectionStateCoordinator.listBleDevices.size > 0) {
+            for (item in connectionStateCoordinator.listBleDevices) {
+                if (item.name == firstDevice) {
+                    connect(item)
+                }
+            }
+        }
+        }
     }
 }

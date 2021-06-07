@@ -1,6 +1,7 @@
 package llc.aerMist.app.ui.devices
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,16 @@ import kotlinx.android.synthetic.main.fragment_devices.*
 
 import llc.aerMist.app.R
 import llc.aerMist.app.models.MyDevice
+import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 
 
-class DevicesFragment : Fragment() {
+class MenageDevicesFragment : Fragment() {
     private val prefs: PreferenceCache by inject()
     private var deviceTotalNumber=0
+    val connectionStateCoordinator = NewObservableCoordinator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -28,6 +32,9 @@ class DevicesFragment : Fragment() {
         setSecondDevice()
         setThirdDevice()
         setFourthDevice()
+     //   Log.e("D", "konektovani uredjaji "+connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size)
+    //    Log.e("D", "konektovani uredjaji "+connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(0)?.name)
+
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

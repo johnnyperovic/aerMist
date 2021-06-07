@@ -66,7 +66,7 @@
         android:label="DivaceFragment"
         tools:layout="@layout/my_devices_fragment">
         <action
-            android:id="@+id/action_my_devices_to_available_devices"
+            android:id="@+id/action_my_devices_to_search_devices"
             app:destination="@+id/searchFragment"
             app:enterAnim="@anim/slide_in_bottom"
             app:exitAnim="@anim/slide_out_top"

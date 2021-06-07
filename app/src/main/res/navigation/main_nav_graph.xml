@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/deviceFragment"
-        android:name="llc.aerMist.app.ui.devices.DevicesFragment"
+        android:name="llc.aerMist.app.ui.devices.MenageDevicesFragment"
         android:label="DeviceFragment"
         tools:layout="@layout/fragment_devices" />
     <fragment
