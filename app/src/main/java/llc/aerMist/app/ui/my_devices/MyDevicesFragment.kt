@@ -43,6 +43,7 @@ class MyDevicesFragment : Fragment() {
     var secondDevice: String = ""
     lateinit var secondBleDevice: BleDevice
     lateinit var secondGate: BluetoothGatt
+    private var isFirstDevice = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -69,6 +70,7 @@ class MyDevicesFragment : Fragment() {
             navigateToMain()
         }
         btnOnOf.setOnClickListener {
+            isFirstDevice = true
             val value = btnOnOf.text.toString().toLowerCase()
             val charset = Charsets.UTF_8
             val byteArrayON = "EE0100.".toByteArray(charset)
@@ -88,21 +90,22 @@ class MyDevicesFragment : Fragment() {
 
         }
         secondOnOfBtn.setOnClickListener {
+            isFirstDevice = false
             val value = secondOnOfBtn.text.toString().toLowerCase()
             val charset = Charsets.UTF_8
             val byteArrayON = "EE0100.".toByteArray(charset)
             val byteArrayOF = "EE0101.".toByteArray(charset)
-            Log.e("D", "gate size " + firstGate.services.size)
+            //     Log.e("D", "gate size " + firstGate.services.size)
             Log.e("D", "BTN VALUE  " + value)
             if (value == getString(R.string.on).toLowerCase()) {
                 secondOnOfBtn.text = getString(R.string.off)
 
                 turnOn(byteArrayON)
-                readResponse()
+                readSecondResponse()
             } else {
                 secondOnOfBtn.text = getString(R.string.on)
                 turnOf(byteArrayOF)
-                readResponse()
+                readSecondResponse()
             }
         }
     }
@@ -173,6 +176,46 @@ class MyDevicesFragment : Fragment() {
         }
         bluetoothController.bleDeviceMain = firstBleDevice
         connectionStateCoordinator.gatt = firstGate
+        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
+
+
+        if (bluetoothController.blueGattAdapter.getCount() > 0) {
+            val service = bluetoothController.blueGattAdapter.getItem(0)
+            bluetoothController.readNotification(
+                bluetoothController.bleDeviceMain,
+                service?.characteristics!!.get(0)
+            )
+
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "Notifications faild",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    fun readSecondResponse() {
+        Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
+        for (service in secondGate.services) {
+            if (service.characteristics.size > 0) {
+                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
+
+                if (service.characteristics.get(0).uuid.toString()
+                        .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
+                ) {
+                    bluetoothController.blueGattAdapter.addResult(service)
+                    Log.e(
+                        "d",
+                        "SERVICE characteristics descriptors " + service.characteristics.get(
+                            0
+                        ).descriptors
+                    )
+                }
+            }
+        }
+        bluetoothController.bleDeviceMain = firstBleDevice
+        connectionStateCoordinator.gatt = secondGate
         //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
 
@@ -265,7 +308,11 @@ class MyDevicesFragment : Fragment() {
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
             Log.e("D", "onWriteSuccess ")
-            readResponse()
+            if (isFirstDevice) {
+                readResponse()
+            } else {
+                readSecondResponse()
+            }
         }
 
         override fun onWriteFailure(exception: BleException?) {
@@ -358,13 +405,23 @@ class MyDevicesFragment : Fragment() {
             connectionStateCoordinator.bluetoothConnectionState.value = "distanceDisconnected"
             connectionStateCoordinator.isDeviceConnected = false
             if (bleDevice.name == firstDevice) {
-                firstDotColor?.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.red_dot))
+                firstDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
                 firstDeviceState?.text = "Ofline"
                 firstProgressBar?.visibility = View.GONE
                 firstInfoDots?.visibility = View.VISIBLE
             }
             if (bleDevice.name == secondDevice) {
-                secondDotColor?.setImageDrawable(ContextCompat.getDrawable(requireContext(),R.drawable.red_dot))
+                secondDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
                 secondDeviceState?.text = "Ofline"
                 secondProgressBar?.visibility = View.GONE
                 secondInfoDots?.visibility = View.VISIBLE
