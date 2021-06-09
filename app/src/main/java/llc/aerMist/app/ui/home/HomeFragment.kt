@@ -374,7 +374,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     } else {
                         showDialog()
                     }
-                } else {
+                }
+                else {
                     startAnimation()
                 }
             }
@@ -647,7 +648,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
             Log.e("D", "onWriteSuccess ")
-            readResponse()
+         //   readResponse()
         }
 
         override fun onWriteFailure(exception: BleException?) {

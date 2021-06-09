@@ -1,4 +1,4 @@
-#Wed Jun 09 20:55:27 CEST 2021
+#Wed Jun 09 21:36:44 CEST 2021
 base.0=C\:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\dex\\localApiDebug\\mergeExtDexLocalApiDebug\\classes.dex
 path.1=classes.dex
 renamed.1=classes2.dex
