@@ -677,6 +677,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 newData[index] = byte.toUInt()
                 Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
+            startAnimation()
             if (allDevices == 2) {
                 readSecondResponse()
             }
