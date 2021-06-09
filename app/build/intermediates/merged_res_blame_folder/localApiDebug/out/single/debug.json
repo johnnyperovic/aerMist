@@ -60,12 +60,12 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\tab_color_selector.xml"
     },
     {
-        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_item_available_device.xml.flat",
-        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\item_available_device.xml"
-    },
-    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-mdpi_non_stop_blue_icon.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-mdpi\\non_stop_blue_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_item_available_device.xml.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\item_available_device.xml"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_small_logo.png.flat",
@@ -74,6 +74,10 @@
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-v24_ble_icon.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-v24\\ble_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-xxhdpi_exit_btn.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-xxhdpi\\exit_btn.png"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-xxxhdpi_calendar_blue_icon.png.flat",
@@ -348,6 +352,10 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\oragne_sun.png"
     },
     {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-hdpi_exit_btn.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-hdpi\\exit_btn.png"
+    },
+    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_orange_radius_8.xml.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\orange_radius_8.xml"
     },
@@ -472,6 +480,10 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\radius_16_.xml"
     },
     {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-mdpi_exit_btn.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-mdpi\\exit_btn.png"
+    },
+    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\navigation_nav_graph.xml.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\navigation\\nav_graph.xml"
     },
@@ -508,16 +520,16 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\anim\\fade_out.xml"
     },
     {
-        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_fragment_non_stop.xml.flat",
-        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\fragment_non_stop.xml"
-    },
-    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable_gray_radius_8.xml.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable\\gray_radius_8.xml"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-xhdpi_home_icon.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-xhdpi\\home_icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_fragment_non_stop.xml.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\fragment_non_stop.xml"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-xxhdpi_interval_orange_icon.png.flat",
@@ -546,6 +558,10 @@
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-v24_blue_bg_img.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-v24\\blue_bg_img.png"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-xhdpi_exit_btn.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-xhdpi\\exit_btn.png"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_dialog_reset_app.xml.flat",
@@ -586,6 +602,10 @@
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher_round.png"
+    },
+    {
+        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-xxxhdpi_exit_btn.png.flat",
+        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-xxxhdpi\\exit_btn.png"
     },
     {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\layout_fragment_start_global_mode_popup.xml.flat",

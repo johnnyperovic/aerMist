@@ -33,5 +33,15 @@
         android:id="@+id/setScheduleFragment"
         android:name="llc.aerMist.app.ui.home.schedulere.SetScheduleFragment"
         android:label="SetScheduleFragment"
-        tools:layout="@layout/fragment_set_schedule" />
+        tools:layout="@layout/fragment_set_schedule" >
+    <action
+        android:id="@+id/action_set_schedule_to_home_fragment"
+        app:destination="@+id/homeFragment"
+        app:enterAnim="@anim/slide_in_bottom"
+        app:exitAnim="@anim/slide_out_top"
+        app:popEnterAnim="@anim/slide_in_top"
+        app:popExitAnim="@anim/slide_out_bottom"
+        app:popUpTo="@+id/homeFragment"
+        app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

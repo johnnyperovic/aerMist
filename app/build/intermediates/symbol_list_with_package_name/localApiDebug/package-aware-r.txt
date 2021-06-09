@@ -1688,6 +1688,7 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable device_icon
 drawable devices_img
+drawable exit_btn
 drawable grafika
 drawable gray_circle
 drawable gray_radius_8
@@ -1835,6 +1836,7 @@ id action_mode_close_button
 id action_my_devices_to_main_fragment
 id action_my_devices_to_search_devices
 id action_schedule_to_set_schedule_fragment
+id action_set_schedule_to_home_fragment
 id action_splashFragment_to_welcomeFragment
 id action_text
 id action_welcome_to_my_devices
@@ -1845,7 +1847,7 @@ id activeTv
 id activity_chooser_view_content
 id add
 id addBtn
-id addTimeBtn
+id addTimerBtn
 id alertTitle
 id aligned
 id all
@@ -1900,6 +1902,9 @@ id chronometer
 id clear_text
 id clip_horizontal
 id clip_vertical
+id closeFourthTimer
+id closeSecondTimer
+id closeThirdTimer
 id collapseActionView
 id confirm_button
 id container
@@ -1982,6 +1987,9 @@ id fourthDeviceName
 id fourthDeviceState
 id fourthDotColor
 id fourthInfoDots
+id fourthMiddleLine
+id fourthStartTimeValue
+id fourthStopTimeValue
 id fragment_container_view_tag
 id friday
 id ghost_view
@@ -2126,6 +2134,7 @@ id progress_horizontal
 id radio
 id radioBtnInterval
 id radioBtnNS
+id radioGroup
 id rainImg
 id ratio
 id rectangles
@@ -2173,8 +2182,11 @@ id secondDeviceState
 id secondDotColor
 id secondInfoDots
 id secondLine
+id secondMiddleLine
 id secondOnOfBtn
 id secondProgressBar
+id secondStartTimeValue
+id secondStopTimeValue
 id seekbar
 id seekbar_value
 id select_dialog_listview
@@ -2270,6 +2282,9 @@ id thirdDeviceName
 id thirdDeviceState
 id thirdDotColor
 id thirdInfoDots
+id thirdMiddleLine
+id thirdStartTimeValue
+id thirdStopTimerValue
 id thursday
 id time
 id timePicker
@@ -3375,6 +3390,8 @@ style Widget_MaterialComponents_Toolbar_PrimarySurface
 style Widget_MaterialComponents_Toolbar_Surface
 style Widget_MaterialComponents_Tooltip
 style Widget_Support_CoordinatorLayout
+style activeDay
+style nonActive
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
 styleable ActionBarLayout android_layout_gravity
 styleable ActionMenuItemView android_minWidth

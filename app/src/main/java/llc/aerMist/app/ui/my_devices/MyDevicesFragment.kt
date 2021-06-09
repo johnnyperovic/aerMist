@@ -61,7 +61,7 @@ class MyDevicesFragment : Fragment() {
         setFourthDevice()
 
         initBleConroller()
-
+        checkConnection()
         btnAddNewDevice.setOnClickListener {
             bluetoothController.bluetoothManager.cancelScan()
             navigateToAvailableDevices()
@@ -110,6 +110,60 @@ class MyDevicesFragment : Fragment() {
         }
     }
 
+    fun checkConnection() {
+        val deviceNumber =
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
+        if (deviceNumber == 1) {
+            val deviceName =
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
+                    0
+                )?.name
+            if (firstDevice == deviceName) {
+                firstDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.green_dot
+                    )
+                )
+                firstDeviceState?.text = getString(R.string.online)
+                firstProgressBar?.visibility = View.GONE
+                firstInfoDots?.visibility = View.VISIBLE
+            }
+        } else
+            if (deviceNumber == 2) {
+                val deviceName =
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
+                        0
+                    )?.name
+                val secondDeviceName =
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
+                        1
+                    )?.name
+                if (firstDevice == deviceName) {
+                    firstDotColor?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.green_dot
+                        )
+                    )
+                    firstDeviceState?.text = getString(R.string.online)
+                    firstProgressBar?.visibility = View.GONE
+                    firstInfoDots?.visibility = View.VISIBLE
+                }
+                if (secondDevice == secondDeviceName) {
+                    secondDotColor?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.green_dot
+                        )
+                    )
+                    secondDeviceState?.text = getString(R.string.online)
+                    secondProgressBar?.visibility = View.GONE
+                    secondInfoDots?.visibility = View.VISIBLE
+                }
+            }
+    }
+
     fun initBleConroller() {
         bluetoothController =
             BluetoothController(
@@ -154,6 +208,7 @@ class MyDevicesFragment : Fragment() {
             firstGate.services.get(2).characteristics.get(0)
         )
     }
+
     fun turnOnSecond(input: ByteArray) {
         bluetoothController.writeCommand(
             secondBleDevice,
@@ -393,6 +448,8 @@ class MyDevicesFragment : Fragment() {
                 btnOnOf?.visibility = View.VISIBLE
                 firstBleDevice = bleDevicee
                 firstGate = gatt
+                Log.e("D", "GATE firstGate " + firstGate.device.name)
+
             }
             if (bleDevicee.name == secondDevice) {
                 secondDotColor?.setImageDrawable(
@@ -470,6 +527,5 @@ class MyDevicesFragment : Fragment() {
             // val idArray: Array<Byte> = arrayOf(data[5], data[6], data[7], data[8])
         }
     }
-
 
 }

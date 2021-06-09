@@ -106,7 +106,18 @@ fun View.hideWithAnimation() {
             })
     }
 }
-
+fun View.goneWithAnimation() {
+    if (this.visibility == View.VISIBLE) {
+        this.animate()
+            .alpha(0f)
+            .setDuration(550)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    this@goneWithAnimation.visibility = View.GONE
+                }
+            })
+    }
+}
 fun View.changeBackgroundAnimated(drawableId: Int) {
     val colorDrawables = arrayOf(
         background,

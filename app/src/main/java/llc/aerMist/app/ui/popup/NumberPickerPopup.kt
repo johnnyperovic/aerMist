@@ -1,8 +1,11 @@
 package llc.aerMist.app.ui.popup
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.format.DateUtils.getMonthString
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
@@ -11,6 +14,7 @@ import kotlinx.android.synthetic.main.add_device_popup.view.cancelBtn
 import kotlinx.android.synthetic.main.fragment_number_picker_popup.view.*
 import kotlinx.android.synthetic.main.fragment_set_time_popup.view.saveBtn
 import llc.aerMist.app.R
+import kotlin.math.absoluteValue
 
 
 class NumberPickerPopup : DialogFragment() {
@@ -52,7 +56,12 @@ class NumberPickerPopup : DialogFragment() {
             dialog?.dismiss()
         }
         dialogView.saveBtn.setOnClickListener {
-            Log.e("D", "sati " + dialogView.sprayTimePicker.value)
+            val mist = sprayTime.get(dialogView.sprayTimePicker.value)
+            val suspend = suspendTime.get(dialogView.suspendTimePicker.value)
+            val i: Intent = Intent()
+                .putExtra("mist", mist)
+                .putExtra("suspend", suspend)
+            requireParentFragment().onActivityResult(1, Activity.RESULT_OK, i)
             dialog?.dismiss()
 
             //   return@setOnClickListener
