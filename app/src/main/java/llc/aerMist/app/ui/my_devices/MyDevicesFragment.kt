@@ -378,11 +378,11 @@ class MyDevicesFragment : Fragment() {
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
             Log.e("D", "onWriteSuccess ")
-            if (isFirstDevice) {
-                readResponse()
-            } else {
-                readSecondResponse()
-            }
+//            if (isFirstDevice) {
+//                readResponse()
+//            } else {
+//                readSecondResponse()
+//            }
         }
 
         override fun onWriteFailure(exception: BleException?) {
@@ -449,7 +449,7 @@ class MyDevicesFragment : Fragment() {
                 firstBleDevice = bleDevicee
                 firstGate = gatt
                 Log.e("D", "GATE firstGate " + firstGate.device.name)
-
+                readResponse()
             }
             if (bleDevicee.name == secondDevice) {
                 secondDotColor?.setImageDrawable(
