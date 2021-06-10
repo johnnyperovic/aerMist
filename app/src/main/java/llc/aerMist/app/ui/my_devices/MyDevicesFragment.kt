@@ -236,12 +236,6 @@ class MyDevicesFragment : Fragment() {
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
                 ) {
                     bluetoothController.blueGattAdapter.addResult(service)
-                    Log.e(
-                        "d",
-                        "SERVICE characteristics descriptors " + service.characteristics.get(
-                            0
-                        ).descriptors
-                    )
                 }
             }
         }
@@ -276,12 +270,6 @@ class MyDevicesFragment : Fragment() {
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
                 ) {
                     bluetoothController.blueGattAdapter.addResult(service)
-                    Log.e(
-                        "d",
-                        "SERVICE characteristics descriptors " + service.characteristics.get(
-                            0
-                        ).descriptors
-                    )
                 }
             }
         }
@@ -375,22 +363,6 @@ class MyDevicesFragment : Fragment() {
         deviceNumber.text = "$deviceTotalNumber/4 devices"
     }
 
-    private val writeCallback = object : BleWriteCallback() {
-        override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
-            Log.e("D", "onWriteSuccess ")
-//            if (isFirstDevice) {
-//                readResponse()
-//            } else {
-//                readSecondResponse()
-//            }
-        }
-
-        override fun onWriteFailure(exception: BleException?) {
-            Log.e("D", "Notification faild " + exception?.description)
-            Log.e("D", "Notification faild " + exception?.code)
-        }
-
-    }
     private val scanCallback = object : BleScanCallback() {
         override fun onScanStarted(success: Boolean) {
             Log.e("myDevice", "Scan started on my device")
@@ -464,6 +436,7 @@ class MyDevicesFragment : Fragment() {
                 secondOnOfBtn?.visibility = View.VISIBLE
                 secondBleDevice = bleDevicee
                 secondGate = gatt
+                readSecondResponse()
             }
         }
 
@@ -502,6 +475,16 @@ class MyDevicesFragment : Fragment() {
     }
 
 
+    private val writeCallback = object : BleWriteCallback() {
+        override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
+            Log.e("D", "onWriteSuccess ")
+        }
+
+        override fun onWriteFailure(exception: BleException?) {
+        //   Log.e("D", "Notification faild " + exception?.code)
+        }
+
+    }
     private val notifyCallback = object : BleNotifyCallback() {
         override fun onNotifySuccess() {
             Log.e("d", "USPJESNO ")
@@ -512,7 +495,7 @@ class MyDevicesFragment : Fragment() {
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
-
+            Log.e("d", "Notifaction recived from device " + bluetoothController.bleDeviceMain?.name)
             var newData: UIntArray = UIntArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 Log.e("D", "ByteArray " + index + "." + byte)
@@ -521,7 +504,7 @@ class MyDevicesFragment : Fragment() {
                 newData[index] = byte.toUInt()
                 Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
-            //     connectionStateCoordinator.bluetoothByteArray.value = newData
+            connectionStateCoordinator.bluetoothByteArray.value = newData
             var i = 0
 //            var dataList = ArrayList<Int>()
             // val idArray: Array<Byte> = arrayOf(data[5], data[6], data[7], data[8])

@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.callback.BleNotifyCallback
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.fragment_interval.*
 import kotlinx.android.synthetic.main.my_devices_fragment.*
 import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
+import llc.aerMist.app.models.BytePayload
 import llc.aerMist.app.models.MyDevice
 import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.kotlin.hideWithAnimation
@@ -72,6 +74,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     val byteArrayON = "EE0100.".toByteArray(charset)
     val byteArrayOF = "EE0101.".toByteArray(charset)
     var allDevices = 0
+    private lateinit var payload: BytePayload
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,6 +86,22 @@ class HomeFragment : Fragment(), View.OnClickListener {
         setFirstDevice()
         setSecondDevice()
         initBleConroller()
+        val observer = Observer<UIntArray> {
+            payload = BytePayload(it)
+            val one = payload.one
+            val two = payload.two
+            val three = payload.three
+            val four = payload.four
+            Log.e("D", "ONE " + one)
+            Log.e("D", "TWO " + two)
+            Log.e("D", "THREE " + three)
+            Log.e("D", "FOUR " + four)
+            if (one.toInt() > 0)
+            {
+                startAnimation()
+            }
+        }
+        connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
         Log.e(
             "D",
             "broj konektovanih  uredjaja " + connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
@@ -348,35 +367,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
             btnStart -> {
                 Log.e("D", "TAG " + tag)
-                if (btnStart.tag == "start") {
-                    if (tag == 0) {
-                        if (allDevices == 1) {
-                            if (btnStart.tag == "start") {
-                                turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
-                                btnStart.tag = "stop"
-                            } else {
-                                turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
-                                btnStart.tag = "start"
-                            }
-                        } else if (allDevices == 2) {
-                            if (btnStart.tag == "start") {
-                                turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
-                                turnOnOFDevice(byteArrayON, secondBleDevice, secondGate)
-                                btnStart.tag = "stop"
-                            } else {
-                                turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
-                                turnOnOFDevice(byteArrayOF, secondBleDevice, secondGate)
-                                btnStart.tag = "start"
-                            }
-                        }
-                    } else if (tag == 2) {
-                        startAnimation()
-                    } else {
-                        showDialog()
-                    }
-                }
-                else {
+                if (tag == 2) {
                     startAnimation()
+                } else {
+                    showDialog()
                 }
             }
             btnEdit -> {
@@ -562,7 +556,28 @@ class HomeFragment : Fragment(), View.OnClickListener {
             subTitle.text = resources.getString(R.string.device_are_offline)
         }
         startBtn.setOnClickListener {
-            startAnimation()
+          //  startAnimation()
+            if (tag == 0) {
+                if (allDevices == 1) {
+                    if (btnStart.tag == "start") {
+                        turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                        btnStart.tag = "stop"
+                    } else {
+                        turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
+                        btnStart.tag = "start"
+                    }
+                } else if (allDevices == 2) {
+                    if (btnStart.tag == "start") {
+                        turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                        turnOnOFDevice(byteArrayON, secondBleDevice, secondGate)
+                        btnStart.tag = "stop"
+                    } else {
+                        turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                        turnOnOFDevice(byteArrayOF, secondBleDevice, secondGate)
+                        btnStart.tag = "start"
+                    }
+                }
+            }
             dialog.dismiss()
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -619,7 +634,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     fun initBleConroller() {
         bluetoothController =
             BluetoothController(
-                notifyCallback,
+                null,
                 null,
                 null,
                 writeCallback,
@@ -639,7 +654,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 //            .setScanTimeOut(10000)
 //            .build()
 //        BleManager.getInstance().initScanRule(scanRuleConfig)
-        //  bluetoothController.bluetoothManager.cancelScan()
+//  bluetoothController.bluetoothManager.cancelScan()
         connectionStateCoordinator.listBleDevices.clear()
         bluetoothController.startScan()
 
@@ -648,46 +663,44 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
             Log.e("D", "onWriteSuccess ")
-         //   readResponse()
+            //   readResponse()
         }
 
         override fun onWriteFailure(exception: BleException?) {
-            Log.e("D", "Notification faild " + exception?.description)
-            Log.e("D", "Notification faild " + exception?.code)
-        }
 
-    }
-
-
-    private val notifyCallback = object : BleNotifyCallback() {
-        override fun onNotifySuccess() {
-            Log.e("d", "USPJESNO ")
-        }
-
-        override fun onNotifyFailure(exception: BleException) {
-            Log.e("d", " onNotifyFailure $exception")
-        }
-
-        override fun onCharacteristicChanged(data: ByteArray) {
-
-            var newData: UIntArray = UIntArray(data.size)
-            for ((index, byte) in data.withIndex()) {
-                Log.e("D", "ByteArray " + index + "." + byte)
-            }
-            for ((index, byte) in data.withIndex()) {
-                newData[index] = byte.toUInt()
-                Log.e("D", "UIntArray " + index + "." + byte.toChar())
-            }
-            startAnimation()
-            if (allDevices == 2) {
-                readSecondResponse()
-            }
-            //     connectionStateCoordinator.bluetoothByteArray.value = newData
-            var i = 0
-//            var dataList = ArrayList<Int>()
-            // val idArray: Array<Byte> = arrayOf(data[5], data[6], data[7], data[8])
         }
     }
+
+
+//    private val notifyCallback = object : BleNotifyCallback() {
+//        override fun onNotifySuccess() {
+//            Log.e("d", "USPJESNO ")
+//        }
+//
+//        override fun onNotifyFailure(exception: BleException) {
+//            Log.e("d", " onNotifyFailure $exception")
+//        }
+//
+//        override fun onCharacteristicChanged(data: ByteArray) {
+//
+//            var newData: UIntArray = UIntArray(data.size)
+//            for ((index, byte) in data.withIndex()) {
+//                Log.e("D", "ByteArray " + index + "." + byte)
+//            }
+//            for ((index, byte) in data.withIndex()) {
+//                newData[index] = byte.toUInt()
+//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
+//            }
+//            startAnimation()
+//            if (allDevices == 2) {
+//                readSecondResponse()
+//            }
+//            //     connectionStateCoordinator.bluetoothByteArray.value = newData
+//            var i = 0
+////            var dataList = ArrayList<Int>()
+//            // val idArray: Array<Byte> = arrayOf(data[5], data[6], data[7], data[8])
+//        }
+//    }
 
     fun readResponse() {
         Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
