@@ -572,7 +572,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         turnOnOFDevice(byteArrayON, secondBleDevice, secondGate)
                         btnStart.tag = "stop"
                     } else {
-                        turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                        turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
                         turnOnOFDevice(byteArrayOF, secondBleDevice, secondGate)
                         btnStart.tag = "start"
                     }
