@@ -98,7 +98,7 @@ fun View.hideWithAnimation() {
     if (this.visibility == View.VISIBLE) {
         this.animate()
             .alpha(0f)
-            .setDuration(550)
+            .setDuration(250)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     this@hideWithAnimation.visibility = View.INVISIBLE
@@ -110,7 +110,7 @@ fun View.goneWithAnimation() {
     if (this.visibility == View.VISIBLE) {
         this.animate()
             .alpha(0f)
-            .setDuration(550)
+            .setDuration(250)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     this@goneWithAnimation.visibility = View.GONE

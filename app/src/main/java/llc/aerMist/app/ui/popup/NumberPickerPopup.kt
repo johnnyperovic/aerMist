@@ -63,7 +63,6 @@ class NumberPickerPopup : DialogFragment() {
                 .putExtra("suspend", suspend)
             requireParentFragment().onActivityResult(1, Activity.RESULT_OK, i)
             dialog?.dismiss()
-
             //   return@setOnClickListener
         }
         builder.setView(dialogView)

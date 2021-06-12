@@ -1203,6 +1203,7 @@ color primary_text_default_material_dark
 color primary_text_default_material_light
 color primary_text_disabled_material_dark
 color primary_text_disabled_material_light
+color purple
 color radiobutton_themeable_attribute_color
 color ripple_material_dark
 color ripple_material_light
@@ -1746,6 +1747,7 @@ drawable orange_image2
 drawable orange_line
 drawable orange_radius_8
 drawable preference_list_divider_material
+drawable purple_round_view
 drawable radius_16_
 drawable rain_img
 drawable rain_jpg
@@ -1828,6 +1830,7 @@ id action_container
 id action_context_bar
 id action_divider
 id action_image
+id action_menage_devices_to_set_device
 id action_menu_divider
 id action_menu_presenter
 id action_mode_bar
@@ -1836,6 +1839,7 @@ id action_mode_close_button
 id action_my_devices_to_main_fragment
 id action_my_devices_to_search_devices
 id action_schedule_to_set_schedule_fragment
+id action_set_device_to_set_schedule_fragment
 id action_set_schedule_to_home_fragment
 id action_splashFragment_to_welcomeFragment
 id action_text
@@ -1844,6 +1848,7 @@ id action_welcome_to_searchFragment
 id actions
 id activeDays
 id activeTv
+id activeValue
 id activity_chooser_view_content
 id add
 id addBtn
@@ -1885,6 +1890,7 @@ id cancelBtn
 id cancelDialog
 id cancel_action
 id cancel_button
+id carViewDevice
 id carViewHome
 id center
 id center_horizontal
@@ -1941,6 +1947,7 @@ id direct
 id disableHome
 id disablePostScroll
 id disableScroll
+id disconectBtn
 id dotColor
 id dragDown
 id dragEnd
@@ -1966,6 +1973,8 @@ id fill
 id fill_horizontal
 id fill_vertical
 id filled
+id filterTv
+id filterValue
 id firstCardView
 id firstDevice
 id firstDeviceActiveHours
@@ -2067,6 +2076,7 @@ id month_navigation_next
 id month_navigation_previous
 id month_title
 id motionLayout
+id motionLayoutDevice
 id motion_base
 id mtrl_calendar_day_selector_frame
 id mtrl_calendar_days_of_week
@@ -2191,6 +2201,7 @@ id seekbar
 id seekbar_value
 id select_dialog_listview
 id selected
+id setDeviceFragment
 id setScheduleFragment
 id shortcut
 id showCustom
@@ -2414,6 +2425,7 @@ layout fragment_main
 layout fragment_non_stop
 layout fragment_number_picker_popup
 layout fragment_schedule
+layout fragment_set_device
 layout fragment_set_schedule
 layout fragment_set_time_popup
 layout fragment_splash
@@ -2535,6 +2547,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string active
+string active_
 string active_days
 string add
 string add_device
@@ -2563,6 +2576,7 @@ string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string filter
+string filter_
 string fr
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior

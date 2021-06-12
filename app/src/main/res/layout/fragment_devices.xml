@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="47dp"
-            android:src="@drawable/green_dot" />
+            android:src="@drawable/red_dot" />
 
         <TextView
             android:id="@+id/firstDeviceState"
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="42dp"
-            android:text="@string/online"
+            android:text="@string/offline"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="47dp"
-            android:src="@drawable/green_dot" />
+            android:src="@drawable/red_dot" />
 
         <TextView
             android:id="@+id/secondDeviceState"
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="42dp"
-            android:text="Online"
+            android:text="@string/offline"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -184,7 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="47dp"
-            android:src="@drawable/green_dot" />
+            android:src="@drawable/red_dot" />
 
         <TextView
             android:id="@+id/thirdDeviceState"
@@ -192,7 +192,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="42dp"
-            android:text="Online"
+            android:text="@string/offline"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -251,7 +251,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="47dp"
-            android:src="@drawable/green_dot" />
+            android:src="@drawable/red_dot" />
 
         <TextView
             android:id="@+id/fourthDeviceState"
@@ -259,7 +259,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
             android:layout_marginTop="42dp"
-            android:text="Online"
+            android:text="@string/offline"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 

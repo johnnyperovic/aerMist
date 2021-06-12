@@ -3,10 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-// TODO: Uncomment if using Crashlytics/Google services, delete if not
-// apply plugin: 'com.google.gms.google-services'
 // apply plugin: 'com.google.firebase.crashlytics'
-
 // TODO: Change application name
 String appName = "aerMist"
 
@@ -60,7 +57,6 @@ android {
             }
         }
     }
-
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {

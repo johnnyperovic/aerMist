@@ -59,4 +59,6 @@
     <string name="start_global_mode">these devices are already running in their individual modes. Starting this global mode will stop their current mode.</string>
     <string name="offline">Offline</string>
     <string name="online">Online</string>
+    <string name="active_">Active:</string>
+    <string name="filter_">Filter:</string>
 </resources>

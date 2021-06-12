@@ -20,13 +20,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.clj.fastble.callback.BleGattCallback
-import com.clj.fastble.callback.BleNotifyCallback
-import com.clj.fastble.callback.BleScanCallback
 import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_devices.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.bleBg
 import kotlinx.android.synthetic.main.fragment_home.btnEdit
@@ -37,8 +35,6 @@ import kotlinx.android.synthetic.main.fragment_home.mistValue
 import kotlinx.android.synthetic.main.fragment_home.standbyTv
 import kotlinx.android.synthetic.main.fragment_home.suspendTv
 import kotlinx.android.synthetic.main.fragment_home.suspendValue
-import kotlinx.android.synthetic.main.fragment_interval.*
-import kotlinx.android.synthetic.main.my_devices_fragment.*
 import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
 import llc.aerMist.app.models.BytePayload
@@ -74,15 +70,25 @@ class HomeFragment : Fragment(), View.OnClickListener {
     val byteArrayON = "EE0100.".toByteArray(charset)
     val byteArrayOF = "EE0101.".toByteArray(charset)
     var allDevices = 0
+    private var bleList = ArrayList<BleDevice>()
     private lateinit var payload: BytePayload
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         setClickListener()
         setNonStopView()
         setMotionLayoutListener()
         setTouchSwipeListener()
+
+        allDevices =
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+        if (allDevices > 0) {
+            bleList =
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
+        }
         setFirstDevice()
         setSecondDevice()
         initBleConroller()
@@ -96,102 +102,111 @@ class HomeFragment : Fragment(), View.OnClickListener {
             Log.e("D", "TWO " + two)
             Log.e("D", "THREE " + three)
             Log.e("D", "FOUR " + four)
-            if (one.toInt() > 0)
-            {
-                startAnimation()
-            }
+//            if (one.toInt() > 0) {
+//                startAnimation()
+//            }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
-        Log.e(
-            "D",
-            "broj konektovanih  uredjaja " + connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
-        )
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    fun setFirstDevice() {
+        val deviceOne = prefs.firstDevice
+        if (deviceOne.length > 1) {
+            val gson = Gson()
+            val deviceOneObj: MyDevice
+            deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
+            var i = 0
+            for (item in bleList) {
+                Log.e("D", "item " + item)
+                Log.e("D", "deviceObjName " + deviceOneObj.name)
+
+                if (deviceOneObj.name == item.name) {
+                    firstBleDevice = item
+                    firstGate =
+                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
+                            firstBleDevice
+                        )!!
+                    return
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         allDevices =
             connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-        if (allDevices == 1) {
-            firstBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    0
-                )!!
-            firstGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    firstBleDevice
-                )!!
-        } else if (allDevices == 2) {
-            firstBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    0
-                )!!
-            firstGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    firstBleDevice
-                )!!
-            secondBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    1
-                )!!
-            secondGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    secondBleDevice
-                )!!
-        } else if (allDevices == 3) {
-            firstBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    0
-                )!!
-            firstGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    firstBleDevice
-                )!!
-            secondBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    1
-                )!!
-            secondGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    secondBleDevice
-                )!!
-            thirdBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    2
-                )!!
-            thirdGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    thirdBleDevice
-                )!!
-        } else if (allDevices == 4) {
-            firstBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    0
-                )!!
-            firstGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    firstBleDevice
-                )!!
-            secondBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    1
-                )!!
-            secondGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    secondBleDevice
-                )!!
-            thirdBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    2
-                )!!
-            thirdGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    thirdBleDevice
-                )!!
-            fourthBleDevice =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                    3
-                )!!
-            fourthGate =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                    fourthBleDevice
-                )!!
+        if (allDevices > 0) {
+            bleList =
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
+        }
+        setFirstDevice()
+        setSecondDevice()
+    }
+
+    fun setSecondDevice() {
+        val deviceTwo = prefs.secondDevice
+        if (deviceTwo.length > 1) {
+            val gson = Gson()
+            val deviceTwoObj: MyDevice
+            deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
+            for (item in bleList) {
+                if (deviceTwoObj.name == item.name) {
+                    secondBleDevice = item
+                    secondGate =
+                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
+                            secondBleDevice
+                        )!!
+                    return
+                }
+            }
+        }
+    }
+
+    fun setThirdDevice() {
+        val deviceThree = prefs.thirdDevice
+        if (deviceThree.length > 1) {
+            val gson = Gson()
+            val deviceThreeObj: MyDevice
+            deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
+            for (item in bleList) {
+                if (deviceThreeObj.name == item.name) {
+                    thirdBleDevice = item
+                    thirdGate =
+                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
+                            thirdBleDevice
+                        )!!
+                    return
+                }
+            }
+        }
+    }
+
+    fun setFourthDevice() {
+        val deviceFour = prefs.fourthDevice
+        if (deviceFour.length > 1) {
+            val gson = Gson()
+            val deviceFourObj: MyDevice
+            deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
+            for (item in bleList) {
+                if (deviceFourObj.name == item.name) {
+                    fourthBleDevice = item
+                    fourthGate =
+                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
+                            fourthBleDevice
+                        )!!
+                    return
+                }
+            }
         }
     }
 
@@ -283,13 +298,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
-    }
 
     fun setClickListener() {
         nonStopImg.setOnClickListener(this)
@@ -304,7 +312,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setTabItemVisibility(state: Boolean) {
         if (state) {
-            btnStart.text = getString(R.string.stop)
             intervalImg.hideWithAnimation()
             intervalTv.hideWithAnimation()
             scheduleImg.hideWithAnimation()
@@ -321,7 +328,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             suspendValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             firstLine.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
         } else {
-            btnStart.text = getString(R.string.stop)
             intervalImg.showWithAnimation()
             intervalTv.showWithAnimation()
             scheduleImg.showWithAnimation()
@@ -367,10 +373,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
             btnStart -> {
                 Log.e("D", "TAG " + tag)
-                if (tag == 2) {
+                if (tag == 0) {
                     startAnimation()
+                    sendOnOfCommand()
                 } else {
-                    showDialog()
+                    //showDialog()
                 }
             }
             btnEdit -> {
@@ -385,10 +392,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun turnOnOFDevice(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
+        val pos = gatt.services.size - 1
         bluetoothController.writeCommand(
             bleDevice,
             input,
-            gatt.services.get(2).characteristics.get(0)
+            gatt.services.get(pos).characteristics.get(0)
         )
     }
 
@@ -496,7 +504,94 @@ class HomeFragment : Fragment(), View.OnClickListener {
         guideline.setGuidelinePercent(0.65f)
     }
 
+    fun sendOnOfCommand() {
+        if (tag == 0) {
+            if (allDevices == 1) {
+
+                if (btnStart.tag == "start") {
+                    if (firstBleDevice != null)     turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                    btnStart.tag = "stop"
+                } else {
+                    if (firstBleDevice != null)   turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
+                    btnStart.tag = "start"
+                }
+            } else if (allDevices == 2) {
+                if (btnStart.tag == "start") {
+                    if (firstBleDevice != null) turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                    if (secondBleDevice != null) turnOnOFDevice(
+                        byteArrayON,
+                        secondBleDevice,
+                        secondGate
+                    )
+                    btnStart.tag = "stop"
+                } else {
+                    if (firstBleDevice != null) turnOnOFDevice(
+                        byteArrayOF,
+                        firstBleDevice,
+                        firstGate
+                    )
+                    if (secondBleDevice != null) turnOnOFDevice(
+                        byteArrayOF,
+                        secondBleDevice,
+                        secondGate
+                    )
+                    btnStart.tag = "start"
+                }
+            }
+        }
+        if (tag == 1) {
+            if (allDevices == 1) {
+                if (btnStart.tag == "start") {
+                    if (firstBleDevice.name != null) turnOnOFDevice(
+                        byteArrayON,
+                        firstBleDevice,
+                        firstGate
+                    )
+                    btnStart.tag = "stop"
+                } else {
+                    if (firstBleDevice.name != null) turnOnOFDevice(
+                        byteArrayOF,
+                        firstBleDevice,
+                        firstGate
+                    )
+                    btnStart.tag = "start"
+                }
+            } else if (allDevices == 2) {
+                if (btnStart.tag == "start") {
+                    if (firstBleDevice.name != null) turnOnOFDevice(
+                        byteArrayON,
+                        firstBleDevice,
+                        firstGate
+                    )
+                    if (secondBleDevice.name != null) turnOnOFDevice(
+                        byteArrayON,
+                        secondBleDevice,
+                        secondGate
+                    )
+                    btnStart.tag = "stop"
+                } else {
+                    if (firstBleDevice.name != null) turnOnOFDevice(
+                        byteArrayOF,
+                        firstBleDevice,
+                        firstGate
+                    )
+                    if (secondBleDevice.name != null) turnOnOFDevice(
+                        byteArrayOF,
+                        secondBleDevice,
+                        secondGate
+                    )
+                    btnStart.tag = "start"
+                }
+            }
+        }
+    }
+
     fun startAnimation() {
+        if (btnStart.tag == "start") {
+            setTabItemVisibility(true)
+        } else {
+            setTabItemVisibility(false)
+        }
         motionLayout.transitionToEnd()
         motionLayout.transitionToStart()
         when (tag) {
@@ -528,11 +623,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 )
             }
         }
-        if (intervalImg.visibility == View.VISIBLE) {
-            setTabItemVisibility(true)
-        } else {
-            setTabItemVisibility(false)
-        }
     }
 
     private fun showDialog() {
@@ -556,7 +646,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             subTitle.text = resources.getString(R.string.device_are_offline)
         }
         startBtn.setOnClickListener {
-          //  startAnimation()
+            //  startAnimation()
             if (tag == 0) {
                 if (allDevices == 1) {
                     if (btnStart.tag == "start") {
@@ -610,30 +700,31 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    //BLUETOOTH CONTROLL
-    fun setFirstDevice() {
-        val deviceOne = prefs.firstDevice
-        if (deviceOne.length > 1) {
-            val gson = Gson()
-            val deviceOneObj: MyDevice
-            deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
-            firstDevice = deviceOneObj.name
-        }
-    }
-
-    fun setSecondDevice() {
-        val deviceTwo = prefs.secondDevice
-        if (deviceTwo.length > 1) {
-            val gson = Gson()
-            val deviceTwoObj: MyDevice
-            deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
-            secondDevice = deviceTwoObj.name
-        }
-    }
+//    //BLUETOOTH CONTROLL
+//    fun setFirstDevice() {
+//        val deviceOne = prefs.firstDevice
+//        if (deviceOne.length > 1) {
+//            val gson = Gson()
+//            val deviceOneObj: MyDevice
+//            deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
+//            firstDevice = deviceOneObj.name
+//        }
+//    }
+//
+//    fun setSecondDevice() {
+//        val deviceTwo = prefs.secondDevice
+//        if (deviceTwo.length > 1) {
+//            val gson = Gson()
+//            val deviceTwoObj: MyDevice
+//            deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
+//            secondDevice = deviceTwoObj.name
+//        }
+//    }
 
     fun initBleConroller() {
         bluetoothController =
             BluetoothController(
+                null,
                 null,
                 null,
                 null,
@@ -649,12 +740,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         bluetoothController.bluetoothAdapter.startDiscovery()
         connectionStateCoordinator.isDeviceConnected = false
         bluetoothController.bluetoothManager.init(requireActivity().application)
-//        val scanRuleConfig = BleScanRuleConfig.Builder()
-//            .setAutoConnect(true)
-//            .setScanTimeOut(10000)
-//            .build()
-//        BleManager.getInstance().initScanRule(scanRuleConfig)
-//  bluetoothController.bluetoothManager.cancelScan()
+
         connectionStateCoordinator.listBleDevices.clear()
         bluetoothController.startScan()
 
@@ -672,112 +758,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
 
-//    private val notifyCallback = object : BleNotifyCallback() {
-//        override fun onNotifySuccess() {
-//            Log.e("d", "USPJESNO ")
-//        }
-//
-//        override fun onNotifyFailure(exception: BleException) {
-//            Log.e("d", " onNotifyFailure $exception")
-//        }
-//
-//        override fun onCharacteristicChanged(data: ByteArray) {
-//
-//            var newData: UIntArray = UIntArray(data.size)
-//            for ((index, byte) in data.withIndex()) {
-//                Log.e("D", "ByteArray " + index + "." + byte)
-//            }
-//            for ((index, byte) in data.withIndex()) {
-//                newData[index] = byte.toUInt()
-//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
-//            }
-//            startAnimation()
-//            if (allDevices == 2) {
-//                readSecondResponse()
-//            }
-//            //     connectionStateCoordinator.bluetoothByteArray.value = newData
-//            var i = 0
-////            var dataList = ArrayList<Int>()
-//            // val idArray: Array<Byte> = arrayOf(data[5], data[6], data[7], data[8])
-//        }
-//    }
-
-    fun readResponse() {
-        Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
-        for (service in firstGate.services) {
-            if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
-
-                if (service.characteristics.get(0).uuid.toString()
-                        .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                ) {
-                    bluetoothController.blueGattAdapter.addResult(service)
-                    Log.e(
-                        "d",
-                        "SERVICE characteristics descriptors " + service.characteristics.get(
-                            0
-                        ).descriptors
-                    )
-                }
-            }
-        }
-        bluetoothController.bleDeviceMain = firstBleDevice
-        connectionStateCoordinator.gatt = firstGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
-
-        if (bluetoothController.blueGattAdapter.getCount() > 0) {
-            val service = bluetoothController.blueGattAdapter.getItem(0)
-            bluetoothController.readNotification(
-                bluetoothController.bleDeviceMain,
-                service?.characteristics!!.get(0)
-            )
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "Notifications faild",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
-
-    fun readSecondResponse() {
-        Log.e("D", "onConnectSuccess SERVICE SIZE " + secondGate.services.size)
-        for (service in secondGate.services) {
-            if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
-
-                if (service.characteristics.get(0).uuid.toString()
-                        .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                ) {
-                    bluetoothController.blueGattAdapter.addResult(service)
-                    Log.e(
-                        "d",
-                        "SERVICE characteristics descriptors " + service.characteristics.get(
-                            0
-                        ).descriptors
-                    )
-                }
-            }
-        }
-        bluetoothController.bleDeviceMain = secondBleDevice
-        connectionStateCoordinator.gatt = secondGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
-
-        if (bluetoothController.blueGattAdapter.getCount() > 0) {
-            val service = bluetoothController.blueGattAdapter.getItem(0)
-            bluetoothController.readNotification(
-                bluetoothController.bleDeviceMain,
-                service?.characteristics!!.get(0)
-            )
-
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "Notifications faild",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
 }
 
 

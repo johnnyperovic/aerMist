@@ -54,7 +54,7 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setDeviceNamaFromDb()
         bluetoothController =
-            BluetoothController(null, null, scanCallback, null, requireContext())
+            BluetoothController(null, null,null,scanCallback, null, requireContext())
         bluetoothController.bluetoothManager
             .enableLog(true)
             .setReConnectCount(1, 4000)
