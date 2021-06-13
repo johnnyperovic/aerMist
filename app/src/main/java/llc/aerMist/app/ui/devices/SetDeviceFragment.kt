@@ -137,7 +137,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             btnStart -> {
                 Log.e("D", "TAG " + tag)
-                if (btnStart.tag == "start") {
+                btnStart.isEnabled=false
+                if (intervalImg.visibility == View.VISIBLE) {
                     setTabItemVisibility(true)
                 } else {
                     setTabItemVisibility(false)
@@ -161,7 +162,6 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 constraintSet: Int,
                 p2: Int
             ) {
-
             }
 
             override fun onTransitionChange(
@@ -170,16 +170,17 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 p2: Int,
                 p3: Float
             ) {
-
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, constraintSet: Int) {
                 if (constraintSet == R.id.start) {
                     btnStart.setBackgroundResource(R.drawable.blue_radius_8)
                     btnStart.text = getString(R.string.start)
+                    btnStart.isEnabled=true
                 } else {
                     btnStart.setBackgroundResource(R.drawable.container_light_blue)
                     btnStart.text = getString(R.string.stop)
+                    btnStart.isEnabled=true
                 }
             }
 

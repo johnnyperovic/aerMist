@@ -280,9 +280,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 if (constraintSet == R.id.start) {
                     btnStart.setBackgroundResource(R.drawable.blue_radius_8)
                     btnStart.text = getString(R.string.start)
+                    btnStart.isEnabled=true
                 } else {
                     btnStart.setBackgroundResource(R.drawable.container_light_blue)
                     btnStart.text = getString(R.string.stop)
+                    btnStart.isEnabled=true
                 }
             }
 
@@ -374,6 +376,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             btnStart -> {
                 Log.e("D", "TAG " + tag)
                 if (tag == 0) {
+                    btnStart.isEnabled=false
                     startAnimation()
                     sendOnOfCommand()
                 } else {
@@ -509,7 +512,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (allDevices == 1) {
 
                 if (btnStart.tag == "start") {
-                    if (firstBleDevice != null)     turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                    if (firstBleDevice != null)  {   turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)}
                     btnStart.tag = "stop"
                 } else {
                     if (firstBleDevice != null)   turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
@@ -587,7 +590,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun startAnimation() {
-        if (btnStart.tag == "start") {
+        if (intervalImg.visibility == View.VISIBLE) {
             setTabItemVisibility(true)
         } else {
             setTabItemVisibility(false)
@@ -724,6 +727,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
     fun initBleConroller() {
         bluetoothController =
             BluetoothController(
+                null,
+                null,
                 null,
                 null,
                 null,

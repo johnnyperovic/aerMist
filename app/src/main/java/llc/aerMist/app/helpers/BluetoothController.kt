@@ -21,6 +21,8 @@ import kotlin.collections.ArrayList
 class BluetoothController(
     val notifyCallback: BleNotifyCallback?,
     val notifyCallback2: BleNotifyCallback?,
+    val notifyCallback3: BleNotifyCallback?,
+    val notifyCallback4: BleNotifyCallback?,
     val gattCallback: BleGattCallback?,
     val scanCallback: BleScanCallback?,
     val writeCallback: BleWriteCallback?,
@@ -56,6 +58,26 @@ class BluetoothController(
         }
     }
 
+    fun readNotification3(bleDevice: BleDevice?, characteristic: BluetoothGattCharacteristic) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            bluetoothManager.notify(
+                bleDevice,
+                characteristic.service?.uuid.toString(),
+                characteristic.uuid.toString(),
+                notifyCallback3
+            )
+        }
+    }
+    fun readNotification4(bleDevice: BleDevice?, characteristic: BluetoothGattCharacteristic) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            bluetoothManager.notify(
+                bleDevice,
+                characteristic.service?.uuid.toString(),
+                characteristic.uuid.toString(),
+                notifyCallback4
+            )
+        }
+    }
     fun writeCommand(bleDevice: BleDevice,input: ByteArray, characteristic: BluetoothGattCharacteristic) {
 
         bluetoothManager.write(

@@ -1,5 +1,7 @@
 package llc.aerMist.app.ui.popup
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -18,7 +20,7 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 
 
-class AddDevicePopup(val device: BleDevice,val isFromSearch: Boolean) : DialogFragment() {
+class RenameDevicePopup(val device: BleDevice,val position:Int) : DialogFragment() {
     private val prefs: PreferenceCache by inject()
 
 
@@ -38,8 +40,9 @@ class AddDevicePopup(val device: BleDevice,val isFromSearch: Boolean) : DialogFr
 
         val dialogView: View = inflater.inflate(R.layout.add_device_popup, container, false)
         dialogView.deviceId.text = device.name
+        dialogView.addBtn.text = resources.getString(R.string.rename)
         dialogView.cancelBtn.setOnClickListener {
-         //   prefs.clear()
+            //   prefs.clear()
             dialog?.dismiss()
         }
         dialogView.addBtn.setOnClickListener {
@@ -53,30 +56,25 @@ class AddDevicePopup(val device: BleDevice,val isFromSearch: Boolean) : DialogFr
             val newDevice = MyDevice(device.name, newName,device,false)
 
             val json = gson.toJson(newDevice)
-            if (prefs.firstDevice.length > 0 && prefs.secondDevice.length > 0 && prefs.thirdDevice.length > 0 && prefs.fourthDevice.length == 0) {
-                prefs.fourthDevice = json
-            } else if (prefs.firstDevice.length > 0 && prefs.secondDevice.length > 0 && prefs.thirdDevice.length == 0) {
-                prefs.thirdDevice = json
-            } else if (prefs.firstDevice.length > 0 && prefs.secondDevice.length == 0) {
-                prefs.secondDevice = json
-            }
-            if (prefs.firstDevice.length == 0) {
-                prefs.firstDevice = json
-            }
-            if (isFromSearch)
+            when(position)
             {
-                navigateToMyDevices()
+                0->prefs.firstDevice = json
+                1->prefs.secondDevice = json
+                2->prefs.thirdDevice = json
+                3->prefs.fourthDevice = json
             }
-            else{
-                dialog?.dismiss()
-            }
+            val i: Intent = Intent()
+                .putExtra("name", newName)
+                .putExtra("position", position)
+            requireParentFragment().onActivityResult(1, Activity.RESULT_OK, i)
+            dialog?.dismiss()
         }
         builder.setView(dialogView)
         return dialogView
     }
 
     private fun navigateToMyDevices() {
-        findNavController().navigate(R.id.action_available_devices_to_my_devices)
+        findNavController().navigate(R.id.action_dialog_to_my_devices)
     }
 
     override fun onStart() {

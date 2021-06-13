@@ -54,7 +54,7 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setDeviceNamaFromDb()
         bluetoothController =
-            BluetoothController(null, null,null,scanCallback, null, requireContext())
+            BluetoothController(null, null,null,null,null,scanCallback, null, requireContext())
         bluetoothController.bluetoothManager
             .enableLog(true)
             .setReConnectCount(1, 4000)
@@ -144,7 +144,7 @@ class SearchFragment : Fragment() {
         bluetoothController.bluetoothManager.cancelScan()
         deviceName = device.name
         Log.e("D", "Device name " + device.name)
-        addDeviceDialog = AddDevicePopup(device)
+        addDeviceDialog = AddDevicePopup(device,false)
         addDeviceDialog.isCancelable = false
         addDeviceDialog.show(childFragmentManager, "")
     }

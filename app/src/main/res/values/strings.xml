@@ -61,4 +61,7 @@
     <string name="online">Online</string>
     <string name="active_">Active:</string>
     <string name="filter_">Filter:</string>
+    <string name="rename">Rename</string>
+    <string name="reset_filter">Reset filter</string>
+    <string name="remove_device">Remove device</string>
 </resources>

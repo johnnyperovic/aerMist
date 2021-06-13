@@ -13,7 +13,7 @@ object NewObservableCoordinator {
     var firstGatt : BluetoothGatt? = null
     var secondGatt : BluetoothGatt? = null
     var thirdGatt : BluetoothGatt? = null
-    var fourtGatt : BluetoothGatt? = null
+    var fourthGatt : BluetoothGatt? = null
     var gatt : BluetoothGatt? = null
     var bluetoothController : BluetoothController? = null
     var isDeviceConnected = false
