@@ -10,8 +10,8 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 44,
-      "versionName": "0.0.44",
+      "versionCode": 45,
+      "versionName": "0.0.45",
       "outputFile": "resources-localApiDebug.ap_"
     }
   ]

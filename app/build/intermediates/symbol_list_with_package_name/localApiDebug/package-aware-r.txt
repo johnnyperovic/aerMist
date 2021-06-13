@@ -1828,6 +1828,7 @@ id action_bar_subtitle
 id action_bar_title
 id action_container
 id action_context_bar
+id action_dialog_to_my_devices
 id action_divider
 id action_image
 id action_menage_devices_to_set_device
@@ -1881,7 +1882,6 @@ id btnAddNewDevice
 id btnCancel
 id btnDone
 id btnEdit
-id btnOnOf
 id btnResetApp
 id btnSearch
 id btnStart
@@ -1983,6 +1983,7 @@ id firstDeviceState
 id firstDotColor
 id firstInfoDots
 id firstLine
+id firstPopup
 id firstProgressBar
 id fitToContents
 id fixed
@@ -1997,6 +1998,8 @@ id fourthDeviceState
 id fourthDotColor
 id fourthInfoDots
 id fourthMiddleLine
+id fourthPopup
+id fourthProgressBar
 id fourthStartTimeValue
 id fourthStopTimeValue
 id fragment_container_view_tag
@@ -2055,6 +2058,7 @@ id logo
 id lottie_layer_name
 id maiBlueBg
 id mainFragment
+id mainLayout
 id main_nav_graph
 id masked
 id media_actions
@@ -2149,7 +2153,19 @@ id rainImg
 id ratio
 id rectangles
 id recycler_view
+id removeFirstDevice
+id removeFourthDevice
+id removeSecondDevice
+id removeThirdDevice
+id renameFirstDevice
+id renameFourthDevice
+id renameSecondDevice
+id renameThirdDevice
 id resetBtn
+id resetFirstFilter
+id resetFourthFilter
+id resetSecondFilter
+id resetThirdFilter
 id restart
 id reverse
 id reverseSawtooth
@@ -2193,7 +2209,7 @@ id secondDotColor
 id secondInfoDots
 id secondLine
 id secondMiddleLine
-id secondOnOfBtn
+id secondPopup
 id secondProgressBar
 id secondStartTimeValue
 id secondStopTimeValue
@@ -2294,6 +2310,8 @@ id thirdDeviceState
 id thirdDotColor
 id thirdInfoDots
 id thirdMiddleLine
+id thirdPopup
+id thirdProgressBar
 id thirdStartTimeValue
 id thirdStopTimerValue
 id thursday
@@ -2645,8 +2663,11 @@ string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
 string preference_copied
+string remove_device
+string rename
 string reset
 string reset_app
+string reset_filter
 string sa
 string save
 string schedule
