@@ -93,9 +93,13 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             val four = payload.four
             val five = payload.five
 
-            response = one + "" + two + "" + three + "" + four+""+five
+            response = one + "" + two + "" + three + "" + four + "" + five
             Log.e("D", "RESPONSE " + response)
-            checkResponse(response)
+            if (tag == 0) {
+                checkNonStopResponse(response)
+            } else {
+                checkIntervalResponse(response)
+            }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
 
@@ -118,7 +122,15 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_set_device, container, false)
     }
 
-    fun checkResponse(response: String) {
+    fun checkNonStopResponse(response: String) {
+        when (response) {
+            "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
+            "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayOF, it1, it) } }
+        }
+    }
+
+    fun checkIntervalResponse(response: String) {
         when (response) {
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalMo, it1, it) } }
@@ -347,14 +359,6 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         gatt?.let { it1 ->
                             sendCommand(
                                 nonStopOn, it,
-                                it1
-                            )
-                        }
-                    }
-                    bleDevice?.let {
-                        gatt?.let { it1 ->
-                            sendCommand(
-                                byteArrayON, it,
                                 it1
                             )
                         }
