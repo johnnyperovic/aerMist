@@ -91,8 +91,9 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             val two = payload.two
             val three = payload.three
             val four = payload.four
+            val five = payload.five
 
-            response = one + "" + two + "" + three + "" + four
+            response = one + "" + two + "" + three + "" + four+""+five
             Log.e("D", "RESPONSE " + response)
             checkResponse(response)
         }
