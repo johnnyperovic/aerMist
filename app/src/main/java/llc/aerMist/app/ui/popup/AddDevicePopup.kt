@@ -18,7 +18,7 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 
 
-class AddDevicePopup(val device: BleDevice,val isFromSearch: Boolean) : DialogFragment() {
+class AddDevicePopup(val device: BleDevice) : DialogFragment() {
     private val prefs: PreferenceCache by inject()
 
 
@@ -63,13 +63,8 @@ class AddDevicePopup(val device: BleDevice,val isFromSearch: Boolean) : DialogFr
             if (prefs.firstDevice.length == 0) {
                 prefs.firstDevice = json
             }
-            if (isFromSearch)
-            {
                 navigateToMyDevices()
-            }
-            else{
                 dialog?.dismiss()
-            }
         }
         builder.setView(dialogView)
         return dialogView

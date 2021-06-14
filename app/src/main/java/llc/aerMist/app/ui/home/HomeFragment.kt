@@ -57,14 +57,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
     var secondDevice: String = ""
     var thirdDevice: String = ""
     var fourthDevice: String = ""
-    lateinit var firstBleDevice: BleDevice
-    lateinit var secondBleDevice: BleDevice
-    lateinit var thirdBleDevice: BleDevice
-    lateinit var fourthBleDevice: BleDevice
-    lateinit var firstGate: BluetoothGatt
-    lateinit var secondGate: BluetoothGatt
-    lateinit var thirdGate: BluetoothGatt
-    lateinit var fourthGate: BluetoothGatt
+     var firstBleDevice: BleDevice?=null
+     var secondBleDevice: BleDevice?=null
+     var thirdBleDevice: BleDevice?=null
+     var fourthBleDevice: BleDevice?=null
+     var firstGate: BluetoothGatt?=null
+     var secondGate: BluetoothGatt?=null
+     var thirdGate: BluetoothGatt?=null
+     var fourthGate: BluetoothGatt?=null
     private var isFirstDevice = true
     val charset = Charsets.UTF_8
     val byteArrayON = "EE0100.".toByteArray(charset)
@@ -92,22 +92,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         setFirstDevice()
         setSecondDevice()
         initBleConroller()
-        val observer = Observer<UIntArray> {
-            payload = BytePayload(it)
-            val one = payload.one
-            val two = payload.two
-            val three = payload.three
-            val four = payload.four
-            Log.e("D", "ONE " + one)
-            Log.e("D", "TWO " + two)
-            Log.e("D", "THREE " + three)
-            Log.e("D", "FOUR " + four)
-//            if (one.toInt() > 0) {
-//                startAnimation()
-//            }
-        }
-        connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
-
     }
 
     override fun onCreateView(
@@ -280,11 +264,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 if (constraintSet == R.id.start) {
                     btnStart.setBackgroundResource(R.drawable.blue_radius_8)
                     btnStart.text = getString(R.string.start)
-                    btnStart.isEnabled=true
+                    btnStart.isEnabled = true
                 } else {
                     btnStart.setBackgroundResource(R.drawable.container_light_blue)
                     btnStart.text = getString(R.string.stop)
-                    btnStart.isEnabled=true
+                    btnStart.isEnabled = true
                 }
             }
 
@@ -376,9 +360,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
             btnStart -> {
                 Log.e("D", "TAG " + tag)
                 if (tag == 0) {
-                    btnStart.isEnabled=false
-                    startAnimation()
+                    btnStart.isEnabled = false
                     sendOnOfCommand()
+                    startAnimation()
                 } else {
                     //showDialog()
                 }
@@ -512,80 +496,50 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (allDevices == 1) {
 
                 if (btnStart.tag == "start") {
-                    if (firstBleDevice != null)  {   turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)}
+                    firstBleDevice?.let { firstGate?.let { it1 ->
+                        turnOnOFDevice(byteArrayON, it,
+                            it1
+                        )
+                    } }
                     btnStart.tag = "stop"
                 } else {
-                    if (firstBleDevice != null)   turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
+                    firstBleDevice?.let { firstGate?.let { it1 ->
+                        turnOnOFDevice(byteArrayOF, it,
+                            it1
+                        )
+                    } }
                     btnStart.tag = "start"
                 }
             } else if (allDevices == 2) {
                 if (btnStart.tag == "start") {
-                    if (firstBleDevice != null) turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
-                    if (secondBleDevice != null) turnOnOFDevice(
-                        byteArrayON,
-                        secondBleDevice,
-                        secondGate
-                    )
+                    firstBleDevice?.let { firstGate?.let { it1 ->
+                        turnOnOFDevice(byteArrayON, it,
+                            it1
+                        )
+                    } }
+                    secondBleDevice?.let { secondGate?.let { it1 ->
+                        turnOnOFDevice(byteArrayON, it,
+                            it1
+                        )
+                    } }
                     btnStart.tag = "stop"
                 } else {
-                    if (firstBleDevice != null) turnOnOFDevice(
-                        byteArrayOF,
-                        firstBleDevice,
-                        firstGate
-                    )
-                    if (secondBleDevice != null) turnOnOFDevice(
-                        byteArrayOF,
-                        secondBleDevice,
-                        secondGate
-                    )
+                    firstBleDevice?.let { firstGate?.let { it1 ->
+                        turnOnOFDevice(byteArrayOF, it,
+                            it1
+                        )
+                    } }
+                    secondBleDevice?.let { secondGate?.let { it1 ->
+                        turnOnOFDevice(byteArrayOF, it,
+                            it1
+                        )
+                    } }
                     btnStart.tag = "start"
                 }
             }
         }
         if (tag == 1) {
-            if (allDevices == 1) {
-                if (btnStart.tag == "start") {
-                    if (firstBleDevice.name != null) turnOnOFDevice(
-                        byteArrayON,
-                        firstBleDevice,
-                        firstGate
-                    )
-                    btnStart.tag = "stop"
-                } else {
-                    if (firstBleDevice.name != null) turnOnOFDevice(
-                        byteArrayOF,
-                        firstBleDevice,
-                        firstGate
-                    )
-                    btnStart.tag = "start"
-                }
-            } else if (allDevices == 2) {
-                if (btnStart.tag == "start") {
-                    if (firstBleDevice.name != null) turnOnOFDevice(
-                        byteArrayON,
-                        firstBleDevice,
-                        firstGate
-                    )
-                    if (secondBleDevice.name != null) turnOnOFDevice(
-                        byteArrayON,
-                        secondBleDevice,
-                        secondGate
-                    )
-                    btnStart.tag = "stop"
-                } else {
-                    if (firstBleDevice.name != null) turnOnOFDevice(
-                        byteArrayOF,
-                        firstBleDevice,
-                        firstGate
-                    )
-                    if (secondBleDevice.name != null) turnOnOFDevice(
-                        byteArrayOF,
-                        secondBleDevice,
-                        secondGate
-                    )
-                    btnStart.tag = "start"
-                }
-            }
+
         }
     }
 
@@ -653,20 +607,44 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (tag == 0) {
                 if (allDevices == 1) {
                     if (btnStart.tag == "start") {
-                        turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
+                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
+                            turnOnOFDevice(byteArrayON, it1,
+                                it2
+                            )
+                        } }
                         btnStart.tag = "stop"
                     } else {
-                        turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
+                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
+                            turnOnOFDevice(byteArrayOF, it1,
+                                it2
+                            )
+                        } }
                         btnStart.tag = "start"
                     }
                 } else if (allDevices == 2) {
                     if (btnStart.tag == "start") {
-                        turnOnOFDevice(byteArrayON, firstBleDevice, firstGate)
-                        turnOnOFDevice(byteArrayON, secondBleDevice, secondGate)
+                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
+                            turnOnOFDevice(byteArrayON, it1,
+                                it2
+                            )
+                        } }
+                        secondBleDevice?.let { it1 -> secondGate?.let { it2 ->
+                            turnOnOFDevice(byteArrayON, it1,
+                                it2
+                            )
+                        } }
                         btnStart.tag = "stop"
                     } else {
-                        turnOnOFDevice(byteArrayOF, firstBleDevice, firstGate)
-                        turnOnOFDevice(byteArrayOF, secondBleDevice, secondGate)
+                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
+                            turnOnOFDevice(byteArrayOF, it1,
+                                it2
+                            )
+                        } }
+                        secondBleDevice?.let { it1 -> secondGate?.let { it2 ->
+                            turnOnOFDevice(byteArrayOF, it1,
+                                it2
+                            )
+                        } }
                         btnStart.tag = "start"
                     }
                 }
@@ -751,6 +729,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     }
 
+
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
             Log.e("D", "onWriteSuccess ")
@@ -761,8 +740,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
         }
     }
-
-
 }
 
 

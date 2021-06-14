@@ -32,13 +32,13 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
     val connectionStateCoordinator = NewObservableCoordinator
     private var bleList = ArrayList<BleDevice>()
     private var firstDevicePostion = 0
-    private var isFirstConnected =false
+    private var isFirstConnected = false
     private var secondDevicePosition = 0
-    private var isSecondConnected =false
+    private var isSecondConnected = false
     private var thirdDevicePosition = 0
-    private var isThirdConnected =false
+    private var isThirdConnected = false
     private var fourthDevicePosition = 0
-    private var isFourthConnected =false
+    private var isFourthConnected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +86,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 if (deviceOneObj.name == item.name) {
                     Log.e("D", "PRVI " + i)
                     firstDevicePostion = i
-                    isFirstConnected=true
+                    isFirstConnected = true
                     firstBleDevice = item
                     firstDeviceState.text = resources.getString(R.string.online)
                     firstDotColor.setImageDrawable(
@@ -98,7 +98,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                     return
                 } else {
                     i = i + 1
-                    isFirstConnected=false
+                    isFirstConnected = false
                     firstDeviceState.text = resources.getString(R.string.offline)
                     firstDotColor.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -127,7 +127,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             for (item in bleList) {
                 if (deviceTwoObj.name == item.name) {
                     Log.e("D", "DRugi " + i)
-                    isSecondConnected=true
+                    isSecondConnected = true
                     secondDevicePosition = i
                     secondBleDevice = item
                     secondDeviceState.text = resources.getString(R.string.online)
@@ -140,7 +140,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                     return
                 } else {
                     i = i + 1
-                    isSecondConnected=false
+                    isSecondConnected = false
                     secondDeviceState.text = resources.getString(R.string.offline)
                     secondDotColor.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -167,7 +167,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             for (item in bleList) {
                 if (deviceThreeObj.name == item.name) {
                     thirdBleDevice = item
-                    isThirdConnected=true
+                    isThirdConnected = true
                     thirdDeviceState.text = resources.getString(R.string.online)
                     thirdDotColor.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -176,7 +176,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         )
                     )
                 } else {
-                    isThirdConnected=false
+                    isThirdConnected = false
                     thirdDeviceState.text = resources.getString(R.string.offline)
                     thirdDotColor.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -203,7 +203,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             for (item in bleList) {
                 if (deviceFourObj.name == item.name) {
                     fourthBleDevice = item
-                    isFourthConnected=true
+                    isFourthConnected = true
                     fourthDeviceState.text = resources.getString(R.string.online)
                     fourthDotColor.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -212,7 +212,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         )
                     )
                 } else {
-                    isFourthConnected=false
+                    isFourthConnected = false
                     fourthDeviceState.text = resources.getString(R.string.offline)
                     fourthDotColor.setImageDrawable(
                         ContextCompat.getDrawable(
@@ -234,30 +234,35 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
         secondCardView.setOnClickListener(this)
         thirdCardView.setOnClickListener(this)
         fourthCardView.setOnClickListener(this)
+        btnAddNewDevice.setOnClickListener(this)
     }
 
     override fun onClick(id: View?) {
         when (id) {
             firstCardView -> {
-                navigateToDeviceSettings(firstDevicePostion,isFirstConnected)
+                navigateToDeviceSettings(firstDevicePostion, isFirstConnected)
             }
             secondCardView -> {
-                navigateToDeviceSettings(secondDevicePosition,isSecondConnected)
+                navigateToDeviceSettings(secondDevicePosition, isSecondConnected)
             }
             thirdCardView -> {
-                navigateToDeviceSettings(thirdDevicePosition,isThirdConnected)
+                navigateToDeviceSettings(thirdDevicePosition, isThirdConnected)
             }
             fourthCardView -> {
-                navigateToDeviceSettings(fourthDevicePosition,isFourthConnected)
+                navigateToDeviceSettings(fourthDevicePosition, isFourthConnected)
             }
         }
     }
 
-    private fun navigateToDeviceSettings( postion: Int,isConnected:Boolean) {
-        if (isConnected)
-        {
+    private fun navigateToDeviceSettings(postion: Int, isConnected: Boolean) {
+        if (isConnected) {
             val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion)
             findNavController().navigate(action)
         }
+    }
+
+    private fun navigateToSearchFragment(postion: Int, isConnected: Boolean) {
+        val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion)
+        findNavController().navigate(action)
     }
 }

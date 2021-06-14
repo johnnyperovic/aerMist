@@ -1,6 +1,6 @@
 package llc.aerMist.app.models
 
-data class BytePayload(val data: UIntArray) {
+data class BytePayload(val data: CharArray) {
     var one = data.get(0)
     var two = data.get(1)
     var three = data.get(2)

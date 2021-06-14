@@ -132,6 +132,7 @@ class SearchFragment : Fragment() {
 
         override fun onScanFinished(scanResultList: List<BleDevice>) {
             Log.e("d", "Scan done from searcha " + scanResultList.size)
+            progressBar.visibility=View.INVISIBLE
 //            connectionStateCoordinator.listBleDevices.clear()
 //            for (item in scanResultList) {
 //                connectionStateCoordinator.listBleDevices.add(item)
@@ -144,7 +145,7 @@ class SearchFragment : Fragment() {
         bluetoothController.bluetoothManager.cancelScan()
         deviceName = device.name
         Log.e("D", "Device name " + device.name)
-        addDeviceDialog = AddDevicePopup(device,false)
+        addDeviceDialog = AddDevicePopup(device)
         addDeviceDialog.isCancelable = false
         addDeviceDialog.show(childFragmentManager, "")
     }

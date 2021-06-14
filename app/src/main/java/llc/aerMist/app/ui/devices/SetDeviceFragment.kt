@@ -53,47 +53,61 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     var numberPickerPopup = NumberPickerPopup()
     lateinit var bluetoothController: BluetoothController
     val connectionStateCoordinator = NewObservableCoordinator
-    private lateinit var bleDevice: BleDevice
-    private lateinit var gatt: BluetoothGatt
+    private var bleDevice: BleDevice? = null
+    private var gatt: BluetoothGatt? = null
     private lateinit var payload: BytePayload
+    private var mistValueSeconds = "100"
+    private var suspendValueSeconds = "100"
     val charset = Charsets.UTF_8
+    val nonStopOn = "EE0200.".toByteArray(charset)
     val byteArrayON = "EE0100.".toByteArray(charset)
     val byteArrayOF = "EE0101.".toByteArray(charset)
+    val intervalOn = "EE0201.".toByteArray(charset)
+    val intervalMo = "EE03000.".toByteArray(charset)
+    val intervalTu = "EE03010.".toByteArray(charset)
+    val intervalWE = "EE03020.".toByteArray(charset)
+    val intervalTH = "EE03030.".toByteArray(charset)
+    val intervalFR = "EE03040.".toByteArray(charset)
+    val intervalSA = "EE03050.".toByteArray(charset)
+    val intervalSU = "EE03060.".toByteArray(charset)
+    val intervalSS = "EE0400.".toByteArray(charset)
+    val intervalFS = "EE0500.".toByteArray(charset)
+    var intervalValue = "EE07000000YYY00XX.".toByteArray(charset)
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val bundle = arguments
-        Log.e("D", "DEVICE " + bundle?.get("myArg"))
         val postion = bundle?.get("myArg") as Int
         setClickListener()
         setNonStopView()
         setMotionLayoutListener()
         setTouchSwipeListener()
-        val observer = Observer<UIntArray> {
+        val observer = Observer<CharArray> {
+            var response = ""
             payload = BytePayload(it)
             val one = payload.one
             val two = payload.two
             val three = payload.three
             val four = payload.four
-            Log.e("D", "ONE " + one)
-            Log.e("D", "TWO " + two)
-            Log.e("D", "THREE " + three)
-            Log.e("D", "FOUR " + four)
-//            if (one.toInt() > 0) {
-//                startAnimationSendCommand()
-//            }
+
+            response = one + "" + two + "" + three + "" + four
+            Log.e("D", "RESPONSE " + response)
+            checkResponse(response)
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
+
         bleDevice =
             connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
                 postion
             )!!
-        gatt =
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-                bleDevice
-            )!!
-        deviceName.text = bleDevice.name.toString()
+
+        gatt = connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
+            bleDevice
+        )!!
+
+        deviceName.text = bleDevice?.name.toString()
     }
 
     override fun onCreateView(
@@ -101,6 +115,32 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_set_device, container, false)
+    }
+
+    fun checkResponse(response: String) {
+        when (response) {
+            "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
+            "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalMo, it1, it) } }
+            "EE1310." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalMo, it1, it) } }
+            "EE1300." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTu, it1, it) } }
+            "EE1311." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTu, it1, it) } }
+            "EE1301." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalWE, it1, it) } }
+            "EE1312." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalWE, it1, it) } }
+            "EE1302." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTH, it1, it) } }
+            "EE1313." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTH, it1, it) } }
+            "EE1303." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFR, it1, it) } }
+            "EE1314." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFR, it1, it) } }
+            "EE1304." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSA, it1, it) } }
+            "EE1315." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSA, it1, it) } }
+            "EE1305." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSU, it1, it) } }
+            "EE1316." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSU, it1, it) } }
+            "EE1306." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSS, it1, it) } }
+            "EE141." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSS, it1, it) } }
+            "EE140." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) } }
+            "EE151." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) } }
+            "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
+
+        }
     }
 
     fun setClickListener() {
@@ -137,7 +177,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             btnStart -> {
                 Log.e("D", "TAG " + tag)
-                btnStart.isEnabled=false
+                btnStart.isEnabled = false
                 if (intervalImg.visibility == View.VISIBLE) {
                     setTabItemVisibility(true)
                 } else {
@@ -176,11 +216,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 if (constraintSet == R.id.start) {
                     btnStart.setBackgroundResource(R.drawable.blue_radius_8)
                     btnStart.text = getString(R.string.start)
-                    btnStart.isEnabled=true
+                    btnStart.isEnabled = true
                 } else {
                     btnStart.setBackgroundResource(R.drawable.container_light_blue)
                     btnStart.text = getString(R.string.stop)
-                    btnStart.isEnabled=true
+                    btnStart.isEnabled = true
                 }
             }
 
@@ -301,16 +341,33 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 )
                 if (btnStart.tag == "start") {
-                    turnOnOFDevice(
-                        byteArrayON, bleDevice,
-                        gatt
-                    )
+
+                    bleDevice?.let {
+                        gatt?.let { it1 ->
+                            sendCommand(
+                                nonStopOn, it,
+                                it1
+                            )
+                        }
+                    }
+                    bleDevice?.let {
+                        gatt?.let { it1 ->
+                            sendCommand(
+                                byteArrayON, it,
+                                it1
+                            )
+                        }
+                    }
                     btnStart.tag = "stop"
                 } else {
-                    turnOnOFDevice(
-                        byteArrayOF, bleDevice,
-                        gatt
-                    )
+                    bleDevice?.let {
+                        gatt?.let { it1 ->
+                            sendCommand(
+                                byteArrayOF, it,
+                                it1
+                            )
+                        }
+                    }
                     btnStart.tag = "start"
                 }
             }
@@ -322,6 +379,22 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         R.drawable.interval_blue_icon
                     )
                 )
+                if (btnStart.tag == "start") {
+                    gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
+
+                    btnStart.tag = "stop"
+                } else {
+                    gatt?.let {
+                        bleDevice?.let { it1 ->
+                            sendCommand(
+                                byteArrayOF,
+                                it1,
+                                it
+                            )
+                        }
+                    }
+                    btnStart.tag = "start"
+                }
             }
             2 -> {
                 tabName.text = resources.getString(R.string.schedule)
@@ -336,7 +409,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
     }
 
-    fun turnOnOFDevice(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
+    fun sendCommand(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
         val pos = gatt.services.size - 1
         connectionStateCoordinator.bluetoothController?.writeCommand(
             bleDevice,
@@ -359,9 +432,19 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     val data = data?.extras
 
                     val mist = data?.getString("mist")
+                    mistValueSeconds = mist?.let { getSeconds(it) }.toString()
                     val suspend = data?.getString("suspend")
+                    suspendValueSeconds = suspend?.let { getSeconds(it) }.toString()
+
                     mistValue.text = mist
                     suspendValue.text = suspend
+                    var fullCommand = ""
+                    fullCommand = fullCommand + "EE0700000"
+                    fullCommand = fullCommand + mistValueSeconds
+                    fullCommand = fullCommand + "00"
+                    fullCommand = fullCommand + suspendValueSeconds
+                    fullCommand = fullCommand + "."
+                    intervalValue = fullCommand.toByteArray(charset)
                 }
             }
         }
@@ -473,5 +556,61 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
     private fun navigateToSetSchedule() {
         findNavController().navigate(R.id.action_set_device_to_set_schedule_fragment)
+    }
+
+    fun getSeconds(value: String): String {
+        var seconds = "100"
+        when (value) {
+            "5s" -> seconds = "005"
+            "6s" -> seconds = "006"
+            "7s" -> seconds = "007"
+            "8s" -> seconds = "008"
+            "9s" -> seconds = "009"
+            "10s" -> seconds = "010"
+            "11s" -> seconds = "011"
+            "12s" -> seconds = "012"
+            "13s" -> seconds = "013"
+            "14s" -> seconds = "014"
+            "15s" -> seconds = "015"
+            "16s" -> seconds = "016"
+            "17s" -> seconds = "017"
+            "18s" -> seconds = "018"
+            "19s" -> seconds = "019"
+            "20s" -> seconds = "020"
+            "25s" -> seconds = "025"
+            "40s" -> seconds = "045"
+            "50s" -> seconds = "050"
+            "55s" -> seconds = "055"
+            "1m" -> seconds = "060"
+            "1m 30s" -> seconds = "090"
+            "2m" -> seconds = "120"
+            "2m 30s" -> seconds = "150"
+            "3m" -> seconds = "180"
+            "3m 30s" -> seconds = "210"
+            "4m" -> seconds = "240"
+            "4m 30s" -> seconds = "270"
+            "5m" -> seconds = "300"
+            "5m 30s" -> seconds = "330"
+            "6m" -> seconds = "360"
+            "6m 30s" -> seconds = "390"
+            "7m" -> seconds = "420"
+            "7m 30s" -> seconds = "450"
+            "8m" -> seconds = "480"
+            "8m 30s" -> seconds = "510"
+            "9m" -> seconds = "540"
+            "9m 30s" -> seconds = "570"
+            "10m" -> seconds = "600"
+            "10m 30s" -> seconds = "630"
+            "11m" -> seconds = "660"
+            "11m 30s" -> seconds = "690"
+            "12m" -> seconds = "720"
+            "12m 30s" -> seconds = "750"
+            "13m" -> seconds = "780"
+            "13m 30s" -> seconds = "810"
+            "14m" -> seconds = "840"
+            "14m 30a" -> seconds = "870"
+            "15m" -> seconds = "900"
+        }
+        return seconds
     }
 }

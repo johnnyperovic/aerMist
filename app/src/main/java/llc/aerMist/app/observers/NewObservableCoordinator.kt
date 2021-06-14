@@ -7,7 +7,7 @@ import llc.aerMist.app.helpers.BluetoothController
 
 object NewObservableCoordinator {
     var bluetoothConnectionState = MutableLiveData<String>("")
-    var bluetoothByteArray = MutableLiveData<UIntArray>()
+    var bluetoothByteArray = MutableLiveData<CharArray>()
     var listBleDevices: ArrayList<BleDevice> = ArrayList()
     var idString = MutableLiveData("")
     var firstGatt : BluetoothGatt? = null
