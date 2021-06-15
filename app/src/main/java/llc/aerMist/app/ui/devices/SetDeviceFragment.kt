@@ -85,25 +85,17 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         setMotionLayoutListener()
         setTouchSwipeListener()
         val observer = Observer<CharArray> {
-            var response = it
-//            payload = BytePayload(it)
-//            val one = payload.one
-//            val two = payload.two
-//            val three = payload.three
-//            val four = payload.four
-//            val five = payload.five
-//            val sex = payload.sex
-
-
-            //one + "" + two + "" + three + "" + four + "" + five+""+sex
-            Log.e("D", "RESPONSE  toString" + response.toString())
-            Log.e("D", "RESPONSE toByteArrAT" + response.toString().toByteArray(charset))
+            var response=""
+            for (item in it)
+            {
+                response=response+item
+            }
 
             Log.e("D", "Tag " + tag)
             if (tag == 0) {
-                checkNonStopResponse(response.toString().toByteArray(charset).toString())
+                checkNonStopResponse(response)
             } else {
-                checkIntervalResponse(response.toString().toByteArray(charset).toString())
+                checkIntervalResponse(response)
             }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
@@ -157,7 +149,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE140." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) } }
             "EE151." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) } }
             "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
-
+            "EE171." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
+            "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
         }
     }
 
@@ -449,7 +442,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     mistValue.text = mist
                     suspendValue.text = suspend
                     var fullCommand = ""
-                    fullCommand = fullCommand + "EE0700000"
+                    fullCommand = fullCommand + "EE07000000"
                     fullCommand = fullCommand + mistValueSeconds
                     fullCommand = fullCommand + "00"
                     fullCommand = fullCommand + suspendValueSeconds
