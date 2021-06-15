@@ -93,8 +93,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             val four = payload.four
             val five = payload.five
             val sex = payload.sex
+            val eight = payload.seven
 
-            response = one + "" + two + "" + three + "" + four + "" + five+""+sex
+
+            response = one + "" + two + "" + three + "" + four + "" + five+""+sex+""+eight
             Log.e("D", "RESPONSE " + response)
             Log.e("D", "Tag " + tag)
             if (tag == 0) {
