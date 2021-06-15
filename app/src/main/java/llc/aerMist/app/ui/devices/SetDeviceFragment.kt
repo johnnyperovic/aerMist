@@ -85,24 +85,23 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         setMotionLayoutListener()
         setTouchSwipeListener()
         val observer = Observer<CharArray> {
-            var response = ""
-            payload = BytePayload(it)
-            val one = payload.one
-            val two = payload.two
-            val three = payload.three
-            val four = payload.four
-            val five = payload.five
-            val sex = payload.sex
-            val eight = payload.seven
+            var response = it
+//            payload = BytePayload(it)
+//            val one = payload.one
+//            val two = payload.two
+//            val three = payload.three
+//            val four = payload.four
+//            val five = payload.five
+//            val sex = payload.sex
 
 
-            response = one + "" + two + "" + three + "" + four + "" + five+""+sex+""+eight
+            //one + "" + two + "" + three + "" + four + "" + five+""+sex
             Log.e("D", "RESPONSE " + response)
             Log.e("D", "Tag " + tag)
             if (tag == 0) {
-                checkNonStopResponse(response)
+                checkNonStopResponse(response.toString())
             } else {
-                checkIntervalResponse(response)
+                checkIntervalResponse(response.toString())
             }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)

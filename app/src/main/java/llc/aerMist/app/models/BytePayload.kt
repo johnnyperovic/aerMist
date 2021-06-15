@@ -7,7 +7,7 @@ data class BytePayload(val data: CharArray) {
     var four = data.get(3)
     var five = data.get(4)
     var sex = data.get(5)
-    var seven = data.get(6)
+   // var seven = data.get(6)
      //var eight = data.get(7)
 //    var nine = data.get(8)
 //    var teen = data.get(9)
