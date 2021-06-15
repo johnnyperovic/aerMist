@@ -72,7 +72,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     val intervalSU = "EE03060.".toByteArray(charset)
     val intervalSS = "EE0400.".toByteArray(charset)
     val intervalFS = "EE0500.".toByteArray(charset)
-    var intervalValue = "EE07000000YYY00XX.".toByteArray(charset)
+    var intervalValue = "".toByteArray(charset)
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -95,6 +95,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
             response = one + "" + two + "" + three + "" + four + "" + five
             Log.e("D", "RESPONSE " + response)
+            Log.e("D", "Tag " + tag)
             if (tag == 0) {
                 checkNonStopResponse(response)
             } else {

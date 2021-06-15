@@ -494,7 +494,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-                Log.e("D", "UIntArray " + index + "." + byte.toChar())
+//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
             var i = 0
@@ -516,7 +516,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-                Log.e("D", "UIntArray " + index + "." + byte.toChar())
+//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
         }
@@ -535,7 +535,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-                Log.e("D", "UIntArray " + index + "." + byte.toChar())
+//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
 
@@ -555,7 +555,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-                Log.e("D", "UIntArray " + index + "." + byte.toChar())
+//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
         }

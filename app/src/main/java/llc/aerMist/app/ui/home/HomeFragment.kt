@@ -66,13 +66,26 @@ class HomeFragment : Fragment(), View.OnClickListener {
      var thirdGate: BluetoothGatt?=null
      var fourthGate: BluetoothGatt?=null
     private var isFirstDevice = true
-    val charset = Charsets.UTF_8
-    val byteArrayON = "EE0100.".toByteArray(charset)
-    val byteArrayOF = "EE0101.".toByteArray(charset)
     var allDevices = 0
     private var bleList = ArrayList<BleDevice>()
     private lateinit var payload: BytePayload
-
+    private var mistValueSeconds = "100"
+    private var suspendValueSeconds = "100"
+    val charset = Charsets.UTF_8
+    val nonStopOn = "EE0200.".toByteArray(charset)
+    val byteArrayON = "EE0100.".toByteArray(charset)
+    val byteArrayOF = "EE0101.".toByteArray(charset)
+    val intervalOn = "EE0201.".toByteArray(charset)
+    val intervalMo = "EE03000.".toByteArray(charset)
+    val intervalTu = "EE03010.".toByteArray(charset)
+    val intervalWE = "EE03020.".toByteArray(charset)
+    val intervalTH = "EE03030.".toByteArray(charset)
+    val intervalFR = "EE03040.".toByteArray(charset)
+    val intervalSA = "EE03050.".toByteArray(charset)
+    val intervalSU = "EE03060.".toByteArray(charset)
+    val intervalSS = "EE0400.".toByteArray(charset)
+    val intervalFS = "EE0500.".toByteArray(charset)
+    var intervalValue = "".toByteArray(charset)
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,6 +114,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
+
 
     fun setFirstDevice() {
         val deviceOne = prefs.firstDevice
@@ -581,7 +595,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
         }
     }
-
+    fun sendCommand(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
+        val pos = gatt.services.size - 1
+        connectionStateCoordinator.bluetoothController?.writeCommand(
+            bleDevice,
+            input,
+            gatt.services.get(pos).characteristics.get(0)
+        )
+    }
     private fun showDialog() {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
