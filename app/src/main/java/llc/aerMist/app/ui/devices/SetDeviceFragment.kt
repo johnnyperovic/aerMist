@@ -96,12 +96,14 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
 
             //one + "" + two + "" + three + "" + four + "" + five+""+sex
-            Log.e("D", "RESPONSE " + response)
+            Log.e("D", "RESPONSE  toString" + response.toString())
+            Log.e("D", "RESPONSE toByteArrAT" + response.toString().toByteArray(charset))
+
             Log.e("D", "Tag " + tag)
             if (tag == 0) {
-                checkNonStopResponse(response.toString())
+                checkNonStopResponse(response.toString().toByteArray(charset).toString())
             } else {
-                checkIntervalResponse(response.toString())
+                checkIntervalResponse(response.toString().toByteArray(charset).toString())
             }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
