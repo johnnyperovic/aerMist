@@ -59,6 +59,17 @@
             app:popExitAnim="@anim/slide_out_bottom"
             app:popUpTo="@+id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_set_schedule_to_device_fragmnent"
+            app:destination="@+id/setDeviceFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@+id/setDeviceFragment"
+            app:popUpToInclusive="true" >
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/setDeviceFragment"
@@ -69,6 +80,10 @@
         android:name="myArg"
         app:argType="integer"
         android:defaultValue="1" />
+        <argument
+            android:name="model"
+            app:argType="llc.aerMist.app.models.ScheduleModel"
+            />
         <action
             android:id="@+id/action_set_device_to_set_schedule_fragment"
             app:destination="@id/setScheduleFragment"

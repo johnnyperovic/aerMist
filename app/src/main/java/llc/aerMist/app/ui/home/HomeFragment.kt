@@ -57,17 +57,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
     var secondDevice: String = ""
     var thirdDevice: String = ""
     var fourthDevice: String = ""
-     var firstBleDevice: BleDevice?=null
-     var secondBleDevice: BleDevice?=null
-     var thirdBleDevice: BleDevice?=null
-     var fourthBleDevice: BleDevice?=null
-     var firstGate: BluetoothGatt?=null
-     var secondGate: BluetoothGatt?=null
-     var thirdGate: BluetoothGatt?=null
-     var fourthGate: BluetoothGatt?=null
+    var firstBleDevice: BleDevice? = null
+    var secondBleDevice: BleDevice? = null
+    var thirdBleDevice: BleDevice? = null
+    var fourthBleDevice: BleDevice? = null
+    var firstGate: BluetoothGatt? = null
+    var secondGate: BluetoothGatt? = null
+    var thirdGate: BluetoothGatt? = null
+    var fourthGate: BluetoothGatt? = null
     private var isFirstDevice = true
     var allDevices = 0
     private var bleList = ArrayList<BleDevice>()
+    private var gattList = ArrayList<BluetoothGatt>()
     private lateinit var payload: BytePayload
     private var mistValueSeconds = "100"
     private var suspendValueSeconds = "100"
@@ -86,6 +87,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     val intervalSS = "EE0400.".toByteArray(charset)
     val intervalFS = "EE0500.".toByteArray(charset)
     var intervalValue = "".toByteArray(charset)
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -105,7 +107,49 @@ class HomeFragment : Fragment(), View.OnClickListener {
         setFirstDevice()
         setSecondDevice()
         initBleConroller()
+        val observer = Observer<CharArray> {
+            var response = ""
+            for (item in it) {
+                response = response + item
+            }
+            val bleNumber = connectionStateCoordinator.bleDevicePosition
+            Log.e("D", "Tag " + tag)
+            Log.e("D", "bleNumber " + bleNumber)
+            if (tag == 0) {
+                when (bleNumber) {
+                    1 -> {
+                        checkNonStopResponse(response, firstBleDevice, firstGate)
+                    }
+                    2 -> {
+                        checkNonStopResponse(response, secondBleDevice, secondGate)
+                    }
+                    3 -> {
+                        checkNonStopResponse(response, thirdBleDevice, thirdGate)
+                    }
+                    4 -> {
+                        checkNonStopResponse(response, fourthBleDevice, fourthGate)
+                    }
+                }
+            } else {
+                when (bleNumber) {
+                    1 -> {
+                        checkIntervalResponse(response, firstBleDevice, firstGate)
+                    }
+                    2 -> {
+                        checkIntervalResponse(response, secondBleDevice, secondGate)
+                    }
+                    3 -> {
+                        checkIntervalResponse(response, thirdBleDevice, thirdGate)
+                    }
+                    4 -> {
+                        checkIntervalResponse(response, fourthBleDevice, fourthGate)
+                    }
+                }
+            }
+        }
+        connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -113,6 +157,41 @@ class HomeFragment : Fragment(), View.OnClickListener {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
+    }
+
+    fun checkNonStopResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
+        when (response) {
+            "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
+            "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayOF, it1, it) } }
+        }
+    }
+
+    fun checkIntervalResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
+        when (response) {
+            "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
+            "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalMo, it1, it) } }
+            "EE1310." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalMo, it1, it) } }
+            "EE1300." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTu, it1, it) } }
+            "EE1311." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTu, it1, it) } }
+            "EE1301." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalWE, it1, it) } }
+            "EE1312." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalWE, it1, it) } }
+            "EE1302." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTH, it1, it) } }
+            "EE1313." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalTH, it1, it) } }
+            "EE1303." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFR, it1, it) } }
+            "EE1314." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFR, it1, it) } }
+            "EE1304." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSA, it1, it) } }
+            "EE1315." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSA, it1, it) } }
+            "EE1305." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSU, it1, it) } }
+            "EE1316." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSU, it1, it) } }
+            "EE1306." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSS, it1, it) } }
+            "EE141." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalSS, it1, it) } }
+            "EE140." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) } }
+            "EE151." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) } }
+            "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
+            "EE171." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
+            "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+        }
     }
 
 
@@ -133,6 +212,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
                             firstBleDevice
                         )!!
+                    gattList.add(firstGate!!)
                     return
                 }
             }
@@ -147,8 +227,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
             bleList =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
         }
-        setFirstDevice()
-        setSecondDevice()
+//        setFirstDevice()
+//        setSecondDevice()
     }
 
     fun setSecondDevice() {
@@ -164,6 +244,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
                             secondBleDevice
                         )!!
+                    gattList.add(secondGate!!)
                     return
                 }
             }
@@ -183,6 +264,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
                             thirdBleDevice
                         )!!
+                    gattList.add(thirdGate!!)
+
                     return
                 }
             }
@@ -202,6 +285,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
                             fourthBleDevice
                         )!!
+                    gattList.add(fourthGate!!)
                     return
                 }
             }
@@ -377,8 +461,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     btnStart.isEnabled = false
                     sendOnOfCommand()
                     startAnimation()
-                } else {
-                    //showDialog()
+                } else if (tag == 1) {
+                    var i = 0
+                    for (item in bleList) {
+                        sendCommand(intervalOn, item, gattList.get(i))
+                        i++
+                    }
                 }
             }
             btnEdit -> {
@@ -510,44 +598,62 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (allDevices == 1) {
 
                 if (btnStart.tag == "start") {
-                    firstBleDevice?.let { firstGate?.let { it1 ->
-                        turnOnOFDevice(byteArrayON, it,
-                            it1
-                        )
-                    } }
+                    firstBleDevice?.let {
+                        firstGate?.let { it1 ->
+                            turnOnOFDevice(
+                                byteArrayON, it,
+                                it1
+                            )
+                        }
+                    }
                     btnStart.tag = "stop"
                 } else {
-                    firstBleDevice?.let { firstGate?.let { it1 ->
-                        turnOnOFDevice(byteArrayOF, it,
-                            it1
-                        )
-                    } }
+                    firstBleDevice?.let {
+                        firstGate?.let { it1 ->
+                            turnOnOFDevice(
+                                byteArrayOF, it,
+                                it1
+                            )
+                        }
+                    }
                     btnStart.tag = "start"
                 }
             } else if (allDevices == 2) {
                 if (btnStart.tag == "start") {
-                    firstBleDevice?.let { firstGate?.let { it1 ->
-                        turnOnOFDevice(byteArrayON, it,
-                            it1
-                        )
-                    } }
-                    secondBleDevice?.let { secondGate?.let { it1 ->
-                        turnOnOFDevice(byteArrayON, it,
-                            it1
-                        )
-                    } }
+                    firstBleDevice?.let {
+                        firstGate?.let { it1 ->
+                            turnOnOFDevice(
+                                byteArrayON, it,
+                                it1
+                            )
+                        }
+                    }
+                    secondBleDevice?.let {
+                        secondGate?.let { it1 ->
+                            turnOnOFDevice(
+                                byteArrayON, it,
+                                it1
+                            )
+                        }
+                    }
                     btnStart.tag = "stop"
                 } else {
-                    firstBleDevice?.let { firstGate?.let { it1 ->
-                        turnOnOFDevice(byteArrayOF, it,
-                            it1
-                        )
-                    } }
-                    secondBleDevice?.let { secondGate?.let { it1 ->
-                        turnOnOFDevice(byteArrayOF, it,
-                            it1
-                        )
-                    } }
+                    firstBleDevice?.let {
+                        firstGate?.let { it1 ->
+                            turnOnOFDevice(
+                                byteArrayOF, it,
+                                it1
+                            )
+                        }
+                    }
+                    secondBleDevice?.let {
+                        secondGate?.let { it1 ->
+                            turnOnOFDevice(
+                                byteArrayOF, it,
+                                it1
+                            )
+                        }
+                    }
                     btnStart.tag = "start"
                 }
             }
@@ -595,6 +701,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+
     fun sendCommand(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
         val pos = gatt.services.size - 1
         connectionStateCoordinator.bluetoothController?.writeCommand(
@@ -603,6 +710,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             gatt.services.get(pos).characteristics.get(0)
         )
     }
+
     private fun showDialog() {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -628,44 +736,62 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (tag == 0) {
                 if (allDevices == 1) {
                     if (btnStart.tag == "start") {
-                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
-                            turnOnOFDevice(byteArrayON, it1,
-                                it2
-                            )
-                        } }
+                        firstBleDevice?.let { it1 ->
+                            firstGate?.let { it2 ->
+                                turnOnOFDevice(
+                                    byteArrayON, it1,
+                                    it2
+                                )
+                            }
+                        }
                         btnStart.tag = "stop"
                     } else {
-                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
-                            turnOnOFDevice(byteArrayOF, it1,
-                                it2
-                            )
-                        } }
+                        firstBleDevice?.let { it1 ->
+                            firstGate?.let { it2 ->
+                                turnOnOFDevice(
+                                    byteArrayOF, it1,
+                                    it2
+                                )
+                            }
+                        }
                         btnStart.tag = "start"
                     }
                 } else if (allDevices == 2) {
                     if (btnStart.tag == "start") {
-                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
-                            turnOnOFDevice(byteArrayON, it1,
-                                it2
-                            )
-                        } }
-                        secondBleDevice?.let { it1 -> secondGate?.let { it2 ->
-                            turnOnOFDevice(byteArrayON, it1,
-                                it2
-                            )
-                        } }
+                        firstBleDevice?.let { it1 ->
+                            firstGate?.let { it2 ->
+                                turnOnOFDevice(
+                                    byteArrayON, it1,
+                                    it2
+                                )
+                            }
+                        }
+                        secondBleDevice?.let { it1 ->
+                            secondGate?.let { it2 ->
+                                turnOnOFDevice(
+                                    byteArrayON, it1,
+                                    it2
+                                )
+                            }
+                        }
                         btnStart.tag = "stop"
                     } else {
-                        firstBleDevice?.let { it1 -> firstGate?.let { it2 ->
-                            turnOnOFDevice(byteArrayOF, it1,
-                                it2
-                            )
-                        } }
-                        secondBleDevice?.let { it1 -> secondGate?.let { it2 ->
-                            turnOnOFDevice(byteArrayOF, it1,
-                                it2
-                            )
-                        } }
+                        firstBleDevice?.let { it1 ->
+                            firstGate?.let { it2 ->
+                                turnOnOFDevice(
+                                    byteArrayOF, it1,
+                                    it2
+                                )
+                            }
+                        }
+                        secondBleDevice?.let { it1 ->
+                            secondGate?.let { it2 ->
+                                turnOnOFDevice(
+                                    byteArrayOF, it1,
+                                    it2
+                                )
+                            }
+                        }
                         btnStart.tag = "start"
                     }
                 }

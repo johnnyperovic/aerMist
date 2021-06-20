@@ -1,5 +1,7 @@
 package llc.aerMist.app.ui.popup
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -10,10 +12,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.add_device_popup.view.cancelBtn
+import kotlinx.android.synthetic.main.fragment_number_picker_popup.view.*
 import kotlinx.android.synthetic.main.fragment_set_time_popup.view.*
+import kotlinx.android.synthetic.main.fragment_set_time_popup.view.saveBtn
 import llc.aerMist.app.R
 
-class SetTimePopup : DialogFragment() {
+class SetTimePopup(val position : Int) : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +43,14 @@ class SetTimePopup : DialogFragment() {
         }
         dialogView.saveBtn.setOnClickListener {
             Log.e("D","sati "+ dialogView.timePicker.hour)
+            val hour=dialogView.timePicker.hour
+            val minutes=dialogView.timePicker.minute
+            val i: Intent = Intent()
+                .putExtra("position", position)
+                .putExtra("hour", hour)
+                .putExtra("minutes", minutes)
+            requireParentFragment().onActivityResult(3, Activity.RESULT_OK, i)
             dialog?.dismiss()
-
             //   return@setOnClickListener
         }
         builder.setView(dialogView)

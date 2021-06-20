@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_devices.*
 
 import llc.aerMist.app.R
 import llc.aerMist.app.models.MyDevice
+import llc.aerMist.app.models.ScheduleModel
 import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.util.PreferenceCache
 import llc.aerMist.app.ui.home.schedulere.SetScheduleFragmentDirections
@@ -256,13 +257,16 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
 
     private fun navigateToDeviceSettings(postion: Int, isConnected: Boolean) {
         if (isConnected) {
-            val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion)
+            val model:ScheduleModel= ScheduleModel(null,null,null,null,null)
+            val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion,model)
             findNavController().navigate(action)
         }
     }
 
     private fun navigateToSearchFragment(postion: Int, isConnected: Boolean) {
-        val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion)
+        val model:ScheduleModel=ScheduleModel(null,null,null,null,null)
+
+        val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion,model)
         findNavController().navigate(action)
     }
 }

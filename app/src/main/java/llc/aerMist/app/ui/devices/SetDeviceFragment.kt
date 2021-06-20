@@ -12,6 +12,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.clj.fastble.data.BleDevice
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -40,6 +41,7 @@ import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
 import llc.aerMist.app.models.BytePayload
 import llc.aerMist.app.models.MyDevice
+import llc.aerMist.app.models.ScheduleModel
 import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.kotlin.hideWithAnimation
 import llc.aerMist.app.shared.kotlin.showWithAnimation
@@ -58,6 +60,9 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     private lateinit var payload: BytePayload
     private var mistValueSeconds = "100"
     private var suspendValueSeconds = "100"
+    private val scheduleModelArgs: SetDeviceFragmentArgs by navArgs()
+    private lateinit var scheduleModel: ScheduleModel
+
     val charset = Charsets.UTF_8
     val nonStopOn = "EE0200.".toByteArray(charset)
     val byteArrayON = "EE0100.".toByteArray(charset)
@@ -73,7 +78,29 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     val intervalSS = "EE0400.".toByteArray(charset)
     val intervalFS = "EE0500.".toByteArray(charset)
     var intervalValue = "".toByteArray(charset)
+    var sprayPDON = "E0400".toByteArray(charset)
+    val sprayFriq = "EE0500.".toByteArray(charset)
 
+    val scheduleMo = "EE0300"
+    val scheduleTu = "EE0301"
+    val scheduleWE = "EE0302"
+    val scheduleTH = "EE0303"
+    val scheduleFR = "EE0304"
+    val scheduleSA = "EE0305"
+    val scheduleSU = "EE0306"
+    var monday = ""
+    var tuesday = ""
+    var wednesday = ""
+    var thursday = ""
+    var friday = ""
+    var saturday = ""
+    var sunday = ""
+    var firstTimer = ""
+    var secondTimer = ""
+    var thirdTimer = ""
+    var fourthTimer = ""
+
+    lateinit var daysInWeek: IntArray
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -85,10 +112,9 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         setMotionLayoutListener()
         setTouchSwipeListener()
         val observer = Observer<CharArray> {
-            var response=""
-            for (item in it)
-            {
-                response=response+item
+            var response = ""
+            for (item in it) {
+                response = response + item
             }
 
             Log.e("D", "Tag " + tag)
@@ -99,7 +125,6 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
-
         bleDevice =
             connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
                 postion
@@ -110,6 +135,12 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         )!!
 
         deviceName.text = bleDevice?.name.toString()
+        scheduleModel = scheduleModelArgs.model
+        if (scheduleModel.days!=null) {
+            setScheduleView()
+            daysInWeek = scheduleModel.days!!
+            formatDaySchedule()
+        }
     }
 
     override fun onCreateView(
@@ -117,6 +148,18 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_set_device, container, false)
+    }
+
+    fun formatDaySchedule() {
+        monday = scheduleMo + daysInWeek.get(0) + "."
+        Log.e("D", "MONDAY " + monday)
+        tuesday = scheduleTu + daysInWeek.get(1) + "."
+        wednesday = scheduleWE + daysInWeek.get(2) + "."
+        thursday = scheduleTH + daysInWeek.get(3) + "."
+        friday = scheduleFR + daysInWeek.get(4) + "."
+        saturday = scheduleSA + daysInWeek.get(5) + "."
+        sunday = scheduleSU + daysInWeek.get(6) + "."
+        formatTimer()
     }
 
     fun checkNonStopResponse(response: String) {
@@ -152,6 +195,175 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE171." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
         }
+    }
+
+    fun sendSchedule() {
+
+    }
+
+    fun checkScheduleRespone(response: String) {
+        when (response) {
+            "EE120." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        monday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1310." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        monday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1300." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        tuesday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1311." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        tuesday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1301." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        wednesday.toByteArray(
+                            charset
+                        ), it1, it
+                    )
+                }
+            }
+            "EE1312." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        wednesday.toByteArray(
+                            charset
+                        ), it1, it
+                    )
+                }
+            }
+            "EE1302." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        thursday.toByteArray(
+                            charset
+                        ), it1, it
+                    )
+                }
+            }
+            "EE1313." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        thursday.toByteArray(
+                            charset
+                        ), it1, it
+                    )
+                }
+            }
+            "EE1303." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        friday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1314." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        friday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1304." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        saturday.toByteArray(
+                            charset
+                        ), it1, it
+                    )
+                }
+            }
+            "EE1315." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        saturday.toByteArray(
+                            charset
+                        ), it1, it
+                    )
+                }
+            }
+            "EE1305." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        sunday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1316." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        sunday.toByteArray(charset),
+                        it1,
+                        it
+                    )
+                }
+            }
+            "EE1306." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayPDON, it1, it) } }
+            "EE141." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayPDON, it1, it) } }
+            "EE140." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) } }
+            "EE151." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) } }
+            "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(firstTimer.toByteArray(charset), it1, it) } }
+         //   "EE500." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(firstTimer.toByteArray(charset), it1, it) } }
+        }
+
+    }
+
+    fun formatTimer() {
+        val hourOne = scheduleModel.timer?.get(0)!!.hours
+        val minOne = scheduleModel.timer?.get(0)!!.min
+        val hourTwo = scheduleModel.timer?.get(1)!!.hours
+        val minTwo = scheduleModel.timer?.get(1)!!.min
+        firstTimer = "EE060000" + hourOne + minOne + hourTwo + minTwo+"."
+        Log.e("D", "firstTimer " + firstTimer)
+        val hourThree = scheduleModel.timer?.get(2)!!.hours
+        val minThree = scheduleModel.timer?.get(2)!!.min
+        val hourFour = scheduleModel.timer?.get(3)!!.hours
+        val minFour = scheduleModel.timer?.get(3)!!.min
+        secondTimer = "EE060010" + hourThree + minThree + hourFour + minFour+"."
+        Log.e("D", "secondTimer " + secondTimer)
+        val hourFive = scheduleModel.timer?.get(4)!!.hours
+        val minFive = scheduleModel.timer?.get(4)!!.min
+        val hourSix = scheduleModel.timer?.get(5)!!.hours
+        val minSix = scheduleModel.timer?.get(5)!!.min
+        thirdTimer = "EE060020" + hourFive + minFive + hourSix + minSix+"."
+        Log.e("D", "thirdTimer " + thirdTimer)
+        val hourSeven = scheduleModel.timer?.get(6)!!.hours
+        val minSeven = scheduleModel.timer?.get(6)!!.min
+        val hourEight = scheduleModel.timer?.get(7)!!.hours
+        val minEight = scheduleModel.timer?.get(7)!!.min
+        fourthTimer = "EE060030" + hourSeven + minSeven + hourEight + minEight+"."
+        Log.e("D", "fourthTimer " + fourthTimer)
     }
 
     fun setClickListener() {
@@ -407,6 +619,22 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         R.drawable.calendar_blue_icon
                     )
                 )
+                if (btnStart.tag == "start") {
+                    gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
+
+                    btnStart.tag = "stop"
+                } else {
+                    gatt?.let {
+                        bleDevice?.let { it1 ->
+                            sendCommand(
+                                byteArrayOF,
+                                it1,
+                                it
+                            )
+                        }
+                    }
+                    btnStart.tag = "start"
+                }
             }
         }
 
@@ -461,6 +689,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         suspendValue.visibility = View.INVISIBLE
         btnEdit.visibility = View.INVISIBLE
         secondLine.visibility = View.INVISIBLE
+        thirdLine.visibility = View.INVISIBLE
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
@@ -496,6 +725,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         suspendValue.showWithAnimation()
         btnEdit.showWithAnimation()
         secondLine.showWithAnimation()
+        thirdLine.hideWithAnimation()
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
@@ -530,6 +760,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         suspendTv.showWithAnimation()
         suspendValue.showWithAnimation()
         btnEdit.showWithAnimation()
+        thirdLine.showWithAnimation()
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))

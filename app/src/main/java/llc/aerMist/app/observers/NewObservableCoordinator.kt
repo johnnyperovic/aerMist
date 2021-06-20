@@ -18,4 +18,6 @@ object NewObservableCoordinator {
     var bluetoothController : BluetoothController? = null
     var isDeviceConnected = false
     var isDeviceAuthorized = false
+    var bleDevicePosition = 0
+
 }

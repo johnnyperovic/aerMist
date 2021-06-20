@@ -1841,6 +1841,7 @@ id action_my_devices_to_main_fragment
 id action_my_devices_to_search_devices
 id action_schedule_to_set_schedule_fragment
 id action_set_device_to_set_schedule_fragment
+id action_set_schedule_to_device_fragmnent
 id action_set_schedule_to_home_fragment
 id action_splashFragment_to_welcomeFragment
 id action_text
@@ -2266,7 +2267,6 @@ id submenuarrow
 id submit_area
 id sunImg
 id sunday
-id suspend
 id suspendTimePicker
 id suspendTimeTv
 id suspendTv

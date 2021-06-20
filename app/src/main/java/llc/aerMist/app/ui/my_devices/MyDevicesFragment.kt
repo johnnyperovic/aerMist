@@ -496,8 +496,10 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 newDataChar[index] = byte.toChar()
 //                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
+            connectionStateCoordinator.bleDevicePosition=1
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
-            var i = 0
+
+            var i = 1
 //            var dataList = ArrayList<Int>()
             // val idArray: Array<Byte> = arrayOf(data[5], data[6], data[7], data[8])
         }
@@ -518,7 +520,10 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 newDataChar[index] = byte.toChar()
 //                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
+            connectionStateCoordinator.bleDevicePosition=2
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
+
+
         }
     }
     private val notifyCallback3 = object : BleNotifyCallback() {
@@ -537,7 +542,9 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 newDataChar[index] = byte.toChar()
 //                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
+            connectionStateCoordinator.bleDevicePosition=3
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
+
 
         }
     }
@@ -551,13 +558,15 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
-            Log.e("d", "Notifaction recived from fourtg ")
+            Log.e("d", "Notifaction recived from fourth ")
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
 //                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
+            connectionStateCoordinator.bleDevicePosition=4
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
+
         }
     }
 
