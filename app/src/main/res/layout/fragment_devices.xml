@@ -87,6 +87,54 @@
             android:textSize="12sp" />
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/firstPopup"
+        android:layout_width="180dp"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/radius_16_"
+        android:visibility="gone"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="5dp"
+        card_view:layout_constraintEnd_toEndOf="@id/firstCardView"
+        card_view:layout_constraintTop_toTopOf="@id/firstCardView">
+
+        <TextView
+            android:id="@+id/renameFirstDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/rename"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/resetFirstFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/reset_filter"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/removeFirstDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/remove_device"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+    </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/secondCardView"
@@ -153,6 +201,54 @@
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/secondPopup"
+        android:layout_width="180dp"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/radius_16_"
+        android:visibility="gone"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="5dp"
+        card_view:layout_constraintEnd_toEndOf="@id/secondCardView"
+        card_view:layout_constraintTop_toTopOf="@id/secondCardView">
+
+        <TextView
+            android:id="@+id/renameSecondDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/rename"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/resetSecondFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/reset_filter"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/removeSecondDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/remove_device"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -221,6 +317,53 @@
             android:textSize="12sp" />
 
     </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/thirdPopup"
+        android:layout_width="180dp"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/radius_16_"
+        android:visibility="gone"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="5dp"
+        card_view:layout_constraintEnd_toEndOf="@id/thirdCardView"
+        card_view:layout_constraintTop_toTopOf="@id/thirdCardView">
+
+        <TextView
+            android:id="@+id/renameThirdDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/rename"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/resetThirdFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/reset_filter"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/removeThirdDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/remove_device"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+    </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fourthCardView"
@@ -287,6 +430,54 @@
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fourthPopup"
+        android:layout_width="180dp"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/radius_16_"
+        android:visibility="gone"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardElevation="5dp"
+        card_view:layout_constraintEnd_toEndOf="@id/fourthCardView"
+        card_view:layout_constraintTop_toTopOf="@id/fourthCardView">
+
+        <TextView
+            android:id="@+id/renameFourthDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/rename"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/resetFourthFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/reset_filter"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/removeFourthDevice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:fontFamily="@font/roboto_regular"
+            android:padding="10dp"
+            android:text="@string/remove_device"
+            android:textColor="@color/dark_text"
+            android:textSize="14sp" />
     </androidx.cardview.widget.CardView>
 
 

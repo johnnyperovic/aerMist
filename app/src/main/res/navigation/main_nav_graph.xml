@@ -9,6 +9,11 @@
         android:name="llc.aerMist.app.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
+        <argument
+            android:name="model"
+            app:argType="llc.aerMist.app.models.ScheduleModel"
+            app:nullable="true"
+            android:defaultValue="@null"/>
         <action
             android:id="@+id/action_schedule_to_set_schedule_fragment"
             app:destination="@id/setScheduleFragment"
@@ -17,7 +22,9 @@
             app:popEnterAnim="@anim/slide_in_top"
             app:popExitAnim="@anim/slide_out_bottom"
             app:popUpTo="@+id/setScheduleFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true" >
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/deviceFragment"
@@ -39,6 +46,16 @@
             android:defaultValue="@null"
             app:argType="string"
             app:nullable="true"/>
+        <action
+            android:id="@+id/action_menage_devices_to_search_device"
+            app:destination="@+id/searchFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@+id/searchFragment"
+            app:popUpToInclusive="true" >
+        </action>
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
@@ -50,6 +67,10 @@
         android:name="llc.aerMist.app.ui.home.schedulere.SetScheduleFragment"
         android:label="SetScheduleFragment"
         tools:layout="@layout/fragment_set_schedule">
+        <argument
+            android:name="type"
+            app:argType="integer"
+            android:defaultValue="0"/>
         <action
             android:id="@+id/action_set_schedule_to_home_fragment"
             app:destination="@+id/homeFragment"

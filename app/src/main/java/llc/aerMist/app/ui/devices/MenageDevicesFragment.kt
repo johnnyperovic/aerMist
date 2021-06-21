@@ -13,6 +13,24 @@ import androidx.navigation.fragment.findNavController
 import com.clj.fastble.data.BleDevice
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_devices.*
+import kotlinx.android.synthetic.main.fragment_devices.btnAddNewDevice
+import kotlinx.android.synthetic.main.fragment_devices.firstCardView
+import kotlinx.android.synthetic.main.fragment_devices.firstDeviceName
+import kotlinx.android.synthetic.main.fragment_devices.firstDeviceState
+import kotlinx.android.synthetic.main.fragment_devices.firstDotColor
+import kotlinx.android.synthetic.main.fragment_devices.fourthCardView
+import kotlinx.android.synthetic.main.fragment_devices.fourthDeviceName
+import kotlinx.android.synthetic.main.fragment_devices.fourthDeviceState
+import kotlinx.android.synthetic.main.fragment_devices.fourthDotColor
+import kotlinx.android.synthetic.main.fragment_devices.secondCardView
+import kotlinx.android.synthetic.main.fragment_devices.secondDeviceName
+import kotlinx.android.synthetic.main.fragment_devices.secondDeviceState
+import kotlinx.android.synthetic.main.fragment_devices.secondDotColor
+import kotlinx.android.synthetic.main.fragment_devices.thirdCardView
+import kotlinx.android.synthetic.main.fragment_devices.thirdDeviceName
+import kotlinx.android.synthetic.main.fragment_devices.thirdDeviceState
+import kotlinx.android.synthetic.main.fragment_devices.thirdDotColor
+import kotlinx.android.synthetic.main.my_devices_fragment.*
 
 import llc.aerMist.app.R
 import llc.aerMist.app.models.MyDevice
@@ -53,6 +71,10 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
         if (deviceTotalNumber > 0) {
             bleList =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
+        }
+        if (deviceTotalNumber==4)
+        {
+            btnAddNewDevice.visibility=View.INVISIBLE
         }
         setFirstDevice()
         setSecondDevice()
@@ -241,32 +263,34 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
     override fun onClick(id: View?) {
         when (id) {
             firstCardView -> {
-                navigateToDeviceSettings(firstDevicePostion, isFirstConnected)
+                navigateToDevice(firstDevicePostion, isFirstConnected)
             }
             secondCardView -> {
-                navigateToDeviceSettings(secondDevicePosition, isSecondConnected)
+                navigateToDevice(secondDevicePosition, isSecondConnected)
             }
             thirdCardView -> {
-                navigateToDeviceSettings(thirdDevicePosition, isThirdConnected)
+                navigateToDevice(thirdDevicePosition, isThirdConnected)
             }
             fourthCardView -> {
-                navigateToDeviceSettings(fourthDevicePosition, isFourthConnected)
+                navigateToDevice(fourthDevicePosition, isFourthConnected)
+            }
+            btnAddNewDevice -> {
+                navigateToSearchFragment()
             }
         }
     }
 
-    private fun navigateToDeviceSettings(postion: Int, isConnected: Boolean) {
+    private fun navigateToDevice(postion: Int, isConnected: Boolean) {
         if (isConnected) {
-            val model:ScheduleModel= ScheduleModel(null,null,null,null,null)
-            val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion,model)
+            val model: ScheduleModel = ScheduleModel(null, null, null, null, null)
+            val action =
+                MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion, model)
             findNavController().navigate(action)
         }
     }
 
-    private fun navigateToSearchFragment(postion: Int, isConnected: Boolean) {
-        val model:ScheduleModel=ScheduleModel(null,null,null,null,null)
+    private fun navigateToSearchFragment() {
 
-        val action = MenageDevicesFragmentDirections.actionMenageDevicesToSetDevice(postion,model)
-        findNavController().navigate(action)
+        findNavController().navigate(R.id.action_menage_devices_to_search_device)
     }
 }

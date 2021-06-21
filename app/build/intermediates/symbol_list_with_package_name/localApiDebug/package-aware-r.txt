@@ -1986,6 +1986,8 @@ id firstInfoDots
 id firstLine
 id firstPopup
 id firstProgressBar
+id firstTimer
+id firstTimerTv
 id fitToContents
 id fixed
 id flip
@@ -2003,8 +2005,11 @@ id fourthPopup
 id fourthProgressBar
 id fourthStartTimeValue
 id fourthStopTimeValue
+id fourthTimer
+id fourthTimerTv
 id fragment_container_view_tag
 id friday
+id fridayTv
 id ghost_view
 id ghost_view_holder
 id glide_custom_view_target_tag
@@ -2074,6 +2079,7 @@ id mistTv
 id mistValue
 id mistingTv
 id monday
+id mondayTv
 id month_grid
 id month_navigation_bar
 id month_navigation_fragment_toggle
@@ -2176,6 +2182,7 @@ id right_side
 id rounded
 id row_index_key
 id saturday
+id saturdayTv
 id saveBtn
 id save_non_transition_alpha
 id save_overlay_view
@@ -2214,6 +2221,8 @@ id secondPopup
 id secondProgressBar
 id secondStartTimeValue
 id secondStopTimeValue
+id secondTimer
+id secondTimerTv
 id seekbar
 id seekbar_value
 id select_dialog_listview
@@ -2267,6 +2276,7 @@ id submenuarrow
 id submit_area
 id sunImg
 id sunday
+id sundayTv
 id suspendTimePicker
 id suspendTimeTv
 id suspendTv
@@ -2309,12 +2319,16 @@ id thirdDeviceName
 id thirdDeviceState
 id thirdDotColor
 id thirdInfoDots
+id thirdLine
 id thirdMiddleLine
 id thirdPopup
 id thirdProgressBar
 id thirdStartTimeValue
 id thirdStopTimerValue
+id thirdTimer
+id thirdTimerTv
 id thursday
+id thusdayTv
 id time
 id timePicker
 id timerTv
@@ -2336,6 +2350,7 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tuesday
+id tuesdayTv
 id tvWelcome
 id unchecked
 id uniform
@@ -2346,6 +2361,7 @@ id view_offset_helper
 id visible
 id visible_removing_fragment_view_tag
 id wednesday
+id wednesdayTv
 id welcomeFragment
 id whiteCircle
 id withText
@@ -3584,6 +3600,7 @@ styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
 xml backup_descriptor
 xml fragment_home_scene
+xml fragment_home_scene2
 xml standalone_badge
 xml standalone_badge_gravity_bottom_end
 xml standalone_badge_gravity_bottom_start

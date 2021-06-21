@@ -12,16 +12,19 @@ import androidx.annotation.RequiresApi
 import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_set_schedule.*
 import llc.aerMist.app.R
 import llc.aerMist.app.models.ScheduleModel
 import llc.aerMist.app.models.TimerModel
 import llc.aerMist.app.shared.kotlin.hideWithAnimation
 import llc.aerMist.app.shared.kotlin.showWithAnimation
+import llc.aerMist.app.ui.devices.SetDeviceFragmentArgs
 import llc.aerMist.app.ui.popup.NumberPickerPopup
 import llc.aerMist.app.ui.popup.SetTimePopup
 
 class SetScheduleFragment : Fragment(), View.OnClickListener {
+    private val args: SetScheduleFragmentArgs by navArgs()
 
     var numberPickerPopup = NumberPickerPopup()
     var numberOfOpenTimers = 1
@@ -43,8 +46,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
     var sixthTimmer: TimerModel = TimerModel("0", "0")
     var seventhTimmer: TimerModel = TimerModel("0", "0")
     var eightTimmer: TimerModel = TimerModel("0", "0")
-
-
+    var type = 0
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -72,6 +74,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
         wraper.setOnClickListener(this)
         cancelBtn.setOnClickListener(this)
         saveBtn.setOnClickListener(this)
+        type = args.type
 
     }
 
@@ -300,11 +303,28 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
             saveBtn -> {
                 numbers = intArrayOf(zeroX, oneX, twoX, threeX, fourX, fiveX, sixX)
                 val timerList =
-                    listOf<TimerModel>(firstTimer, secondTimer, thirdTimmer, fourtTimmer,fifthTimmer,sixthTimmer,seventhTimmer,eightTimmer)
+                    listOf<TimerModel>(
+                        firstTimer,
+                        secondTimer,
+                        thirdTimmer,
+                        fourtTimmer,
+                        fifthTimmer,
+                        sixthTimmer,
+                        seventhTimmer,
+                        eightTimmer
+                    )
                 val isNonSton = radioBtnNS.isChecked
                 val model = ScheduleModel(numbers, timerList, isNonSton, mist, suspend)
-                val action=SetScheduleFragmentDirections.actionSetScheduleToDeviceFragmnent(0,model)
-                findNavController().navigate(action)
+                if (type == 0) {
+                    var action =
+                        SetScheduleFragmentDirections.actionSetScheduleToDeviceFragmnent(0, model)
+                    findNavController().navigate(action)
+                } else if (type == 1) {
+                    val action =
+                        SetScheduleFragmentDirections.actionSetScheduleToHomeFragment(model)
+                    findNavController().navigate(action)
+                }
+                //
             }
         }
     }
@@ -363,51 +383,51 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
                 startTimeValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                firstTimer= TimerModel(setHour,setMin)
+                firstTimer = TimerModel(setHour, setMin)
             }
             2 -> {
                 stopTimeValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                secondTimer=TimerModel(setHour,setMin)
+                secondTimer = TimerModel(setHour, setMin)
             }
             3 -> {
                 secondStartTimeValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                thirdTimmer=TimerModel(setHour,setMin)
+                thirdTimmer = TimerModel(setHour, setMin)
             }
             4 -> {
                 secondStopTimeValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                fourtTimmer=TimerModel(setHour,setMin)
+                fourtTimmer = TimerModel(setHour, setMin)
             }
             5 -> {
                 thirdStartTimeValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                fifthTimmer=TimerModel(setHour,setMin)
+                fifthTimmer = TimerModel(setHour, setMin)
 
             }
             6 -> {
                 thirdStopTimerValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                sixthTimmer=TimerModel(setHour,setMin)
+                sixthTimmer = TimerModel(setHour, setMin)
             }
             7 -> {
                 fourthStartTimeValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                seventhTimmer=TimerModel(setHour,setMin)
+                seventhTimmer = TimerModel(setHour, setMin)
 
             }
             8 -> {
                 fourthStopTimeValue.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                 )
-                eightTimmer=TimerModel(setHour,setMin)
+                eightTimmer = TimerModel(setHour, setMin)
             }
         }
 

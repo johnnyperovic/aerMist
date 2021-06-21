@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.clj.fastble.data.BleDevice
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_set_device.*
 import kotlinx.android.synthetic.main.fragment_set_device.bleBg
 import kotlinx.android.synthetic.main.fragment_set_device.bleIcon
@@ -77,10 +76,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     val intervalSU = "EE03060.".toByteArray(charset)
     val intervalSS = "EE0400.".toByteArray(charset)
     val intervalFS = "EE0500.".toByteArray(charset)
+
     var intervalValue = "".toByteArray(charset)
     var sprayPDON = "E0400".toByteArray(charset)
     val sprayFriq = "EE0500.".toByteArray(charset)
-
     val scheduleMo = "EE0300"
     val scheduleTu = "EE0301"
     val scheduleWE = "EE0302"
@@ -99,7 +98,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     var secondTimer = ""
     var thirdTimer = ""
     var fourthTimer = ""
-
+    var sprayFriquency="EE07000000SSS00PPP"
     lateinit var daysInWeek: IntArray
 
     @SuppressLint("ClickableViewAccessibility")
@@ -120,8 +119,12 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             Log.e("D", "Tag " + tag)
             if (tag == 0) {
                 checkNonStopResponse(response)
-            } else {
+            }
+            else if(tag==1) {
                 checkIntervalResponse(response)
+            }
+            else{
+                checkScheduleRespone(response)
             }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
@@ -196,147 +199,47 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
         }
     }
-
-    fun sendSchedule() {
-
-    }
-
     fun checkScheduleRespone(response: String) {
         when (response) {
-            "EE120." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        monday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
-            "EE1310." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        monday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
-            "EE1300." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        tuesday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
-            "EE1311." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        tuesday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
-            "EE1301." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        wednesday.toByteArray(
-                            charset
-                        ), it1, it
-                    )
-                }
-            }
-            "EE1312." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        wednesday.toByteArray(
-                            charset
-                        ), it1, it
-                    )
-                }
-            }
-            "EE1302." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        thursday.toByteArray(
-                            charset
-                        ), it1, it
-                    )
-                }
-            }
-            "EE1313." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        thursday.toByteArray(
-                            charset
-                        ), it1, it
-                    )
-                }
-            }
-            "EE1303." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        friday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
-            "EE1314." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        friday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
-            "EE1304." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        saturday.toByteArray(
-                            charset
-                        ), it1, it
-                    )
-                }
-            }
-            "EE1315." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        saturday.toByteArray(
-                            charset
-                        ), it1, it
-                    )
-                }
-            }
-            "EE1305." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        sunday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
-            "EE1316." -> gatt?.let {
-                bleDevice?.let { it1 ->
-                    sendCommand(
-                        sunday.toByteArray(charset),
-                        it1,
-                        it
-                    )
-                }
-            }
+            "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(monday.toByteArray(charset), it1, it) } }
+            "EE1310." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(monday.toByteArray(charset), it1, it) } }
+            "EE1300." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(tuesday.toByteArray(charset), it1, it) } }
+            "EE1311." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(tuesday.toByteArray(charset), it1, it) } }
+            "EE1301." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(wednesday.toByteArray(charset), it1, it) } }
+            "EE1312." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(wednesday.toByteArray(charset), it1, it) } }
+            "EE1302." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(thursday.toByteArray(charset), it1, it) } }
+            "EE1313." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(thursday.toByteArray(charset), it1, it) } }
+            "EE1303." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(friday.toByteArray(charset), it1, it) } }
+            "EE1314." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(friday.toByteArray(charset), it1, it) } }
+            "EE1304." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(saturday.toByteArray(charset), it1, it) } }
+            "EE1315." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(saturday.toByteArray(charset), it1, it) } }
+            "EE1305." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sunday.toByteArray(charset), it1, it) } }
+            "EE1316." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sunday.toByteArray(charset), it1, it) } }
+
             "EE1306." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayPDON, it1, it) } }
             "EE141." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayPDON, it1, it) } }
             "EE140." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) } }
             "EE151." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) } }
-            "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(firstTimer.toByteArray(charset), it1, it) } }
-         //   "EE500." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(firstTimer.toByteArray(charset), it1, it) } }
-        }
 
+            "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(firstTimer.toByteArray(charset), it1, it) } }
+            "EE16100." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(firstTimer.toByteArray(charset), it1, it) } }
+            "EE16000." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(secondTimer.toByteArray(charset), it1, it) } }
+            "EE16101." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(secondTimer.toByteArray(charset), it1, it) } }
+            "EE16001." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(thirdTimer.toByteArray(charset), it1, it) } }
+            "EE16102." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(thirdTimer.toByteArray(charset), it1, it) } }
+            "EE16002." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(fourthTimer.toByteArray(charset), it1, it) } }
+            "EE16103." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(fourthTimer.toByteArray(charset), it1, it) } }
+            "EE16003." -> {
+                if (scheduleModel.nonStop==true)
+                {gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriquency.toByteArray(charset), it1, it) } }
+                    }
+                else{
+                  gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+                }
+            }
+            "EE171." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriquency.toByteArray(charset), it1, it) } }
+            "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+        }
     }
 
     fun formatTimer() {
@@ -364,6 +267,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val minEight = scheduleModel.timer?.get(7)!!.min
         fourthTimer = "EE060030" + hourSeven + minSeven + hourEight + minEight+"."
         Log.e("D", "fourthTimer " + fourthTimer)
+        val sss=getSeconds(scheduleModel.mist.toString())
+        val ppp=getSeconds(scheduleModel.suspend.toString())
+        var friqu="EE07000000"+sss+ppp+"."
+        sprayFriquency=friqu
     }
 
     fun setClickListener() {
