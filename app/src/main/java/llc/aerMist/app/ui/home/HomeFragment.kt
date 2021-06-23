@@ -26,14 +26,26 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_devices.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.bleBg
+import kotlinx.android.synthetic.main.fragment_home.bleIcon
 import kotlinx.android.synthetic.main.fragment_home.btnEdit
 import kotlinx.android.synthetic.main.fragment_home.btnStart
+import kotlinx.android.synthetic.main.fragment_home.firstLine
 import kotlinx.android.synthetic.main.fragment_home.guideline
+import kotlinx.android.synthetic.main.fragment_home.intervalImg
+import kotlinx.android.synthetic.main.fragment_home.intervalTv
 import kotlinx.android.synthetic.main.fragment_home.mistTv
 import kotlinx.android.synthetic.main.fragment_home.mistValue
+import kotlinx.android.synthetic.main.fragment_home.nonStopImg
+import kotlinx.android.synthetic.main.fragment_home.nonStopTv
+import kotlinx.android.synthetic.main.fragment_home.scheduleImg
+import kotlinx.android.synthetic.main.fragment_home.scheduleTv
+import kotlinx.android.synthetic.main.fragment_home.secondLine
 import kotlinx.android.synthetic.main.fragment_home.standbyTv
 import kotlinx.android.synthetic.main.fragment_home.suspendTv
 import kotlinx.android.synthetic.main.fragment_home.suspendValue
+import kotlinx.android.synthetic.main.fragment_home.tabName
+import kotlinx.android.synthetic.main.fragment_home.tab_icon
+import kotlinx.android.synthetic.main.fragment_set_device.*
 import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
 import llc.aerMist.app.models.BytePayload
@@ -46,6 +58,8 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import llc.aerMist.app.ui.devices.SetDeviceFragmentArgs
 import llc.aerMist.app.ui.popup.NumberPickerPopup
 import org.koin.android.ext.android.inject
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class HomeFragment : Fragment(), View.OnClickListener {
@@ -87,10 +101,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
     val intervalSU = "EE03060.".toByteArray(charset)
     val intervalSS = "EE0400.".toByteArray(charset)
     val intervalFS = "EE0500.".toByteArray(charset)
-    var intervalValue = "".toByteArray(charset)
+    var intervalValue = "EE07000000000000.".toByteArray(charset)
 
-    var sprayPDON = "E0400".toByteArray(charset)
-    val sprayFriq = "EE0500.".toByteArray(charset)
+    var mainRegister = "EE000.".toByteArray(charset)
+
+    var sprayPDON = "EE0400.".toByteArray(charset)//OVO PROVJETITI DA LI JE O-OF 1-ON Spray time per day
+    val sprayFriq = "EE0500.".toByteArray(charset)//na “Spray frequency” switch (X=0, switch je ON, X=1 switch je OFF)
     val scheduleMo = "EE0300"
     val scheduleTu = "EE0301"
     val scheduleWE = "EE0302"
@@ -110,6 +126,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     var thirdTimer = ""
     var fourthTimer = ""
     var sprayFriquency = "EE07000000SSS00PPP"
+    var dateAndTimeSynch = "EE00+YYYYMMDDHHNNSST"
     lateinit var daysInWeek: IntArray
     private val scheduleModelArgs: HomeFragmentArgs by navArgs()
     private lateinit var scheduleModel: ScheduleModel
@@ -133,6 +150,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         setThirdDevice()
         setFourthDevice()
         initBleConroller()
+        formatDateAndTime()
         val observer = Observer<CharArray> {
             var response = ""
             for (item in it) {
@@ -174,31 +192,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
             } else if (tag == 2) {
                 when (bleNumber) {
                     1 -> {
-                        checkIntervalResponse(response, firstBleDevice, firstGate)
+                        checkScheduleRespone(response, firstBleDevice, firstGate,bleNumber)
                     }
                     2 -> {
-                        checkIntervalResponse(response, secondBleDevice, secondGate)
+                        checkScheduleRespone(response, secondBleDevice, secondGate,bleNumber)
                     }
                     3 -> {
-                        checkIntervalResponse(response, thirdBleDevice, thirdGate)
+                        checkScheduleRespone(response, thirdBleDevice, thirdGate,bleNumber)
                     }
                     4 -> {
-                        checkIntervalResponse(response, fourthBleDevice, fourthGate)
-                    }
-                }
-            } else if (tag == 3) {
-                when (bleNumber) {
-                    1 -> {
-                        checkIntervalResponse(response, firstBleDevice, firstGate)
-                    }
-                    2 -> {
-                        checkIntervalResponse(response, secondBleDevice, secondGate)
-                    }
-                    3 -> {
-                        checkIntervalResponse(response, thirdBleDevice, thirdGate)
-                    }
-                    4 -> {
-                        checkIntervalResponse(response, fourthBleDevice, fourthGate)
+                        checkScheduleRespone(response, fourthBleDevice, fourthGate,bleNumber)
                     }
                 }
             }
@@ -212,6 +215,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 formatDaySchedule()
             }
         }
+
+
     }
 
 
@@ -222,7 +227,145 @@ class HomeFragment : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
+    override fun onClick(id: View?) {
+        when (id) {
+            nonStopImg -> {
+                setNonStopView()
+            }
+            nonStopTv -> {
+                setNonStopView()
+            }
+            intervalImg -> {
+                setIntervalView()
+            }
+            intervalTv -> {
+                setIntervalView()
+            }
+            scheduleImg -> {
+                setScheduleView()
+            }
+            scheduleTv -> {
+                setScheduleView()
+            }
+            btnStart -> {
+                Log.e("D", "TAG " + tag)
+                startAnimation()
+                if (tag == 0) {
+                    btnStart.isEnabled = false
+                    if (btnStart.tag == "start") {
+                        btnStart.tag = "stop"
+                        var i = 0
+                        for (item in bleList) {
+                            sendCommand(nonStopOn, item, gattList.get(i))
+                            i++
+                        }
 
+                    }
+                    else{
+                        btnStart.tag = "start"
+                        var i = 0
+                        for (item in bleList) {
+                            sendCommand(byteArrayOF, item, gattList.get(i))
+                            i++
+                        }
+                    }
+                }else if (tag == 1) {
+                    if (btnStart.tag == "start") {
+                        btnStart.tag = "stop"
+                        var i = 0
+                        for (item in bleList) {
+                            sendCommand(intervalOn, item, gattList.get(i))
+                            i++
+                        }
+                    }
+                    else{
+                        btnStart.tag = "start"
+                        var i = 0
+                        for (item in bleList) {
+                            sendCommand(byteArrayOF, item, gattList.get(i))
+                            i++
+                        }
+                    }
+                }
+                else if (tag == 2) {
+                    if (btnStart.tag == "start") {
+                        btnStart.tag = "stop"
+                        var i = 0
+                        for (item in bleList) {
+                            sendCommand(intervalOn, item, gattList.get(i))
+                            i++
+                        }
+                    }
+                    else{
+                        btnStart.tag = "start"
+                        var i = 0
+                        for (item in bleList) {
+                            sendCommand(byteArrayOF, item, gattList.get(i))
+                            i++
+                        }
+                    }
+
+                }
+
+            }
+            btnEdit -> {
+                if (tag == 1) {
+                    setNumberPicker()
+                }
+                if (tag == 2) {
+                    navigateToSetSchedule()
+                }
+            }
+        }
+    }
+    fun formatDateAndTime()
+    {
+        val currentDateTime = LocalDateTime.now()
+        val min=currentDateTime.minute
+        val hour=currentDateTime.hour
+        val sec=currentDateTime.second
+        val year=currentDateTime.year
+        val dayOfWeek=currentDateTime.dayOfWeek
+        val month=currentDateTime.format(DateTimeFormatter.ofPattern("MM"))
+        val day= currentDateTime.format(DateTimeFormatter.ofPattern("dd"))
+        val dayNumber=getDayInWeek(dayOfWeek.toString().toLowerCase())
+
+        var secString=""
+        if (sec<10)
+        {
+            secString="0"+sec
+        }
+        else{
+            secString=sec.toString()
+        }
+        var minString=""
+        if (min<10)
+        {
+            minString="0"+min
+        }
+        else{
+            minString=min.toString()
+        }
+        dateAndTimeSynch="EE000"+year+month+day+hour+minString+secString+dayNumber+"."
+
+        Log.e("D","dateAndTimeSynch $dateAndTimeSynch")
+           // firstGate?.let { firstBleDevice?.let { it1 -> sendCommand(dateAndTimeSynch.toByteArray(charset), it1, it) } }
+    }
+    fun getDayInWeek(day:String):Int
+    {
+        var dayInWeek=0
+        when(day)
+        {
+            "monday"->dayInWeek= 0
+            "tuesday"->dayInWeek= 1
+            "wednesday"->dayInWeek= 2
+            "thursday"->dayInWeek= 3
+            "friday"->dayInWeek= 4
+            "saturday"->dayInWeek= 5
+            "sunday"->dayInWeek= 6
+        }
+        return dayInWeek
+    }
     fun formatDaySchedule() {
         monday = scheduleMo + daysInWeek.get(0) + "."
         Log.e("D", "MONDAY " + monday)
@@ -328,14 +471,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun checkNonStopResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
+        Log.e("D","response "+response)
         when (response) {
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
-            "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayOF, it1, it) } }
+            "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE110." -> {Log.e("d","uspjesno zavrseno")
+            }
         }
     }
 
     fun checkIntervalResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
+        Log.e("D","INTERVAL RESPONSE "+response)
         when (response) {
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalMo, it1, it) } }
@@ -359,10 +506,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
             "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
             "EE171." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE110." -> {
+                Log.e("d","uspjesno zavrseno")
+            }
+
         }
     }
 
-    fun checkScheduleRespone(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
+    fun checkScheduleRespone(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?,number:Int) {
+        Log.e("D","Response $number "+response)
         when (response) {
             "EE120." -> gatt?.let {
                 bleDevice?.let { it1 ->
@@ -568,14 +721,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     )
                 }
             }
-//            "EE16003." -> {
-//                if (scheduleModel.nonStop==true)
-//                {gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriquency.toByteArray(charset), it1, it) } }
-//                }
-//                else{
-//                    gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
-//                }
-//            }
+            "EE16003." -> {
+                if (scheduleModel.nonStop==true)
+                {gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriquency.toByteArray(charset), it1, it) } }
+                }
+                else{
+                    gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+                }
+            }
             "EE171." -> gatt?.let {
                 bleDevice?.let { it1 ->
                     sendCommand(
@@ -586,6 +739,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 }
             }
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE110." -> {Log.e("d","uspjesno zavrseno")
+            }
+
         }
     }
 
@@ -829,50 +986,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    override fun onClick(id: View?) {
-        when (id) {
-            nonStopImg -> {
-                setNonStopView()
-            }
-            nonStopTv -> {
-                setNonStopView()
-            }
-            intervalImg -> {
-                setIntervalView()
-            }
-            intervalTv -> {
-                setIntervalView()
-            }
-            scheduleImg -> {
-                setScheduleView()
-            }
-            scheduleTv -> {
-                setScheduleView()
-            }
-            btnStart -> {
-                Log.e("D", "TAG " + tag)
-                if (tag == 0) {
-                    btnStart.isEnabled = false
-                    sendOnOfCommand()
-                    startAnimation()
-                } else if (tag == 1) {
-                    var i = 0
-                    for (item in bleList) {
-                        sendCommand(intervalOn, item, gattList.get(i))
-                        i++
-                    }
-                }
-            }
-            btnEdit -> {
-                if (tag == 1) {
-                    setNumberPicker()
-                }
-                if (tag == 2) {
-                    navigateToSetSchedule()
-                }
-            }
-        }
-    }
+
 
     fun turnOnOFDevice(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
         val pos = gatt.services.size - 1
@@ -1010,75 +1124,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         guideline.setGuidelinePercent(0.65f)
     }
 
-    fun sendOnOfCommand() {
-        if (tag == 0) {
-            if (allDevices == 1) {
 
-                if (btnStart.tag == "start") {
-                    firstBleDevice?.let {
-                        firstGate?.let { it1 ->
-                            turnOnOFDevice(
-                                byteArrayON, it,
-                                it1
-                            )
-                        }
-                    }
-                    btnStart.tag = "stop"
-                } else {
-                    firstBleDevice?.let {
-                        firstGate?.let { it1 ->
-                            turnOnOFDevice(
-                                byteArrayOF, it,
-                                it1
-                            )
-                        }
-                    }
-                    btnStart.tag = "start"
-                }
-            } else if (allDevices == 2) {
-                if (btnStart.tag == "start") {
-                    firstBleDevice?.let {
-                        firstGate?.let { it1 ->
-                            turnOnOFDevice(
-                                byteArrayON, it,
-                                it1
-                            )
-                        }
-                    }
-                    secondBleDevice?.let {
-                        secondGate?.let { it1 ->
-                            turnOnOFDevice(
-                                byteArrayON, it,
-                                it1
-                            )
-                        }
-                    }
-                    btnStart.tag = "stop"
-                } else {
-                    firstBleDevice?.let {
-                        firstGate?.let { it1 ->
-                            turnOnOFDevice(
-                                byteArrayOF, it,
-                                it1
-                            )
-                        }
-                    }
-                    secondBleDevice?.let {
-                        secondGate?.let { it1 ->
-                            turnOnOFDevice(
-                                byteArrayOF, it,
-                                it1
-                            )
-                        }
-                    }
-                    btnStart.tag = "start"
-                }
-            }
-        }
-        if (tag == 1) {
-
-        }
-    }
 
     fun startAnimation() {
         if (intervalImg.visibility == View.VISIBLE) {
@@ -1243,6 +1289,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     val suspend = data?.getString("suspend")
                     mistValue.text = mist
                     suspendValue.text = suspend
+                    mistValueSeconds = mist?.let { getSeconds(it) }.toString()
+                    suspendValueSeconds = suspend?.let { getSeconds(it) }.toString()
+
+                    mistValue.text = mist
+                    suspendValue.text = suspend
+                    var fullCommand = ""
+                    fullCommand = fullCommand + "EE07000000"
+                    fullCommand = fullCommand + mistValueSeconds
+                    fullCommand = fullCommand + "00"
+                    fullCommand = fullCommand + suspendValueSeconds
+                    fullCommand = fullCommand + "."
+                    intervalValue = fullCommand.toByteArray(charset)
                 }
             }
         }

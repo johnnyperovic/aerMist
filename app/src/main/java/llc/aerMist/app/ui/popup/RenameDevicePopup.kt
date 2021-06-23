@@ -54,11 +54,12 @@ class RenameDevicePopup(val device: BleDevice,val position:Int) : DialogFragment
             }
             val gson = Gson()
             val newDevice = MyDevice(device.name, newName,device,false)
-
             val json = gson.toJson(newDevice)
             when(position)
             {
-                0->prefs.firstDevice = json
+                0->{
+                    prefs.firstDevice = json
+                }
                 1->prefs.secondDevice = json
                 2->prefs.thirdDevice = json
                 3->prefs.fourthDevice = json

@@ -2,6 +2,7 @@ package llc.aerMist.app.ui.devices
 
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.NavDirections
 import java.io.Serializable
 import java.lang.UnsupportedOperationException
@@ -36,5 +37,8 @@ class MenageDevicesFragmentDirections private constructor() {
   companion object {
     fun actionMenageDevicesToSetDevice(myArg: Int = 1, model: ScheduleModel): NavDirections =
         ActionMenageDevicesToSetDevice(myArg, model)
+
+    fun actionMenageDevicesToSearchDevice(): NavDirections =
+        ActionOnlyNavDirections(R.id.action_menage_devices_to_search_device)
   }
 }

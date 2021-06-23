@@ -64,4 +64,5 @@
     <string name="rename">Rename</string>
     <string name="reset_filter">Reset filter</string>
     <string name="remove_device">Remove device</string>
+    <string name="remove">remove</string>
 </resources>

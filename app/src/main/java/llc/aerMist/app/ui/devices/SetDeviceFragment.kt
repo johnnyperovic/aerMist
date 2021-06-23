@@ -78,7 +78,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     val intervalFS = "EE0500.".toByteArray(charset)
 
     var intervalValue = "".toByteArray(charset)
-    var sprayPDON = "E0400".toByteArray(charset)
+    var sprayPDON = "EE0401.".toByteArray(charset)
     val sprayFriq = "EE0500.".toByteArray(charset)
     val scheduleMo = "EE0300"
     val scheduleTu = "EE0301"
@@ -197,9 +197,13 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
             "EE171." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE110." -> {"USPJESNO ZAVRSENO"}
         }
     }
     fun checkScheduleRespone(response: String) {
+        Log.e("d","RESPONSE "+response)
+
         when (response) {
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(monday.toByteArray(charset), it1, it) } }
             "EE1310." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(monday.toByteArray(charset), it1, it) } }

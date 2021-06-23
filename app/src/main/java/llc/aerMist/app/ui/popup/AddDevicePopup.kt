@@ -38,7 +38,7 @@ class AddDevicePopup(val device: BleDevice) : DialogFragment() {
 
         val dialogView: View = inflater.inflate(R.layout.add_device_popup, container, false)
         dialogView.deviceId.text = device.name
-        dialogView.cancelBtn.setOnClickListener {
+        dialogView.cancelBtn.setOnClickListener { 
          //   prefs.clear()
             dialog?.dismiss()
         }

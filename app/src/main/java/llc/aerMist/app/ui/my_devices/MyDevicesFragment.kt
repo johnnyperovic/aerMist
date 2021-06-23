@@ -267,7 +267,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun navigateToMain() {
-        bluetoothController.bluetoothManager.cancelScan()
+//        bluetoothController.bluetoothManager.cancelScan()
         findNavController().navigate(R.id.action_my_devices_to_main_fragment)
     }
 
@@ -284,7 +284,6 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         } else {
             firstCardView.visibility = View.GONE
         }
-
     }
 
     fun setSecondDevice() {
