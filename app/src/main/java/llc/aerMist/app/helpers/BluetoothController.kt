@@ -115,19 +115,6 @@ class BluetoothController(
         bluetoothManager.initScanRule(scanRuleConfig)
     }
 
-//    fun disconnect() {
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
-//            connectionStateCoordinator.gatt?.disconnect()
-//        }
-//        connectionStateCoordinator.bluetoothConnectionState.value = ""
-//        connectionStateCoordinator.isDeviceConnected = false
-//        connectionStateCoordinator.idString.value = ""
-//        connectionStateCoordinator.gatt = null
-//        connectionStateCoordinator.bluetoothController = null
-//        connectionStateCoordinator.isDeviceAuthorized = false
-//        connectionStateCoordinator.bluetoothByteArray.value = UIntArray(14)
-//        Log.i("BluetoothController", "Device disconnected")
-//    }
     fun startConnectingMyDevices()
     {
         val deviceOne = prefs.getString("first_device","")

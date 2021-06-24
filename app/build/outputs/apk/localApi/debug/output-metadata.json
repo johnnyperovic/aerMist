@@ -10,8 +10,8 @@
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 60,
-      "versionName": "0.0.60",
+      "versionCode": 61,
+      "versionName": "0.0.61",
       "outputFile": "app-localApi-debug.apk"
     }
   ]

@@ -45,7 +45,6 @@ import kotlinx.android.synthetic.main.fragment_home.suspendTv
 import kotlinx.android.synthetic.main.fragment_home.suspendValue
 import kotlinx.android.synthetic.main.fragment_home.tabName
 import kotlinx.android.synthetic.main.fragment_home.tab_icon
-import kotlinx.android.synthetic.main.fragment_set_device.*
 import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
 import llc.aerMist.app.models.BytePayload
@@ -55,7 +54,6 @@ import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.kotlin.hideWithAnimation
 import llc.aerMist.app.shared.kotlin.showWithAnimation
 import llc.aerMist.app.shared.util.PreferenceCache
-import llc.aerMist.app.ui.devices.SetDeviceFragmentArgs
 import llc.aerMist.app.ui.popup.NumberPickerPopup
 import org.koin.android.ext.android.inject
 import java.time.LocalDateTime
@@ -145,6 +143,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             bleList =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
         }
+        deviceNumber.text=allDevices.toString()+"/4 devices connected"
         setFirstDevice()
         setSecondDevice()
         setThirdDevice()
@@ -421,9 +420,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         firstTimer = "EE060000" + hourOne + minOne + hourTwo + minTwo + "."
         firstTimerTv.text = hourOne + ":" + minOne + " - " + hourTwo + ":" + minTwo
         if (hourOne != "0" && hourTwo != "0") {
-            firstTimerTv.visibility = View.VISIBLE
+            firstTimerTv.showWithAnimation()
         } else {
-            firstTimerTv.visibility = View.INVISIBLE
+            firstTimerTv.hideWithAnimation()
         }
         Log.e("D", "firstTimer " + firstTimer)
         val hourThree = scheduleModel.timer?.get(2)!!.hours
@@ -433,9 +432,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         secondTimer = "EE060010" + hourThree + minThree + hourFour + minFour + "."
         secondTimerTv.text = hourThree + ":" + minThree + " - " + hourFour + ":" + hourFour
         if (hourThree != "0" && hourFour != "0") {
-            secondTimerTv.visibility = View.VISIBLE
+            secondTimerTv.showWithAnimation()
         } else {
-            secondTimerTv.visibility = View.INVISIBLE
+            secondTimerTv.hideWithAnimation()
         }
         Log.e("D", "secondTimer " + secondTimer)
         val hourFive = scheduleModel.timer?.get(4)!!.hours
@@ -445,9 +444,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         thirdTimer = "EE060020" + hourFive + minFive + hourSix + minSix + "."
         thirdTimerTv.text = hourFive + ":" + minFive + " - " + hourSix + ":" + minSix
         if (hourFive != "0" && hourSix != "0") {
-            thirdTimerTv.visibility = View.VISIBLE
+            thirdTimerTv.showWithAnimation()
         } else {
-            thirdTimerTv.visibility = View.INVISIBLE
+            thirdTimerTv.hideWithAnimation()
         }
         Log.e("D", "thirdTimer " + thirdTimer)
         val hourSeven = scheduleModel.timer?.get(6)!!.hours
@@ -457,9 +456,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         fourthTimer = "EE060030" + hourSeven + minSeven + hourEight + minEight + "."
         fourthTimerTv.text = hourSeven + ":" + minSeven + " - " + hourEight + ":" + hourEight
         if (hourSeven != "0" && hourEight != "0") {
-            fourthTimerTv.visibility = View.VISIBLE
+            fourthTimerTv.showWithAnimation()
         } else {
-            fourthTimerTv.visibility = View.INVISIBLE
+            fourthTimerTv.hideWithAnimation()
         }
         Log.e("D", "fourthTimer " + fourthTimer)
         val sss = getSeconds(scheduleModel.suspend.toString())
@@ -748,7 +747,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setFirstDevice() {
         val deviceOne = prefs.firstDevice
-        if (deviceOne.length > 1) {
+        if (!deviceOne.isNullOrEmpty()) {
             val gson = Gson()
             val deviceOneObj: MyDevice
             deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
@@ -784,7 +783,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setSecondDevice() {
         val deviceTwo = prefs.secondDevice
-        if (deviceTwo.length > 1) {
+        if (!deviceTwo.isNullOrEmpty()) {
             val gson = Gson()
             val deviceTwoObj: MyDevice
             deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
@@ -804,7 +803,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setThirdDevice() {
         val deviceThree = prefs.thirdDevice
-        if (deviceThree.length > 1) {
+        if (!deviceThree.isNullOrEmpty()) {
             val gson = Gson()
             val deviceThreeObj: MyDevice
             deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
@@ -825,7 +824,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setFourthDevice() {
         val deviceFour = prefs.fourthDevice
-        if (deviceFour.length > 1) {
+        if (!deviceFour.isNullOrEmpty()) {
             val gson = Gson()
             val deviceFourObj: MyDevice
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
@@ -999,19 +998,19 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setNonStopView() {
         tag = 0
-        mistTv.visibility = View.INVISIBLE
-        mistValue.visibility = View.INVISIBLE
-        suspendTv.visibility = View.INVISIBLE
-        suspendValue.visibility = View.INVISIBLE
-        btnEdit.visibility = View.INVISIBLE
-        secondLine.visibility = View.INVISIBLE
-        mondayTv.visibility = View.INVISIBLE
-        tuesdayTv.visibility = View.INVISIBLE
-        wednesdayTv.visibility = View.INVISIBLE
-        thusdayTv.visibility = View.INVISIBLE
-        fridayTv.visibility = View.INVISIBLE
-        saturdayTv.visibility = View.INVISIBLE
-        sundayTv.visibility = View.INVISIBLE
+        mistTv.hideWithAnimation()
+        mistValue.hideWithAnimation()
+        suspendTv.hideWithAnimation()
+        suspendValue.hideWithAnimation()
+        btnEdit.hideWithAnimation()
+        secondLine.hideWithAnimation()
+        mondayTv.hideWithAnimation()
+        tuesdayTv.hideWithAnimation()
+        wednesdayTv.hideWithAnimation()
+        thusdayTv.hideWithAnimation()
+        fridayTv.hideWithAnimation()
+        saturdayTv.hideWithAnimation()
+        sundayTv.hideWithAnimation()
         firstTimerTv.visibility=View.INVISIBLE
         secondTimerTv.visibility=View.INVISIBLE
         thirdTimerTv.visibility=View.INVISIBLE
@@ -1077,13 +1076,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
             ContextCompat.getDrawable(requireContext(), R.drawable.orange_circle)
         )
         guideline.setGuidelinePercent(0.65f)
-        mondayTv.visibility = View.INVISIBLE
-        tuesdayTv.visibility = View.INVISIBLE
-        wednesdayTv.visibility = View.INVISIBLE
-        thusdayTv.visibility = View.INVISIBLE
-        fridayTv.visibility = View.INVISIBLE
-        saturdayTv.visibility = View.INVISIBLE
-        sundayTv.visibility = View.INVISIBLE
+        mondayTv.hideWithAnimation()
+        tuesdayTv.hideWithAnimation()
+        wednesdayTv.hideWithAnimation()
+        thusdayTv.hideWithAnimation()
+        fridayTv.hideWithAnimation()
+        saturdayTv.hideWithAnimation()
+        sundayTv.hideWithAnimation()
         firstTimerTv.visibility=View.INVISIBLE
         secondTimerTv.visibility=View.INVISIBLE
         thirdTimerTv.visibility=View.INVISIBLE
@@ -1097,6 +1096,17 @@ class HomeFragment : Fragment(), View.OnClickListener {
         suspendTv.showWithAnimation()
         suspendValue.showWithAnimation()
         btnEdit.showWithAnimation()
+        mondayTv.showWithAnimation()
+        tuesdayTv.showWithAnimation()
+        wednesdayTv.showWithAnimation()
+        thusdayTv.showWithAnimation()
+        fridayTv.showWithAnimation()
+        saturdayTv.showWithAnimation()
+        sundayTv.showWithAnimation()
+        firstTimerTv.visibility=View.VISIBLE
+        secondTimerTv.visibility=View.VISIBLE
+        thirdTimerTv.visibility=View.VISIBLE
+        fourthTimerTv.visibility=View.VISIBLE
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))

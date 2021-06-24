@@ -25,14 +25,17 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_fragment) as NavHostFragment
         navController = NavHostFragment.findNavController(navHostFragment)
-        val navGraph = navController.navInflater.inflate(R.navigation.main_nav_graph)
+        val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
         navGraph.startDestination=R.id.homeFragment
         navController.setGraph(navGraph)
         nav_view.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.setScheduleFragment -> hideBottomNav()
-                else -> showBottomNav()
+                R.id.homeFragment -> showBottomNav()
+                R.id.deviceFragment -> showBottomNav()
+                R.id.infoFragment -> showBottomNav()
+                R.id.setDeviceFragment -> showBottomNav()
+                else -> hideBottomNav()
             }
         }
     }

@@ -15,27 +15,39 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.clj.fastble.data.BleDevice
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_set_device.*
 import kotlinx.android.synthetic.main.fragment_set_device.bleBg
 import kotlinx.android.synthetic.main.fragment_set_device.bleIcon
 import kotlinx.android.synthetic.main.fragment_set_device.btnEdit
 import kotlinx.android.synthetic.main.fragment_set_device.btnStart
 import kotlinx.android.synthetic.main.fragment_set_device.firstLine
+import kotlinx.android.synthetic.main.fragment_set_device.firstTimerTv
+import kotlinx.android.synthetic.main.fragment_set_device.fourthTimerTv
+import kotlinx.android.synthetic.main.fragment_set_device.fridayTv
 import kotlinx.android.synthetic.main.fragment_set_device.guideline
 import kotlinx.android.synthetic.main.fragment_set_device.intervalImg
 import kotlinx.android.synthetic.main.fragment_set_device.intervalTv
 import kotlinx.android.synthetic.main.fragment_set_device.mistTv
 import kotlinx.android.synthetic.main.fragment_set_device.mistValue
+import kotlinx.android.synthetic.main.fragment_set_device.mondayTv
 import kotlinx.android.synthetic.main.fragment_set_device.nonStopImg
 import kotlinx.android.synthetic.main.fragment_set_device.nonStopTv
+import kotlinx.android.synthetic.main.fragment_set_device.saturdayTv
 import kotlinx.android.synthetic.main.fragment_set_device.scheduleImg
 import kotlinx.android.synthetic.main.fragment_set_device.scheduleTv
 import kotlinx.android.synthetic.main.fragment_set_device.secondLine
+import kotlinx.android.synthetic.main.fragment_set_device.secondTimerTv
 import kotlinx.android.synthetic.main.fragment_set_device.standbyTv
+import kotlinx.android.synthetic.main.fragment_set_device.sundayTv
 import kotlinx.android.synthetic.main.fragment_set_device.suspendTv
 import kotlinx.android.synthetic.main.fragment_set_device.suspendValue
 import kotlinx.android.synthetic.main.fragment_set_device.tabName
 import kotlinx.android.synthetic.main.fragment_set_device.tab_icon
+import kotlinx.android.synthetic.main.fragment_set_device.thirdLine
+import kotlinx.android.synthetic.main.fragment_set_device.thirdTimerTv
+import kotlinx.android.synthetic.main.fragment_set_device.thusdayTv
+import kotlinx.android.synthetic.main.fragment_set_device.wednesdayTv
 import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
 import llc.aerMist.app.models.BytePayload
@@ -252,18 +264,36 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val hourTwo = scheduleModel.timer?.get(1)!!.hours
         val minTwo = scheduleModel.timer?.get(1)!!.min
         firstTimer = "EE060000" + hourOne + minOne + hourTwo + minTwo+"."
+        firstTimerTv.text = hourOne + ":" + minOne + " - " + hourTwo + ":" + minTwo
+        if (hourOne != "0" && hourTwo != "0") {
+            firstTimerTv.showWithAnimation()
+        } else {
+            firstTimerTv.hideWithAnimation()
+        }
         Log.e("D", "firstTimer " + firstTimer)
         val hourThree = scheduleModel.timer?.get(2)!!.hours
         val minThree = scheduleModel.timer?.get(2)!!.min
         val hourFour = scheduleModel.timer?.get(3)!!.hours
         val minFour = scheduleModel.timer?.get(3)!!.min
         secondTimer = "EE060010" + hourThree + minThree + hourFour + minFour+"."
+        secondTimerTv.text = hourThree + ":" + minThree + " - " + hourFour + ":" + hourFour
+        if (hourThree != "0" && hourFour != "0") {
+            secondTimerTv.showWithAnimation()
+        } else {
+            secondTimerTv.hideWithAnimation()
+        }
         Log.e("D", "secondTimer " + secondTimer)
         val hourFive = scheduleModel.timer?.get(4)!!.hours
         val minFive = scheduleModel.timer?.get(4)!!.min
         val hourSix = scheduleModel.timer?.get(5)!!.hours
         val minSix = scheduleModel.timer?.get(5)!!.min
         thirdTimer = "EE060020" + hourFive + minFive + hourSix + minSix+"."
+        thirdTimerTv.text = hourFive + ":" + minFive + " - " + hourSix + ":" + minSix
+        if (hourFive != "0" && hourSix != "0") {
+            thirdTimerTv.showWithAnimation()
+        } else {
+            thirdTimerTv.hideWithAnimation()
+        }
         Log.e("D", "thirdTimer " + thirdTimer)
         val hourSeven = scheduleModel.timer?.get(6)!!.hours
         val minSeven = scheduleModel.timer?.get(6)!!.min
@@ -271,10 +301,17 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val minEight = scheduleModel.timer?.get(7)!!.min
         fourthTimer = "EE060030" + hourSeven + minSeven + hourEight + minEight+"."
         Log.e("D", "fourthTimer " + fourthTimer)
+
+        if (hourSeven != "0" && hourEight != "0") {
+            fourthTimerTv.showWithAnimation()
+        } else {
+            fourthTimerTv.hideWithAnimation()
+        }
         val sss=getSeconds(scheduleModel.mist.toString())
         val ppp=getSeconds(scheduleModel.suspend.toString())
         var friqu="EE07000000"+sss+ppp+"."
         sprayFriquency=friqu
+
     }
 
     fun setClickListener() {
@@ -594,13 +631,24 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
     fun setNonStopView() {
         tag = 0
-        mistTv.visibility = View.INVISIBLE
-        mistValue.visibility = View.INVISIBLE
-        suspendTv.visibility = View.INVISIBLE
-        suspendValue.visibility = View.INVISIBLE
-        btnEdit.visibility = View.INVISIBLE
-        secondLine.visibility = View.INVISIBLE
-        thirdLine.visibility = View.INVISIBLE
+        mistTv.hideWithAnimation()
+        mistValue.hideWithAnimation()
+        suspendTv.hideWithAnimation()
+        suspendValue.hideWithAnimation()
+        btnEdit.hideWithAnimation()
+        secondLine.hideWithAnimation()
+        thirdLine.hideWithAnimation()
+        mondayTv.hideWithAnimation()
+        tuesdayTV.hideWithAnimation()
+        wednesdayTv.hideWithAnimation()
+        thusdayTv.hideWithAnimation()
+        fridayTv.hideWithAnimation()
+        saturdayTv.hideWithAnimation()
+        sundayTv.hideWithAnimation()
+        firstTimerTv.visibility=View.INVISIBLE
+        secondTimerTv.visibility=View.INVISIBLE
+        thirdTimerTv.visibility=View.INVISIBLE
+        fourthTimerTv.visibility=View.INVISIBLE
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
@@ -637,6 +685,17 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         btnEdit.showWithAnimation()
         secondLine.showWithAnimation()
         thirdLine.hideWithAnimation()
+        mondayTv.hideWithAnimation()
+        tuesdayTv.hideWithAnimation()
+        wednesdayTv.hideWithAnimation()
+        thusdayTv.hideWithAnimation()
+        fridayTv.hideWithAnimation()
+        saturdayTv.hideWithAnimation()
+        sundayTv.hideWithAnimation()
+        firstTimerTv.visibility=View.INVISIBLE
+        secondTimerTv.visibility=View.INVISIBLE
+        thirdTimerTv.visibility=View.INVISIBLE
+        fourthTimerTv.visibility=View.INVISIBLE
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
@@ -672,6 +731,17 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         suspendValue.showWithAnimation()
         btnEdit.showWithAnimation()
         thirdLine.showWithAnimation()
+        mondayTv.showWithAnimation()
+        tuesdayTv.showWithAnimation()
+        wednesdayTv.showWithAnimation()
+        thusdayTv.showWithAnimation()
+        fridayTv.showWithAnimation()
+        saturdayTv.showWithAnimation()
+        sundayTv.showWithAnimation()
+        firstTimerTv.visibility=View.VISIBLE
+        secondTimerTv.visibility=View.VISIBLE
+        thirdTimerTv.visibility=View.VISIBLE
+        fourthTimerTv.visibility=View.VISIBLE
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))

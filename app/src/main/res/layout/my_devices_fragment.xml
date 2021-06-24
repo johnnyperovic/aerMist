@@ -112,7 +112,7 @@
 
         <TextView
             android:id="@+id/renameFirstDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_regular"
@@ -123,7 +123,7 @@
 
         <TextView
             android:id="@+id/resetFirstFilter"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/roboto_regular"
@@ -134,7 +134,7 @@
 
         <TextView
             android:id="@+id/removeFirstDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:fontFamily="@font/roboto_regular"
@@ -236,7 +236,7 @@
 
         <TextView
             android:id="@+id/renameSecondDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_regular"
@@ -247,7 +247,7 @@
 
         <TextView
             android:id="@+id/resetSecondFilter"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/roboto_regular"
@@ -258,7 +258,7 @@
 
         <TextView
             android:id="@+id/removeSecondDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:fontFamily="@font/roboto_regular"
@@ -316,6 +316,7 @@
             android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="16sp"
             android:src="@drawable/three_dots"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -357,7 +358,7 @@
 
         <TextView
             android:id="@+id/renameThirdDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_regular"
@@ -368,7 +369,7 @@
 
         <TextView
             android:id="@+id/resetThirdFilter"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/roboto_regular"
@@ -379,7 +380,7 @@
 
         <TextView
             android:id="@+id/removeThirdDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:fontFamily="@font/roboto_regular"
@@ -437,6 +438,7 @@
             android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="16sp"
             android:src="@drawable/three_dots"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -479,7 +481,7 @@
 
         <TextView
             android:id="@+id/renameFourthDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/roboto_regular"
@@ -490,7 +492,7 @@
 
         <TextView
             android:id="@+id/resetFourthFilter"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:fontFamily="@font/roboto_regular"
@@ -501,7 +503,7 @@
 
         <TextView
             android:id="@+id/removeFourthDevice"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:fontFamily="@font/roboto_regular"

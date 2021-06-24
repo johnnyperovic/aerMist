@@ -20,7 +20,7 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 
 
-class RenameDevicePopup(val device: BleDevice,val position:Int) : DialogFragment() {
+class RenameDevicePopup(val position: Int, val deviceName: String) : DialogFragment() {
     private val prefs: PreferenceCache by inject()
 
 
@@ -39,30 +39,85 @@ class RenameDevicePopup(val device: BleDevice,val position:Int) : DialogFragment
         }
 
         val dialogView: View = inflater.inflate(R.layout.add_device_popup, container, false)
-        dialogView.deviceId.text = device.name
+        val gson = Gson()
+        val firstDevice = prefs.firstDevice
+        val secondDevice = prefs.secondDevice
+        val thirdDevice = prefs.thirdDevice
+        val fourthDevice = prefs.fourthDevice
+        var firstDeviceObj: MyDevice?=null
+        var secondDeviceObj: MyDevice?=null
+        var thirdDeviceObj: MyDevice?=null
+        var fourthDeviceObj: MyDevice?=null
+        if (!firstDevice.isNullOrEmpty())
+        {
+        }
+        if (!secondDevice.isNullOrEmpty())
+        {
+            secondDeviceObj = gson.fromJson(secondDevice, MyDevice::class.java)
+        }
+        if (!thirdDevice.isNullOrEmpty())
+        {
+            thirdDeviceObj = gson.fromJson(thirdDevice, MyDevice::class.java)
+        }
+        if (!fourthDevice.isNullOrEmpty())
+        {
+            fourthDeviceObj = gson.fromJson(fourthDevice, MyDevice::class.java)
+
+        }
+        when (position) {
+            0 -> {
+                firstDeviceObj = gson.fromJson(firstDevice, MyDevice::class.java)
+                dialogView.deviceId.text = firstDeviceObj.name
+            }
+            1 -> {
+                dialogView.deviceId.text = secondDeviceObj?.name
+
+            }
+            2 -> {
+                dialogView.deviceId.text = thirdDeviceObj?.name
+
+            }
+            3 -> {
+                dialogView.deviceId.text = fourthDeviceObj?.name
+            }
+        }
+
         dialogView.addBtn.text = resources.getString(R.string.rename)
+
+        dialogView.deviceNameValue.hint = deviceName
         dialogView.cancelBtn.setOnClickListener {
             //   prefs.clear()
             dialog?.dismiss()
         }
         dialogView.addBtn.setOnClickListener {
             val newName = dialogView.deviceNameValue.text.toString()
-            if (newName.length==0)
-            {
+            if (newName.length == 0) {
                 dialog?.dismiss()
                 return@setOnClickListener
             }
             val gson = Gson()
-            val newDevice = MyDevice(device.name, newName,device,false)
-            val json = gson.toJson(newDevice)
-            when(position)
-            {
-                0->{
+
+            when (position) {
+                0 -> {
+                    val newDevice = firstDeviceObj?.let { it1 -> MyDevice(it1?.name, newName, false) }
+                    val json = gson.toJson(newDevice)
                     prefs.firstDevice = json
                 }
-                1->prefs.secondDevice = json
-                2->prefs.thirdDevice = json
-                3->prefs.fourthDevice = json
+                1 -> {
+                    val newDevice = secondDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
+                    val json = gson.toJson(newDevice)
+                    prefs.secondDevice = json
+                }
+                2 -> {
+                    val newDevice = thirdDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
+                    val json = gson.toJson(newDevice)
+                    prefs.thirdDevice = json
+                }
+                3 -> {
+                    val newDevice = fourthDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
+                    val json = gson.toJson(newDevice)
+                    prefs.fourthDevice = json
+                }
             }
             val i: Intent = Intent()
                 .putExtra("name", newName)

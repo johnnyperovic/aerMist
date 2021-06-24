@@ -72,7 +72,10 @@ class SearchFragment : Fragment() {
 
         initRecycler()
         btnCancel.setOnClickListener {
-            bluetoothController.bluetoothManager.cancelScan()
+            if (bluetoothEnabled)
+            {
+                bluetoothController.bluetoothManager.cancelScan()
+            }
             navigateToMyDevices()
         }
     }

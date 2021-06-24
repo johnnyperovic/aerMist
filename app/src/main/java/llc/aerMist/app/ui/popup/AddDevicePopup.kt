@@ -50,7 +50,7 @@ class AddDevicePopup(val device: BleDevice) : DialogFragment() {
                 return@setOnClickListener
             }
             val gson = Gson()
-            val newDevice = MyDevice(device.name, newName,device,false)
+            val newDevice = MyDevice(device.name, newName,false)
 
             val json = gson.toJson(newDevice)
             if (prefs.firstDevice.length > 0 && prefs.secondDevice.length > 0 && prefs.thirdDevice.length > 0 && prefs.fourthDevice.length == 0) {

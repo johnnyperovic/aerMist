@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.dialog_reset_app.view.*
 import llc.aerMist.app.R
 import llc.aerMist.app.shared.util.PreferenceCache
@@ -38,11 +39,15 @@ class ResetAppPopup() : DialogFragment() {
         dialogView.resetBtn.setOnClickListener {
             prefs.clear()
             dialog?.dismiss()
+            navigateToWelcomeScreen()
         }
         builder.setView(dialogView)
         return dialogView
     }
-
+    private fun navigateToWelcomeScreen() {
+//        bluetoothController.bluetoothManager.cancelScan()
+        findNavController().navigate(R.id.action_info_to_welcome)
+    }
 
 
     override fun onStart() {

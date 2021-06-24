@@ -56,6 +56,7 @@ class PreferenceCache(val context: Context) {
             putString(FOURTH_DEVICE, value)
             apply()
         }
+
     fun clear() {
         prefs.edit()
             .remove(AUTH_TOKEN)
@@ -68,6 +69,26 @@ class PreferenceCache(val context: Context) {
             .remove(FOURTH_DEVICE)
             .apply()
     }
+
+    fun cleanFirstDevice() {
+        prefs.edit().remove(FIRST_DEVICE).apply()
+    }
+
+    fun cleanSecondDevice() {
+        prefs.edit()
+            .remove(SECOND_DEVICE).apply()
+    }
+
+    fun cleanThirdDevice() {
+        prefs.edit()
+            .remove(THIRD_DEVICE).apply()
+    }
+
+    fun cleanFourthDevice() {
+        prefs.edit()
+            .remove(FOURTH_DEVICE).apply()
+    }
+
 
     companion object {
         private const val AUTH_TOKEN = "authentication_token"
