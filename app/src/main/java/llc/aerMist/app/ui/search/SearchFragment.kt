@@ -135,7 +135,7 @@ class SearchFragment : Fragment() {
 
         override fun onScanFinished(scanResultList: List<BleDevice>) {
             Log.e("d", "Scan done from searcha " + scanResultList.size)
-            progressBar.visibility=View.INVISIBLE
+            progressBar?.visibility=View.INVISIBLE
 //            connectionStateCoordinator.listBleDevices.clear()
 //            for (item in scanResultList) {
 //                connectionStateCoordinator.listBleDevices.add(item)

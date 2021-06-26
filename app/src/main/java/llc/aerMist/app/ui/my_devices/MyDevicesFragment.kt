@@ -508,97 +508,71 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
 
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
-            Log.e("D", "onWriteSuccess ")
         }
 
         override fun onWriteFailure(exception: BleException?) {
-            // Log.e("D", "Notification faild " + exception?.description)
         }
 
     }
     private val notifyCallback = object : BleNotifyCallback() {
         override fun onNotifySuccess() {
-            Log.e("d", "onNotifySuccess firsDevice ")
         }
 
         override fun onNotifyFailure(exception: BleException) {
-            Log.e("d", " onNotifyFailure $exception")
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
-            Log.e("d", "Notifaction recived from firstDevice ")
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bleDevicePosition = 1
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
-
-            var i = 1
-//            var dataList = ArrayList<Int>()
-            // val idArray: Array<Byte> = arrayOf(data[5], data[6], data[7], data[8])
         }
     }
     private val notifyCallback2 = object : BleNotifyCallback() {
         override fun onNotifySuccess() {
-            Log.e("d", "onNotifySuccess secondDevice ")
         }
 
         override fun onNotifyFailure(exception: BleException) {
-            //  Log.e("d", " onNotifyFailure $exception")
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
-            Log.e("d", "Notifaction recived from secondDevice ")
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bleDevicePosition = 2
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
-
-
         }
     }
     private val notifyCallback3 = object : BleNotifyCallback() {
         override fun onNotifySuccess() {
-            Log.e("d", "onNotifySuccess thirdDevice")
         }
 
         override fun onNotifyFailure(exception: BleException) {
-            //  Log.e("d", " onNotifyFailure $exception")
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
-            Log.e("d", "Notifaction recived from thirdDevice ")
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bleDevicePosition = 3
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar
-
-
         }
     }
     private val notifyCallback4 = object : BleNotifyCallback() {
         override fun onNotifySuccess() {
-            Log.e("d", "onNotifySuccess fourhDevice")
         }
 
         override fun onNotifyFailure(exception: BleException) {
-            //  Log.e("d", " onNotifyFailure $exception")
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
-            Log.e("d", "Notifaction recived from fourth ")
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
-//                Log.e("D", "UIntArray " + index + "." + byte.toChar())
             }
             connectionStateCoordinator.bleDevicePosition = 4
             connectionStateCoordinator.bluetoothByteArray.value = newDataChar

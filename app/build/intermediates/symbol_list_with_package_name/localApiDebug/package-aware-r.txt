@@ -2012,6 +2012,7 @@ id fourthProgressBar
 id fourthStartTimeValue
 id fourthStopTimeValue
 id fourthTimerTv
+id fourthTimerTv2
 id fragment_container_view_tag
 id friday
 id fridayTv
@@ -2354,7 +2355,7 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tuesday
-id tuesdayTV
+id tuesdayTV2
 id tuesdayTv
 id tvWelcome
 id unchecked

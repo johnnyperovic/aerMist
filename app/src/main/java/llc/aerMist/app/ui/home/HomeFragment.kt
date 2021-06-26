@@ -22,6 +22,7 @@ import androidx.navigation.fragment.navArgs
 import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_devices.*
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -66,10 +67,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
     var numberPickerPopup = NumberPickerPopup()
     lateinit var bluetoothController: BluetoothController
     val connectionStateCoordinator = NewObservableCoordinator
-    private var firstDevice = ""
-    var secondDevice: String = ""
-    var thirdDevice: String = ""
-    var fourthDevice: String = ""
     var firstBleDevice: BleDevice? = null
     var secondBleDevice: BleDevice? = null
     var thirdBleDevice: BleDevice? = null
@@ -99,7 +96,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     val intervalSU = "EE03060.".toByteArray(charset)
     val intervalSS = "EE0400.".toByteArray(charset)
     val intervalFS = "EE0500.".toByteArray(charset)
-    var intervalValue = "EE07000000000000.".toByteArray(charset)
+    var intervalValue = "".toByteArray(charset)
 
     var mainRegister = "EE000.".toByteArray(charset)
 
@@ -134,7 +131,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         setClickListener()
-        setNonStopView()
         setMotionLayoutListener()
         setTouchSwipeListener()
         allDevices =
@@ -156,8 +152,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 response = response + item
             }
             val bleNumber = connectionStateCoordinator.bleDevicePosition
-            Log.e("D", "Tag " + tag)
-            Log.e("D", "bleNumber " + bleNumber)
+
+
             if (tag == 0) {
                 when (bleNumber) {
                     1 -> {
@@ -211,10 +207,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
             if (scheduleModel.days != null) {
                 setScheduleView()
                 daysInWeek = scheduleModel.days!!
+                for (item in daysInWeek)
+                {
+                    Log.e("D","daysInWeek "+item)
+                }
+                Log.e("D","dan pondedaljek "+daysInWeek.get(0))
+                Log.e("D","dan utorak "+daysInWeek.get(1))
                 formatDaySchedule()
             }
         }
-
+        else{
+            setNonStopView()
+        }
 
     }
 
@@ -226,6 +230,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
+
+
     override fun onClick(id: View?) {
         when (id) {
             nonStopImg -> {
@@ -248,8 +254,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
             btnStart -> {
                 Log.e("D", "TAG " + tag)
-                startAnimation()
                 if (tag == 0) {
+                    startAnimation()
                     btnStart.isEnabled = false
                     if (btnStart.tag == "start") {
                         btnStart.tag = "stop"
@@ -269,24 +275,31 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         }
                     }
                 }else if (tag == 1) {
-                    if (btnStart.tag == "start") {
-                        btnStart.tag = "stop"
-                        var i = 0
-                        for (item in bleList) {
-                            sendCommand(intervalOn, item, gattList.get(i))
-                            i++
+                    if (!intervalValue.isEmpty()) {
+                        startAnimation()
+                        if (btnStart.tag == "start") {
+                            btnStart.tag = "stop"
+                            var i = 0
+                            for (item in bleList) {
+                                sendCommand(intervalOn, item, gattList.get(i))
+                                i++
+                            }
+                        } else {
+                            btnStart.tag = "start"
+                            var i = 0
+                            for (item in bleList) {
+                                sendCommand(byteArrayOF, item, gattList.get(i))
+                                i++
+                            }
                         }
                     }
-                    else{
-                        btnStart.tag = "start"
-                        var i = 0
-                        for (item in bleList) {
-                            sendCommand(byteArrayOF, item, gattList.get(i))
-                            i++
-                        }
+                    else
+                    {
+                        Snackbar.make(requireView(), "You must choose interval", Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 else if (tag == 2) {
+                    startAnimation()
                     if (btnStart.tag == "start") {
                         btnStart.tag = "stop"
                         var i = 0
@@ -345,10 +358,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
         else{
             minString=min.toString()
         }
-        dateAndTimeSynch="EE000"+year+month+day+hour+minString+secString+dayNumber+"."
+        dateAndTimeSynch="EE000+"+year+month+day+hour+minString+secString+dayNumber+"."
 
         Log.e("D","dateAndTimeSynch $dateAndTimeSynch")
-           // firstGate?.let { firstBleDevice?.let { it1 -> sendCommand(dateAndTimeSynch.toByteArray(charset), it1, it) } }
+        //    firstGate?.let { firstBleDevice?.let { it1 -> sendCommand(dateAndTimeSynch.toByteArray(charset), it1, it) } }
     }
     fun getDayInWeek(day:String):Int
     {
@@ -374,40 +387,43 @@ class HomeFragment : Fragment(), View.OnClickListener {
         friday = scheduleFR + daysInWeek.get(4) + "."
         saturday = scheduleSA + daysInWeek.get(5) + "."
         sunday = scheduleSU + daysInWeek.get(6) + "."
+        Log.e("D","PONEDELJAK "+daysInWeek.get(0))
+        Log.e("D","UTORAK "+daysInWeek.get(1))
+
         if (daysInWeek.get(0) == 0) {
-            mondayTv.alpha = 0.3f
+            mondayTv.alpha =1f
         } else {
-            mondayTv.alpha = 1f
+            mondayTv.alpha = 0.3f
         }
         if (daysInWeek.get(1) == 0) {
-            tuesdayTv.alpha = 0.3f
+            tuesdayTv.alpha =1f
         } else {
-            tuesdayTv.alpha = 1f
+            tuesdayTv.alpha = 0.3f
         }
         if (daysInWeek.get(2) == 0) {
-            wednesdayTv.alpha = 0.3f
+            wednesdayTv.alpha =1f
         } else {
-            wednesdayTv.alpha = 1f
+            wednesdayTv.alpha = 0.3f
         }
         if (daysInWeek.get(3) == 0) {
-            thusdayTv.alpha = 0.3f
+            thusdayTv.alpha =1f
         } else {
-            thusdayTv.alpha = 1f
+            thusdayTv.alpha = 0.3f
         }
         if (daysInWeek.get(4) == 0) {
-            fridayTv.alpha = 0.3f
+            fridayTv.alpha =1f
         } else {
-            fridayTv.alpha = 1f
+            fridayTv.alpha = 0.3f
         }
         if (daysInWeek.get(5) == 0) {
-            saturdayTv.alpha = 0.3f
+            saturdayTv.alpha =1f
         } else {
-            saturdayTv.alpha = 1f
+            saturdayTv.alpha = 0.3f
         }
         if (daysInWeek.get(6) == 0) {
-            sundayTv.alpha = 0.3f
+            sundayTv.alpha =1f
         } else {
-            sundayTv.alpha = 1f
+            sundayTv.alpha = 0.3f
         }
         formatTimer()
     }
@@ -420,9 +436,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         firstTimer = "EE060000" + hourOne + minOne + hourTwo + minTwo + "."
         firstTimerTv.text = hourOne + ":" + minOne + " - " + hourTwo + ":" + minTwo
         if (hourOne != "0" && hourTwo != "0") {
-            firstTimerTv.showWithAnimation()
+            firstTimerTv.visibility=View.VISIBLE
         } else {
-            firstTimerTv.hideWithAnimation()
+            firstTimerTv.visibility=View.INVISIBLE
         }
         Log.e("D", "firstTimer " + firstTimer)
         val hourThree = scheduleModel.timer?.get(2)!!.hours
@@ -432,9 +448,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         secondTimer = "EE060010" + hourThree + minThree + hourFour + minFour + "."
         secondTimerTv.text = hourThree + ":" + minThree + " - " + hourFour + ":" + hourFour
         if (hourThree != "0" && hourFour != "0") {
-            secondTimerTv.showWithAnimation()
+            secondTimerTv.visibility=View.VISIBLE
         } else {
-            secondTimerTv.hideWithAnimation()
+            secondTimerTv.visibility=View.INVISIBLE
         }
         Log.e("D", "secondTimer " + secondTimer)
         val hourFive = scheduleModel.timer?.get(4)!!.hours
@@ -444,9 +460,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         thirdTimer = "EE060020" + hourFive + minFive + hourSix + minSix + "."
         thirdTimerTv.text = hourFive + ":" + minFive + " - " + hourSix + ":" + minSix
         if (hourFive != "0" && hourSix != "0") {
-            thirdTimerTv.showWithAnimation()
+            thirdTimerTv.visibility=View.VISIBLE
         } else {
-            thirdTimerTv.hideWithAnimation()
+            thirdTimerTv.visibility=View.INVISIBLE
         }
         Log.e("D", "thirdTimer " + thirdTimer)
         val hourSeven = scheduleModel.timer?.get(6)!!.hours
@@ -456,9 +472,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
         fourthTimer = "EE060030" + hourSeven + minSeven + hourEight + minEight + "."
         fourthTimerTv.text = hourSeven + ":" + minSeven + " - " + hourEight + ":" + hourEight
         if (hourSeven != "0" && hourEight != "0") {
-            fourthTimerTv.showWithAnimation()
+            fourthTimerTv.visibility=View.VISIBLE
         } else {
-            fourthTimerTv.hideWithAnimation()
+            fourthTimerTv.visibility=View.INVISIBLE
         }
         Log.e("D", "fourthTimer " + fourthTimer)
         val sss = getSeconds(scheduleModel.suspend.toString())
@@ -470,7 +486,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun checkNonStopResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
-        Log.e("D","response "+response)
+        Log.e("D","responseNonA"+response)
         when (response) {
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
@@ -946,37 +962,58 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setTabItemVisibility(state: Boolean) {
         if (state) {
-            intervalImg.hideWithAnimation()
-            intervalTv.hideWithAnimation()
-            scheduleImg.hideWithAnimation()
-            scheduleTv.hideWithAnimation()
-            nonStopImg.hideWithAnimation()
-            nonStopTv.hideWithAnimation()
-            firstLine.hideWithAnimation()
-            bleBg.hideWithAnimation()
-            bleIcon.hideWithAnimation()
-            standbyTv.hideWithAnimation()
-            mistTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            mistValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            suspendTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            suspendValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            firstLine.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            intervalImg?.visibility=View.INVISIBLE
+            intervalTv?.visibility=View.INVISIBLE
+            scheduleImg?.visibility=View.INVISIBLE
+            scheduleTv?.visibility=View.INVISIBLE
+            nonStopImg?.visibility=View.INVISIBLE
+            nonStopTv?.visibility=View.INVISIBLE
+            firstLine?.visibility=View.INVISIBLE
+            bleBg?.visibility=View.INVISIBLE
+            bleIcon?.visibility=View.INVISIBLE
+            standbyTv?.visibility=View.INVISIBLE
+            mistTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            mistValue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            suspendTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            suspendValue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            mondayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            tuesdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            wednesdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            thusdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            fridayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            saturdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            sundayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            firstTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            secondTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            thirdTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            fourthTimerTv?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
         } else {
-            intervalImg.showWithAnimation()
-            intervalTv.showWithAnimation()
-            scheduleImg.showWithAnimation()
-            scheduleTv.showWithAnimation()
-            nonStopImg.showWithAnimation()
-            nonStopTv.showWithAnimation()
-            firstLine.showWithAnimation()
-            bleBg.showWithAnimation()
-            bleIcon.showWithAnimation()
-            standbyTv.showWithAnimation()
-            mistTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            mistValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            suspendTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            suspendValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            firstLine.setBackgroundColor(
+            intervalImg?.visibility=View.VISIBLE
+            intervalTv?.visibility=View.VISIBLE
+            scheduleImg?.visibility=View.VISIBLE
+            scheduleTv?.visibility=View.VISIBLE
+            nonStopImg?.visibility=View.VISIBLE
+            nonStopTv?.visibility=View.VISIBLE
+            firstLine?.visibility=View.VISIBLE
+            bleBg?.visibility=View.VISIBLE
+            bleIcon?.visibility=View.VISIBLE
+            standbyTv?.visibility=View.VISIBLE
+            mistTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            mistValue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            suspendTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            suspendValue?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            mondayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            tuesdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            wednesdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            thusdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            fridayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            saturdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            sundayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            firstTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            secondTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            thirdTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            fourthTimerTv?.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            firstLine?.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
                     R.color.dark_gray
@@ -998,44 +1035,44 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setNonStopView() {
         tag = 0
-        mistTv.hideWithAnimation()
-        mistValue.hideWithAnimation()
-        suspendTv.hideWithAnimation()
-        suspendValue.hideWithAnimation()
-        btnEdit.hideWithAnimation()
-        secondLine.hideWithAnimation()
-        mondayTv.hideWithAnimation()
-        tuesdayTv.hideWithAnimation()
-        wednesdayTv.hideWithAnimation()
-        thusdayTv.hideWithAnimation()
-        fridayTv.hideWithAnimation()
-        saturdayTv.hideWithAnimation()
-        sundayTv.hideWithAnimation()
-        firstTimerTv.visibility=View.INVISIBLE
-        secondTimerTv.visibility=View.INVISIBLE
-        thirdTimerTv.visibility=View.INVISIBLE
-        fourthTimerTv.visibility=View.INVISIBLE
+        mistTv?.visibility=View.INVISIBLE
+        mistValue?.visibility=View.INVISIBLE
+        suspendTv?.visibility=View.INVISIBLE
+        suspendValue?.visibility=View.INVISIBLE
+        btnEdit?.visibility=View.INVISIBLE
+        secondLine?.visibility=View.INVISIBLE
+        mondayTv?.visibility=View.INVISIBLE
+        tuesdayTv?.visibility=View.INVISIBLE
+        wednesdayTv?.visibility=View.INVISIBLE
+        thusdayTv?.visibility=View.INVISIBLE
+        fridayTv?.visibility=View.INVISIBLE
+        saturdayTv?.visibility=View.INVISIBLE
+        sundayTv?.visibility=View.INVISIBLE
+        firstTimerTv?.visibility=View.INVISIBLE
+        secondTimerTv?.visibility=View.INVISIBLE
+        thirdTimerTv?.visibility=View.INVISIBLE
+        fourthTimerTv?.visibility=View.INVISIBLE
 
-        nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
-        intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        bleBg.setImageDrawable(
+        nonStopTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        intervalTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        scheduleTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        bleBg?.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
         )
-        guideline.setGuidelinePercent(1f)
-        nonStopImg.setImageDrawable(
+        guideline?.setGuidelinePercent(1f)
+        nonStopImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.non_stop_orange_icon
             )
         )
-        intervalImg.setImageDrawable(
+        intervalImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.interval_icon
             )
         )
-        scheduleImg.setImageDrawable(
+        scheduleImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.schedule_icon
@@ -1045,93 +1082,93 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun setIntervalView() {
         tag = 1
-        mistTv.showWithAnimation()
-        mistValue.showWithAnimation()
-        suspendTv.showWithAnimation()
-        suspendValue.showWithAnimation()
-        btnEdit.showWithAnimation()
-        secondLine.showWithAnimation()
-        nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
-        scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        nonStopImg.setImageDrawable(
+        mistTv?.visibility=View.VISIBLE
+        mistValue?.visibility=View.VISIBLE
+        suspendTv?.visibility=View.VISIBLE
+        suspendValue?.visibility=View.VISIBLE
+        btnEdit?.visibility=View.VISIBLE
+        secondLine?.visibility=View.VISIBLE
+        nonStopTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        intervalTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        scheduleTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        nonStopImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.non_stop_icon
             )
         )
-        intervalImg.setImageDrawable(
+        intervalImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.interval_orange_icon
             )
         )
-        scheduleImg.setImageDrawable(
+        scheduleImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.schedule_icon
             )
         )
-        bleBg.setImageDrawable(
+        bleBg?.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.orange_circle)
         )
-        guideline.setGuidelinePercent(0.65f)
-        mondayTv.hideWithAnimation()
-        tuesdayTv.hideWithAnimation()
-        wednesdayTv.hideWithAnimation()
-        thusdayTv.hideWithAnimation()
-        fridayTv.hideWithAnimation()
-        saturdayTv.hideWithAnimation()
-        sundayTv.hideWithAnimation()
-        firstTimerTv.visibility=View.INVISIBLE
-        secondTimerTv.visibility=View.INVISIBLE
-        thirdTimerTv.visibility=View.INVISIBLE
-        fourthTimerTv.visibility=View.INVISIBLE
+        guideline?.setGuidelinePercent(0.65f)
+        mondayTv?.visibility=View.INVISIBLE
+        tuesdayTv?.visibility=View.INVISIBLE
+        wednesdayTv?.visibility=View.INVISIBLE
+        thusdayTv?.visibility=View.INVISIBLE
+        fridayTv?.visibility=View.INVISIBLE
+        saturdayTv?.visibility=View.INVISIBLE
+        sundayTv?.visibility=View.INVISIBLE
+        firstTimerTv?.visibility=View.INVISIBLE
+        secondTimerTv?.visibility=View.INVISIBLE
+        thirdTimerTv?.visibility=View.INVISIBLE
+        fourthTimerTv?.visibility=View.INVISIBLE
     }
 
     fun setScheduleView() {
         tag = 2
-        mistTv.showWithAnimation()
-        mistValue.showWithAnimation()
-        suspendTv.showWithAnimation()
-        suspendValue.showWithAnimation()
-        btnEdit.showWithAnimation()
-        mondayTv.showWithAnimation()
-        tuesdayTv.showWithAnimation()
-        wednesdayTv.showWithAnimation()
-        thusdayTv.showWithAnimation()
-        fridayTv.showWithAnimation()
-        saturdayTv.showWithAnimation()
-        sundayTv.showWithAnimation()
-        firstTimerTv.visibility=View.VISIBLE
-        secondTimerTv.visibility=View.VISIBLE
-        thirdTimerTv.visibility=View.VISIBLE
-        fourthTimerTv.visibility=View.VISIBLE
-        nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
-        nonStopImg.setImageDrawable(
+        mistTv?.visibility=View.VISIBLE
+        mistValue?.visibility=View.VISIBLE
+        suspendTv?.visibility=View.VISIBLE
+        suspendValue?.visibility=View.VISIBLE
+        btnEdit?.visibility=View.VISIBLE
+        mondayTv?.visibility=View.VISIBLE
+        tuesdayTv?.visibility=View.VISIBLE
+        wednesdayTv?.visibility=View.VISIBLE
+        thusdayTv?.visibility=View.VISIBLE
+        fridayTv?.visibility=View.VISIBLE
+        saturdayTv?.visibility=View.VISIBLE
+        sundayTv?.visibility=View.VISIBLE
+        firstTimerTv?.visibility=View.VISIBLE
+        secondTimerTv?.visibility=View.VISIBLE
+        thirdTimerTv?.visibility=View.VISIBLE
+        fourthTimerTv?.visibility=View.VISIBLE
+        nonStopTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        intervalTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        scheduleTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        nonStopImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.non_stop_icon
             )
         )
-        intervalImg.setImageDrawable(
+        intervalImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.interval_icon
             )
         )
-        scheduleImg.setImageDrawable(
+        scheduleImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.schedule_orange_icon
             )
         )
-        bleBg.setImageDrawable(
+        bleBg?.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
         )
-        guideline.setGuidelinePercent(0.65f)
+        guideline?.setGuidelinePercent(0.65f)
     }
 
 
@@ -1184,100 +1221,8 @@ class HomeFragment : Fragment(), View.OnClickListener {
         )
     }
 
-    private fun showDialog() {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        dialog.setContentView(R.layout.fragment_start_global_mode_popup)
-        val firstDevice = dialog.findViewById(R.id.firstDevice) as TextView
-        val secondDevice = dialog.findViewById(R.id.secondDevice) as TextView
-        val thirdDevice = dialog.findViewById(R.id.thirdDevice) as TextView
-        val fourthDevice = dialog.findViewById(R.id.fourthDevice) as TextView
-        val subTitle = dialog.findViewById(R.id.subTitle) as TextView
-        val startBtn = dialog.findViewById(R.id.startBtn) as TextView
-        val noBtn = dialog.findViewById(R.id.cancelBtn) as TextView
-        if (tag == 0) {
-            subTitle.text = resources.getString(R.string.start_global_mode)
-        }
-        if (tag == 1) {
-            subTitle.text = resources.getString(R.string.device_are_offline)
-        }
-        startBtn.setOnClickListener {
-            //  startAnimation()
-            if (tag == 0) {
-                if (allDevices == 1) {
-                    if (btnStart.tag == "start") {
-                        firstBleDevice?.let { it1 ->
-                            firstGate?.let { it2 ->
-                                turnOnOFDevice(
-                                    byteArrayON, it1,
-                                    it2
-                                )
-                            }
-                        }
-                        btnStart.tag = "stop"
-                    } else {
-                        firstBleDevice?.let { it1 ->
-                            firstGate?.let { it2 ->
-                                turnOnOFDevice(
-                                    byteArrayOF, it1,
-                                    it2
-                                )
-                            }
-                        }
-                        btnStart.tag = "start"
-                    }
-                } else if (allDevices == 2) {
-                    if (btnStart.tag == "start") {
-                        firstBleDevice?.let { it1 ->
-                            firstGate?.let { it2 ->
-                                turnOnOFDevice(
-                                    byteArrayON, it1,
-                                    it2
-                                )
-                            }
-                        }
-                        secondBleDevice?.let { it1 ->
-                            secondGate?.let { it2 ->
-                                turnOnOFDevice(
-                                    byteArrayON, it1,
-                                    it2
-                                )
-                            }
-                        }
-                        btnStart.tag = "stop"
-                    } else {
-                        firstBleDevice?.let { it1 ->
-                            firstGate?.let { it2 ->
-                                turnOnOFDevice(
-                                    byteArrayOF, it1,
-                                    it2
-                                )
-                            }
-                        }
-                        secondBleDevice?.let { it1 ->
-                            secondGate?.let { it2 ->
-                                turnOnOFDevice(
-                                    byteArrayOF, it1,
-                                    it2
-                                )
-                            }
-                        }
-                        btnStart.tag = "start"
-                    }
-                }
-            }
-            dialog.dismiss()
-        }
-        noBtn.setOnClickListener { dialog.dismiss() }
-        dialog.show()
-    }
 
     private fun navigateToSetSchedule() {
-        //   val action=SetScheduleFragmentDirections.actionSetScheduleToDeviceFragmnent(0,model)
-        //    findNavController().navigate(action)
         val action = HomeFragmentDirections.actionScheduleToSetScheduleFragment(1)
         findNavController().navigate(action)
     }
@@ -1347,12 +1292,9 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
-            Log.e("D", "onWriteSuccess ")
-            //   readResponse()
         }
 
         override fun onWriteFailure(exception: BleException?) {
-
         }
     }
 

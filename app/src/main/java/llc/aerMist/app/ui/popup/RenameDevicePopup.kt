@@ -99,7 +99,7 @@ class RenameDevicePopup(val position: Int, val deviceName: String) : DialogFragm
 
             when (position) {
                 0 -> {
-                    val newDevice = firstDeviceObj?.let { it1 -> MyDevice(it1?.name, newName, false) }
+                    val newDevice = firstDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
                     val json = gson.toJson(newDevice)
                     prefs.firstDevice = json
                 }
