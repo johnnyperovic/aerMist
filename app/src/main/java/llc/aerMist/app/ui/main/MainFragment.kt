@@ -1,6 +1,7 @@
 package llc.aerMist.app.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.fragment_main.*
 import llc.aerMist.app.R
-
+import llc.aerMist.app.observers.NewObservableCoordinator
 
 
 class MainFragment : Fragment() {
     private lateinit var navController: NavController
+    val connectionStateCoordinator = NewObservableCoordinator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +28,17 @@ class MainFragment : Fragment() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.nav_fragment) as NavHostFragment
         navController = NavHostFragment.findNavController(navHostFragment)
         val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
-        navGraph.startDestination=R.id.homeFragment
+        val deviceNumber=
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+        if (deviceNumber==1)
+        {
+            navGraph.startDestination=R.id.deviceFragment
+            showBottomNav()
+        }
+        else{
+            navGraph.startDestination=R.id.homeFragment
+            showBottomNav()
+        }
         navController.setGraph(navGraph)
         nav_view.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->

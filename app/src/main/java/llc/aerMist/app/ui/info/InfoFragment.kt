@@ -1,5 +1,7 @@
 package llc.aerMist.app.ui.info
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,6 +22,18 @@ class InfoFragment : Fragment() {
             resetAppDialog = ResetAppPopup()
             resetAppDialog.isCancelable = false
             resetAppDialog.show(childFragmentManager, "")
+        }
+        info.setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://aerMist.com"))
+            startActivity(i)
+        }
+        info2.setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://aermist.com/pages/app-privacy-policy"))
+            startActivity(i)
+        }
+        info3.setOnClickListener {
+            val i = Intent(Intent.ACTION_VIEW, Uri.parse("https://developer@aermist.com"))
+            startActivity(i)
         }
     }
 

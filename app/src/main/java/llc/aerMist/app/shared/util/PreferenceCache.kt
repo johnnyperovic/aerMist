@@ -22,10 +22,48 @@ class PreferenceCache(val context: Context) {
             apply()
         }
 
-    var accessToken: String
-        get() = prefs.getString(AUTH_TOKEN, "").orEmpty()
+    var startWorkingTimeFD: String
+        get() = prefs.getString(START_WORKING_TIME_FD, "").orEmpty()
         set(value) = with(prefs.edit()) {
-            putString(AUTH_TOKEN, value)
+            putString(START_WORKING_TIME_FD, value)
+            apply()
+        }
+    var startWorkingTimeSD: String
+        get() = prefs.getString(START_WORKING_TIME_SD, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(START_WORKING_TIME_SD, value)
+            apply()
+        }
+    var startWorkingTimeTD: String
+        get() = prefs.getString(START_WORKING_TIME_TD, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(START_WORKING_TIME_TD, value)
+            apply()
+        }
+    var startWorkingTimeFRD: String
+        get() = prefs.getString(START_WORKING_TIME_FRD, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(START_WORKING_TIME_FRD, value)
+            apply()
+        }
+
+
+    var isOneDevice: Boolean
+        get() = prefs.getBoolean(IS_ONE_DEVICE, false)
+        set(value) = with(prefs.edit()) {
+            putBoolean(IS_ONE_DEVICE, value)
+            apply()
+        }
+    var isDeleted: Boolean
+        get() = prefs.getBoolean(IS_DELETED, false)
+        set(value) = with(prefs.edit()) {
+            putBoolean(IS_DELETED, value)
+            apply()
+        }
+    var isFromHomeScreen: Boolean
+        get() = prefs.getBoolean(IS_FROM_HOME_SCREEN, false)
+        set(value) = with(prefs.edit()) {
+            putBoolean(IS_FROM_HOME_SCREEN, value)
             apply()
         }
 
@@ -33,6 +71,30 @@ class PreferenceCache(val context: Context) {
         get() = prefs.getString(FIRST_DEVICE, "").orEmpty()
         set(value) = with(prefs.edit()) {
             putString(FIRST_DEVICE, value)
+            apply()
+        }
+    var firstBleDevice: String
+        get() = prefs.getString(FIRST_BLE_DEVICE, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(FIRST_BLE_DEVICE, value)
+            apply()
+        }
+    var secondBleDevice: String
+        get() = prefs.getString(SECOND_BLE_DEVICE, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(SECOND_BLE_DEVICE, value)
+            apply()
+        }
+    var thirdBleDevice: String
+        get() = prefs.getString(THIRD_BLE_DEVICE, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(THIRD_BLE_DEVICE, value)
+            apply()
+        }
+    var fourthBleDevice: String
+        get() = prefs.getString(FOURTH_BLE_DEVICE, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(FOURTH_BLE_DEVICE, value)
             apply()
         }
 
@@ -67,28 +129,62 @@ class PreferenceCache(val context: Context) {
             .remove(SECOND_DEVICE)
             .remove(THIRD_DEVICE)
             .remove(FOURTH_DEVICE)
+            .remove(START_WORKING_TIME_FD)
+            .remove(START_WORKING_TIME_SD)
+            .remove(START_WORKING_TIME_TD)
+            .remove(START_WORKING_TIME_FRD)
+            .remove(IS_FROM_HOME_SCREEN)
+            .remove(FIRST_BLE_DEVICE)
+            .remove(SECOND_BLE_DEVICE)
+            .remove(THIRD_BLE_DEVICE)
+            .remove(FOURTH_BLE_DEVICE)
+            .remove(IS_ONE_DEVICE)
             .apply()
     }
 
     fun cleanFirstDevice() {
-        prefs.edit().remove(FIRST_DEVICE).apply()
+        prefs.edit().remove("first_device").apply()
+        prefs.edit().remove(FIRST_BLE_DEVICE).apply()
     }
 
     fun cleanSecondDevice() {
         prefs.edit()
             .remove(SECOND_DEVICE).apply()
+        prefs.edit().remove(SECOND_BLE_DEVICE).apply()
+
     }
 
     fun cleanThirdDevice() {
         prefs.edit()
             .remove(THIRD_DEVICE).apply()
+        prefs.edit().remove(THIRD_BLE_DEVICE).apply()
+
     }
 
     fun cleanFourthDevice() {
         prefs.edit()
             .remove(FOURTH_DEVICE).apply()
+        prefs.edit().remove(FOURTH_BLE_DEVICE).apply()
+
+    }
+    fun cleanFirstFilter() {
+        prefs.edit().remove(START_WORKING_TIME_FD).apply()
     }
 
+    fun cleanSecondFilter() {
+        prefs.edit()
+            .remove(START_WORKING_TIME_SD).apply()
+    }
+
+    fun cleanThirdFilter() {
+        prefs.edit()
+            .remove(START_WORKING_TIME_TD).apply()
+    }
+
+    fun cleanFourthFilter() {
+        prefs.edit()
+            .remove(START_WORKING_TIME_FRD).apply()
+    }
 
     companion object {
         private const val AUTH_TOKEN = "authentication_token"
@@ -99,6 +195,18 @@ class PreferenceCache(val context: Context) {
         private const val SECOND_DEVICE = "second_device"
         private const val THIRD_DEVICE = "third_device"
         private const val FOURTH_DEVICE = "fourth_device"
+        private const val FIRST_BLE_DEVICE = "first_ble_device"
+        private const val SECOND_BLE_DEVICE = "second_ble_device"
+        private const val THIRD_BLE_DEVICE = "third_ble_device"
+        private const val FOURTH_BLE_DEVICE = "fourth_ble_device"
+
+        private const val START_WORKING_TIME_FD = "start_working_time_fd"
+        private const val START_WORKING_TIME_SD = "start_working_time_sd"
+        private const val START_WORKING_TIME_TD = "start_working_time_td"
+        private const val START_WORKING_TIME_FRD = "start_working_time_frd"
+        private const val IS_ONE_DEVICE = "isOneDevice"
+        private const val IS_FROM_HOME_SCREEN = "isFromHomeScreen"
+        private const val IS_DELETED = "isDeleted"
 
     }
 }

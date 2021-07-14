@@ -21,28 +21,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/deviceNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_regular"
-        android:text="3/4 devices connected"
-        android:textColor="@color/someGrayColor"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/allDeviceTv" />
 
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/carViewHome"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="18dp"
         android:background="@drawable/radius_16_"
-        app:layout_constraintTop_toBottomOf="@id/deviceNumber"
+        app:layout_constraintTop_toBottomOf="@id/allDeviceTv"
         card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="8dp"
         card_view:cardElevation="8dp"
@@ -125,6 +114,18 @@
                     card_view:layout_constraintEnd_toEndOf="@id/tabName"
                     card_view:layout_constraintStart_toStartOf="@id/tabName"
                     card_view:layout_constraintTop_toBottomOf="@id/tabName" />
+
+                <TextView
+                    android:id="@+id/deviceNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/someGrayColor"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"
+                    card_view:layout_constraintEnd_toEndOf="@id/tabName"
+                    card_view:layout_constraintStart_toStartOf="@id/tabName"
+                    card_view:layout_constraintTop_toBottomOf="@id/tabName"/>
             </androidx.constraintlayout.motion.widget.MotionLayout>
 
 
@@ -260,9 +261,9 @@
                 android:layout_marginEnd="30dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/mist"
-                android:visibility="invisible"
                 android:textColor="@color/dark_gray"
                 android:textSize="14sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toStartOf="@id/fakeView"
                 app:layout_constraintTop_toBottomOf="@id/secondLine" />
 
@@ -271,10 +272,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="00"
+                android:text="5s"
                 android:textColor="@color/dark_gray"
-                android:visibility="invisible"
                 android:textSize="20sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="@id/mistTv"
                 app:layout_constraintStart_toStartOf="@id/mistTv"
                 app:layout_constraintTop_toBottomOf="@id/mistTv" />
@@ -287,9 +288,9 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/suspend"
-                android:visibility="invisible"
                 android:textColor="@color/dark_gray"
                 android:textSize="14sp"
+                android:visibility="invisible"
                 app:layout_constraintStart_toEndOf="@id/fakeView"
                 app:layout_constraintTop_toBottomOf="@id/secondLine" />
 
@@ -298,7 +299,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
-                android:text="00"
+                android:text="5s"
                 android:textColor="@color/dark_gray"
                 android:textSize="20sp"
                 android:visibility="invisible"
@@ -306,6 +307,182 @@
                 app:layout_constraintStart_toStartOf="@id/suspendTv"
                 app:layout_constraintTop_toBottomOf="@id/suspendTv" />
 
+
+            <TextView
+                android:id="@+id/mondayTv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="15dp"
+                android:alpha="0.30"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:tag="false"
+                android:text="@string/mo"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintStart_toStartOf="@id/guidelineStart"
+                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <TextView
+                android:id="@+id/sundayTv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="15dp"
+                android:alpha="0.30"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:tag="false"
+                android:text="@string/su"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <TextView
+                android:id="@+id/thusdayTv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="24dp"
+                android:alpha="0.30"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:tag="false"
+                android:text="@string/th"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
+                app:layout_constraintStart_toStartOf="@id/guidelineCenter"
+                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <TextView
+                android:id="@+id/tuesdayTv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="15dp"
+                android:alpha="0.30"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:tag="false"
+                android:text="@string/tu"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@id/guidelineQuarter"
+                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <TextView
+                android:id="@+id/wednesdayTv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="15dp"
+                android:alpha="0.30"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:tag="false"
+                android:text="@string/we"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@id/thusdayTv"
+                app:layout_constraintStart_toEndOf="@id/tuesdayTv"
+                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <TextView
+                android:id="@+id/fridayTv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="15dp"
+                android:alpha="0.30"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:tag="false"
+                android:text="@string/fr"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@id/guidelineThirdQuarter"
+                app:layout_constraintStart_toEndOf="@id/thusdayTv"
+                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <TextView
+                android:id="@+id/saturdayTv"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="15dp"
+                android:alpha="0.30"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:tag="false"
+                android:text="@string/sa"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_gray"
+                android:textSize="14sp"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toStartOf="@id/sundayTv"
+                app:layout_constraintStart_toEndOf="@id/fridayTv"
+                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <View
+                android:id="@+id/thirdLine"
+                android:layout_width="match_parent"
+                android:layout_height="0.7dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/ligdht_gray"
+                card_view:layout_constraintTop_toBottomOf="@id/suspendValue" />
+
+            <TextView
+                android:id="@+id/firstTimerTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/dark_gray"
+                android:textSize="17sp"
+                card_view:layout_constraintStart_toStartOf="@id/guidelineStart"
+                card_view:layout_constraintTop_toBottomOf="@id/mondayTv" />
+
+            <TextView
+                android:id="@+id/secondTimerTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/dark_gray"
+                android:textSize="17sp"
+                card_view:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                card_view:layout_constraintTop_toBottomOf="@id/mondayTv" />
+
+            <TextView
+                android:id="@+id/thirdTimerTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/dark_gray"
+                android:textSize="17sp"
+                card_view:layout_constraintStart_toStartOf="@id/firstTimerTv"
+                card_view:layout_constraintTop_toBottomOf="@id/firstTimerTv" />
+
+            <TextView
+                android:id="@+id/fourthTimerTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/dark_gray"
+                android:textSize="17sp"
+                card_view:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+                card_view:layout_constraintTop_toBottomOf="@id/secondTimerTv" />
 
             <TextView
                 android:id="@+id/btnStart"
@@ -341,179 +518,19 @@
                 app:layout_constraintStart_toStartOf="@id/guideline" />
 
             <TextView
-                android:id="@+id/mondayTv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="15dp"
+                android:id="@+id/startingTv"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:tag="false"
-                android:text="@string/mo"
-                android:alpha="0.30"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_gray"
+                android:text="@string/starting"
+                android:textColor="@color/dark_text"
                 android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                app:layout_constraintStart_toStartOf="@id/guidelineStart"
-                app:layout_constraintTop_toBottomOf="@id/suspendValue"
-                android:visibility="invisible"/>
-
-            <TextView
-                android:id="@+id/sundayTv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:tag="false"
-                android:text="@string/su"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_gray"
-                android:textSize="14sp"
-                android:alpha="0.30"
-                android:visibility="invisible"
-                android:fontFamily="@font/roboto_regular"
-                app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
-
-            <TextView
-                android:id="@+id/thusdayTv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="24dp"
-                android:gravity="center"
-                android:tag="false"
-                android:visibility="invisible"
-                android:text="@string/th"
-                android:alpha="0.30"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_gray"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                app:layout_constraintEnd_toEndOf="@id/guidelineCenter"
-                app:layout_constraintStart_toStartOf="@id/guidelineCenter"
-                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
-
-            <TextView
-                android:id="@+id/tuesdayTv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:tag="false"
-                android:text="@string/tu"
-                android:alpha="0.30"
-                android:visibility="invisible"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_gray"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                app:layout_constraintEnd_toEndOf="@id/guidelineQuarter"
-                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
-
-            <TextView
-                android:id="@+id/wednesdayTv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:tag="false"
-                android:text="@string/we"
-                android:alpha="0.30"
-                android:visibility="invisible"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_gray"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                app:layout_constraintEnd_toStartOf="@id/thusdayTv"
-                app:layout_constraintStart_toEndOf="@id/tuesdayTv"
-                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
-
-            <TextView
-                android:id="@+id/fridayTv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:tag="false"
-                android:text="@string/fr"
-                android:alpha="0.30"
-                android:textAllCaps="true"
-                android:textColor="@color/dark_gray"
-                android:textSize="14sp"
-                android:visibility="invisible"
-                android:fontFamily="@font/roboto_regular"
-                app:layout_constraintEnd_toStartOf="@id/guidelineThirdQuarter"
-                app:layout_constraintStart_toEndOf="@id/thusdayTv"
-                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
-
-            <TextView
-                android:id="@+id/saturdayTv"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="15dp"
-                android:gravity="center"
-                android:tag="false"
-                android:text="@string/sa"
-                android:textAllCaps="true"
-                android:alpha="0.30"
-                android:visibility="invisible"
-                android:textColor="@color/dark_gray"
-                android:textSize="14sp"
-                android:fontFamily="@font/roboto_regular"
-                app:layout_constraintEnd_toStartOf="@id/sundayTv"
-                app:layout_constraintStart_toEndOf="@id/fridayTv"
-                app:layout_constraintTop_toBottomOf="@id/suspendValue" />
-
-            <View
-                android:id="@+id/thirdLine"
-                android:layout_width="match_parent"
-                android:layout_height="0.7dp"
-                android:layout_marginTop="12dp"
-                android:background="@color/ligdht_gray"
-                card_view:layout_constraintTop_toBottomOf="@id/suspendValue" />
-
-            <TextView
-                android:id="@+id/firstTimerTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/dark_gray"
-                android:textSize="18sp"
-                android:layout_marginStart="10dp"
-                card_view:layout_constraintStart_toStartOf="@id/guidelineStart"
-                card_view:layout_constraintTop_toBottomOf="@id/mondayTv" />
-
-            <TextView
-                android:id="@+id/secondTimerTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/dark_gray"
-                android:textSize="18sp"
-                card_view:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                card_view:layout_constraintTop_toBottomOf="@id/mondayTv" />
-
-            <TextView
-                android:id="@+id/thirdTimerTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/dark_gray"
-                android:textSize="18sp"
-                card_view:layout_constraintStart_toStartOf="@id/firstTimerTv"
-                card_view:layout_constraintTop_toBottomOf="@id/firstTimerTv" />
-
-            <TextView
-                android:id="@+id/fourthTimerTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/dark_gray"
-                android:textSize="18sp"
-                card_view:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-                card_view:layout_constraintTop_toBottomOf="@id/secondTimerTv" />
+                android:visibility="gone"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="@id/btnStart" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineCenter"

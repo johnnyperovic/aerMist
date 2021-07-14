@@ -1,7 +1,8 @@
 package llc.aerMist.app.models
 
 data class TimerModel(
-    val hours:String,
-    val min:String
+    var hours:String,
+    val min:String,
+    val format:String
 ){
 }

@@ -10,16 +10,23 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.data.BleDevice
+import com.clj.fastble.exception.BleException
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.fragment_devices.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_set_device.*
 import kotlinx.android.synthetic.main.fragment_set_device.bleBg
 import kotlinx.android.synthetic.main.fragment_set_device.bleIcon
 import kotlinx.android.synthetic.main.fragment_set_device.btnEdit
 import kotlinx.android.synthetic.main.fragment_set_device.btnStart
+import kotlinx.android.synthetic.main.fragment_set_device.deviceName
 import kotlinx.android.synthetic.main.fragment_set_device.firstLine
 import kotlinx.android.synthetic.main.fragment_set_device.firstTimerTv
 import kotlinx.android.synthetic.main.fragment_set_device.fridayTv
@@ -37,6 +44,7 @@ import kotlinx.android.synthetic.main.fragment_set_device.scheduleTv
 import kotlinx.android.synthetic.main.fragment_set_device.secondLine
 import kotlinx.android.synthetic.main.fragment_set_device.secondTimerTv
 import kotlinx.android.synthetic.main.fragment_set_device.standbyTv
+import kotlinx.android.synthetic.main.fragment_set_device.startingTv
 import kotlinx.android.synthetic.main.fragment_set_device.sundayTv
 import kotlinx.android.synthetic.main.fragment_set_device.suspendTv
 import kotlinx.android.synthetic.main.fragment_set_device.suspendValue
@@ -46,14 +54,19 @@ import kotlinx.android.synthetic.main.fragment_set_device.thirdLine
 import kotlinx.android.synthetic.main.fragment_set_device.thirdTimerTv
 import kotlinx.android.synthetic.main.fragment_set_device.thusdayTv
 import kotlinx.android.synthetic.main.fragment_set_device.wednesdayTv
+import kotlinx.android.synthetic.main.fragment_set_schedule.*
+import kotlinx.android.synthetic.main.remove_reset_device_fragment.*
 import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
 import llc.aerMist.app.models.BytePayload
 import llc.aerMist.app.models.MyDevice
 import llc.aerMist.app.models.ScheduleModel
+import llc.aerMist.app.models.TimerModel
 import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.util.PreferenceCache
+import llc.aerMist.app.ui.popup.DevicesDisconnected
 import llc.aerMist.app.ui.popup.NumberPickerPopup
+import llc.aerMist.app.ui.popup.RemoveDevicePopup
 import org.koin.android.ext.android.inject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -61,18 +74,24 @@ import java.time.format.DateTimeFormatter
 class SetDeviceFragment : Fragment(), View.OnClickListener {
     private val prefs: PreferenceCache by inject()
     private var tag = 0
+    var shortString = ""
+    var shortString2 = ""
+    var shortString3 = ""
+    var shortString4 = ""
     var numberPickerPopup = NumberPickerPopup()
     lateinit var bluetoothController: BluetoothController
     val connectionStateCoordinator = NewObservableCoordinator
     private var bleDevice: BleDevice? = null
     private var gatt: BluetoothGatt? = null
     private lateinit var payload: BytePayload
-    private var mistValueSeconds = "100"
-    private var suspendValueSeconds = "100"
+    private var mistValueSeconds = "005"
+    private var suspendValueSeconds = "005"
     private val scheduleModelArgs: SetDeviceFragmentArgs by navArgs()
-    private lateinit var scheduleModel: ScheduleModel
-    var dateAndTimeSynch = "EE00+YYYYMMDDHHNNSST"
-
+    private var scheduleModel: ScheduleModel? = null
+    private  var dialogDisconnectedDevice: DevicesDisconnected?=null
+    var dateAndTimeSynch = ""
+    var isTimeSync = true
+    var isSelected = false
     val charset = Charsets.UTF_8
     val nonStopOn = "EE0200.".toByteArray(charset)
     val byteArrayON = "EE0100.".toByteArray(charset)
@@ -85,12 +104,12 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     val intervalFR = "EE03040.".toByteArray(charset)
     val intervalSA = "EE03050.".toByteArray(charset)
     val intervalSU = "EE03060.".toByteArray(charset)
-    val intervalSS = "EE0400.".toByteArray(charset)
+    val intervalSS = "EE0401.".toByteArray(charset)
     val intervalFS = "EE0500.".toByteArray(charset)
-
+    var responseTimmer=0
     var intervalValue = "".toByteArray(charset)
-    var sprayPDON = "EE0401.".toByteArray(charset)
-    val sprayFriq = "EE0500.".toByteArray(charset)
+    var sprayPDON = "EE0400.".toByteArray(charset)
+    val sprayFriq = "EE0501.".toByteArray(charset)
     val scheduleMo = "EE0300"
     val scheduleTu = "EE0301"
     val scheduleWE = "EE0302"
@@ -109,80 +128,197 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     var secondTimer = ""
     var thirdTimer = ""
     var fourthTimer = ""
-    var sprayFriquency = "EE07000000SSS00PPP"
+    var sprayFriquency = ""
     lateinit var daysInWeek: IntArray
     lateinit var deviceObject: MyDevice
     var mainDevicePositon = 0
+    var workingTime = ""
+    var isOn = false
+    var isNonStop = false
+    var isSprayingMode = false
+    var mondayActive = false
+    var tuesdayActive = false
+    var wednesdayActive = false
+    var thursdayActive = false
+    var fridayActive = false
+    var saturdayActive = false
+    var sundayActive = false
+    var isSprayPerDay = false
+    var isSprayFriquencu = false
+    var firstStartTime: String = ""
+    var secondStartTime: String = ""
+    var thirdStartTime: String = ""
+    var fourtStartTime: String = ""
+    var firstStopTime: String = ""
+    var secondStopTime: String = ""
+    var thirdStopTime: String = ""
+    var fourtStopTime: String = ""
+    var mistTime: String = ""
+    var suspendTime: String = ""
+    var deviceNameValue = ""
+    var allDevices = 0
+    private var bleList = ArrayList<BleDevice>()
+    var singleDeviceName = ""
+    var isFromDB = true
+    var filterTime = ""
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val bundle = arguments
-        val mainDevicePositon = bundle?.get("myArg") as Int
+        //mainDevicePositon = bundle?.get("myArg") as String
+        deviceNameValue = bundle?.get("myArg") as String
+        Log.e("D", "DEVICE NAME " + deviceNameValue)
         setClickListener()
         setMotionLayoutListener()
         setTouchSwipeListener()
+
+        allDevices =
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+        if (allDevices > 0) {
+            bleList =
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
+            for (item in bleList) {
+                if (deviceNameValue == item.name) {
+                    bleDevice = item
+                    gatt =
+                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
+                            bleDevice
+                        )!!
+                } else if (allDevices == 1) {
+                    bleDevice = item
+                    gatt =
+                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
+                            bleDevice
+                        )!!
+                    singleDeviceName = item.name
+                }
+            }
+        }
+
         val observer = Observer<CharArray> {
+
+
             var response = ""
             for (item in it) {
                 response = response + item
             }
+//            if (!response.contains(".") && !response.contains(",")) {
+//                shortString = response
+//                return@Observer
+//            }
+//            if (shortString.length > 0) {
+//                response = shortString + response
+//                shortString = ""
+//            }
             if (response.contains(",")) {
-                Log.e("D", "timer " + response)
-                readTimerSync(response)
+                //  readTimerSync(response)
+
                 return@Observer
             }
             Log.e("D", "Tag " + tag)
-            if (tag == 0) {
-                checkNonStopResponse(response)
-            } else if (tag == 1) {
-                checkIntervalResponse(response)
-            } else {
-                checkScheduleRespone(response)
+            if (!isTimeSync) {
+                if (tag == 0) {
+                    checkNonStopResponse(response)
+                } else if (tag == 1) {
+                    checkIntervalResponse(response)
+                } else {
+                    checkScheduleRespone(response)
+                }
             }
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
-        bleDevice =
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.get(
-                mainDevicePositon
-            )!!
-        gatt = connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
-            bleDevice
-        )!!
 
-        scheduleModel = scheduleModelArgs.model
+        val observer2 = Observer<BleDevice> {
 
-        if (scheduleModel.days != null) {
+            if (deviceObject.name == it.name) {
+                if (connectionStateCoordinator.bluetoothController?.bluetoothManager?.isConnected(it) == false) {
+                    showDisconnectedDeviceDialog()
+                } else {
+                    connectDevice(it)
+                }
+            }
+        }
+        connectionStateCoordinator.bleDisconnectDevices.observe(viewLifecycleOwner, observer2)
+
+
+        val deviceOne = prefs.firstDevice
+        val gson = Gson()
+        val deviceObjectOne = gson.fromJson(deviceOne, MyDevice::class.java)
+        val deviceTwo = prefs.secondDevice
+        val deviceObjectTwo = gson.fromJson(deviceTwo, MyDevice::class.java)
+        val deviceThree = prefs.thirdDevice
+        val deviceObjectThree = gson.fromJson(deviceThree, MyDevice::class.java)
+        val deviceFour = prefs.fourthDevice
+        val deviceObjectFour = gson.fromJson(deviceFour, MyDevice::class.java)
+        if (bleDevice?.name == deviceObjectOne?.name || bleDevice?.name == singleDeviceName) {
+            mainDevicePositon = 0
+            if (!deviceOne.isNullOrEmpty()) {
+                deviceObject =
+                    gson.fromJson(deviceOne, MyDevice::class.java)
+                var filTime = prefs.startWorkingTimeFD
+                var workTime = deviceObject.workingTime
+                if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
+                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                }
+            }
+        } else if (bleDevice?.name == deviceObjectTwo?.name || bleDevice?.name == singleDeviceName) {
+            mainDevicePositon = 1
+            if (!deviceTwo.isNullOrEmpty()) {
+                deviceObject =
+                    gson.fromJson(deviceTwo, MyDevice::class.java)
+                var filTime = prefs.startWorkingTimeSD
+                var workTime = deviceObject.workingTime
+
+                if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
+                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                }
+
+            }
+        } else if (bleDevice?.name == deviceObjectThree?.name || bleDevice?.name == singleDeviceName) {
+            mainDevicePositon = 2
+            if (!deviceThree.isNullOrEmpty()) {
+                deviceObject = gson.fromJson(deviceThree, MyDevice::class.java)
+                var filTime = prefs.startWorkingTimeTD
+                var workTime = deviceObject.workingTime
+                if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
+                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                }
+            }
+        } else if (bleDevice?.name == deviceObjectFour?.name || bleDevice?.name == singleDeviceName) {
+            mainDevicePositon = 3
+            if (!deviceFour.isNullOrEmpty()) {
+                deviceObject =
+                    gson.fromJson(deviceFour, MyDevice::class.java)
+                var filTime = prefs.startWorkingTimeFRD
+                var workTime = deviceObject.workingTime
+                if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
+                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                }
+            }
+        }
+        if (!filterTime.isNullOrEmpty()) {
+            Log.e("D","FLTER TIME "+filterTime)
+            if (filterTime.toIntOrNull()!! > 0) {
+                filterValue.text = filterTime + "h"
+            }
+        }
+        deviceName.text = deviceObject.newName
+        if (scheduleModelArgs.model != null) scheduleModel = scheduleModelArgs.model!!
+
+        if (scheduleModel?.days != null) {
+            daysInWeek = scheduleModel?.days!!
+            isFromDB = false
+            isSelected = true
             setScheduleView()
-            daysInWeek = scheduleModel.days!!
+            Log.e("D", "SCHEDULE MODEL " + scheduleModel)
             formatDaySchedule()
         } else {
             setNonStopView()
         }
-        formatDateAndTime()
-        when (mainDevicePositon) {
-            0 -> {
-                val deviceOne = prefs.firstDevice
-                val gson = Gson()
-                deviceObject = gson.fromJson(deviceOne, MyDevice::class.java)
-            }
-            1 -> {
-                val deviceTwo = prefs.secondDevice
-                val gson = Gson()
-                deviceObject = gson.fromJson(deviceTwo, MyDevice::class.java)
-            }
-            2 -> {
-                val deviceThree = prefs.thirdDevice
-                val gson = Gson()
-                deviceObject = gson.fromJson(deviceThree, MyDevice::class.java)
-            }
-            3 -> {
-                val deviceThree = prefs.fourthDevice
-                val gson = Gson()
-                deviceObject = gson.fromJson(deviceThree, MyDevice::class.java)
-            }
-        }
-        deviceName.text = deviceObject.newName
+        sendTimeSynchCommand()
+
+        setDisplayMode()
     }
 
     override fun onCreateView(
@@ -192,7 +328,117 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         return inflater.inflate(R.layout.fragment_set_device, container, false)
     }
 
-    fun formatDateAndTime() {
+    fun connectDevice(bleDevice: BleDevice) {
+        if (bleDevice.name==deviceObject.name)
+        {
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                bleDevice,
+                gattCallback
+            )
+        }
+    }
+
+    private val gattCallback = object : BleGattCallback() {
+        override fun onStartConnect() {
+            Log.e("D", "onStartConnect ")
+        }
+
+        override fun onConnectFail(bleDevice: BleDevice, exception: BleException) {
+            Log.e("D", "onConnectFail")
+            connectDevice(bleDevice)
+        }
+
+        override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
+            if (dialogDisconnectedDevice!=null) dialogDisconnectedDevice?.dialog?.dismiss()
+            bleBg?.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
+            )
+            standbyTv.text=resources.getString(R.string.standby)
+            btnStart.isEnabled=true
+        }
+
+        override fun onDisConnected(
+            isActiveDisConnected: Boolean,
+            device: BleDevice?,
+            gatt: BluetoothGatt?,
+            status: Int
+        ) {
+
+        }
+    }
+
+    fun showDisconnectedDeviceDialog() {
+        bleBg?.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
+                )
+        standbyTv.text=resources.getString(R.string.offline)
+        btnStart.isEnabled=false
+        dialogDisconnectedDevice = DevicesDisconnected(true)
+        dialogDisconnectedDevice?.isCancelable = true
+        dialogDisconnectedDevice?.show(childFragmentManager, "")
+    }
+
+    fun setDisplayMode() {
+        val isOn = deviceObject.isOn
+        if (isOn) {
+            motionLayoutDevice.transitionToEnd()
+            isTimeSync = false
+            carViewDevice.isEnabled = false
+            if (deviceObject.isSparayMode) {
+                if (!deviceObject.isSprayPerDay) {
+
+
+                    intervalImg.performClick()
+                    tabName.text = resources.getString(R.string.interval)
+                    tab_icon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.interval_blue_icon
+                        )
+                    )
+                    if (btnStart.tag == "start") {
+                        startingTv.visibility = View.VISIBLE
+                        btnStart.tag = "stop"
+                    } else {
+                        btnStart.tag = "start"
+                    }
+                } else {
+                    scheduleImg.performClick()
+                    tabName.text = resources.getString(R.string.schedule)
+                    tab_icon.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.calendar_blue_icon
+                        )
+                    )
+                    setTabItemVisibility(true)
+                    if (btnStart.tag == "start") {
+                        startingTv.visibility = View.VISIBLE
+                        btnStart.tag = "stop"
+                    } else {
+                        btnStart.tag = "start"
+                    }
+                }
+            } else {
+                nonStopImg.performClick()
+                tabName.text = resources.getString(R.string.non_stop)
+                tab_icon.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.non_stop_blue_icon
+                    )
+                )
+                if (btnStart.tag == "start") {
+                    startingTv.visibility = View.VISIBLE
+                    btnStart.tag = "stop"
+                } else {
+                    btnStart.tag = "start"
+                }
+            }
+        }
+    }
+
+    fun sendTimeSynchCommand() {
         val currentDateTime = LocalDateTime.now()
         val min = currentDateTime.minute
         val hour = currentDateTime.hour
@@ -204,10 +450,16 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val dayNumber = getDayInWeek(dayOfWeek.toString().toLowerCase())
 
         var secString = ""
+        var setHour = ""
         if (sec < 10) {
             secString = "0" + sec
         } else {
             secString = sec.toString()
+        }
+        if (hour < 10) {
+            setHour = "0" + hour
+        } else {
+            setHour = hour.toString()
         }
         var minString = ""
         if (min < 10) {
@@ -216,7 +468,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             minString = min.toString()
         }
         dateAndTimeSynch =
-            "EE000+" + year + month + day + hour + minString + secString + dayNumber + "."
+            "EE000+" + year + month + day + setHour + minString + secString + dayNumber + "."
 
         Log.e("D", "dateAndTimeSynch $dateAndTimeSynch")
         gatt?.let {
@@ -248,29 +500,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     fun readTimerSync(response: String) {
         val register = getRegister(response)
         Log.e("D", "register " + register)
-        var workingTime = ""
-        var isOn = false
-        var isNonStop = false
-        var isSprayingMode = false
-        var monday = false
-        var tuesday = false
-        var wednesday = false
-        var thursday = false
-        var friday = false
-        var saturday = false
-        var sunday = false
-        var isSprayPerDay = false
-        var isSprayFriquencu = false
-        var firstStartTime: String = ""
-        var secondStartTime: String = ""
-        var thirdStartTime: String = ""
-        var fourtStartTime: String = ""
-        var firstStopTime: String = ""
-        var secondStopTime: String = ""
-        var thirdStopTime: String = ""
-        var fourtStopTime: String = ""
-        var mistTime: String = ""
-        var suspendTime: String = ""
+
         when (register) {
             "0" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -281,9 +511,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
                 Log.e("D", "subString " + subString)
-
                 if (subString == "0") {
                     isOn = true
+                } else {
+                    isOn = false
                 }
                 Log.e("d", "isOn " + isOn)
             }
@@ -315,78 +546,61 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
-                        monday = true
+                        mondayActive = true
+                    } else {
+                        mondayActive = false
                     }
                     if (isTuesday == '0') {
-                        tuesday = true
+                        tuesdayActive = true
+                    } else {
+                        tuesdayActive = false
                     }
                     if (isWednesday == '0') {
-                        wednesday = true
+                        wednesdayActive = true
+                    } else {
+                        wednesdayActive = false
                     }
                     if (isThursday == '0') {
-                        thursday = true
+                        thursdayActive = true
+                    } else {
+                        thursdayActive = false
                     }
                     if (isFriday == '0') {
-                        friday = true
+                        fridayActive = true
+                    } else {
+                        fridayActive = false
                     }
                     if (isSaturday == '0') {
-                        saturday = true
+                        saturdayActive = true
+                    } else {
+                        saturdayActive = false
                     }
                     if (isSunday == '0') {
-                        sunday = true
-                    }
-                    val gson = Gson()
-                    val newDevice = MyDevice(
-                        deviceObject.name,
-                        deviceObject.newName,
-                        false,
-                        workingTime,
-                        isOn,
-                        isNonStop,
-                        isSprayingMode,
-                        monday,
-                        tuesday,
-                        wednesday,
-                        thursday,
-                        friday,
-                        saturday,
-                        sunday,
-                        isSprayPerDay,
-                        isSprayFriquencu,
-                        firstStartTime,
-                        firstStopTime,
-                        secondStartTime,
-                        secondStopTime,
-                        thirdStartTime,
-                        thirdStopTime,
-                        fourtStartTime,
-                        fourtStopTime,
-                        mistTime,
-                        suspendTime
-                    )
-                    val json = gson.toJson(newDevice)
-                    when (mainDevicePositon) {
-                        0 -> prefs.firstDevice = json
-                        1 -> prefs.secondDevice = json
-                        2 -> prefs.thirdDevice = json
-                        3 -> prefs.fourthDevice = json
+                        sundayActive = true
+                    } else {
+                        sundayActive = false
                     }
                 }
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
+                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay = true
+                } else {
+                    isSprayPerDay = false
                 }
             }
             "5" -> {
                 val subString = response.substring(6, response.length - 1)
                 if (subString == "0") {
                     isSprayFriquencu = true
+                } else {
+                    isSprayFriquencu = false
                 }
             }
             "6" -> {
-                val timZoneId = response.get(8)
+                val timZoneId = response.get(7)
                 when (timZoneId) {
                     '0' -> {
                         firstStartTime = response.substring(9, 13)
@@ -410,8 +624,60 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "7" -> {
                 mistTime = response.substring(11, 14)
                 suspendTime = response.substring(16, 19)
+                mistValue.text = getTimeFromSeconds(mistTime)
+                suspendValue.text = getTimeFromSeconds(suspendTime)
+                var fullCommand = ""
+                fullCommand = fullCommand + "EE07000000"
+                fullCommand = fullCommand + mistTime
+                fullCommand = fullCommand + "00"
+                fullCommand = fullCommand + suspendTime
+                fullCommand = fullCommand + "."
+                intervalValue = fullCommand.toByteArray(charset)
+                val gson = Gson()
+                val newDevice = MyDevice(
+                    deviceObject.name,
+                    deviceObject.newName,
+                    true,
+                    workingTime,
+                    isOn,
+                    isNonStop,
+                    isSprayingMode,
+                    mondayActive,
+                    tuesdayActive,
+                    wednesdayActive,
+                    thursdayActive,
+                    fridayActive,
+                    saturdayActive,
+                    sundayActive,
+                    isSprayPerDay,
+                    isSprayFriquencu,
+                    firstStartTime,
+                    firstStopTime,
+                    secondStartTime,
+                    secondStopTime,
+                    thirdStartTime,
+                    thirdStopTime,
+                    fourtStartTime,
+                    fourtStopTime,
+                    mistTime,
+                    suspendTime
+                )
+                val json = gson.toJson(newDevice)
+                Log.e("D", "mainDevicePositon111  " + firstStartTime)
+                Log.e("D", "mainDevicePositon111  " + firstStartTime)
+                when (mainDevicePositon) {
+                    0 -> prefs.firstDevice = json
+                    1 -> prefs.secondDevice = json
+                    2 -> prefs.thirdDevice = json
+                    3 -> prefs.fourthDevice = json
+                }
+//                firstTimerTv.text = firstStartTime + "-" + firstStopTime
+//                secondTimerTv.text = secondStartTime + "-" + secondStopTime
+//                thirdTimerTv.text = thirdStartTime + "-" + thirdStopTime
+//                fourthTimerTv2.text = fourtStartTime + "-" + fourtStopTime
             }
         }
+
     }
 
     private fun getRegister(response: String): String {
@@ -471,6 +737,13 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
             "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayOF, it1, it) } }
+            "EE110." -> {
+                "USPJESNO ZAVRSENO"
+                prefs.isFromHomeScreen = false
+                motionLayoutDevice.transitionToEnd()
+                motionLayoutDevice.transitionToStart()
+                sendTimeSynchCommand()
+            }
         }
     }
 
@@ -500,7 +773,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE110." -> {
+                prefs.isFromHomeScreen = false
                 "USPJESNO ZAVRSENO"
+                motionLayoutDevice.transitionToEnd()
+                motionLayoutDevice.transitionToStart()
+                sendTimeSynchCommand()
             }
         }
     }
@@ -649,6 +926,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         ), it1, it
                     )
                 }
+                responseTimmer=responseTimmer+1
             }
             "EE16100." -> gatt?.let {
                 bleDevice?.let { it1 ->
@@ -660,6 +938,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
             "EE16000." -> gatt?.let {
+                responseTimmer=0
                 bleDevice?.let { it1 ->
                     sendCommand(
                         secondTimer.toByteArray(
@@ -713,8 +992,54 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 }
             }
+            "EE160."->{
+                when(responseTimmer)
+                {
+
+                    0->gatt?.let {
+                        responseTimmer=responseTimmer+1
+                        bleDevice?.let { it1 ->
+                            sendCommand(
+                                firstTimer.toByteArray(
+                                    charset
+                                ), it1, it
+                            )
+                        }
+                    }
+                    1->gatt?.let {
+                        responseTimmer=responseTimmer+1
+                        bleDevice?.let { it1 ->
+                            sendCommand(
+                                secondTimer.toByteArray(
+                                    charset
+                                ), it1, it
+                            )
+                        }
+                    }
+                    2->gatt?.let {
+                        responseTimmer=responseTimmer+1
+                        bleDevice?.let { it1 ->
+                            sendCommand(
+                                thirdTimer.toByteArray(
+                                    charset
+                                ), it1, it
+                            )
+                        }
+                    }
+                    3->gatt?.let {
+                        responseTimmer=0
+                        bleDevice?.let { it1 ->
+                            sendCommand(
+                                fourthTimer.toByteArray(
+                                    charset
+                                ), it1, it
+                            )
+                        }
+                    }
+                }
+            }
             "EE16003." -> {
-                if (scheduleModel.nonStop == true) {
+                if (deviceObject.isNonStop == true) {
                     gatt?.let {
                         bleDevice?.let { it1 ->
                             sendCommand(
@@ -738,55 +1063,95 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE110." -> {
+                prefs.isFromHomeScreen = false
+                motionLayoutDevice.transitionToEnd()
+                motionLayoutDevice.transitionToStart()
+                sendTimeSynchCommand()
+            }
         }
     }
 
     fun formatTimer() {
-        val hourOne = scheduleModel.timer?.get(0)!!.hours
-        val minOne = scheduleModel.timer?.get(0)!!.min
-        val hourTwo = scheduleModel.timer?.get(1)!!.hours
-        val minTwo = scheduleModel.timer?.get(1)!!.min
-        firstTimer = "EE060000" + hourOne + minOne + hourTwo + minTwo + "."
-        firstTimerTv.text = hourOne + ":" + minOne + " - " + hourTwo + ":" + minTwo
+        val hourOne = scheduleModel?.timer?.get(0)!!.hours
+        val minOne = scheduleModel?.timer?.get(0)!!.min
+        val formatOne = scheduleModel?.timer?.get(0)!!.format
+        val hourTwo = scheduleModel?.timer?.get(1)!!.hours
+        val minTwo = scheduleModel?.timer?.get(1)!!.min
+        val formatTwo = scheduleModel?.timer?.get(1)!!.format
+        val hourOne2 = scheduleModel?.timerToSend?.get(0)!!.hours
+        val minOne2 = scheduleModel?.timerToSend?.get(0)!!.min
+        val hourTwo2 = scheduleModel?.timerToSend?.get(1)!!.hours
+        val minTwo2 = scheduleModel?.timerToSend?.get(1)!!.min
+        if (hourOne.length == 2 && hourTwo.length == 2) {
+            firstTimer = "EE060000" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
+            firstTimerTv.text =
+                setTimeZone(hourOne + minOne) + formatOne + " - " + setTimeZone(hourTwo + minTwo) + formatTwo
+        }
+        else{
+            firstTimer="EE06000100000000."
+        }
+        //    hourOne + ":" + minOne + formatOne + " - " + hourTwo + ":" + minTwo + formatTwo
         if (hourOne != "0" && hourTwo != "0") {
             firstTimerTv.visibility = View.VISIBLE
         } else {
             firstTimerTv.visibility = View.INVISIBLE
         }
         Log.e("D", "firstTimer " + firstTimer)
-        val hourThree = scheduleModel.timer?.get(2)!!.hours
-        val minThree = scheduleModel.timer?.get(2)!!.min
-        val hourFour = scheduleModel.timer?.get(3)!!.hours
-        val minFour = scheduleModel.timer?.get(3)!!.min
-        secondTimer = "EE060010" + hourThree + minThree + hourFour + minFour + "."
-        secondTimerTv.text = hourThree + ":" + minThree + " - " + hourFour + ":" + hourFour
+        val hourThree = scheduleModel?.timer?.get(2)!!.hours
+        val minThree = scheduleModel?.timer?.get(2)!!.min
+        val formatThree = scheduleModel?.timer?.get(2)!!.format
+        val hourFour = scheduleModel?.timer?.get(3)!!.hours
+        val minFour = scheduleModel?.timer?.get(3)!!.min
+        val formatFour = scheduleModel?.timer?.get(3)!!.format
+        val hourThree2 = scheduleModel?.timerToSend?.get(2)!!.hours
+        val minThree2 = scheduleModel?.timerToSend?.get(2)!!.min
+        val hourFour2 = scheduleModel?.timerToSend?.get(3)!!.hours
+        val minFour2 = scheduleModel?.timerToSend?.get(3)!!.min
+        secondTimer = "EE060010" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
+        if (hourThree.length == 2 && hourFour.length == 2) secondTimerTv.text =
+            setTimeZone(hourThree + minThree) + formatThree + " - " + setTimeZone(hourFour + minFour) + formatFour
+        //  hourThree + ":" + minThree + formatThree + " - " + hourFour + ":" + hourFour + formatFour
         if (hourThree != "0" && hourFour != "0") {
             secondTimerTv.visibility = View.VISIBLE
         } else {
             secondTimerTv.visibility = View.INVISIBLE
         }
         Log.e("D", "secondTimer " + secondTimer)
-        val hourFive = scheduleModel.timer?.get(4)!!.hours
-        val minFive = scheduleModel.timer?.get(4)!!.min
-        val hourSix = scheduleModel.timer?.get(5)!!.hours
-        val minSix = scheduleModel.timer?.get(5)!!.min
-        thirdTimer = "EE060020" + hourFive + minFive + hourSix + minSix + "."
-        thirdTimerTv.text = hourFive + ":" + minFive + " - " + hourSix + ":" + minSix
+        val hourFive = scheduleModel?.timer?.get(4)!!.hours
+        val minFive = scheduleModel?.timer?.get(4)!!.min
+        val formatFive = scheduleModel?.timer?.get(4)!!.format
+        val hourSix = scheduleModel?.timer?.get(5)!!.hours
+        val minSix = scheduleModel?.timer?.get(5)!!.min
+        val formatSix = scheduleModel?.timer?.get(5)!!.format
+        val hourFive2 = scheduleModel?.timerToSend?.get(4)!!.hours
+        val minFive2 = scheduleModel?.timerToSend?.get(4)!!.min
+        val hourSix2 = scheduleModel?.timerToSend?.get(5)!!.hours
+        val minSix2 = scheduleModel?.timerToSend?.get(5)!!.min
+        thirdTimer = "EE060020" + hourFive2 + minFive2 + hourSix2 + minSix2 + "."
+        if (hourFive.length == 2 && hourSix.length == 2) thirdTimerTv.text =
+            setTimeZone(hourFive + minFive) + formatFive + " - " + setTimeZone(hourSix + minSix) + formatSix
+
+        //  hourFive + ":" + minFive + formatFive + " - " + hourSix + ":" + minSix + "" + formatSix
         if (hourFive != "0" && hourSix != "0") {
             thirdTimerTv.visibility = View.VISIBLE
         } else {
             thirdTimerTv.visibility = View.INVISIBLE
         }
         Log.e("D", "thirdTimer " + thirdTimer)
-        val hourSeven = scheduleModel.timer?.get(6)!!.hours
-        val minSeven = scheduleModel.timer?.get(6)!!.min
-        val hourEight = scheduleModel.timer?.get(7)!!.hours
-        val minEight = scheduleModel.timer?.get(7)!!.min
-        fourthTimer = "EE060030" + hourSeven + minSeven + hourEight + minEight + "."
-        fourthTimerTv2.text = hourSeven + ":" + minSeven + " - " + hourEight + ":" + hourEight
-        Log.e("D", "hourSeven " + hourSeven)
-        Log.e("D", "hourEight " + hourEight)
-        Log.e("D", "fourthTimer " + fourthTimer)
+        val hourSeven = scheduleModel?.timer?.get(6)!!.hours
+        val minSeven = scheduleModel?.timer?.get(6)!!.min
+        val formatSeven = scheduleModel?.timer?.get(6)!!.format
+        val hourEight = scheduleModel?.timer?.get(7)!!.hours
+        val minEight = scheduleModel?.timer?.get(7)!!.min
+        val formatEight = scheduleModel?.timer?.get(7)!!.format
+        val hourSeven2 = scheduleModel?.timerToSend?.get(6)!!.hours
+        val minSeven2 = scheduleModel?.timerToSend?.get(6)!!.min
+        val hourEight2 = scheduleModel?.timerToSend?.get(7)!!.hours
+        val minEight2 = scheduleModel?.timerToSend?.get(7)!!.min
+        fourthTimer = "EE060030" + hourSeven2 + minSeven2 + hourEight2 + minEight2 + "."
+        if (hourSeven.length == 2 && hourEight.length == 2) fourthTimerTv2?.text =
+            setTimeZone(hourSeven + minSeven) + formatSeven + " - " + setTimeZone(hourEight + minEight) + formatEight
 
         if (hourSeven != "0" && hourEight != "0") {
             Log.e("D", "ULAZI")
@@ -796,10 +1161,80 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
             fourthTimerTv2.visibility = View.INVISIBLE
         }
-        val sss = getSeconds(scheduleModel.mist.toString())
-        val ppp = getSeconds(scheduleModel.suspend.toString())
-        var friqu = "EE07000000" + sss + ppp + "."
-        sprayFriquency = friqu
+        val sss = getSeconds(scheduleModel?.mist.toString())
+        val ppp = getSeconds(scheduleModel?.suspend.toString())
+        mistValue.text = scheduleModel?.mist.toString()
+        suspendValue.text = scheduleModel?.suspend.toString()
+        sprayFriquency = "EE07000000" + sss + ppp + "."
+
+        Log.e("D", "firstTimer " + firstTimer)
+        Log.e("D", "secondTimer " + secondTimer)
+        Log.e("D", "thirdTimer " + thirdTimer)
+        Log.e("D", "fourthTimer " + fourthTimer)
+
+
+    }
+
+    fun setTimeZone2(time: String): String {
+        var fullTime = ""
+        var zone = "am"
+        Log.e("D", "TIME ZOVNE " + time)
+        if (time.length == 4) {
+            Log.e("D", "TIME ZOVNE ULAZI " + time)
+
+            var hour = time.substring(0, 2).toIntOrNull()
+            var min = time.substring(2, 4).toIntOrNull()
+            if (hour != null) {
+                if (hour < 12) {
+                    zone = "am"
+                } else {
+                    hour = hour - 12
+                    zone = "pm"
+                }
+            }
+            if (hour != null && min != null) {
+                fullTime = hour.toString() + ":" + min + zone
+            }
+        }
+        return fullTime
+    }
+
+    fun setTimeZone(time: String): String {
+        var fullTime = ""
+        var zone = "am"
+        Log.e("D", "TIME ZOVNE " + time)
+        if (time.length == 4) {
+            Log.e("D", "TIME ZOVNE ULAZI " + time)
+
+            var hour = time.substring(0, 2).toIntOrNull()
+            var min = time.substring(2, 4).toIntOrNull()
+            if (hour != null) {
+                if (hour < 12) {
+                    zone = "am"
+                } else {
+                    hour = hour - 12
+                    zone = "pm"
+                }
+            }
+            if (hour != null && min != null) {
+                fullTime = hour.toString() + ":" + min
+            }
+        }
+        return fullTime
+    }
+
+    fun getZone(time: String): String {
+        var zone = ""
+        val timer = time.toIntOrNull()
+        if (timer != null) {
+            if (timer < 12) {
+                zone = "am"
+            } else {
+
+                zone = "pm"
+            }
+        }
+        return zone
     }
 
     fun setClickListener() {
@@ -836,13 +1271,9 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             btnStart -> {
                 Log.e("D", "TAG " + tag)
-                btnStart.isEnabled = false
-                if (intervalImg.visibility == View.VISIBLE) {
-                    setTabItemVisibility(true)
-                } else {
-                    setTabItemVisibility(false)
-                }
-                startAnimationSendCommand()
+                isTimeSync = false
+                carViewDevice.isEnabled = false
+                setViewAndSendCommand()
             }
             btnEdit -> {
                 if (tag == 1) {
@@ -861,6 +1292,18 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 constraintSet: Int,
                 p2: Int
             ) {
+                startingTv.visibility = View.GONE
+                if (intervalImg.visibility == View.VISIBLE) {
+                    setTabItemVisibility(true)
+                    guideline?.setGuidelinePercent(1f)
+                } else {
+                    setTabItemVisibility(false)
+                    if (tag == 0) {
+                        guideline?.setGuidelinePercent(1f)
+                    } else {
+                        guideline?.setGuidelinePercent(0.65f)
+                    }
+                }
             }
 
             override fun onTransitionChange(
@@ -872,16 +1315,20 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, constraintSet: Int) {
+
                 if (constraintSet == R.id.start) {
                     btnStart.setBackgroundResource(R.drawable.blue_radius_8)
                     btnStart.text = getString(R.string.start)
                     btnStart.isEnabled = true
+                    carViewDevice.isEnabled = true
                 } else {
                     btnStart.setBackgroundResource(R.drawable.container_light_blue)
                     btnStart.text = getString(R.string.stop)
                     btnStart.isEnabled = true
+                    setTabItemVisibility(true)
                 }
             }
+
 
             override fun onTransitionTrigger(
                 motionLayout: MotionLayout?,
@@ -973,7 +1420,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             firstTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             secondTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             thirdTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            fourthTimerTv2?.setBackgroundColor(
+            fourthTimerTv2?.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     R.color.white
@@ -1004,7 +1451,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             firstTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
             secondTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
             thirdTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            fourthTimerTv2?.setBackgroundColor(
+            fourthTimerTv2?.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
                     R.color.dark_gray
@@ -1019,9 +1466,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    fun startAnimationSendCommand() {
-        motionLayoutDevice.transitionToEnd()
-        motionLayoutDevice.transitionToStart()
+    fun setViewAndSendCommand() {
         when (tag) {
             0 -> {
                 tabName.text = resources.getString(R.string.non_stop)
@@ -1032,6 +1477,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 )
                 if (btnStart.tag == "start") {
+                    startingTv.visibility = View.VISIBLE
 
                     bleDevice?.let {
                         gatt?.let { it1 ->
@@ -1063,6 +1509,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 )
                 if (btnStart.tag == "start") {
+                    startingTv.visibility = View.VISIBLE
                     gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
 
                     btnStart.tag = "stop"
@@ -1088,6 +1535,30 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 )
                 if (btnStart.tag == "start") {
+                    if (!isSelected) {
+                        //  if (scheduleModel.timer.get(0)=="0.0")
+                        Snackbar.make(
+                            requireView(),
+                            "You must choose days and interval",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
+//                    else if (scheduleModel?.timer!!.get(0).hours == "0" && scheduleModel?.timer!!.get(
+//                            1
+//                        ).hours == "0" && scheduleModel?.timer!!.get(2).hours == "0" && scheduleModel?.timer!!.get(
+//                            3
+//                        ).hours == "0"
+//                    ) {
+//                        Snackbar.make(
+//                            requireView(),
+//                            "You must choose days and interval",
+//                            Snackbar.LENGTH_SHORT
+//                        ).show()
+//                        return
+//                    }
+                    startingTv.visibility = View.VISIBLE
+
                     gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
 
                     btnStart.tag = "stop"
@@ -1151,11 +1622,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
     fun setNonStopView() {
         tag = 0
-        mistTv?.visibility = View.VISIBLE
-        mistValue?.visibility = View.VISIBLE
-        suspendTv?.visibility = View.VISIBLE
-        suspendValue?.visibility = View.VISIBLE
-        btnEdit?.visibility = View.VISIBLE
+        mistTv?.visibility = View.INVISIBLE
+        mistValue?.visibility = View.INVISIBLE
+        suspendTv?.visibility = View.INVISIBLE
+        suspendValue?.visibility = View.INVISIBLE
+        btnEdit?.visibility = View.INVISIBLE
         secondLine?.visibility = View.VISIBLE
         thirdLine?.visibility = View.INVISIBLE
         mondayTv?.visibility = View.INVISIBLE
@@ -1173,6 +1644,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         bleBg.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.green_circle))
+        activeValue?.text = deviceObject.workingTime + "h"
+
         guideline.setGuidelinePercent(1f)
         nonStopImg.setImageDrawable(
             ContextCompat.getDrawable(
@@ -1239,6 +1712,17 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             ContextCompat.getDrawable(requireContext(), R.drawable.orange_circle)
         )
         guideline.setGuidelinePercent(0.65f)
+        mistValue.text = getTimeFromSeconds(deviceObject.mistTime)
+        suspendValue.text = getTimeFromSeconds(deviceObject.suspendTime)
+        var fullCommand = ""
+        fullCommand = fullCommand + "EE07000000"
+        fullCommand = fullCommand + deviceObject.mistTime
+        fullCommand = fullCommand + "00"
+        fullCommand = fullCommand + deviceObject.suspendTime
+        fullCommand = fullCommand + "."
+        intervalValue = fullCommand.toByteArray(charset)
+        activeValue?.text = deviceObject.workingTime + "h"
+
     }
 
     fun setScheduleView() {
@@ -1285,10 +1769,77 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
         )
         guideline.setGuidelinePercent(0.65f)
+        val firstStart = deviceObject.firstStartTime
+        val firstEnd = deviceObject.firstStopTime
+        val secondStart = deviceObject.secondStartTime
+        val secondEnd = deviceObject.secondStopTime
+        val thirdStart = deviceObject.thirdStartTime
+        val thirdEnd = deviceObject.thirdStopTime
+        val fourtStart = deviceObject.fourtStartTime
+        val fourtEnd = deviceObject.fourtStopTime
+        Log.e("D", "firstStart " + firstStart)
+        Log.e("d", "secondStart " + secondStart)
+        Log.e("d", "thirdStart " + thirdStart)
+        Log.e("f", "fourtStart " + fourtStart)
+        if (firstStart.length == 4 && firstStart != "0000") {
+            firstTimerTv.text = setTimeZone2(firstStart) + "-" + setTimeZone2(firstEnd)
+            isSelected = true
+        }
+        if (secondStart.length == 4 && secondStart != "0000") {
+            secondTimerTv.text =
+                setTimeZone2(secondStart) + "-" + setTimeZone2(secondEnd)
+        }
+        if (thirdStart.length == 4 && thirdStart != "0000") {
+            thirdTimerTv.text =
+                setTimeZone2(thirdStart) + "-" + setTimeZone2(thirdEnd)
+        }
+        if (fourtStart.length == 4 && fourtStart != "0000") {
+            fourthTimerTv2.text =
+                setTimeZone2(fourtStart) + "-" + setTimeZone2(fourtEnd)
+        }
+        mistValue.text = getTimeFromSeconds(deviceObject.mistTime)
+        suspendValue.text = getTimeFromSeconds(deviceObject.suspendTime)
+        var fullCommand = ""
+        fullCommand = fullCommand + "EE07000000"
+        fullCommand = fullCommand + deviceObject.mistTime
+        fullCommand = fullCommand + "00"
+        fullCommand = fullCommand + deviceObject.suspendTime
+        fullCommand = fullCommand + "."
+        intervalValue = fullCommand.toByteArray(charset)
+        firstTimer = "EE060000" + firstStart + firstEnd + "."
+        secondTimer = "EE060010" + secondStart + secondEnd + "."
+        thirdTimer = "EE060020" + thirdStart + thirdEnd + "."
+        fourthTimer = "EE060030" + fourtStart + fourtEnd + "."
+        val ss = deviceObject.mistTime
+        val pp = deviceObject.suspendTime
+        sprayFriquency = "EE07000000" + ss + pp + "."
+        activeValue?.text = deviceObject.workingTime + "h"
+        getActiveDaysFromDb()
     }
 
+
     private fun navigateToSetSchedule() {
-        findNavController().navigate(R.id.action_set_device_to_set_schedule_fragment)
+        if (isFromDB) {
+            val action =
+                bleDevice?.name?.let {
+                    SetDeviceFragmentDirections.actionSetDeviceToSetScheduleFragment(
+                        0,
+                        it
+                    )
+                }
+            action?.let { findNavController().navigate(it) }
+        } else {
+
+            val action =
+                bleDevice?.name?.let {
+                    SetDeviceFragmentDirections.actionSetDeviceToSetScheduleFragment(
+                        0,
+                        it, scheduleModel
+                    )
+                }
+            action?.let { findNavController().navigate(it) }
+        }
+
     }
 
     fun getSeconds(value: String): String {
@@ -1311,6 +1862,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "19s" -> seconds = "019"
             "20s" -> seconds = "020"
             "25s" -> seconds = "025"
+            "30s" -> seconds = "030"
+            "35s" -> seconds = "035"
             "40s" -> seconds = "045"
             "50s" -> seconds = "050"
             "55s" -> seconds = "055"
@@ -1367,6 +1920,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "019" -> time = "19s"
             "020" -> time = "20s"
             "025" -> time = "25s"
+            "030" -> time = "30s"
+            "035" -> time = "35s"
             "045" -> time = "40s"
             "050" -> time = "50s"
             "055" -> time = "55s"
@@ -1401,5 +1956,67 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "900" -> time = "15m"
         }
         return time
+    }
+
+    fun getActiveDaysFromDb() {
+
+        val one = deviceObject.monday
+        val two = deviceObject.tuesday
+        val three = deviceObject.wednesday
+        val four = deviceObject.thursday
+        val five = deviceObject.friday
+        val six = deviceObject.saturday
+        val seven = deviceObject.saturday
+
+        if (one == true) {
+            mondayTv?.alpha = 1f
+            monday = scheduleMo + "0."
+        } else {
+            mondayTv?.alpha = 0.3f
+            monday = scheduleMo + "1."
+        }
+        if (two == true) {
+            tuesdayTV2?.alpha = 1f
+            tuesday = scheduleTu + "0."
+        } else {
+            tuesdayTV2?.alpha = 0.3f
+            tuesday = scheduleTu + "1."
+        }
+        if (three == true) {
+            wednesdayTv?.alpha = 1f
+            wednesday = scheduleWE + "0."
+        } else {
+            wednesdayTv?.alpha = 0.3f
+            wednesday = scheduleWE + "1."
+        }
+        if (four == true) {
+            thusdayTv?.alpha = 1f
+            thursday = scheduleTH + "0."
+        } else {
+            thusdayTv?.alpha = 0.3f
+            thursday = scheduleTH + "1."
+        }
+
+        if (five == true) {
+            fridayTv?.alpha = 1f
+            friday = scheduleFR + "0."
+        } else {
+            fridayTv?.alpha = 0.3f
+            friday = scheduleFR + "1."
+        }
+        if (six == true) {
+            saturdayTv?.alpha = 1f
+            saturday = scheduleSA + "0."
+        } else {
+            saturdayTv?.alpha = 0.3f
+            saturday = scheduleSA + "1."
+        }
+        if (seven == true) {
+            sundayTv?.alpha = 1f
+            sunday = scheduleSU + "0."
+        } else {
+            sundayTv?.alpha = 0.3f
+            sunday = scheduleSU + "1."
+        }
     }
 }

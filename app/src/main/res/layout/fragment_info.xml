@@ -23,15 +23,45 @@
         android:layout_marginLeft="57dp"
         android:layout_marginTop="50dp"
         android:layout_marginRight="57dp"
-        android:gravity="center"
         android:fontFamily="@font/roboto_regular"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Facilisis nunc quis vitae amet, phasellus magna cursus cursus. Semper ipsum eu, at netus pellentesque et. Ullamcorper ipsum senectus dui amet, ut ac. Sit mauris sit in sollicitudin molestie amet bibendum vulputate sapien. Libero, ullamcorper penatibus sit tortor eu lectus commodo malesuada. Mi aliquam sit eget fermentum, eu vulputate dui ornare. Risus augue ac tortor nulla vestibulum mauris, bibendum leo. Iaculis id viverra morbi dui. Lacus, consequat elementum dignissim lectus consequat mauris. Elementum faucibus nulla condimentum risus. "
+        android:gravity="center"
+        android:text="@string/description"
         android:textColor="@color/dark_text"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo" />
-
+    <TextView
+        android:id="@+id/info2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="57dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:text="@string/description2"
+        android:textColor="@color/dark_text"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info" />
+    <TextView
+        android:id="@+id/info3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="57dp"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:text="@string/description3"
+        android:textColor="@color/dark_text"
+        android:textSize="14sp"
+        android:autoLink="web"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info2" />
     <Button
         android:id="@+id/btnResetApp"
         android:layout_width="140dp"
@@ -45,5 +75,5 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/info" />
+        app:layout_constraintTop_toBottomOf="@id/info3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

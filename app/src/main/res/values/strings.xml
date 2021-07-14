@@ -65,4 +65,19 @@
     <string name="reset_filter">Reset filter</string>
     <string name="remove_device">Remove device</string>
     <string name="remove">Remove</string>
+    <string name="starting">Starting...</string>
+    <string name="mode">Mode:</string>
+    <string name="device_id">Device ID:</string>
+    <string name="description2">For questions or concerns about our Privacy Policy, please visit: <a href="https://aermist.com/pages/app-privacy-policy/">https://aermist.com/pages/app-privacy-policy</a></string>
+    <string name="description3">For any issues with the App itself, please contact us at: <a href="developer@aermist.com/">developer@aermist.com</a></string>
+    <string name="description">In App Info:Thank you for choosing aerMist high pressure misting systems for you outdoor cooling needs. For more info on our products and how to use this App to control andautomate our systems please visit:
+         <a href="www.aerMist.com">www.aerMist.com </a> or reference a user manual.</string>
+    <string name="are_you_shure_you_want_to_remove">Are you shure you want to remove</string>
+    <string name="reset_filter_title">Are you shoure,that you want to reset</string>
+    <string name="connecting">Connecting</string>
+    <string name="your_device_is_disconnected">Your device is disconnected. Please ensure that  has power and that you are within range</string>
+    <string name="all_devices_are_disconnected">All your devices are disconnected. Please ensure that at least one has power and that you are within range
+</string>
+    <string name="all">All</string>
+
 </resources>

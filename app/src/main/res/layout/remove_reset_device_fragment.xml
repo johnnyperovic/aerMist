@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="Are you shure you want to remove "
+        android:text="@string/are_you_shure_you_want_to_remove"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

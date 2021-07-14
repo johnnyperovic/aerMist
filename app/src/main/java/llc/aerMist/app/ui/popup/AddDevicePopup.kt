@@ -55,13 +55,18 @@ class AddDevicePopup(val device: BleDevice) : DialogFragment() {
             val json = gson.toJson(newDevice)
             if (prefs.firstDevice.length > 0 && prefs.secondDevice.length > 0 && prefs.thirdDevice.length > 0 && prefs.fourthDevice.length == 0) {
                 prefs.fourthDevice = json
+                prefs.fourthBleDevice = device.mac
             } else if (prefs.firstDevice.length > 0 && prefs.secondDevice.length > 0 && prefs.thirdDevice.length == 0) {
                 prefs.thirdDevice = json
+                prefs.thirdBleDevice = device.mac
+
             } else if (prefs.firstDevice.length > 0 && prefs.secondDevice.length == 0) {
                 prefs.secondDevice = json
+                prefs.secondBleDevice = device.mac
             }
             if (prefs.firstDevice.length == 0) {
                 prefs.firstDevice = json
+                prefs.firstBleDevice = device.mac
             }
                 navigateToMyDevices()
                 dialog?.dismiss()

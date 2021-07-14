@@ -9,11 +9,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.dialog_reset_app.view.*
 import llc.aerMist.app.R
+import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 
 class ResetAppPopup() : DialogFragment() {
     private val prefs: PreferenceCache by inject()
+    val connectionStateCoordinator = NewObservableCoordinator
 
 
     override fun onCreateView(
@@ -37,6 +39,12 @@ class ResetAppPopup() : DialogFragment() {
             dialog?.dismiss()
         }
         dialogView.resetBtn.setOnClickListener {
+            connectionStateCoordinator.firstGatt=null
+            connectionStateCoordinator.secondGatt=null
+            connectionStateCoordinator.thirdGatt=null
+            connectionStateCoordinator.fourthGatt=null
+            connectionStateCoordinator.listBleDevices.clear()
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnectAllDevice()
             prefs.clear()
             dialog?.dismiss()
             navigateToWelcomeScreen()

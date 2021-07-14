@@ -8,6 +8,11 @@ import llc.aerMist.app.helpers.BluetoothController
 object NewObservableCoordinator {
     var bluetoothConnectionState = MutableLiveData<String>("")
     var bluetoothByteArray = MutableLiveData<CharArray>()
+    var bleDisconnectDevices = MutableLiveData<BleDevice>()
+    var isFirstTimeSynch = MutableLiveData<Boolean>()
+    var isSecondTimeSynch = MutableLiveData<Boolean>()
+    var isThirdTimeSynch = MutableLiveData<Boolean>()
+    var isFourthTimeSynch = MutableLiveData<Boolean>()
     var listBleDevices: ArrayList<BleDevice> = ArrayList()
     var idString = MutableLiveData("")
     var firstGatt : BluetoothGatt? = null
@@ -19,5 +24,6 @@ object NewObservableCoordinator {
     var isDeviceConnected = false
     var isDeviceAuthorized = false
     var bleDevicePosition = 0
+    var mode=MutableLiveData<String>("")
 
 }

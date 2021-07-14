@@ -94,42 +94,11 @@ class BluetoothController(
     }
 
     fun startScan() {
-//        initScanRule()
         if (scanCallback!=null)
         {
             bluetoothManager.scan(scanCallback)
         }
     }
 
-    fun initScanRule() {
-        Log.i("BluetoothController","initScanRule()")
-        // real service UUID: d973f2e0-b19e-11e2-9e96-0800200c9a66
-        // 00000000-0000-1000-8000-00805f9b34fb
-        val uuidString = "d973f2e0-b19e-11e2-9e96-0800200c9a66"
-        val uuid = UUID.fromString(uuidString)
-        val uuids = arrayOf<UUID>(uuid)
-        val scanRuleConfig = BleScanRuleConfig.Builder()
-            .setServiceUuids(uuids)
-            .build()
-        Log.i("BluetoothController","scanRuleConfig: ${scanRuleConfig.serviceUuids[0]}")
-        bluetoothManager.initScanRule(scanRuleConfig)
-    }
 
-    fun startConnectingMyDevices()
-    {
-        val deviceOne = prefs.getString("first_device","")
-        val gson = Gson()
-        if (deviceOne!!.length > 0) {
-            val deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
-          val  firstDevice = deviceOneObj.name
-            Log.e("D","naziv "+firstDevice)
-                    if (connectionStateCoordinator.listBleDevices.size > 0) {
-            for (item in connectionStateCoordinator.listBleDevices) {
-                if (item.name == firstDevice) {
-                    connect(item)
-                }
-            }
-        }
-        }
-    }
 }

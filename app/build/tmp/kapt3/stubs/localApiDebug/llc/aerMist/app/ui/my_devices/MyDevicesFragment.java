@@ -2,11 +2,11 @@ package llc.aerMist.app.ui.my_devices;
 
 import java.lang.System;
 
-@kotlin.Metadata(mv = {1, 4, 0}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u00a4\u0001\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\b\n\u0002\b\n\n\u0002\u0010\u000e\n\u0002\b\b\n\u0002\u0018\u0002\n\u0002\b\u0011\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0019\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\n\u0018\u00002\u00020\u00012\u00020\u0002B\u0005\u00a2\u0006\u0002\u0010\u0003J\u0006\u0010k\u001a\u00020lJ\u0006\u0010m\u001a\u00020lJ\b\u0010n\u001a\u00020lH\u0002J\b\u0010o\u001a\u00020lH\u0002J\u0012\u0010p\u001a\u00020l2\b\u0010q\u001a\u0004\u0018\u00010rH\u0017J\"\u0010s\u001a\u00020l2\u0006\u0010t\u001a\u00020\u00162\u0006\u0010u\u001a\u00020\u00162\b\u0010v\u001a\u0004\u0018\u00010wH\u0016J\u0012\u0010x\u001a\u00020l2\b\u0010y\u001a\u0004\u0018\u00010zH\u0016J&\u0010{\u001a\u0004\u0018\u00010z2\u0006\u0010|\u001a\u00020}2\b\u0010~\u001a\u0004\u0018\u00010\u007f2\b\u0010q\u001a\u0004\u0018\u00010rH\u0016J\u0007\u0010\u0080\u0001\u001a\u00020lJ\u0007\u0010\u0081\u0001\u001a\u00020lJ\u0007\u0010\u0082\u0001\u001a\u00020lJ\u0007\u0010\u0083\u0001\u001a\u00020lJ\u0006\u0010$\u001a\u00020lJ\u0006\u00104\u001a\u00020lJ\u0007\u0010\u0084\u0001\u001a\u00020lJ\u0006\u0010V\u001a\u00020lJ\u0006\u0010b\u001a\u00020lJ\u0019\u0010\u0085\u0001\u001a\u00020l2\u0007\u0010\u0086\u0001\u001a\u00020\u00162\u0007\u0010\u0087\u0001\u001a\u00020!J\u0019\u0010\u0088\u0001\u001a\u00020l2\u0007\u0010\u0086\u0001\u001a\u00020\u00162\u0007\u0010\u0087\u0001\u001a\u00020!R \u0010\u0004\u001a\b\u0012\u0004\u0012\u00020\u00060\u0005X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0007\u0010\b\"\u0004\b\t\u0010\nR\u001a\u0010\u000b\u001a\u00020\fX\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\r\u0010\u000e\"\u0004\b\u000f\u0010\u0010R\u0011\u0010\u0011\u001a\u00020\u0012\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0013\u0010\u0014R\u001a\u0010\u0015\u001a\u00020\u0016X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0017\u0010\u0018\"\u0004\b\u0019\u0010\u001aR\u001c\u0010\u001b\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001c\u0010\u001d\"\u0004\b\u001e\u0010\u001fR\u001a\u0010 \u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\"\u0010#\"\u0004\b$\u0010%R\u001a\u0010&\u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\'\u0010#\"\u0004\b(\u0010%R\u001c\u0010)\u001a\u0004\u0018\u00010*X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b+\u0010,\"\u0004\b-\u0010.R\u001c\u0010/\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b0\u0010\u001d\"\u0004\b1\u0010\u001fR\u001a\u00102\u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b3\u0010#\"\u0004\b4\u0010%R\u001a\u00105\u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b6\u0010#\"\u0004\b7\u0010%R\u001c\u00108\u001a\u0004\u0018\u00010*X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b9\u0010,\"\u0004\b:\u0010.R\u000e\u0010;\u001a\u00020<X\u0082\u0004\u00a2\u0006\u0002\n\u0000R \u0010=\u001a\b\u0012\u0004\u0012\u00020\u00060\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b>\u0010\b\"\u0004\b?\u0010\nR\u000e\u0010@\u001a\u00020AX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010B\u001a\u00020AX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010C\u001a\u00020AX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u000e\u0010D\u001a\u00020AX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u001b\u0010E\u001a\u00020F8BX\u0082\u0084\u0002\u00a2\u0006\f\n\u0004\bI\u0010J\u001a\u0004\bG\u0010HR\u000e\u0010K\u001a\u00020LX\u0082.\u00a2\u0006\u0002\n\u0000R\u000e\u0010M\u001a\u00020NX\u0082.\u00a2\u0006\u0002\n\u0000R\u000e\u0010O\u001a\u00020PX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u001c\u0010Q\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bR\u0010\u001d\"\u0004\bS\u0010\u001fR\u001a\u0010T\u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bU\u0010#\"\u0004\bV\u0010%R\u001a\u0010W\u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bX\u0010#\"\u0004\bY\u0010%R\u001c\u0010Z\u001a\u0004\u0018\u00010*X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b[\u0010,\"\u0004\b\\\u0010.R\u001c\u0010]\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b^\u0010\u001d\"\u0004\b_\u0010\u001fR\u001a\u0010`\u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\ba\u0010#\"\u0004\bb\u0010%R\u001a\u0010c\u001a\u00020!X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bd\u0010#\"\u0004\be\u0010%R\u001c\u0010f\u001a\u0004\u0018\u00010*X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bg\u0010,\"\u0004\bh\u0010.R\u000e\u0010i\u001a\u00020jX\u0082\u0004\u00a2\u0006\u0002\n\u0000\u00a8\u0006\u0089\u0001"}, d2 = {"Lllc/aerMist/app/ui/my_devices/MyDevicesFragment;", "Landroidx/fragment/app/Fragment;", "Landroid/view/View$OnClickListener;", "()V", "availableDevicesList", "", "Lcom/clj/fastble/data/BleDevice;", "getAvailableDevicesList", "()Ljava/util/List;", "setAvailableDevicesList", "(Ljava/util/List;)V", "bluetoothController", "Lllc/aerMist/app/helpers/BluetoothController;", "getBluetoothController", "()Lllc/aerMist/app/helpers/BluetoothController;", "setBluetoothController", "(Lllc/aerMist/app/helpers/BluetoothController;)V", "connectionStateCoordinator", "Lllc/aerMist/app/observers/NewObservableCoordinator;", "getConnectionStateCoordinator", "()Lllc/aerMist/app/observers/NewObservableCoordinator;", "deviceTotalNumber", "", "getDeviceTotalNumber", "()I", "setDeviceTotalNumber", "(I)V", "firstBleDevice", "getFirstBleDevice", "()Lcom/clj/fastble/data/BleDevice;", "setFirstBleDevice", "(Lcom/clj/fastble/data/BleDevice;)V", "firstDevice", "", "getFirstDevice", "()Ljava/lang/String;", "setFirstDevice", "(Ljava/lang/String;)V", "firstDeviceNewName", "getFirstDeviceNewName", "setFirstDeviceNewName", "firstGate", "Landroid/bluetooth/BluetoothGatt;", "getFirstGate", "()Landroid/bluetooth/BluetoothGatt;", "setFirstGate", "(Landroid/bluetooth/BluetoothGatt;)V", "fourthBleDevice", "getFourthBleDevice", "setFourthBleDevice", "fourthDevice", "getFourthDevice", "setFourthDevice", "fourthDeviceNewName", "getFourthDeviceNewName", "setFourthDeviceNewName", "fourthGate", "getFourthGate", "setFourthGate", "gattCallback", "Lcom/clj/fastble/callback/BleGattCallback;", "list", "getList", "setList", "notifyCallback", "Lcom/clj/fastble/callback/BleNotifyCallback;", "notifyCallback2", "notifyCallback3", "notifyCallback4", "prefs", "Lllc/aerMist/app/shared/util/PreferenceCache;", "getPrefs", "()Lllc/aerMist/app/shared/util/PreferenceCache;", "prefs$delegate", "Lkotlin/Lazy;", "removeDevicePopup", "Lllc/aerMist/app/ui/popup/RemoveDevicePopup;", "renameDeviceDialog", "Lllc/aerMist/app/ui/popup/RenameDevicePopup;", "scanCallback", "Lcom/clj/fastble/callback/BleScanCallback;", "secondBleDevice", "getSecondBleDevice", "setSecondBleDevice", "secondDevice", "getSecondDevice", "setSecondDevice", "secondDeviceNewName", "getSecondDeviceNewName", "setSecondDeviceNewName", "secondGate", "getSecondGate", "setSecondGate", "thirdBleDevice", "getThirdBleDevice", "setThirdBleDevice", "thirdDevice", "getThirdDevice", "setThirdDevice", "thirdDeviceNewName", "getThirdDeviceNewName", "setThirdDeviceNewName", "thirdGate", "getThirdGate", "setThirdGate", "writeCallback", "Lcom/clj/fastble/callback/BleWriteCallback;", "checkConnection", "", "initBleConroller", "navigateToAvailableDevices", "navigateToMain", "onActivityCreated", "savedInstanceState", "Landroid/os/Bundle;", "onActivityResult", "requestCode", "resultCode", "data", "Landroid/content/Intent;", "onClick", "id", "Landroid/view/View;", "onCreateView", "inflater", "Landroid/view/LayoutInflater;", "container", "Landroid/view/ViewGroup;", "readFourthResponse", "readResponse", "readSecondResponse", "readThirdResponse", "setOnClickListener", "showRemoveDialog", "positon", "name", "showRenameDialog", "app_localApiDebug"})
+@kotlin.Metadata(mv = {1, 4, 0}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u00c5\u0001\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010 \n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\b\n\u0002\u0018\u0002\n\u0002\b\u0014\n\u0002\u0010\b\n\u0002\b\u0016\n\u0002\u0018\u0002\n\u0002\bA\n\u0002\u0010\u000b\n\u0002\b\u000e\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0012\n\u0002\bT\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\r\n\u0002\u0018\u0002\n\u0003\b\u00a0\u0001\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0002\n\u0002\b\n\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0013\u0018\u00002\u00020\u00012\u00020\u0002B\u0005\u00a2\u0006\u0002\u0010\u0003J\b\u0010\u00b4\u0003\u001a\u00030\u00b5\u0003J\u0010\u0010\u00b6\u0003\u001a\u0002082\u0007\u0010\u00b7\u0003\u001a\u00020\u001aJ\u0012\u0010\u00b8\u0003\u001a\u00020\u001a2\u0007\u0010\u00b9\u0003\u001a\u00020\u001aH\u0002J\n\u0010\u00ba\u0003\u001a\u00030\u00b5\u0003H\u0007J\n\u0010\u00bb\u0003\u001a\u00030\u00b5\u0003H\u0002J\b\u0010\u00bc\u0003\u001a\u00030\u00b5\u0003J\n\u0010\u00bd\u0003\u001a\u00030\u00b5\u0003H\u0002J\u0016\u0010\u00be\u0003\u001a\u00030\u00b5\u00032\n\u0010\u00bf\u0003\u001a\u0005\u0018\u00010\u00c0\u0003H\u0017J(\u0010\u00c1\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00c2\u0003\u001a\u0002082\u0007\u0010\u00c3\u0003\u001a\u0002082\n\u0010\u00c4\u0003\u001a\u0005\u0018\u00010\u00c5\u0003H\u0016J\u0016\u0010\u00c6\u0003\u001a\u00030\u00b5\u00032\n\u0010\u00c7\u0003\u001a\u0005\u0018\u00010\u00c8\u0003H\u0016J.\u0010\u00c9\u0003\u001a\u0005\u0018\u00010\u00c8\u00032\b\u0010\u00ca\u0003\u001a\u00030\u00cb\u00032\n\u0010\u00cc\u0003\u001a\u0005\u0018\u00010\u00cd\u00032\n\u0010\u00bf\u0003\u001a\u0005\u0018\u00010\u00c0\u0003H\u0016J\b\u0010\u00ce\u0003\u001a\u00030\u00b5\u0003J\b\u0010\u00cf\u0003\u001a\u00030\u00b5\u0003J\b\u0010\u00d0\u0003\u001a\u00030\u00b5\u0003J\b\u0010\u00d1\u0003\u001a\u00030\u00b5\u0003J\u0011\u0010\u00d2\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00b9\u0003\u001a\u00020\u001aJ\u0011\u0010\u00d3\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00b9\u0003\u001a\u00020\u001aJ\u0011\u0010\u00d4\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00b9\u0003\u001a\u00020\u001aJ\u0011\u0010\u00d5\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00b9\u0003\u001a\u00020\u001aJ$\u0010\u00d6\u0003\u001a\u00030\u00b5\u00032\b\u0010\u00d7\u0003\u001a\u00030\u00a2\u00012\u0007\u0010\u00d8\u0003\u001a\u00020\u00062\u0007\u0010\u00d9\u0003\u001a\u00020OJ\u001a\u0010\u00da\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00d9\u0003\u001a\u00020O2\u0007\u0010\u00d8\u0003\u001a\u00020\u0006J\t\u0010J\u001a\u00030\u00b5\u0003H\u0007J\n\u0010\u0089\u0001\u001a\u00030\u00b5\u0003H\u0007J\b\u0010\u00db\u0003\u001a\u00030\u00b5\u0003J\n\u0010\u0098\u0002\u001a\u00030\u00b5\u0003H\u0007J\n\u0010\u00e0\u0002\u001a\u00030\u00b5\u0003H\u0007J\u001a\u0010\u00dc\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00dd\u0003\u001a\u0002082\u0007\u0010\u00de\u0003\u001a\u00020\u001aJ\u001a\u0010\u00df\u0003\u001a\u00030\u00b5\u00032\u0007\u0010\u00dd\u0003\u001a\u0002082\u0007\u0010\u00de\u0003\u001a\u00020\u001aR \u0010\u0004\u001a\b\u0012\u0004\u0012\u00020\u00060\u0005X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0007\u0010\b\"\u0004\b\t\u0010\nR\u001c\u0010\u000b\u001a\u0004\u0018\u00010\fX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\r\u0010\u000e\"\u0004\b\u000f\u0010\u0010R\u0011\u0010\u0011\u001a\u00020\u0012\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0013\u0010\u0014R\u0011\u0010\u0015\u001a\u00020\u0016\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0017\u0010\u0018R\u001a\u0010\u0019\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u001b\u0010\u001c\"\u0004\b\u001d\u0010\u001eR\u001a\u0010\u001f\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b \u0010\u001c\"\u0004\b!\u0010\u001eR\u001a\u0010\"\u001a\u00020#X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b$\u0010%\"\u0004\b&\u0010\'R\u001a\u0010(\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b)\u0010\u001c\"\u0004\b*\u0010\u001eR\u001a\u0010+\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b,\u0010\u001c\"\u0004\b-\u0010\u001eR\u001a\u0010.\u001a\u00020#X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b/\u0010%\"\u0004\b0\u0010\'R\u001a\u00101\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b2\u0010\u001c\"\u0004\b3\u0010\u001eR\u001a\u00104\u001a\u00020#X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b5\u0010%\"\u0004\b6\u0010\'R\u001a\u00107\u001a\u000208X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b9\u0010:\"\u0004\b;\u0010<R\u001a\u0010=\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b>\u0010\u001c\"\u0004\b?\u0010\u001eR\u001a\u0010@\u001a\u00020#X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\bA\u0010%\"\u0004\bB\u0010\'R\u001c\u0010C\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bD\u0010E\"\u0004\bF\u0010GR\u001a\u0010H\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bI\u0010\u001c\"\u0004\bJ\u0010\u001eR\u001a\u0010K\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bL\u0010\u001c\"\u0004\bM\u0010\u001eR\u001c\u0010N\u001a\u0004\u0018\u00010OX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bP\u0010Q\"\u0004\bR\u0010SR\u001a\u0010T\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bU\u0010\u001c\"\u0004\bV\u0010\u001eR\u001a\u0010W\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bX\u0010\u001c\"\u0004\bY\u0010\u001eR\u001a\u0010Z\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b[\u0010\u001c\"\u0004\b\\\u0010\u001eR\u001a\u0010]\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b^\u0010\u001c\"\u0004\b_\u0010\u001eR\u001a\u0010`\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\ba\u0010\u001c\"\u0004\bb\u0010\u001eR\u001a\u0010c\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bd\u0010\u001c\"\u0004\be\u0010\u001eR\u001a\u0010f\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bg\u0010\u001c\"\u0004\bh\u0010\u001eR\u001a\u0010i\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bj\u0010\u001c\"\u0004\bk\u0010\u001eR\u001a\u0010l\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bm\u0010\u001c\"\u0004\bn\u0010\u001eR\u001a\u0010o\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bp\u0010\u001c\"\u0004\bq\u0010\u001eR\u001a\u0010r\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bs\u0010\u001c\"\u0004\bt\u0010\u001eR\u001a\u0010u\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bv\u0010\u001c\"\u0004\bw\u0010\u001eR\u001a\u0010x\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\by\u0010\u001c\"\u0004\bz\u0010\u001eR\u001a\u0010{\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b|\u0010\u001c\"\u0004\b}\u0010\u001eR\u001b\u0010~\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u000f\n\u0000\u001a\u0004\b\u007f\u0010\u001c\"\u0005\b\u0080\u0001\u0010\u001eR\u001d\u0010\u0081\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0082\u0001\u0010\u001c\"\u0005\b\u0083\u0001\u0010\u001eR\u001f\u0010\u0084\u0001\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0085\u0001\u0010E\"\u0005\b\u0086\u0001\u0010GR\u001d\u0010\u0087\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0088\u0001\u0010\u001c\"\u0005\b\u0089\u0001\u0010\u001eR\u001d\u0010\u008a\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u008b\u0001\u0010\u001c\"\u0005\b\u008c\u0001\u0010\u001eR\u001f\u0010\u008d\u0001\u001a\u0004\u0018\u00010OX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u008e\u0001\u0010Q\"\u0005\b\u008f\u0001\u0010SR \u0010\u0090\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0092\u0001\u0010\u0093\u0001\"\u0006\b\u0094\u0001\u0010\u0095\u0001R \u0010\u0096\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0097\u0001\u0010\u0093\u0001\"\u0006\b\u0098\u0001\u0010\u0095\u0001R \u0010\u0099\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u009a\u0001\u0010\u0093\u0001\"\u0006\b\u009b\u0001\u0010\u0095\u0001R \u0010\u009c\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u009d\u0001\u0010\u0093\u0001\"\u0006\b\u009e\u0001\u0010\u0095\u0001R\u0010\u0010\u009f\u0001\u001a\u00030\u00a0\u0001X\u0082\u0004\u00a2\u0006\u0002\n\u0000R \u0010\u00a1\u0001\u001a\u00030\u00a2\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00a3\u0001\u0010\u00a4\u0001\"\u0006\b\u00a5\u0001\u0010\u00a6\u0001R \u0010\u00a7\u0001\u001a\u00030\u00a2\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00a8\u0001\u0010\u00a4\u0001\"\u0006\b\u00a9\u0001\u0010\u00a6\u0001R \u0010\u00aa\u0001\u001a\u00030\u00a2\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00ab\u0001\u0010\u00a4\u0001\"\u0006\b\u00ac\u0001\u0010\u00a6\u0001R \u0010\u00ad\u0001\u001a\u00030\u00a2\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00ae\u0001\u0010\u00a4\u0001\"\u0006\b\u00af\u0001\u0010\u00a6\u0001R \u0010\u00b0\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00b0\u0001\u0010\u0093\u0001\"\u0006\b\u00b1\u0001\u0010\u0095\u0001R \u0010\u00b2\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00b2\u0001\u0010\u0093\u0001\"\u0006\b\u00b3\u0001\u0010\u0095\u0001R \u0010\u00b4\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00b4\u0001\u0010\u0093\u0001\"\u0006\b\u00b5\u0001\u0010\u0095\u0001R \u0010\u00b6\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00b6\u0001\u0010\u0093\u0001\"\u0006\b\u00b7\u0001\u0010\u0095\u0001R \u0010\u00b8\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00b8\u0001\u0010\u0093\u0001\"\u0006\b\u00b9\u0001\u0010\u0095\u0001R \u0010\u00ba\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00ba\u0001\u0010\u0093\u0001\"\u0006\b\u00bb\u0001\u0010\u0095\u0001R \u0010\u00bc\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00bc\u0001\u0010\u0093\u0001\"\u0006\b\u00bd\u0001\u0010\u0095\u0001R \u0010\u00be\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00be\u0001\u0010\u0093\u0001\"\u0006\b\u00bf\u0001\u0010\u0095\u0001R \u0010\u00c0\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00c0\u0001\u0010\u0093\u0001\"\u0006\b\u00c1\u0001\u0010\u0095\u0001R \u0010\u00c2\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00c2\u0001\u0010\u0093\u0001\"\u0006\b\u00c3\u0001\u0010\u0095\u0001R \u0010\u00c4\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00c4\u0001\u0010\u0093\u0001\"\u0006\b\u00c5\u0001\u0010\u0095\u0001R \u0010\u00c6\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00c6\u0001\u0010\u0093\u0001\"\u0006\b\u00c7\u0001\u0010\u0095\u0001R \u0010\u00c8\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00c8\u0001\u0010\u0093\u0001\"\u0006\b\u00c9\u0001\u0010\u0095\u0001R \u0010\u00ca\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00ca\u0001\u0010\u0093\u0001\"\u0006\b\u00cb\u0001\u0010\u0095\u0001R \u0010\u00cc\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00cc\u0001\u0010\u0093\u0001\"\u0006\b\u00cd\u0001\u0010\u0095\u0001R \u0010\u00ce\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00ce\u0001\u0010\u0093\u0001\"\u0006\b\u00cf\u0001\u0010\u0095\u0001R \u0010\u00d0\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00d0\u0001\u0010\u0093\u0001\"\u0006\b\u00d1\u0001\u0010\u0095\u0001R \u0010\u00d2\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00d2\u0001\u0010\u0093\u0001\"\u0006\b\u00d3\u0001\u0010\u0095\u0001R \u0010\u00d4\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00d4\u0001\u0010\u0093\u0001\"\u0006\b\u00d5\u0001\u0010\u0095\u0001R \u0010\u00d6\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00d6\u0001\u0010\u0093\u0001\"\u0006\b\u00d7\u0001\u0010\u0095\u0001R#\u0010\u00d8\u0001\u001a\b\u0012\u0004\u0012\u00020\u00060\u0005X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00d9\u0001\u0010\b\"\u0005\b\u00da\u0001\u0010\nR\u001d\u0010\u00db\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00dc\u0001\u0010\u001c\"\u0005\b\u00dd\u0001\u0010\u001eR\u001d\u0010\u00de\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00df\u0001\u0010\u001c\"\u0005\b\u00e0\u0001\u0010\u001eR\u001d\u0010\u00e1\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e2\u0001\u0010\u001c\"\u0005\b\u00e3\u0001\u0010\u001eR\u001d\u0010\u00e4\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e5\u0001\u0010\u001c\"\u0005\b\u00e6\u0001\u0010\u001eR \u0010\u00e7\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00e8\u0001\u0010\u0093\u0001\"\u0006\b\u00e9\u0001\u0010\u0095\u0001R \u0010\u00ea\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00eb\u0001\u0010\u0093\u0001\"\u0006\b\u00ec\u0001\u0010\u0095\u0001R \u0010\u00ed\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00ee\u0001\u0010\u0093\u0001\"\u0006\b\u00ef\u0001\u0010\u0095\u0001R \u0010\u00f0\u0001\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00f1\u0001\u0010\u0093\u0001\"\u0006\b\u00f2\u0001\u0010\u0095\u0001R\u001d\u0010\u00f3\u0001\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00f4\u0001\u0010\u001c\"\u0005\b\u00f5\u0001\u0010\u001eR\u0010\u0010\u00f6\u0001\u001a\u00030\u00f7\u0001X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0010\u0010\u00f8\u0001\u001a\u00030\u00f7\u0001X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0010\u0010\u00f9\u0001\u001a\u00030\u00f7\u0001X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0010\u0010\u00fa\u0001\u001a\u00030\u00f7\u0001X\u0082\u0004\u00a2\u0006\u0002\n\u0000R!\u0010\u00fb\u0001\u001a\u00030\u00fc\u00018BX\u0082\u0084\u0002\u00a2\u0006\u0010\n\u0006\b\u00ff\u0001\u0010\u0080\u0002\u001a\u0006\b\u00fd\u0001\u0010\u00fe\u0001R\u0010\u0010\u0081\u0002\u001a\u00030\u0082\u0002X\u0082.\u00a2\u0006\u0002\n\u0000R\u0010\u0010\u0083\u0002\u001a\u00030\u0084\u0002X\u0082.\u00a2\u0006\u0002\n\u0000R \u0010\u0085\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0086\u0002\u0010\u0093\u0001\"\u0006\b\u0087\u0002\u0010\u0095\u0001R \u0010\u0088\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0089\u0002\u0010\u0093\u0001\"\u0006\b\u008a\u0002\u0010\u0095\u0001R \u0010\u008b\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u008c\u0002\u0010\u0093\u0001\"\u0006\b\u008d\u0002\u0010\u0095\u0001R \u0010\u008e\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u008f\u0002\u0010\u0093\u0001\"\u0006\b\u0090\u0002\u0010\u0095\u0001R\u0010\u0010\u0091\u0002\u001a\u00030\u0092\u0002X\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u001f\u0010\u0093\u0002\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0094\u0002\u0010E\"\u0005\b\u0095\u0002\u0010GR\u001d\u0010\u0096\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0097\u0002\u0010\u001c\"\u0005\b\u0098\u0002\u0010\u001eR\u001d\u0010\u0099\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u009a\u0002\u0010\u001c\"\u0005\b\u009b\u0002\u0010\u001eR\u001f\u0010\u009c\u0002\u001a\u0004\u0018\u00010OX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u009d\u0002\u0010Q\"\u0005\b\u009e\u0002\u0010SR\u001d\u0010\u009f\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a0\u0002\u0010\u001c\"\u0005\b\u00a1\u0002\u0010\u001eR\u001d\u0010\u00a2\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a3\u0002\u0010\u001c\"\u0005\b\u00a4\u0002\u0010\u001eR\u001d\u0010\u00a5\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a6\u0002\u0010\u001c\"\u0005\b\u00a7\u0002\u0010\u001eR\u001d\u0010\u00a8\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a9\u0002\u0010\u001c\"\u0005\b\u00aa\u0002\u0010\u001eR\u001d\u0010\u00ab\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00ac\u0002\u0010\u001c\"\u0005\b\u00ad\u0002\u0010\u001eR\u001d\u0010\u00ae\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00af\u0002\u0010\u001c\"\u0005\b\u00b0\u0002\u0010\u001eR\u001d\u0010\u00b1\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00b2\u0002\u0010\u001c\"\u0005\b\u00b3\u0002\u0010\u001eR\u001d\u0010\u00b4\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00b5\u0002\u0010\u001c\"\u0005\b\u00b6\u0002\u0010\u001eR\u001d\u0010\u00b7\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00b8\u0002\u0010\u001c\"\u0005\b\u00b9\u0002\u0010\u001eR\u001d\u0010\u00ba\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00bb\u0002\u0010\u001c\"\u0005\b\u00bc\u0002\u0010\u001eR\u001d\u0010\u00bd\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00be\u0002\u0010\u001c\"\u0005\b\u00bf\u0002\u0010\u001eR\u001d\u0010\u00c0\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c1\u0002\u0010\u001c\"\u0005\b\u00c2\u0002\u0010\u001eR \u0010\u00c3\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00c4\u0002\u0010\u0093\u0001\"\u0006\b\u00c5\u0002\u0010\u0095\u0001R \u0010\u00c6\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00c7\u0002\u0010\u0093\u0001\"\u0006\b\u00c8\u0002\u0010\u0095\u0001R \u0010\u00c9\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00ca\u0002\u0010\u0093\u0001\"\u0006\b\u00cb\u0002\u0010\u0095\u0001R \u0010\u00cc\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00cd\u0002\u0010\u0093\u0001\"\u0006\b\u00ce\u0002\u0010\u0095\u0001R\u001d\u0010\u00cf\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00d0\u0002\u0010\u001c\"\u0005\b\u00d1\u0002\u0010\u001eR\u001d\u0010\u00d2\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00d3\u0002\u0010\u001c\"\u0005\b\u00d4\u0002\u0010\u001eR\u001d\u0010\u00d5\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00d6\u0002\u0010\u001c\"\u0005\b\u00d7\u0002\u0010\u001eR\u001d\u0010\u00d8\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00d9\u0002\u0010\u001c\"\u0005\b\u00da\u0002\u0010\u001eR\u001f\u0010\u00db\u0002\u001a\u0004\u0018\u00010\u0006X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00dc\u0002\u0010E\"\u0005\b\u00dd\u0002\u0010GR\u001d\u0010\u00de\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00df\u0002\u0010\u001c\"\u0005\b\u00e0\u0002\u0010\u001eR\u001d\u0010\u00e1\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e2\u0002\u0010\u001c\"\u0005\b\u00e3\u0002\u0010\u001eR\u001f\u0010\u00e4\u0002\u001a\u0004\u0018\u00010OX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e5\u0002\u0010Q\"\u0005\b\u00e6\u0002\u0010SR\u001d\u0010\u00e7\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e8\u0002\u0010\u001c\"\u0005\b\u00e9\u0002\u0010\u001eR\u001d\u0010\u00ea\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00eb\u0002\u0010\u001c\"\u0005\b\u00ec\u0002\u0010\u001eR\u001d\u0010\u00ed\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00ee\u0002\u0010\u001c\"\u0005\b\u00ef\u0002\u0010\u001eR\u001d\u0010\u00f0\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00f1\u0002\u0010\u001c\"\u0005\b\u00f2\u0002\u0010\u001eR\u001d\u0010\u00f3\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00f4\u0002\u0010\u001c\"\u0005\b\u00f5\u0002\u0010\u001eR\u001d\u0010\u00f6\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00f7\u0002\u0010\u001c\"\u0005\b\u00f8\u0002\u0010\u001eR\u001d\u0010\u00f9\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00fa\u0002\u0010\u001c\"\u0005\b\u00fb\u0002\u0010\u001eR\u001d\u0010\u00fc\u0002\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00fd\u0002\u0010\u001c\"\u0005\b\u00fe\u0002\u0010\u001eR \u0010\u00ff\u0002\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0080\u0003\u0010\u0093\u0001\"\u0006\b\u0081\u0003\u0010\u0095\u0001R \u0010\u0082\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0083\u0003\u0010\u0093\u0001\"\u0006\b\u0084\u0003\u0010\u0095\u0001R \u0010\u0085\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0086\u0003\u0010\u0093\u0001\"\u0006\b\u0087\u0003\u0010\u0095\u0001R \u0010\u0088\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0089\u0003\u0010\u0093\u0001\"\u0006\b\u008a\u0003\u0010\u0095\u0001R\u001d\u0010\u008b\u0003\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u008c\u0003\u0010\u001c\"\u0005\b\u008d\u0003\u0010\u001eR \u0010\u008e\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u008f\u0003\u0010\u0093\u0001\"\u0006\b\u0090\u0003\u0010\u0095\u0001R \u0010\u0091\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0092\u0003\u0010\u0093\u0001\"\u0006\b\u0093\u0003\u0010\u0095\u0001R \u0010\u0094\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0095\u0003\u0010\u0093\u0001\"\u0006\b\u0096\u0003\u0010\u0095\u0001R \u0010\u0097\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0098\u0003\u0010\u0093\u0001\"\u0006\b\u0099\u0003\u0010\u0095\u0001R \u0010\u009a\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u009b\u0003\u0010\u0093\u0001\"\u0006\b\u009c\u0003\u0010\u0095\u0001R \u0010\u009d\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u009e\u0003\u0010\u0093\u0001\"\u0006\b\u009f\u0003\u0010\u0095\u0001R \u0010\u00a0\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00a1\u0003\u0010\u0093\u0001\"\u0006\b\u00a2\u0003\u0010\u0095\u0001R \u0010\u00a3\u0003\u001a\u00030\u0091\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u00a4\u0003\u0010\u0093\u0001\"\u0006\b\u00a5\u0003\u0010\u0095\u0001R\u001d\u0010\u00a6\u0003\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a7\u0003\u0010\u001c\"\u0005\b\u00a8\u0003\u0010\u001eR\u001d\u0010\u00a9\u0003\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00aa\u0003\u0010\u001c\"\u0005\b\u00ab\u0003\u0010\u001eR\u001d\u0010\u00ac\u0003\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00ad\u0003\u0010\u001c\"\u0005\b\u00ae\u0003\u0010\u001eR\u001d\u0010\u00af\u0003\u001a\u00020\u001aX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00b0\u0003\u0010\u001c\"\u0005\b\u00b1\u0003\u0010\u001eR\u0010\u0010\u00b2\u0003\u001a\u00030\u00b3\u0003X\u0082\u0004\u00a2\u0006\u0002\n\u0000\u00a8\u0006\u00e0\u0003"}, d2 = {"Lllc/aerMist/app/ui/my_devices/MyDevicesFragment;", "Landroidx/fragment/app/Fragment;", "Landroid/view/View$OnClickListener;", "()V", "availableDevicesList", "", "Lcom/clj/fastble/data/BleDevice;", "getAvailableDevicesList", "()Ljava/util/List;", "setAvailableDevicesList", "(Ljava/util/List;)V", "bluetoothController", "Lllc/aerMist/app/helpers/BluetoothController;", "getBluetoothController", "()Lllc/aerMist/app/helpers/BluetoothController;", "setBluetoothController", "(Lllc/aerMist/app/helpers/BluetoothController;)V", "charset", "Ljava/nio/charset/Charset;", "getCharset", "()Ljava/nio/charset/Charset;", "connectionStateCoordinator", "Lllc/aerMist/app/observers/NewObservableCoordinator;", "getConnectionStateCoordinator", "()Lllc/aerMist/app/observers/NewObservableCoordinator;", "dateAndTimeSynch", "", "getDateAndTimeSynch", "()Ljava/lang/String;", "setDateAndTimeSynch", "(Ljava/lang/String;)V", "deviceFour", "getDeviceFour", "setDeviceFour", "deviceFourObj", "Lllc/aerMist/app/models/MyDevice;", "getDeviceFourObj", "()Lllc/aerMist/app/models/MyDevice;", "setDeviceFourObj", "(Lllc/aerMist/app/models/MyDevice;)V", "deviceNameValue", "getDeviceNameValue", "setDeviceNameValue", "deviceOne", "getDeviceOne", "setDeviceOne", "deviceOneObj", "getDeviceOneObj", "setDeviceOneObj", "deviceThree", "getDeviceThree", "setDeviceThree", "deviceThreeObj", "getDeviceThreeObj", "setDeviceThreeObj", "deviceTotalNumber", "", "getDeviceTotalNumber", "()I", "setDeviceTotalNumber", "(I)V", "deviceTwo", "getDeviceTwo", "setDeviceTwo", "deviceTwoObj", "getDeviceTwoObj", "setDeviceTwoObj", "firstBleDevice", "getFirstBleDevice", "()Lcom/clj/fastble/data/BleDevice;", "setFirstBleDevice", "(Lcom/clj/fastble/data/BleDevice;)V", "firstDevice", "getFirstDevice", "setFirstDevice", "firstDeviceNewName", "getFirstDeviceNewName", "setFirstDeviceNewName", "firstGate", "Landroid/bluetooth/BluetoothGatt;", "getFirstGate", "()Landroid/bluetooth/BluetoothGatt;", "setFirstGate", "(Landroid/bluetooth/BluetoothGatt;)V", "firstStartTime", "getFirstStartTime", "setFirstStartTime", "firstStartTime2", "getFirstStartTime2", "setFirstStartTime2", "firstStartTime3", "getFirstStartTime3", "setFirstStartTime3", "firstStartTime4", "getFirstStartTime4", "setFirstStartTime4", "firstStopTime", "getFirstStopTime", "setFirstStopTime", "firstStopTime2", "getFirstStopTime2", "setFirstStopTime2", "firstStopTime3", "getFirstStopTime3", "setFirstStopTime3", "firstStopTime4", "getFirstStopTime4", "setFirstStopTime4", "fourtStartTime", "getFourtStartTime", "setFourtStartTime", "fourtStartTime2", "getFourtStartTime2", "setFourtStartTime2", "fourtStartTime3", "getFourtStartTime3", "setFourtStartTime3", "fourtStartTime4", "getFourtStartTime4", "setFourtStartTime4", "fourtStopTime", "getFourtStopTime", "setFourtStopTime", "fourtStopTime2", "getFourtStopTime2", "setFourtStopTime2", "fourtStopTime3", "getFourtStopTime3", "setFourtStopTime3", "fourtStopTime4", "getFourtStopTime4", "setFourtStopTime4", "fourthBleDevice", "getFourthBleDevice", "setFourthBleDevice", "fourthDevice", "getFourthDevice", "setFourthDevice", "fourthDeviceNewName", "getFourthDeviceNewName", "setFourthDeviceNewName", "fourthGate", "getFourthGate", "setFourthGate", "fridayActive", "", "getFridayActive", "()Z", "setFridayActive", "(Z)V", "fridayActive2", "getFridayActive2", "setFridayActive2", "fridayActive3", "getFridayActive3", "setFridayActive3", "fridayActive4", "getFridayActive4", "setFridayActive4", "gattCallback", "Lcom/clj/fastble/callback/BleGattCallback;", "intervalValue", "", "getIntervalValue", "()[B", "setIntervalValue", "([B)V", "intervalValue2", "getIntervalValue2", "setIntervalValue2", "intervalValue3", "getIntervalValue3", "setIntervalValue3", "intervalValue4", "getIntervalValue4", "setIntervalValue4", "isNonStop", "setNonStop", "isNonStop2", "setNonStop2", "isNonStop3", "setNonStop3", "isNonStop4", "setNonStop4", "isOn", "setOn", "isOn2", "setOn2", "isOn3", "setOn3", "isOn4", "setOn4", "isSprayFriquencu", "setSprayFriquencu", "isSprayFriquencu2", "setSprayFriquencu2", "isSprayFriquencu3", "setSprayFriquencu3", "isSprayFriquencu4", "setSprayFriquencu4", "isSprayPerDay", "setSprayPerDay", "isSprayPerDay2", "setSprayPerDay2", "isSprayPerDay3", "setSprayPerDay3", "isSprayPerDay4", "setSprayPerDay4", "isSprayingMode", "setSprayingMode", "isSprayingMode2", "setSprayingMode2", "isSprayingMode3", "setSprayingMode3", "isSprayingMode4", "setSprayingMode4", "list", "getList", "setList", "mistTime", "getMistTime", "setMistTime", "mistTime2", "getMistTime2", "setMistTime2", "mistTime3", "getMistTime3", "setMistTime3", "mistTime4", "getMistTime4", "setMistTime4", "mondayActive", "getMondayActive", "setMondayActive", "mondayActive2", "getMondayActive2", "setMondayActive2", "mondayActive3", "getMondayActive3", "setMondayActive3", "mondayActive4", "getMondayActive4", "setMondayActive4", "nameToSend", "getNameToSend", "setNameToSend", "notifyCallback", "Lcom/clj/fastble/callback/BleNotifyCallback;", "notifyCallback2", "notifyCallback3", "notifyCallback4", "prefs", "Lllc/aerMist/app/shared/util/PreferenceCache;", "getPrefs", "()Lllc/aerMist/app/shared/util/PreferenceCache;", "prefs$delegate", "Lkotlin/Lazy;", "removeDevicePopup", "Lllc/aerMist/app/ui/popup/RemoveDevicePopup;", "renameDeviceDialog", "Lllc/aerMist/app/ui/popup/RenameDevicePopup;", "saturdayActive", "getSaturdayActive", "setSaturdayActive", "saturdayActive2", "getSaturdayActive2", "setSaturdayActive2", "saturdayActive3", "getSaturdayActive3", "setSaturdayActive3", "saturdayActive4", "getSaturdayActive4", "setSaturdayActive4", "scanCallback", "Lcom/clj/fastble/callback/BleScanCallback;", "secondBleDevice", "getSecondBleDevice", "setSecondBleDevice", "secondDevice", "getSecondDevice", "setSecondDevice", "secondDeviceNewName", "getSecondDeviceNewName", "setSecondDeviceNewName", "secondGate", "getSecondGate", "setSecondGate", "secondStartTime", "getSecondStartTime", "setSecondStartTime", "secondStartTime2", "getSecondStartTime2", "setSecondStartTime2", "secondStartTime3", "getSecondStartTime3", "setSecondStartTime3", "secondStartTime4", "getSecondStartTime4", "setSecondStartTime4", "secondStopTime", "getSecondStopTime", "setSecondStopTime", "secondStopTime2", "getSecondStopTime2", "setSecondStopTime2", "secondStopTime3", "getSecondStopTime3", "setSecondStopTime3", "secondStopTime4", "getSecondStopTime4", "setSecondStopTime4", "shortString", "getShortString", "setShortString", "shortString2", "getShortString2", "setShortString2", "shortString3", "getShortString3", "setShortString3", "shortString4", "getShortString4", "setShortString4", "sundayActive", "getSundayActive", "setSundayActive", "sundayActive2", "getSundayActive2", "setSundayActive2", "sundayActive3", "getSundayActive3", "setSundayActive3", "sundayActive4", "getSundayActive4", "setSundayActive4", "suspendTime", "getSuspendTime", "setSuspendTime", "suspendTime2", "getSuspendTime2", "setSuspendTime2", "suspendTime3", "getSuspendTime3", "setSuspendTime3", "suspendTime4", "getSuspendTime4", "setSuspendTime4", "thirdBleDevice", "getThirdBleDevice", "setThirdBleDevice", "thirdDevice", "getThirdDevice", "setThirdDevice", "thirdDeviceNewName", "getThirdDeviceNewName", "setThirdDeviceNewName", "thirdGate", "getThirdGate", "setThirdGate", "thirdStartTime", "getThirdStartTime", "setThirdStartTime", "thirdStartTime2", "getThirdStartTime2", "setThirdStartTime2", "thirdStartTime3", "getThirdStartTime3", "setThirdStartTime3", "thirdStartTime4", "getThirdStartTime4", "setThirdStartTime4", "thirdStopTime", "getThirdStopTime", "setThirdStopTime", "thirdStopTime2", "getThirdStopTime2", "setThirdStopTime2", "thirdStopTime3", "getThirdStopTime3", "setThirdStopTime3", "thirdStopTime4", "getThirdStopTime4", "setThirdStopTime4", "thursdayActive", "getThursdayActive", "setThursdayActive", "thursdayActive2", "getThursdayActive2", "setThursdayActive2", "thursdayActive3", "getThursdayActive3", "setThursdayActive3", "thursdayActive4", "getThursdayActive4", "setThursdayActive4", "time", "getTime", "setTime", "tuesdayActive", "getTuesdayActive", "setTuesdayActive", "tuesdayActive2", "getTuesdayActive2", "setTuesdayActive2", "tuesdayActive3", "getTuesdayActive3", "setTuesdayActive3", "tuesdayActive4", "getTuesdayActive4", "setTuesdayActive4", "wednesdayActive", "getWednesdayActive", "setWednesdayActive", "wednesdayActive2", "getWednesdayActive2", "setWednesdayActive2", "wednesdayActive3", "getWednesdayActive3", "setWednesdayActive3", "wednesdayActive4", "getWednesdayActive4", "setWednesdayActive4", "workingTime", "getWorkingTime", "setWorkingTime", "workingTime2", "getWorkingTime2", "setWorkingTime2", "workingTime3", "getWorkingTime3", "setWorkingTime3", "workingTime4", "getWorkingTime4", "setWorkingTime4", "writeCallback", "Lcom/clj/fastble/callback/BleWriteCallback;", "checkConnection", "", "getDayInWeek", "day", "getRegister", "response", "initBleConroller", "navigateToAvailableDevices", "navigateToDevice", "navigateToMain", "onActivityCreated", "savedInstanceState", "Landroid/os/Bundle;", "onActivityResult", "requestCode", "resultCode", "data", "Landroid/content/Intent;", "onClick", "id", "Landroid/view/View;", "onCreateView", "inflater", "Landroid/view/LayoutInflater;", "container", "Landroid/view/ViewGroup;", "readFourthResponse", "readResponse", "readSecondResponse", "readThirdResponse", "readTimerSync", "readTimerSync2", "readTimerSync3", "readTimerSync4", "sendCommand", "input", "bleDevice", "gatt", "sendTimeSynchCommand", "setOnClickListener", "showRemoveDialog", "positon", "name", "showRenameDialog", "app_localApiDebug"})
 public final class MyDevicesFragment extends androidx.fragment.app.Fragment implements android.view.View.OnClickListener {
     private final kotlin.Lazy prefs$delegate = null;
-    @org.jetbrains.annotations.NotNull()
-    public llc.aerMist.app.helpers.BluetoothController bluetoothController;
+    @org.jetbrains.annotations.Nullable()
+    private llc.aerMist.app.helpers.BluetoothController bluetoothController;
     @org.jetbrains.annotations.NotNull()
     private final llc.aerMist.app.observers.NewObservableCoordinator connectionStateCoordinator = null;
     @org.jetbrains.annotations.NotNull()
@@ -48,6 +48,184 @@ public final class MyDevicesFragment extends androidx.fragment.app.Fragment impl
     private android.bluetooth.BluetoothGatt fourthGate;
     private llc.aerMist.app.ui.popup.RenameDevicePopup renameDeviceDialog;
     private llc.aerMist.app.ui.popup.RemoveDevicePopup removeDevicePopup;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String workingTime = "";
+    private boolean isOn = false;
+    private boolean isNonStop = false;
+    private boolean isSprayingMode = false;
+    private boolean mondayActive = false;
+    private boolean tuesdayActive = false;
+    private boolean wednesdayActive = false;
+    private boolean thursdayActive = false;
+    private boolean fridayActive = false;
+    private boolean saturdayActive = false;
+    private boolean sundayActive = false;
+    private boolean isSprayPerDay = false;
+    private boolean isSprayFriquencu = false;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStartTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStartTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStartTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStartTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStopTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStopTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStopTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStopTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String mistTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String suspendTime = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String deviceNameValue = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String time = "";
+    @org.jetbrains.annotations.NotNull()
+    private final java.nio.charset.Charset charset = null;
+    @org.jetbrains.annotations.NotNull()
+    private byte[] intervalValue;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String shortString = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String shortString2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String shortString3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String shortString4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String workingTime2 = "";
+    private boolean isOn2 = false;
+    private boolean isNonStop2 = false;
+    private boolean isSprayingMode2 = false;
+    private boolean mondayActive2 = false;
+    private boolean tuesdayActive2 = false;
+    private boolean wednesdayActive2 = false;
+    private boolean thursdayActive2 = false;
+    private boolean fridayActive2 = false;
+    private boolean saturdayActive2 = false;
+    private boolean sundayActive2 = false;
+    private boolean isSprayPerDay2 = false;
+    private boolean isSprayFriquencu2 = false;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStartTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStartTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStartTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStartTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStopTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStopTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStopTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStopTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String mistTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String suspendTime2 = "";
+    @org.jetbrains.annotations.NotNull()
+    private byte[] intervalValue2;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String dateAndTimeSynch = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String workingTime3 = "";
+    private boolean isOn3 = false;
+    private boolean isNonStop3 = false;
+    private boolean isSprayingMode3 = false;
+    private boolean mondayActive3 = false;
+    private boolean tuesdayActive3 = false;
+    private boolean wednesdayActive3 = false;
+    private boolean thursdayActive3 = false;
+    private boolean fridayActive3 = false;
+    private boolean saturdayActive3 = false;
+    private boolean sundayActive3 = false;
+    private boolean isSprayPerDay3 = false;
+    private boolean isSprayFriquencu3 = false;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStartTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStartTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStartTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStartTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStopTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStopTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStopTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStopTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String mistTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String suspendTime3 = "";
+    @org.jetbrains.annotations.NotNull()
+    private byte[] intervalValue3;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String workingTime4 = "";
+    private boolean isOn4 = false;
+    private boolean isNonStop4 = false;
+    private boolean isSprayingMode4 = false;
+    private boolean mondayActive4 = false;
+    private boolean tuesdayActive4 = false;
+    private boolean wednesdayActive4 = false;
+    private boolean thursdayActive4 = false;
+    private boolean fridayActive4 = false;
+    private boolean saturdayActive4 = false;
+    private boolean sundayActive4 = false;
+    private boolean isSprayPerDay4 = false;
+    private boolean isSprayFriquencu4 = false;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStartTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStartTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStartTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStartTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String firstStopTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String secondStopTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String thirdStopTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String fourtStopTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String mistTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String suspendTime4 = "";
+    @org.jetbrains.annotations.NotNull()
+    private byte[] intervalValue4;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String nameToSend = "";
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String deviceOne = "";
+    @org.jetbrains.annotations.NotNull()
+    public llc.aerMist.app.models.MyDevice deviceOneObj;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String deviceTwo = "";
+    @org.jetbrains.annotations.NotNull()
+    public llc.aerMist.app.models.MyDevice deviceTwoObj;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String deviceThree = "";
+    @org.jetbrains.annotations.NotNull()
+    public llc.aerMist.app.models.MyDevice deviceThreeObj;
+    @org.jetbrains.annotations.NotNull()
+    private java.lang.String deviceFour = "";
+    @org.jetbrains.annotations.NotNull()
+    public llc.aerMist.app.models.MyDevice deviceFourObj;
     private final com.clj.fastble.callback.BleScanCallback scanCallback = null;
     private final com.clj.fastble.callback.BleGattCallback gattCallback = null;
     private final com.clj.fastble.callback.BleWriteCallback writeCallback = null;
@@ -61,12 +239,12 @@ public final class MyDevicesFragment extends androidx.fragment.app.Fragment impl
         return null;
     }
     
-    @org.jetbrains.annotations.NotNull()
+    @org.jetbrains.annotations.Nullable()
     public final llc.aerMist.app.helpers.BluetoothController getBluetoothController() {
         return null;
     }
     
-    public final void setBluetoothController(@org.jetbrains.annotations.NotNull()
+    public final void setBluetoothController(@org.jetbrains.annotations.Nullable()
     llc.aerMist.app.helpers.BluetoothController p0) {
     }
     
@@ -244,6 +422,923 @@ public final class MyDevicesFragment extends androidx.fragment.app.Fragment impl
     android.bluetooth.BluetoothGatt p0) {
     }
     
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getWorkingTime() {
+        return null;
+    }
+    
+    public final void setWorkingTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    public final boolean isOn() {
+        return false;
+    }
+    
+    public final void setOn(boolean p0) {
+    }
+    
+    public final boolean isNonStop() {
+        return false;
+    }
+    
+    public final void setNonStop(boolean p0) {
+    }
+    
+    public final boolean isSprayingMode() {
+        return false;
+    }
+    
+    public final void setSprayingMode(boolean p0) {
+    }
+    
+    public final boolean getMondayActive() {
+        return false;
+    }
+    
+    public final void setMondayActive(boolean p0) {
+    }
+    
+    public final boolean getTuesdayActive() {
+        return false;
+    }
+    
+    public final void setTuesdayActive(boolean p0) {
+    }
+    
+    public final boolean getWednesdayActive() {
+        return false;
+    }
+    
+    public final void setWednesdayActive(boolean p0) {
+    }
+    
+    public final boolean getThursdayActive() {
+        return false;
+    }
+    
+    public final void setThursdayActive(boolean p0) {
+    }
+    
+    public final boolean getFridayActive() {
+        return false;
+    }
+    
+    public final void setFridayActive(boolean p0) {
+    }
+    
+    public final boolean getSaturdayActive() {
+        return false;
+    }
+    
+    public final void setSaturdayActive(boolean p0) {
+    }
+    
+    public final boolean getSundayActive() {
+        return false;
+    }
+    
+    public final void setSundayActive(boolean p0) {
+    }
+    
+    public final boolean isSprayPerDay() {
+        return false;
+    }
+    
+    public final void setSprayPerDay(boolean p0) {
+    }
+    
+    public final boolean isSprayFriquencu() {
+        return false;
+    }
+    
+    public final void setSprayFriquencu(boolean p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStartTime() {
+        return null;
+    }
+    
+    public final void setFirstStartTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStartTime() {
+        return null;
+    }
+    
+    public final void setSecondStartTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStartTime() {
+        return null;
+    }
+    
+    public final void setThirdStartTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStartTime() {
+        return null;
+    }
+    
+    public final void setFourtStartTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStopTime() {
+        return null;
+    }
+    
+    public final void setFirstStopTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStopTime() {
+        return null;
+    }
+    
+    public final void setSecondStopTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStopTime() {
+        return null;
+    }
+    
+    public final void setThirdStopTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStopTime() {
+        return null;
+    }
+    
+    public final void setFourtStopTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getMistTime() {
+        return null;
+    }
+    
+    public final void setMistTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSuspendTime() {
+        return null;
+    }
+    
+    public final void setSuspendTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getDeviceNameValue() {
+        return null;
+    }
+    
+    public final void setDeviceNameValue(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getTime() {
+        return null;
+    }
+    
+    public final void setTime(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.nio.charset.Charset getCharset() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final byte[] getIntervalValue() {
+        return null;
+    }
+    
+    public final void setIntervalValue(@org.jetbrains.annotations.NotNull()
+    byte[] p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getShortString() {
+        return null;
+    }
+    
+    public final void setShortString(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getShortString2() {
+        return null;
+    }
+    
+    public final void setShortString2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getShortString3() {
+        return null;
+    }
+    
+    public final void setShortString3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getShortString4() {
+        return null;
+    }
+    
+    public final void setShortString4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getWorkingTime2() {
+        return null;
+    }
+    
+    public final void setWorkingTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    public final boolean isOn2() {
+        return false;
+    }
+    
+    public final void setOn2(boolean p0) {
+    }
+    
+    public final boolean isNonStop2() {
+        return false;
+    }
+    
+    public final void setNonStop2(boolean p0) {
+    }
+    
+    public final boolean isSprayingMode2() {
+        return false;
+    }
+    
+    public final void setSprayingMode2(boolean p0) {
+    }
+    
+    public final boolean getMondayActive2() {
+        return false;
+    }
+    
+    public final void setMondayActive2(boolean p0) {
+    }
+    
+    public final boolean getTuesdayActive2() {
+        return false;
+    }
+    
+    public final void setTuesdayActive2(boolean p0) {
+    }
+    
+    public final boolean getWednesdayActive2() {
+        return false;
+    }
+    
+    public final void setWednesdayActive2(boolean p0) {
+    }
+    
+    public final boolean getThursdayActive2() {
+        return false;
+    }
+    
+    public final void setThursdayActive2(boolean p0) {
+    }
+    
+    public final boolean getFridayActive2() {
+        return false;
+    }
+    
+    public final void setFridayActive2(boolean p0) {
+    }
+    
+    public final boolean getSaturdayActive2() {
+        return false;
+    }
+    
+    public final void setSaturdayActive2(boolean p0) {
+    }
+    
+    public final boolean getSundayActive2() {
+        return false;
+    }
+    
+    public final void setSundayActive2(boolean p0) {
+    }
+    
+    public final boolean isSprayPerDay2() {
+        return false;
+    }
+    
+    public final void setSprayPerDay2(boolean p0) {
+    }
+    
+    public final boolean isSprayFriquencu2() {
+        return false;
+    }
+    
+    public final void setSprayFriquencu2(boolean p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStartTime2() {
+        return null;
+    }
+    
+    public final void setFirstStartTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStartTime2() {
+        return null;
+    }
+    
+    public final void setSecondStartTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStartTime2() {
+        return null;
+    }
+    
+    public final void setThirdStartTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStartTime2() {
+        return null;
+    }
+    
+    public final void setFourtStartTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStopTime2() {
+        return null;
+    }
+    
+    public final void setFirstStopTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStopTime2() {
+        return null;
+    }
+    
+    public final void setSecondStopTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStopTime2() {
+        return null;
+    }
+    
+    public final void setThirdStopTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStopTime2() {
+        return null;
+    }
+    
+    public final void setFourtStopTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getMistTime2() {
+        return null;
+    }
+    
+    public final void setMistTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSuspendTime2() {
+        return null;
+    }
+    
+    public final void setSuspendTime2(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final byte[] getIntervalValue2() {
+        return null;
+    }
+    
+    public final void setIntervalValue2(@org.jetbrains.annotations.NotNull()
+    byte[] p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getDateAndTimeSynch() {
+        return null;
+    }
+    
+    public final void setDateAndTimeSynch(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getWorkingTime3() {
+        return null;
+    }
+    
+    public final void setWorkingTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    public final boolean isOn3() {
+        return false;
+    }
+    
+    public final void setOn3(boolean p0) {
+    }
+    
+    public final boolean isNonStop3() {
+        return false;
+    }
+    
+    public final void setNonStop3(boolean p0) {
+    }
+    
+    public final boolean isSprayingMode3() {
+        return false;
+    }
+    
+    public final void setSprayingMode3(boolean p0) {
+    }
+    
+    public final boolean getMondayActive3() {
+        return false;
+    }
+    
+    public final void setMondayActive3(boolean p0) {
+    }
+    
+    public final boolean getTuesdayActive3() {
+        return false;
+    }
+    
+    public final void setTuesdayActive3(boolean p0) {
+    }
+    
+    public final boolean getWednesdayActive3() {
+        return false;
+    }
+    
+    public final void setWednesdayActive3(boolean p0) {
+    }
+    
+    public final boolean getThursdayActive3() {
+        return false;
+    }
+    
+    public final void setThursdayActive3(boolean p0) {
+    }
+    
+    public final boolean getFridayActive3() {
+        return false;
+    }
+    
+    public final void setFridayActive3(boolean p0) {
+    }
+    
+    public final boolean getSaturdayActive3() {
+        return false;
+    }
+    
+    public final void setSaturdayActive3(boolean p0) {
+    }
+    
+    public final boolean getSundayActive3() {
+        return false;
+    }
+    
+    public final void setSundayActive3(boolean p0) {
+    }
+    
+    public final boolean isSprayPerDay3() {
+        return false;
+    }
+    
+    public final void setSprayPerDay3(boolean p0) {
+    }
+    
+    public final boolean isSprayFriquencu3() {
+        return false;
+    }
+    
+    public final void setSprayFriquencu3(boolean p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStartTime3() {
+        return null;
+    }
+    
+    public final void setFirstStartTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStartTime3() {
+        return null;
+    }
+    
+    public final void setSecondStartTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStartTime3() {
+        return null;
+    }
+    
+    public final void setThirdStartTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStartTime3() {
+        return null;
+    }
+    
+    public final void setFourtStartTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStopTime3() {
+        return null;
+    }
+    
+    public final void setFirstStopTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStopTime3() {
+        return null;
+    }
+    
+    public final void setSecondStopTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStopTime3() {
+        return null;
+    }
+    
+    public final void setThirdStopTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStopTime3() {
+        return null;
+    }
+    
+    public final void setFourtStopTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getMistTime3() {
+        return null;
+    }
+    
+    public final void setMistTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSuspendTime3() {
+        return null;
+    }
+    
+    public final void setSuspendTime3(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final byte[] getIntervalValue3() {
+        return null;
+    }
+    
+    public final void setIntervalValue3(@org.jetbrains.annotations.NotNull()
+    byte[] p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getWorkingTime4() {
+        return null;
+    }
+    
+    public final void setWorkingTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    public final boolean isOn4() {
+        return false;
+    }
+    
+    public final void setOn4(boolean p0) {
+    }
+    
+    public final boolean isNonStop4() {
+        return false;
+    }
+    
+    public final void setNonStop4(boolean p0) {
+    }
+    
+    public final boolean isSprayingMode4() {
+        return false;
+    }
+    
+    public final void setSprayingMode4(boolean p0) {
+    }
+    
+    public final boolean getMondayActive4() {
+        return false;
+    }
+    
+    public final void setMondayActive4(boolean p0) {
+    }
+    
+    public final boolean getTuesdayActive4() {
+        return false;
+    }
+    
+    public final void setTuesdayActive4(boolean p0) {
+    }
+    
+    public final boolean getWednesdayActive4() {
+        return false;
+    }
+    
+    public final void setWednesdayActive4(boolean p0) {
+    }
+    
+    public final boolean getThursdayActive4() {
+        return false;
+    }
+    
+    public final void setThursdayActive4(boolean p0) {
+    }
+    
+    public final boolean getFridayActive4() {
+        return false;
+    }
+    
+    public final void setFridayActive4(boolean p0) {
+    }
+    
+    public final boolean getSaturdayActive4() {
+        return false;
+    }
+    
+    public final void setSaturdayActive4(boolean p0) {
+    }
+    
+    public final boolean getSundayActive4() {
+        return false;
+    }
+    
+    public final void setSundayActive4(boolean p0) {
+    }
+    
+    public final boolean isSprayPerDay4() {
+        return false;
+    }
+    
+    public final void setSprayPerDay4(boolean p0) {
+    }
+    
+    public final boolean isSprayFriquencu4() {
+        return false;
+    }
+    
+    public final void setSprayFriquencu4(boolean p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStartTime4() {
+        return null;
+    }
+    
+    public final void setFirstStartTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStartTime4() {
+        return null;
+    }
+    
+    public final void setSecondStartTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStartTime4() {
+        return null;
+    }
+    
+    public final void setThirdStartTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStartTime4() {
+        return null;
+    }
+    
+    public final void setFourtStartTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFirstStopTime4() {
+        return null;
+    }
+    
+    public final void setFirstStopTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSecondStopTime4() {
+        return null;
+    }
+    
+    public final void setSecondStopTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getThirdStopTime4() {
+        return null;
+    }
+    
+    public final void setThirdStopTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getFourtStopTime4() {
+        return null;
+    }
+    
+    public final void setFourtStopTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getMistTime4() {
+        return null;
+    }
+    
+    public final void setMistTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getSuspendTime4() {
+        return null;
+    }
+    
+    public final void setSuspendTime4(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final byte[] getIntervalValue4() {
+        return null;
+    }
+    
+    public final void setIntervalValue4(@org.jetbrains.annotations.NotNull()
+    byte[] p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getNameToSend() {
+        return null;
+    }
+    
+    public final void setNameToSend(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getDeviceOne() {
+        return null;
+    }
+    
+    public final void setDeviceOne(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final llc.aerMist.app.models.MyDevice getDeviceOneObj() {
+        return null;
+    }
+    
+    public final void setDeviceOneObj(@org.jetbrains.annotations.NotNull()
+    llc.aerMist.app.models.MyDevice p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getDeviceTwo() {
+        return null;
+    }
+    
+    public final void setDeviceTwo(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final llc.aerMist.app.models.MyDevice getDeviceTwoObj() {
+        return null;
+    }
+    
+    public final void setDeviceTwoObj(@org.jetbrains.annotations.NotNull()
+    llc.aerMist.app.models.MyDevice p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getDeviceThree() {
+        return null;
+    }
+    
+    public final void setDeviceThree(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final llc.aerMist.app.models.MyDevice getDeviceThreeObj() {
+        return null;
+    }
+    
+    public final void setDeviceThreeObj(@org.jetbrains.annotations.NotNull()
+    llc.aerMist.app.models.MyDevice p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getDeviceFour() {
+        return null;
+    }
+    
+    public final void setDeviceFour(@org.jetbrains.annotations.NotNull()
+    java.lang.String p0) {
+    }
+    
+    @org.jetbrains.annotations.NotNull()
+    public final llc.aerMist.app.models.MyDevice getDeviceFourObj() {
+        return null;
+    }
+    
+    public final void setDeviceFourObj(@org.jetbrains.annotations.NotNull()
+    llc.aerMist.app.models.MyDevice p0) {
+    }
+    
     @org.jetbrains.annotations.Nullable()
     @java.lang.Override()
     public android.view.View onCreateView(@org.jetbrains.annotations.NotNull()
@@ -262,6 +1357,7 @@ public final class MyDevicesFragment extends androidx.fragment.app.Fragment impl
     public final void checkConnection() {
     }
     
+    @android.annotation.SuppressLint(value = {"MissingPermission"})
     public final void initBleConroller() {
     }
     
@@ -283,16 +1379,59 @@ public final class MyDevicesFragment extends androidx.fragment.app.Fragment impl
     private final void navigateToMain() {
     }
     
+    public final void navigateToDevice() {
+    }
+    
+    @android.annotation.SuppressLint(value = {"SetTextI18n"})
     public final void setFirstDevice() {
     }
     
+    @android.annotation.SuppressLint(value = {"SetTextI18n"})
     public final void setSecondDevice() {
     }
     
+    @android.annotation.SuppressLint(value = {"SetTextI18n"})
     public final void setThirdDevice() {
     }
     
+    @android.annotation.SuppressLint(value = {"SetTextI18n"})
     public final void setFourthDevice() {
+    }
+    
+    public final void sendTimeSynchCommand(@org.jetbrains.annotations.NotNull()
+    android.bluetooth.BluetoothGatt gatt, @org.jetbrains.annotations.NotNull()
+    com.clj.fastble.data.BleDevice bleDevice) {
+    }
+    
+    public final void sendCommand(@org.jetbrains.annotations.NotNull()
+    byte[] input, @org.jetbrains.annotations.NotNull()
+    com.clj.fastble.data.BleDevice bleDevice, @org.jetbrains.annotations.NotNull()
+    android.bluetooth.BluetoothGatt gatt) {
+    }
+    
+    public final int getDayInWeek(@org.jetbrains.annotations.NotNull()
+    java.lang.String day) {
+        return 0;
+    }
+    
+    private final java.lang.String getRegister(java.lang.String response) {
+        return null;
+    }
+    
+    public final void readTimerSync(@org.jetbrains.annotations.NotNull()
+    java.lang.String response) {
+    }
+    
+    public final void readTimerSync2(@org.jetbrains.annotations.NotNull()
+    java.lang.String response) {
+    }
+    
+    public final void readTimerSync3(@org.jetbrains.annotations.NotNull()
+    java.lang.String response) {
+    }
+    
+    public final void readTimerSync4(@org.jetbrains.annotations.NotNull()
+    java.lang.String response) {
     }
     
     public final void setOnClickListener() {

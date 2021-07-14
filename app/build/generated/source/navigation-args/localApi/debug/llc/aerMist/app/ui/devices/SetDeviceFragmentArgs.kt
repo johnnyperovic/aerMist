@@ -6,26 +6,23 @@ import androidx.navigation.NavArgs
 import java.io.Serializable
 import java.lang.IllegalArgumentException
 import java.lang.UnsupportedOperationException
-import kotlin.Int
+import kotlin.String
 import kotlin.Suppress
 import kotlin.jvm.JvmStatic
 import llc.aerMist.app.models.ScheduleModel
 
 data class SetDeviceFragmentArgs(
-  val myArg: Int = 1,
-  val model: ScheduleModel
+  val myArg: String = "",
+  val model: ScheduleModel? = null
 ) : NavArgs {
   @Suppress("CAST_NEVER_SUCCEEDS")
   fun toBundle(): Bundle {
     val result = Bundle()
-    result.putInt("myArg", this.myArg)
+    result.putString("myArg", this.myArg)
     if (Parcelable::class.java.isAssignableFrom(ScheduleModel::class.java)) {
-      result.putParcelable("model", this.model as Parcelable)
+      result.putParcelable("model", this.model as Parcelable?)
     } else if (Serializable::class.java.isAssignableFrom(ScheduleModel::class.java)) {
-      result.putSerializable("model", this.model as Serializable)
-    } else {
-      throw UnsupportedOperationException(ScheduleModel::class.java.name +
-          " must implement Parcelable or Serializable or must be an Enum.")
+      result.putSerializable("model", this.model as Serializable?)
     }
     return result
   }
@@ -34,11 +31,14 @@ data class SetDeviceFragmentArgs(
     @JvmStatic
     fun fromBundle(bundle: Bundle): SetDeviceFragmentArgs {
       bundle.setClassLoader(SetDeviceFragmentArgs::class.java.classLoader)
-      val __myArg : Int
+      val __myArg : String?
       if (bundle.containsKey("myArg")) {
-        __myArg = bundle.getInt("myArg")
+        __myArg = bundle.getString("myArg")
+        if (__myArg == null) {
+          throw IllegalArgumentException("Argument \"myArg\" is marked as non-null but was passed a null value.")
+        }
       } else {
-        __myArg = 1
+        __myArg = ""
       }
       val __model : ScheduleModel?
       if (bundle.containsKey("model")) {
@@ -49,11 +49,8 @@ data class SetDeviceFragmentArgs(
           throw UnsupportedOperationException(ScheduleModel::class.java.name +
               " must implement Parcelable or Serializable or must be an Enum.")
         }
-        if (__model == null) {
-          throw IllegalArgumentException("Argument \"model\" is marked as non-null but was passed a null value.")
-        }
       } else {
-        throw IllegalArgumentException("Required argument \"model\" is missing and does not have an android:defaultValue")
+        __model = null
       }
       return SetDeviceFragmentArgs(__myArg, __model)
     }

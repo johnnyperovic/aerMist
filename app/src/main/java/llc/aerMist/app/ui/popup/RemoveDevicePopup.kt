@@ -4,29 +4,22 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.navigation.fragment.findNavController
-import com.clj.fastble.data.BleDevice
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.add_device_popup.view.*
-import kotlinx.android.synthetic.main.add_device_popup.view.cancelBtn
 import kotlinx.android.synthetic.main.remove_reset_device_fragment.view.*
 import llc.aerMist.app.R
-import llc.aerMist.app.models.MyDevice
 import llc.aerMist.app.observers.NewObservableCoordinator
 import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 
-class RemoveDevicePopup (val position:Int,val deviceName:String) : DialogFragment() {
+class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: Boolean) :
+    DialogFragment() {
     private val prefs: PreferenceCache by inject()
     val connectionStateCoordinator = NewObservableCoordinator
-
-
+    var isDeleted=false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,7 +37,17 @@ class RemoveDevicePopup (val position:Int,val deviceName:String) : DialogFragmen
         val dialogView: View =
             inflater.inflate(R.layout.remove_reset_device_fragment, container, false)
 
-        dialogView.deviceName.text=deviceName+" device ?"
+        if (filter) {
+            dialogView.title.text = getString(R.string.reset_filter_title)
+            dialogView.deviceName.text = deviceName + " filter ?"
+            dialogView.btnRemoveDevice.text = getString(R.string.reset)
+            isDeleted=false
+        } else {
+            dialogView.title.text = getString(R.string.are_you_shure_you_want_to_remove)
+            dialogView.deviceName.text = deviceName + " device ?"
+            dialogView.btnRemoveDevice.text = getString(R.string.remove)
+            isDeleted=true
+        }
 
         dialogView.btnCancelDialog.setOnClickListener {
             dialog?.dismiss()
@@ -53,31 +56,53 @@ class RemoveDevicePopup (val position:Int,val deviceName:String) : DialogFragmen
         dialogView.btnRemoveDevice.setOnClickListener {
             when (position) {
                 0 -> {
-                    prefs.cleanFirstDevice()
-                    connectionStateCoordinator.firstGatt?.disconnect()
-                    connectionStateCoordinator.firstGatt=null
-
+                    if (filter) {
+                        prefs.cleanFirstDevice()
+                    } else {
+                        prefs.cleanFirstDevice()
+                        connectionStateCoordinator.firstGatt?.disconnect()
+                        connectionStateCoordinator.firstGatt = null
+                        prefs.isDeleted=true
+                    }
                 }
-                1 ->{
-                    prefs.cleanSecondDevice()
-                    connectionStateCoordinator.secondGatt?.disconnect()
-                    connectionStateCoordinator.secondGatt=null
-
+                1 -> {
+                    if (filter) {
+                        prefs.cleanSecondDevice()
+                    } else {
+                        prefs.cleanSecondDevice()
+                        connectionStateCoordinator.secondGatt?.disconnect()
+                        connectionStateCoordinator.secondGatt = null
+                        prefs.isDeleted=true
+                    }
                 }
-                2 ->{
-                    prefs.cleanThirdDevice()
-                    connectionStateCoordinator.thirdGatt?.disconnect()
-                    connectionStateCoordinator.thirdGatt=null
+                2 -> {
+                    if (filter) {
+                        prefs.cleanThirdDevice()
+
+                    } else {
+                        prefs.cleanThirdDevice()
+                        connectionStateCoordinator.thirdGatt?.disconnect()
+                        connectionStateCoordinator.thirdGatt = null
+                        prefs.isDeleted=true
+                    }
                 }
                 3 -> {
-                    prefs.cleanFourthDevice()
-                    connectionStateCoordinator.fourthGatt?.disconnect()
-                    connectionStateCoordinator.fourthGatt=null
+                    if (filter) {
+                        prefs.cleanFourthDevice()
+
+                    } else {
+                        prefs.cleanFourthDevice()
+                        connectionStateCoordinator.fourthGatt?.disconnect()
+                        connectionStateCoordinator.fourthGatt = null
+                        prefs.isDeleted=true
+                    }
                 }
             }
+
             val i: Intent = Intent()
                 .putExtra("position", position)
-                .putExtra("isDeleted", true)
+                .putExtra("isDeleted", isDeleted)
+                .putExtra("isFilter", filter)
             requireParentFragment().onActivityResult(1, Activity.RESULT_OK, i)
             dialog?.dismiss()
         }
@@ -85,9 +110,6 @@ class RemoveDevicePopup (val position:Int,val deviceName:String) : DialogFragmen
         return dialogView
     }
 
-    private fun navigateToMyDevices() {
-        findNavController().navigate(R.id.action_dialog_to_my_devices)
-    }
 
     override fun onStart() {
         super.onStart()

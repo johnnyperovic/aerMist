@@ -2,10 +2,11 @@ package llc.aerMist.app.ui.devices;
 
 import java.lang.System;
 
-@kotlin.Metadata(mv = {1, 4, 0}, bv = {1, 0, 3}, k = 1, d1 = {"\u00004\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\b\n\u0000\n\u0002\u0018\u0002\n\u0002\b\t\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0002\b\u0002\b\u0086\b\u0018\u0000 \u00172\u00020\u0001:\u0001\u0017B\u0017\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\u0006\u0010\u0004\u001a\u00020\u0005\u00a2\u0006\u0002\u0010\u0006J\t\u0010\u000b\u001a\u00020\u0003H\u00c6\u0003J\t\u0010\f\u001a\u00020\u0005H\u00c6\u0003J\u001d\u0010\r\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\b\b\u0002\u0010\u0004\u001a\u00020\u0005H\u00c6\u0001J\u0013\u0010\u000e\u001a\u00020\u000f2\b\u0010\u0010\u001a\u0004\u0018\u00010\u0011H\u00d6\u0003J\t\u0010\u0012\u001a\u00020\u0003H\u00d6\u0001J\u0006\u0010\u0013\u001a\u00020\u0014J\t\u0010\u0015\u001a\u00020\u0016H\u00d6\u0001R\u0011\u0010\u0004\u001a\u00020\u0005\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0007\u0010\bR\u0011\u0010\u0002\u001a\u00020\u0003\u00a2\u0006\b\n\u0000\u001a\u0004\b\t\u0010\n\u00a8\u0006\u0018"}, d2 = {"Lllc/aerMist/app/ui/devices/SetDeviceFragmentArgs;", "Landroidx/navigation/NavArgs;", "myArg", "", "model", "Lllc/aerMist/app/models/ScheduleModel;", "(ILllc/aerMist/app/models/ScheduleModel;)V", "getModel", "()Lllc/aerMist/app/models/ScheduleModel;", "getMyArg", "()I", "component1", "component2", "copy", "equals", "", "other", "", "hashCode", "toBundle", "Landroid/os/Bundle;", "toString", "", "Companion", "app_localApiDebug"})
+@kotlin.Metadata(mv = {1, 4, 0}, bv = {1, 0, 3}, k = 1, d1 = {"\u00002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u000e\n\u0000\n\u0002\u0018\u0002\n\u0002\b\t\n\u0002\u0010\u000b\n\u0000\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\b\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0003\b\u0086\b\u0018\u0000 \u00172\u00020\u0001:\u0001\u0017B\u001b\u0012\b\b\u0002\u0010\u0002\u001a\u00020\u0003\u0012\n\b\u0002\u0010\u0004\u001a\u0004\u0018\u00010\u0005\u00a2\u0006\u0002\u0010\u0006J\t\u0010\u000b\u001a\u00020\u0003H\u00c6\u0003J\u000b\u0010\f\u001a\u0004\u0018\u00010\u0005H\u00c6\u0003J\u001f\u0010\r\u001a\u00020\u00002\b\b\u0002\u0010\u0002\u001a\u00020\u00032\n\b\u0002\u0010\u0004\u001a\u0004\u0018\u00010\u0005H\u00c6\u0001J\u0013\u0010\u000e\u001a\u00020\u000f2\b\u0010\u0010\u001a\u0004\u0018\u00010\u0011H\u00d6\u0003J\t\u0010\u0012\u001a\u00020\u0013H\u00d6\u0001J\u0006\u0010\u0014\u001a\u00020\u0015J\t\u0010\u0016\u001a\u00020\u0003H\u00d6\u0001R\u0013\u0010\u0004\u001a\u0004\u0018\u00010\u0005\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0007\u0010\bR\u0011\u0010\u0002\u001a\u00020\u0003\u00a2\u0006\b\n\u0000\u001a\u0004\b\t\u0010\n\u00a8\u0006\u0018"}, d2 = {"Lllc/aerMist/app/ui/devices/SetDeviceFragmentArgs;", "Landroidx/navigation/NavArgs;", "myArg", "", "model", "Lllc/aerMist/app/models/ScheduleModel;", "(Ljava/lang/String;Lllc/aerMist/app/models/ScheduleModel;)V", "getModel", "()Lllc/aerMist/app/models/ScheduleModel;", "getMyArg", "()Ljava/lang/String;", "component1", "component2", "copy", "equals", "", "other", "", "hashCode", "", "toBundle", "Landroid/os/Bundle;", "toString", "Companion", "app_localApiDebug"})
 public final class SetDeviceFragmentArgs implements androidx.navigation.NavArgs {
-    private final int myArg = 0;
     @org.jetbrains.annotations.NotNull()
+    private final java.lang.String myArg = null;
+    @org.jetbrains.annotations.Nullable()
     private final llc.aerMist.app.models.ScheduleModel model = null;
     public static final llc.aerMist.app.ui.devices.SetDeviceFragmentArgs.Companion Companion = null;
     
@@ -15,31 +16,39 @@ public final class SetDeviceFragmentArgs implements androidx.navigation.NavArgs 
         return null;
     }
     
-    public final int getMyArg() {
-        return 0;
+    @org.jetbrains.annotations.NotNull()
+    public final java.lang.String getMyArg() {
+        return null;
     }
     
-    @org.jetbrains.annotations.NotNull()
+    @org.jetbrains.annotations.Nullable()
     public final llc.aerMist.app.models.ScheduleModel getModel() {
         return null;
     }
     
-    public SetDeviceFragmentArgs(int myArg, @org.jetbrains.annotations.NotNull()
+    public SetDeviceFragmentArgs(@org.jetbrains.annotations.NotNull()
+    java.lang.String myArg, @org.jetbrains.annotations.Nullable()
     llc.aerMist.app.models.ScheduleModel model) {
         super();
     }
     
-    public final int component1() {
-        return 0;
+    public SetDeviceFragmentArgs() {
+        super();
     }
     
     @org.jetbrains.annotations.NotNull()
+    public final java.lang.String component1() {
+        return null;
+    }
+    
+    @org.jetbrains.annotations.Nullable()
     public final llc.aerMist.app.models.ScheduleModel component2() {
         return null;
     }
     
     @org.jetbrains.annotations.NotNull()
-    public final llc.aerMist.app.ui.devices.SetDeviceFragmentArgs copy(int myArg, @org.jetbrains.annotations.NotNull()
+    public final llc.aerMist.app.ui.devices.SetDeviceFragmentArgs copy(@org.jetbrains.annotations.NotNull()
+    java.lang.String myArg, @org.jetbrains.annotations.Nullable()
     llc.aerMist.app.models.ScheduleModel model) {
         return null;
     }

@@ -19,6 +19,30 @@
             app:popExitAnim="@anim/slide_out_bottom"
             app:popUpTo="@+id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_homeFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashFragment_to_deviceFragment"
+            app:destination="@+id/mainFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="true">
+        <argument
+            android:name="myArg"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        </action>
     </fragment>
 
     <fragment
@@ -84,6 +108,21 @@
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true" />
         <action
+            android:id="@+id/action_my_devices_to_device"
+            app:destination="@+id/mainFragment"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/slide_out_top"
+            app:popEnterAnim="@anim/slide_in_top"
+            app:popExitAnim="@anim/slide_out_bottom"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="true" >
+        <argument
+            android:name="myArg"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        </action>
+        <action
             android:id="@+id/action_dialog_to_my_devices"
             app:destination="@+id/myDevicesFragment"
             app:enterAnim="@anim/slide_in_bottom"
@@ -118,7 +157,7 @@
             app:popEnterAnim="@anim/slide_in_top"
             app:popExitAnim="@anim/slide_out_bottom"
             app:popUpTo="@+id/setScheduleFragment"
-            app:popUpToInclusive="true"></action>
+            app:popUpToInclusive="true"/>
 
     </fragment>
     <fragment
@@ -134,7 +173,7 @@
             app:popEnterAnim="@anim/slide_in_top"
             app:popExitAnim="@anim/slide_out_bottom"
             app:popUpTo="@+id/setDeviceFragment"
-            app:popUpToInclusive="true"></action>
+            app:popUpToInclusive="true"/>
         <argument
             android:name="device"
             android:defaultValue="@null"
@@ -174,6 +213,15 @@
             android:name="type"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="name"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="model"
+            android:defaultValue="@null"
+            app:argType="llc.aerMist.app.models.ScheduleModel"
+            app:nullable="true" />
         <action
             android:id="@+id/action_set_schedule_to_home_fragment"
             app:destination="@+id/homeFragment"
@@ -202,11 +250,16 @@
         tools:layout="@layout/fragment_set_device">
         <argument
             android:name="myArg"
-            android:defaultValue="1"
-            app:argType="integer" />
+            android:defaultValue=""
+            app:argType="string" />
+
         <argument
             android:name="model"
-            app:argType="llc.aerMist.app.models.ScheduleModel" />
+            app:argType="llc.aerMist.app.models.ScheduleModel"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+
         <action
             android:id="@+id/action_set_device_to_set_schedule_fragment"
             app:destination="@id/setScheduleFragment"

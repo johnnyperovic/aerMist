@@ -82,7 +82,7 @@
             android:layout_marginEnd="16sp" />
 
         <TextView
-            android:id="@+id/firstDeviceActiveHours"
+            android:id="@+id/firstDeviceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -90,7 +90,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/active"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -206,7 +205,7 @@
             android:layout_marginEnd="16sp" />
 
         <TextView
-            android:id="@+id/secondDeviceActiveHours"
+            android:id="@+id/secondDeviceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -214,7 +213,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/active"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -329,7 +327,7 @@
             android:layout_marginEnd="16sp" />
 
         <TextView
-            android:id="@+id/thirdDeviceActiveHours"
+            android:id="@+id/thirdDeviceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -337,7 +335,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/active"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 
@@ -451,7 +448,7 @@
             android:layout_marginEnd="16sp" />
 
         <TextView
-            android:id="@+id/fourthDeviceActiveHours"
+            android:id="@+id/fourthDeviceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -459,7 +456,6 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto_regular"
-            android:text="@string/active"
             android:textColor="@color/someGrayColor"
             android:textSize="12sp" />
 

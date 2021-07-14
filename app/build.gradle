@@ -3,8 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-// apply plugin: 'com.google.firebase.crashlytics'
-// TODO: Change application name
+apply plugin: 'com.google.firebase.crashlytics'
+
 String appName = "aerMist"
 
 // TODO: Change fixed version value (leave at 0.0 for new project)
@@ -49,11 +49,7 @@ android {
                 storePassword keystore['StorePassword']
             }
             debug {
-                // TODO: Uncomment if using a debug keystore, delete if not
-/*                keyAlias keystore['DebugKeyAlias']
-                keyPassword keystore['DebugKeyPassword']
-                storeFile file(keystore['DebugStorePath'])
-                storePassword keystore['DebugStorePassword']*/
+
             }
         }
     }
@@ -114,14 +110,9 @@ android {
     flavorDimensions "apiUrl"
     productFlavors {
         localApi {
-            // TODO: Change base url for local API
-            dimension "apiUrl"
-            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
         }
         remoteApi {
-            // TODO: Change base url for remote API
-            dimension "apiUrl"
-            buildConfigField("String", "BASE_URL", "\"https://jsonplaceholder.typicode.com/\"")
+
         }
     }
 }
@@ -176,13 +167,19 @@ dependencies {
     // Koin
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
-    // TODO: Uncomment if using Crashlytics, delete if not
-    // Crashlytics
-    // implementation "com.google.firebase:firebase-crashlytics:$crashlytics_version"
 
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
     //BLE
     implementation 'com.clj.fastble:FastBleLib:2.3.4'
+    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:28.2.1')
+
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
 

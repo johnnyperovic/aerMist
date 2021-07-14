@@ -34,9 +34,9 @@
         android:id="@+id/filterValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd= "12dp"
         android:fontFamily="@font/roboto_regular"
-        android:text="125h"
+        android:text="0h"
         android:textColor="@color/dark_gray"
         app:layout_constraintBottom_toBottomOf="@id/activeTv"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:src="@drawable/three_dots"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/deviceName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/deviceName" />
@@ -83,11 +84,13 @@
         android:layout_height="20dp"
         android:layout_marginStart="15dp"
         android:background="@drawable/purple_round_view"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/deviceName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/deviceName" />
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/carViewDevice"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -358,39 +361,6 @@
 
 
             <TextView
-                android:id="@+id/btnStart"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="7dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/blue_radius_8"
-                android:gravity="center"
-                android:tag="start"
-                android:text="@string/start"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guideline"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/btnEdit"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="7dp"
-                android:layout_marginEnd="12sp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/gray_radius_8"
-                android:gravity="center"
-                android:text="@string/edit"
-                android:textColor="@color/dark_text"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guideline" />
-
-            <TextView
                 android:id="@+id/mondayTv"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -513,9 +483,10 @@
                 android:id="@+id/firstTimerTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/dark_gray"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 card_view:layout_constraintStart_toStartOf="@id/guidelineStart"
                 card_view:layout_constraintTop_toBottomOf="@id/mondayTv" />
 
@@ -523,9 +494,10 @@
                 android:id="@+id/secondTimerTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/dark_gray"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 card_view:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 card_view:layout_constraintTop_toBottomOf="@id/mondayTv" />
 
@@ -536,7 +508,7 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/dark_gray"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 card_view:layout_constraintStart_toStartOf="@id/firstTimerTv"
                 card_view:layout_constraintTop_toBottomOf="@id/firstTimerTv" />
 
@@ -547,9 +519,57 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/dark_gray"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 card_view:layout_constraintEnd_toEndOf="@id/guidelineEnd"
                 card_view:layout_constraintTop_toBottomOf="@id/secondTimerTv" />
+
+            <TextView
+                android:id="@+id/btnStart"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="7dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/blue_radius_8"
+                android:gravity="center"
+                android:tag="start"
+                android:text="@string/start"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/guideline"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="12sp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/gray_radius_8"
+                android:gravity="center"
+                android:text="@string/edit"
+                android:textColor="@color/dark_text"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline" />
+
+            <TextView
+                android:id="@+id/startingTv"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:background="@color/white"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:text="@string/starting"
+                android:textColor="@color/dark_text"
+                android:textSize="14sp"
+                android:visibility="gone"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toTopOf="@id/btnStart" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineCenter"

@@ -9,29 +9,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/blue_gradient"
-            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:visibility="invisible"/>
+            app:layout_constraintStart_toStartOf="parent" />
         <Constraint
             android:id="@+id/whiteCircle"
             android:layout_width="76dp"
             android:layout_height="76dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="46dp"
+            android:src="@drawable/white_circle"
             android:visibility="invisible"
-            android:src="@drawable/white_circle"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <Constraint
             android:id="@+id/tab_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/whiteCircle"
-            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
-            app:layout_constraintTop_toTopOf="@id/whiteCircle"
-            app:layout_constraintBottom_toBottomOf="@id/whiteCircle"
+            android:src="@drawable/non_stop_blue_icon"
             android:visibility="invisible"
-            android:src="@drawable/non_stop_blue_icon"/>
+            app:layout_constraintBottom_toBottomOf="@id/whiteCircle"
+            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
+            app:layout_constraintStart_toStartOf="@id/whiteCircle"
+            app:layout_constraintTop_toTopOf="@id/whiteCircle" />
         <Constraint
             android:id="@+id/tabName"
             android:layout_width="wrap_content"
@@ -41,60 +41,84 @@
             android:text="Schedule"
             android:textColor="@color/white"
             android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="@id/whiteCircle"
-            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
-            app:layout_constraintTop_toBottomOf="@id/whiteCircle"
             android:visibility="invisible"
-            />
+            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
+            app:layout_constraintStart_toStartOf="@id/whiteCircle"
+            app:layout_constraintTop_toBottomOf="@id/whiteCircle" />
         <Constraint
             android:id="@+id/mistingTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tabName"
-            app:layout_constraintEnd_toEndOf="@id/tabName"
-            app:layout_constraintTop_toBottomOf="@id/tabName"
-            android:textColor="@color/white"
-            android:text="@string/misting"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto_regular"
+            android:text="@string/misting"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@id/tabName"
+            app:layout_constraintStart_toStartOf="@id/tabName"
+            app:layout_constraintTop_toBottomOf="@id/tabName" />
+        <Constraint
+            android:id="@+id/deviceNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/someGrayColor"
+            android:textSize="14sp"
+            android:visibility="visible"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/tabName"
+            app:layout_constraintStart_toStartOf="@id/tabName"
+            app:layout_constraintTop_toBottomOf="@id/tabName" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
         <Constraint
+            android:id="@+id/deviceNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/someGrayColor"
+            android:textSize="14sp"
+            android:visibility="invisible"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/tabName"
+            app:layout_constraintStart_toStartOf="@id/tabName"
+            app:layout_constraintTop_toBottomOf="@id/tabName" />
+
+        <Constraint
             android:id="@+id/rainImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/grafika"
             android:scaleType="centerCrop"
+            android:src="@drawable/grafika"
             android:visibility="visible" />
         <Constraint
             android:id="@+id/maiBlueBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/blue_gradient"
-            android:visibility="visible"/>
+            android:visibility="visible" />
         <Constraint
             android:id="@+id/whiteCircle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="46dp"
+            android:src="@drawable/white_circle"
             android:visibility="visible"
-            android:src="@drawable/white_circle"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <Constraint
             android:id="@+id/tab_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/whiteCircle"
-            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
-            app:layout_constraintTop_toTopOf="@id/whiteCircle"
-            app:layout_constraintBottom_toBottomOf="@id/whiteCircle"
+            android:src="@drawable/non_stop_blue_icon"
             android:visibility="visible"
-            android:src="@drawable/non_stop_blue_icon"/>
+            app:layout_constraintBottom_toBottomOf="@id/whiteCircle"
+            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
+            app:layout_constraintStart_toStartOf="@id/whiteCircle"
+            app:layout_constraintTop_toTopOf="@id/whiteCircle" />
         <Constraint
             android:id="@+id/tabName"
             android:layout_width="wrap_content"
@@ -104,29 +128,28 @@
             android:text="Schedule"
             android:textColor="@color/white"
             android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="@id/whiteCircle"
-            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
-            app:layout_constraintTop_toBottomOf="@id/whiteCircle"
             android:visibility="visible"
-            />
+            app:layout_constraintEnd_toEndOf="@id/whiteCircle"
+            app:layout_constraintStart_toStartOf="@id/whiteCircle"
+            app:layout_constraintTop_toBottomOf="@id/whiteCircle" />
         <Constraint
             android:id="@+id/mistingTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/tabName"
-            app:layout_constraintEnd_toEndOf="@id/tabName"
-            app:layout_constraintTop_toBottomOf="@id/tabName"
-            android:textColor="@color/white"
-            android:text="@string/misting"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto_regular"
+            android:text="@string/misting"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/tabName"
+            app:layout_constraintStart_toStartOf="@id/tabName"
+            app:layout_constraintTop_toBottomOf="@id/tabName" />
     </ConstraintSet>
 
     <Transition
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" >
+        app:constraintSetStart="@+id/start">
 
     </Transition>
 </MotionScene>
