@@ -2,7 +2,7 @@ package llc.aerMist.app.ui.devices;
 
 import java.lang.System;
 
-@kotlin.Metadata(mv = {1, 4, 0}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u00cc\u0001\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\b\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0010\u0012\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0005\n\u0002\u0010\u0015\n\u0002\b\b\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0019\n\u0002\u0010\u000b\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b8\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0012\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\bX\n\u0002\u0010\u0002\n\u0002\b\u0013\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0013\u0018\u00002\u00020\u00012\u00020\u0002B\u0005\u00a2\u0006\u0002\u0010\u0003J\u0011\u0010\u0088\u0002\u001a\u00030\u0089\u00022\u0007\u0010\u008a\u0002\u001a\u00020#J\u0011\u0010\u008b\u0002\u001a\u00030\u0089\u00022\u0007\u0010\u008a\u0002\u001a\u00020#J\u0011\u0010\u008c\u0002\u001a\u00030\u0089\u00022\u0007\u0010\u008a\u0002\u001a\u00020#J\u0010\u0010\u008d\u0002\u001a\u00030\u0089\u00022\u0006\u0010\n\u001a\u00020\u000bJ\b\u0010\u008e\u0002\u001a\u00030\u0089\u0002J\b\u0010\u008f\u0002\u001a\u00030\u0089\u0002J\b\u0010\u0090\u0002\u001a\u00030\u0089\u0002J\u0010\u0010\u0091\u0002\u001a\u00020\u00052\u0007\u0010\u0092\u0002\u001a\u00020#J\u0012\u0010\u0093\u0002\u001a\u00020#2\u0007\u0010\u008a\u0002\u001a\u00020#H\u0002J\u0010\u0010\u0094\u0002\u001a\u00020#2\u0007\u0010\u0095\u0002\u001a\u00020#J\u0010\u0010\u0096\u0002\u001a\u00020#2\u0007\u0010\u0097\u0002\u001a\u00020#J\u0010\u0010\u0098\u0002\u001a\u00020#2\u0007\u0010\u0099\u0002\u001a\u00020#J\n\u0010\u009a\u0002\u001a\u00030\u0089\u0002H\u0002J\u0016\u0010\u009b\u0002\u001a\u00030\u0089\u00022\n\u0010\u009c\u0002\u001a\u0005\u0018\u00010\u009d\u0002H\u0017J(\u0010\u009e\u0002\u001a\u00030\u0089\u00022\u0007\u0010\u009f\u0002\u001a\u00020\u00052\u0007\u0010\u00a0\u0002\u001a\u00020\u00052\n\u0010\u00a1\u0002\u001a\u0005\u0018\u00010\u00a2\u0002H\u0016J\u0016\u0010\u00a3\u0002\u001a\u00030\u0089\u00022\n\u0010\u00a4\u0002\u001a\u0005\u0018\u00010\u00a5\u0002H\u0016J.\u0010\u00a6\u0002\u001a\u0005\u0018\u00010\u00a5\u00022\b\u0010\u00a7\u0002\u001a\u00030\u00a8\u00022\n\u0010\u00a9\u0002\u001a\u0005\u0018\u00010\u00aa\u00022\n\u0010\u009c\u0002\u001a\u0005\u0018\u00010\u009d\u0002H\u0016J\u0011\u0010\u00ab\u0002\u001a\u00030\u0089\u00022\u0007\u0010\u008a\u0002\u001a\u00020#J!\u0010\u00ac\u0002\u001a\u00030\u0089\u00022\u0007\u0010\u00ad\u0002\u001a\u00020\u00152\u0006\u0010\n\u001a\u00020\u000b2\u0006\u0010W\u001a\u00020XJ\b\u0010\u00ae\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00af\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00b0\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00b1\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00b2\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00b3\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00b4\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00b5\u0002\u001a\u00030\u0089\u0002J\u0011\u0010\u00b6\u0002\u001a\u00030\u0089\u00022\u0007\u0010\u00b7\u0002\u001a\u00020RJ\u0010\u0010\u00b8\u0002\u001a\u00020#2\u0007\u0010\u0099\u0002\u001a\u00020#J\u0010\u0010\u00b9\u0002\u001a\u00020#2\u0007\u0010\u0099\u0002\u001a\u00020#J\b\u0010\u00ba\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00bb\u0002\u001a\u00030\u0089\u0002J\b\u0010\u00bc\u0002\u001a\u00030\u0089\u0002R\u001a\u0010\u0004\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0006\u0010\u0007\"\u0004\b\b\u0010\tR\u0010\u0010\n\u001a\u0004\u0018\u00010\u000bX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u0014\u0010\f\u001a\b\u0012\u0004\u0012\u00020\u000b0\rX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001a\u0010\u000e\u001a\u00020\u000fX\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0010\u0010\u0011\"\u0004\b\u0012\u0010\u0013R\u0011\u0010\u0014\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0016\u0010\u0017R\u0011\u0010\u0018\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0019\u0010\u0017R\u0011\u0010\u001a\u001a\u00020\u001b\u00a2\u0006\b\n\u0000\u001a\u0004\b\u001c\u0010\u001dR\u0011\u0010\u001e\u001a\u00020\u001f\u00a2\u0006\b\n\u0000\u001a\u0004\b \u0010!R\u001a\u0010\"\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b$\u0010%\"\u0004\b&\u0010\'R\u001a\u0010(\u001a\u00020)X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b*\u0010+\"\u0004\b,\u0010-R\u001a\u0010.\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b/\u0010%\"\u0004\b0\u0010\'R\u001a\u00101\u001a\u000202X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b3\u00104\"\u0004\b5\u00106R\u0010\u00107\u001a\u0004\u0018\u000108X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001a\u00109\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b:\u0010%\"\u0004\b;\u0010\'R\u001a\u0010<\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b=\u0010%\"\u0004\b>\u0010\'R\u001a\u0010?\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b@\u0010%\"\u0004\bA\u0010\'R\u001a\u0010B\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bC\u0010%\"\u0004\bD\u0010\'R\u001a\u0010E\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bF\u0010%\"\u0004\bG\u0010\'R\u001a\u0010H\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bI\u0010%\"\u0004\bJ\u0010\'R\u001a\u0010K\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bL\u0010%\"\u0004\bM\u0010\'R\u001a\u0010N\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bO\u0010%\"\u0004\bP\u0010\'R\u001a\u0010Q\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bS\u0010T\"\u0004\bU\u0010VR\u0010\u0010W\u001a\u0004\u0018\u00010XX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u000e\u0010Y\u001a\u00020ZX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0011\u0010[\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b\\\u0010\u0017R\u0011\u0010]\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b^\u0010\u0017R\u0011\u0010_\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b`\u0010\u0017R\u0011\u0010a\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bb\u0010\u0017R\u0011\u0010c\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bd\u0010\u0017R\u0011\u0010e\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bf\u0010\u0017R\u0011\u0010g\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bh\u0010\u0017R\u0011\u0010i\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bj\u0010\u0017R\u0011\u0010k\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bl\u0010\u0017R\u001a\u0010m\u001a\u00020\u0015X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bn\u0010\u0017\"\u0004\bo\u0010pR\u0011\u0010q\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\br\u0010\u0017R\u001a\u0010s\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bs\u0010T\"\u0004\bt\u0010VR\u001a\u0010u\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bu\u0010T\"\u0004\bv\u0010VR\u001a\u0010w\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bw\u0010T\"\u0004\bx\u0010VR\u001a\u0010y\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\by\u0010T\"\u0004\bz\u0010VR\u001a\u0010{\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b{\u0010T\"\u0004\b|\u0010VR\u001a\u0010}\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b}\u0010T\"\u0004\b~\u0010VR\u001b\u0010\u007f\u001a\u00020RX\u0086\u000e\u00a2\u0006\u000f\n\u0000\u001a\u0004\b\u007f\u0010T\"\u0005\b\u0080\u0001\u0010VR\u001d\u0010\u0081\u0001\u001a\u00020RX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0081\u0001\u0010T\"\u0005\b\u0082\u0001\u0010VR\u001d\u0010\u0083\u0001\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0084\u0001\u0010\u0007\"\u0005\b\u0085\u0001\u0010\tR\u001d\u0010\u0086\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0087\u0001\u0010%\"\u0005\b\u0088\u0001\u0010\'R\u000f\u0010\u0089\u0001\u001a\u00020#X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001d\u0010\u008a\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u008b\u0001\u0010%\"\u0005\b\u008c\u0001\u0010\'R\u001d\u0010\u008d\u0001\u001a\u00020RX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u008e\u0001\u0010T\"\u0005\b\u008f\u0001\u0010VR\u0013\u0010\u0090\u0001\u001a\u00020\u0015\u00a2\u0006\t\n\u0000\u001a\u0005\b\u0091\u0001\u0010\u0017R \u0010\u0092\u0001\u001a\u00030\u0093\u0001X\u0086\u000e\u00a2\u0006\u0012\n\u0000\u001a\u0006\b\u0094\u0001\u0010\u0095\u0001\"\u0006\b\u0096\u0001\u0010\u0097\u0001R\u0010\u0010\u0098\u0001\u001a\u00030\u0099\u0001X\u0082.\u00a2\u0006\u0002\n\u0000R!\u0010\u009a\u0001\u001a\u00030\u009b\u00018BX\u0082\u0084\u0002\u00a2\u0006\u0010\n\u0006\b\u009e\u0001\u0010\u009f\u0001\u001a\u0006\b\u009c\u0001\u0010\u009d\u0001R\u001d\u0010\u00a0\u0001\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a1\u0001\u0010\u0007\"\u0005\b\u00a2\u0001\u0010\tR\u001d\u0010\u00a3\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a4\u0001\u0010%\"\u0005\b\u00a5\u0001\u0010\'R\u001d\u0010\u00a6\u0001\u001a\u00020RX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a7\u0001\u0010T\"\u0005\b\u00a8\u0001\u0010VR\u0016\u0010\u00a9\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00aa\u0001\u0010%R\u0016\u0010\u00ab\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00ac\u0001\u0010%R\u0012\u0010\u00ad\u0001\u001a\u0005\u0018\u00010\u00ae\u0001X\u0082\u000e\u00a2\u0006\u0002\n\u0000R!\u0010\u00af\u0001\u001a\u00030\u00b0\u00018BX\u0082\u0084\u0002\u00a2\u0006\u0010\n\u0006\b\u00b3\u0001\u0010\u00b4\u0001\u001a\u0006\b\u00b1\u0001\u0010\u00b2\u0001R\u0016\u0010\u00b5\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00b6\u0001\u0010%R\u0016\u0010\u00b7\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00b8\u0001\u0010%R\u0016\u0010\u00b9\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00ba\u0001\u0010%R\u0016\u0010\u00bb\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00bc\u0001\u0010%R\u0016\u0010\u00bd\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00be\u0001\u0010%R\u001d\u0010\u00bf\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c0\u0001\u0010%\"\u0005\b\u00c1\u0001\u0010\'R\u001d\u0010\u00c2\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c3\u0001\u0010%\"\u0005\b\u00c4\u0001\u0010\'R\u001d\u0010\u00c5\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c6\u0001\u0010%\"\u0005\b\u00c7\u0001\u0010\'R\u001d\u0010\u00c8\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c9\u0001\u0010%\"\u0005\b\u00ca\u0001\u0010\'R\u001d\u0010\u00cb\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00cc\u0001\u0010%\"\u0005\b\u00cd\u0001\u0010\'R\u001d\u0010\u00ce\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00cf\u0001\u0010%\"\u0005\b\u00d0\u0001\u0010\'R\u001d\u0010\u00d1\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00d2\u0001\u0010%\"\u0005\b\u00d3\u0001\u0010\'R\u001d\u0010\u00d4\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00d5\u0001\u0010%\"\u0005\b\u00d6\u0001\u0010\'R\u0013\u0010\u00d7\u0001\u001a\u00020\u0015\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00d8\u0001\u0010\u0017R\u001d\u0010\u00d9\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00da\u0001\u0010%\"\u0005\b\u00db\u0001\u0010\'R\u001d\u0010\u00dc\u0001\u001a\u00020\u0015X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00dd\u0001\u0010\u0017\"\u0005\b\u00de\u0001\u0010pR\u001d\u0010\u00df\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e0\u0001\u0010%\"\u0005\b\u00e1\u0001\u0010\'R\u001d\u0010\u00e2\u0001\u001a\u00020RX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e3\u0001\u0010T\"\u0005\b\u00e4\u0001\u0010VR\u001d\u0010\u00e5\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00e6\u0001\u0010%\"\u0005\b\u00e7\u0001\u0010\'R\u000f\u0010\u00e8\u0001\u001a\u00020#X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u000f\u0010\u00e9\u0001\u001a\u00020\u0005X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001d\u0010\u00ea\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00eb\u0001\u0010%\"\u0005\b\u00ec\u0001\u0010\'R\u001d\u0010\u00ed\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00ee\u0001\u0010%\"\u0005\b\u00ef\u0001\u0010\'R\u001d\u0010\u00f0\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00f1\u0001\u0010%\"\u0005\b\u00f2\u0001\u0010\'R\u001d\u0010\u00f3\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00f4\u0001\u0010%\"\u0005\b\u00f5\u0001\u0010\'R\u001d\u0010\u00f6\u0001\u001a\u00020RX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00f7\u0001\u0010T\"\u0005\b\u00f8\u0001\u0010VR\u001d\u0010\u00f9\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00fa\u0001\u0010%\"\u0005\b\u00fb\u0001\u0010\'R\u001d\u0010\u00fc\u0001\u001a\u00020RX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00fd\u0001\u0010T\"\u0005\b\u00fe\u0001\u0010VR\u001d\u0010\u00ff\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0080\u0002\u0010%\"\u0005\b\u0081\u0002\u0010\'R\u001d\u0010\u0082\u0002\u001a\u00020RX\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0083\u0002\u0010T\"\u0005\b\u0084\u0002\u0010VR\u001d\u0010\u0085\u0002\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0086\u0002\u0010%\"\u0005\b\u0087\u0002\u0010\'\u00a8\u0006\u00bd\u0002"}, d2 = {"Lllc/aerMist/app/ui/devices/SetDeviceFragment;", "Landroidx/fragment/app/Fragment;", "Landroid/view/View$OnClickListener;", "()V", "allDevices", "", "getAllDevices", "()I", "setAllDevices", "(I)V", "bleDevice", "Lcom/clj/fastble/data/BleDevice;", "bleList", "Ljava/util/ArrayList;", "bluetoothController", "Lllc/aerMist/app/helpers/BluetoothController;", "getBluetoothController", "()Lllc/aerMist/app/helpers/BluetoothController;", "setBluetoothController", "(Lllc/aerMist/app/helpers/BluetoothController;)V", "byteArrayOF", "", "getByteArrayOF", "()[B", "byteArrayON", "getByteArrayON", "charset", "Ljava/nio/charset/Charset;", "getCharset", "()Ljava/nio/charset/Charset;", "connectionStateCoordinator", "Lllc/aerMist/app/observers/NewObservableCoordinator;", "getConnectionStateCoordinator", "()Lllc/aerMist/app/observers/NewObservableCoordinator;", "dateAndTimeSynch", "", "getDateAndTimeSynch", "()Ljava/lang/String;", "setDateAndTimeSynch", "(Ljava/lang/String;)V", "daysInWeek", "", "getDaysInWeek", "()[I", "setDaysInWeek", "([I)V", "deviceNameValue", "getDeviceNameValue", "setDeviceNameValue", "deviceObject", "Lllc/aerMist/app/models/MyDevice;", "getDeviceObject", "()Lllc/aerMist/app/models/MyDevice;", "setDeviceObject", "(Lllc/aerMist/app/models/MyDevice;)V", "dialogDisconnectedDevice", "Lllc/aerMist/app/ui/popup/DevicesDisconnected;", "filterTime", "getFilterTime", "setFilterTime", "firstStartTime", "getFirstStartTime", "setFirstStartTime", "firstStopTime", "getFirstStopTime", "setFirstStopTime", "firstTimer", "getFirstTimer", "setFirstTimer", "fourtStartTime", "getFourtStartTime", "setFourtStartTime", "fourtStopTime", "getFourtStopTime", "setFourtStopTime", "fourthTimer", "getFourthTimer", "setFourthTimer", "friday", "getFriday", "setFriday", "fridayActive", "", "getFridayActive", "()Z", "setFridayActive", "(Z)V", "gatt", "Landroid/bluetooth/BluetoothGatt;", "gattCallback", "Lcom/clj/fastble/callback/BleGattCallback;", "intervalFR", "getIntervalFR", "intervalFS", "getIntervalFS", "intervalMo", "getIntervalMo", "intervalOn", "getIntervalOn", "intervalSA", "getIntervalSA", "intervalSS", "getIntervalSS", "intervalSU", "getIntervalSU", "intervalTH", "getIntervalTH", "intervalTu", "getIntervalTu", "intervalValue", "getIntervalValue", "setIntervalValue", "([B)V", "intervalWE", "getIntervalWE", "isFromDB", "setFromDB", "isNonStop", "setNonStop", "isOn", "setOn", "isSelected", "setSelected", "isSprayFriquencu", "setSprayFriquencu", "isSprayPerDay", "setSprayPerDay", "isSprayingMode", "setSprayingMode", "isTimeSync", "setTimeSync", "mainDevicePositon", "getMainDevicePositon", "setMainDevicePositon", "mistTime", "getMistTime", "setMistTime", "mistValueSeconds", "monday", "getMonday", "setMonday", "mondayActive", "getMondayActive", "setMondayActive", "nonStopOn", "getNonStopOn", "numberPickerPopup", "Lllc/aerMist/app/ui/popup/NumberPickerPopup;", "getNumberPickerPopup", "()Lllc/aerMist/app/ui/popup/NumberPickerPopup;", "setNumberPickerPopup", "(Lllc/aerMist/app/ui/popup/NumberPickerPopup;)V", "payload", "Lllc/aerMist/app/models/BytePayload;", "prefs", "Lllc/aerMist/app/shared/util/PreferenceCache;", "getPrefs", "()Lllc/aerMist/app/shared/util/PreferenceCache;", "prefs$delegate", "Lkotlin/Lazy;", "responseTimmer", "getResponseTimmer", "setResponseTimmer", "saturday", "getSaturday", "setSaturday", "saturdayActive", "getSaturdayActive", "setSaturdayActive", "scheduleFR", "getScheduleFR", "scheduleMo", "getScheduleMo", "scheduleModel", "Lllc/aerMist/app/models/ScheduleModel;", "scheduleModelArgs", "Lllc/aerMist/app/ui/devices/SetDeviceFragmentArgs;", "getScheduleModelArgs", "()Lllc/aerMist/app/ui/devices/SetDeviceFragmentArgs;", "scheduleModelArgs$delegate", "Landroidx/navigation/NavArgsLazy;", "scheduleSA", "getScheduleSA", "scheduleSU", "getScheduleSU", "scheduleTH", "getScheduleTH", "scheduleTu", "getScheduleTu", "scheduleWE", "getScheduleWE", "secondStartTime", "getSecondStartTime", "setSecondStartTime", "secondStopTime", "getSecondStopTime", "setSecondStopTime", "secondTimer", "getSecondTimer", "setSecondTimer", "shortString", "getShortString", "setShortString", "shortString2", "getShortString2", "setShortString2", "shortString3", "getShortString3", "setShortString3", "shortString4", "getShortString4", "setShortString4", "singleDeviceName", "getSingleDeviceName", "setSingleDeviceName", "sprayFriq", "getSprayFriq", "sprayFriquency", "getSprayFriquency", "setSprayFriquency", "sprayPDON", "getSprayPDON", "setSprayPDON", "sunday", "getSunday", "setSunday", "sundayActive", "getSundayActive", "setSundayActive", "suspendTime", "getSuspendTime", "setSuspendTime", "suspendValueSeconds", "tag", "thirdStartTime", "getThirdStartTime", "setThirdStartTime", "thirdStopTime", "getThirdStopTime", "setThirdStopTime", "thirdTimer", "getThirdTimer", "setThirdTimer", "thursday", "getThursday", "setThursday", "thursdayActive", "getThursdayActive", "setThursdayActive", "tuesday", "getTuesday", "setTuesday", "tuesdayActive", "getTuesdayActive", "setTuesdayActive", "wednesday", "getWednesday", "setWednesday", "wednesdayActive", "getWednesdayActive", "setWednesdayActive", "workingTime", "getWorkingTime", "setWorkingTime", "checkIntervalResponse", "", "response", "checkNonStopResponse", "checkScheduleRespone", "connectDevice", "formatDaySchedule", "formatTimer", "getActiveDaysFromDb", "getDayInWeek", "day", "getRegister", "getSeconds", "value", "getTimeFromSeconds", "seconds", "getZone", "time", "navigateToSetSchedule", "onActivityCreated", "savedInstanceState", "Landroid/os/Bundle;", "onActivityResult", "requestCode", "resultCode", "data", "Landroid/content/Intent;", "onClick", "id", "Landroid/view/View;", "onCreateView", "inflater", "Landroid/view/LayoutInflater;", "container", "Landroid/view/ViewGroup;", "readTimerSync", "sendCommand", "input", "sendTimeSynchCommand", "setClickListener", "setDisplayMode", "setIntervalView", "setMotionLayoutListener", "setNonStopView", "setNumberPicker", "setScheduleView", "setTabItemVisibility", "state", "setTimeZone", "setTimeZone2", "setTouchSwipeListener", "setViewAndSendCommand", "showDisconnectedDeviceDialog", "app_localApiDebug"})
+@kotlin.Metadata(mv = {1, 4, 0}, bv = {1, 0, 3}, k = 1, d1 = {"\u0000\u00cc\u0001\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\b\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0010\u0012\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0018\u0002\n\u0002\b\u0003\n\u0002\u0010\u000e\n\u0002\b\u0005\n\u0002\u0010\u0015\n\u0002\b\b\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0002\b\r\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0019\n\u0002\u0010\u000b\n\u0002\b\u0011\n\u0002\u0018\u0002\n\u0002\b\u0005\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u000f\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b:\n\u0002\u0010\u0002\n\u0002\b\u0013\n\u0002\u0018\u0002\n\u0002\b\u0004\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0018\u0002\n\u0000\n\u0002\u0018\u0002\n\u0002\b\u0012\u0018\u00002\u00020\u00012\u00020\u0002B\u0005\u00a2\u0006\u0002\u0010\u0003J\u0011\u0010\u00c8\u0001\u001a\u00030\u00c9\u00012\u0007\u0010\u00ca\u0001\u001a\u00020#J\u0011\u0010\u00cb\u0001\u001a\u00030\u00c9\u00012\u0007\u0010\u00ca\u0001\u001a\u00020#J\u0011\u0010\u00cc\u0001\u001a\u00030\u00c9\u00012\u0007\u0010\u00ca\u0001\u001a\u00020#J\u0010\u0010\u00cd\u0001\u001a\u00030\u00c9\u00012\u0006\u0010\n\u001a\u00020\u000bJ\b\u0010\u00ce\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00cf\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00d0\u0001\u001a\u00030\u00c9\u0001J\u0010\u0010\u00d1\u0001\u001a\u00020\u00052\u0007\u0010\u00d2\u0001\u001a\u00020#J\u0012\u0010\u00d3\u0001\u001a\u00020#2\u0007\u0010\u00ca\u0001\u001a\u00020#H\u0002J\u0010\u0010\u00d4\u0001\u001a\u00020#2\u0007\u0010\u00d5\u0001\u001a\u00020#J\u0010\u0010\u00d6\u0001\u001a\u00020#2\u0007\u0010\u00d7\u0001\u001a\u00020#J\u0010\u0010\u00d8\u0001\u001a\u00020#2\u0007\u0010\u00d9\u0001\u001a\u00020#J\n\u0010\u00da\u0001\u001a\u00030\u00c9\u0001H\u0002J\u0016\u0010\u00db\u0001\u001a\u00030\u00c9\u00012\n\u0010\u00dc\u0001\u001a\u0005\u0018\u00010\u00dd\u0001H\u0017J(\u0010\u00de\u0001\u001a\u00030\u00c9\u00012\u0007\u0010\u00df\u0001\u001a\u00020\u00052\u0007\u0010\u00e0\u0001\u001a\u00020\u00052\n\u0010\u00e1\u0001\u001a\u0005\u0018\u00010\u00e2\u0001H\u0016J\u0016\u0010\u00e3\u0001\u001a\u00030\u00c9\u00012\n\u0010\u00e4\u0001\u001a\u0005\u0018\u00010\u00e5\u0001H\u0016J.\u0010\u00e6\u0001\u001a\u0005\u0018\u00010\u00e5\u00012\b\u0010\u00e7\u0001\u001a\u00030\u00e8\u00012\n\u0010\u00e9\u0001\u001a\u0005\u0018\u00010\u00ea\u00012\n\u0010\u00dc\u0001\u001a\u0005\u0018\u00010\u00dd\u0001H\u0016J!\u0010\u00eb\u0001\u001a\u00030\u00c9\u00012\u0007\u0010\u00ec\u0001\u001a\u00020\u00152\u0006\u0010\n\u001a\u00020\u000b2\u0006\u0010E\u001a\u00020FJ\b\u0010\u00ed\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00ee\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00ef\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00f0\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00f1\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00f2\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00f3\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00f4\u0001\u001a\u00030\u00c9\u0001J\u0011\u0010\u00f5\u0001\u001a\u00030\u00c9\u00012\u0007\u0010\u00f6\u0001\u001a\u00020bJ\u0010\u0010\u00f7\u0001\u001a\u00020#2\u0007\u0010\u00d9\u0001\u001a\u00020#J\u0010\u0010\u00f8\u0001\u001a\u00020#2\u0007\u0010\u00d9\u0001\u001a\u00020#J\b\u0010\u00f9\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00fa\u0001\u001a\u00030\u00c9\u0001J\b\u0010\u00fb\u0001\u001a\u00030\u00c9\u0001R\u001a\u0010\u0004\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0006\u0010\u0007\"\u0004\b\b\u0010\tR\u0010\u0010\n\u001a\u0004\u0018\u00010\u000bX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u0014\u0010\f\u001a\b\u0012\u0004\u0012\u00020\u000b0\rX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001a\u0010\u000e\u001a\u00020\u000fX\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\u0010\u0010\u0011\"\u0004\b\u0012\u0010\u0013R\u0011\u0010\u0014\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0016\u0010\u0017R\u0011\u0010\u0018\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b\u0019\u0010\u0017R\u0011\u0010\u001a\u001a\u00020\u001b\u00a2\u0006\b\n\u0000\u001a\u0004\b\u001c\u0010\u001dR\u0011\u0010\u001e\u001a\u00020\u001f\u00a2\u0006\b\n\u0000\u001a\u0004\b \u0010!R\u001a\u0010\"\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b$\u0010%\"\u0004\b&\u0010\'R\u001a\u0010(\u001a\u00020)X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b*\u0010+\"\u0004\b,\u0010-R\u001a\u0010.\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b/\u0010%\"\u0004\b0\u0010\'R\u001a\u00101\u001a\u000202X\u0086.\u00a2\u0006\u000e\n\u0000\u001a\u0004\b3\u00104\"\u0004\b5\u00106R\u0010\u00107\u001a\u0004\u0018\u000108X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001a\u00109\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b:\u0010%\"\u0004\b;\u0010\'R\u001a\u0010<\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b=\u0010%\"\u0004\b>\u0010\'R\u001a\u0010?\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b@\u0010%\"\u0004\bA\u0010\'R\u001a\u0010B\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bC\u0010%\"\u0004\bD\u0010\'R\u0010\u0010E\u001a\u0004\u0018\u00010FX\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u000e\u0010G\u001a\u00020HX\u0082\u0004\u00a2\u0006\u0002\n\u0000R\u0011\u0010I\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bJ\u0010\u0017R\u0011\u0010K\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bL\u0010\u0017R\u0011\u0010M\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bN\u0010\u0017R\u0011\u0010O\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bP\u0010\u0017R\u0011\u0010Q\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bR\u0010\u0017R\u0011\u0010S\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bT\u0010\u0017R\u0011\u0010U\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bV\u0010\u0017R\u0011\u0010W\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bX\u0010\u0017R\u0011\u0010Y\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\bZ\u0010\u0017R\u001a\u0010[\u001a\u00020\u0015X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\b\\\u0010\u0017\"\u0004\b]\u0010^R\u0011\u0010_\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\b`\u0010\u0017R\u001a\u0010a\u001a\u00020bX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\ba\u0010c\"\u0004\bd\u0010eR\u001a\u0010f\u001a\u00020bX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bf\u0010c\"\u0004\bg\u0010eR\u001a\u0010h\u001a\u00020bX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bh\u0010c\"\u0004\bi\u0010eR\u001a\u0010j\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bk\u0010\u0007\"\u0004\bl\u0010\tR\u000e\u0010m\u001a\u00020#X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001a\u0010n\u001a\u00020#X\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bo\u0010%\"\u0004\bp\u0010\'R\u0011\u0010q\u001a\u00020\u0015\u00a2\u0006\b\n\u0000\u001a\u0004\br\u0010\u0017R\u001a\u0010s\u001a\u00020tX\u0086\u000e\u00a2\u0006\u000e\n\u0000\u001a\u0004\bu\u0010v\"\u0004\bw\u0010xR\u000e\u0010y\u001a\u00020zX\u0082.\u00a2\u0006\u0002\n\u0000R\u001c\u0010{\u001a\u00020|8BX\u0082\u0084\u0002\u00a2\u0006\r\n\u0005\b\u007f\u0010\u0080\u0001\u001a\u0004\b}\u0010~R\u001d\u0010\u0081\u0001\u001a\u00020\u0005X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0082\u0001\u0010\u0007\"\u0005\b\u0083\u0001\u0010\tR\u001d\u0010\u0084\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u0085\u0001\u0010%\"\u0005\b\u0086\u0001\u0010\'R\u0016\u0010\u0087\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u0088\u0001\u0010%R\u0016\u0010\u0089\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u008a\u0001\u0010%R\u0012\u0010\u008b\u0001\u001a\u0005\u0018\u00010\u008c\u0001X\u0082\u000e\u00a2\u0006\u0002\n\u0000R!\u0010\u008d\u0001\u001a\u00030\u008e\u00018BX\u0082\u0084\u0002\u00a2\u0006\u0010\n\u0006\b\u0091\u0001\u0010\u0092\u0001\u001a\u0006\b\u008f\u0001\u0010\u0090\u0001R\u0016\u0010\u0093\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u0094\u0001\u0010%R\u0016\u0010\u0095\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u0096\u0001\u0010%R\u0016\u0010\u0097\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u0098\u0001\u0010%R\u0016\u0010\u0099\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u009a\u0001\u0010%R\u0016\u0010\u009b\u0001\u001a\u00020#X\u0086D\u00a2\u0006\t\n\u0000\u001a\u0005\b\u009c\u0001\u0010%R\u001d\u0010\u009d\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u009e\u0001\u0010%\"\u0005\b\u009f\u0001\u0010\'R\u001d\u0010\u00a0\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a1\u0001\u0010%\"\u0005\b\u00a2\u0001\u0010\'R\u001d\u0010\u00a3\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a4\u0001\u0010%\"\u0005\b\u00a5\u0001\u0010\'R\u001d\u0010\u00a6\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00a7\u0001\u0010%\"\u0005\b\u00a8\u0001\u0010\'R\u001d\u0010\u00a9\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00aa\u0001\u0010%\"\u0005\b\u00ab\u0001\u0010\'R\u001d\u0010\u00ac\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00ad\u0001\u0010%\"\u0005\b\u00ae\u0001\u0010\'R\u0013\u0010\u00af\u0001\u001a\u00020\u0015\u00a2\u0006\t\n\u0000\u001a\u0005\b\u00b0\u0001\u0010\u0017R\u001d\u0010\u00b1\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00b2\u0001\u0010%\"\u0005\b\u00b3\u0001\u0010\'R\u001d\u0010\u00b4\u0001\u001a\u00020\u0015X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00b5\u0001\u0010\u0017\"\u0005\b\u00b6\u0001\u0010^R\u001d\u0010\u00b7\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00b8\u0001\u0010%\"\u0005\b\u00b9\u0001\u0010\'R\u000f\u0010\u00ba\u0001\u001a\u00020#X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u000f\u0010\u00bb\u0001\u001a\u00020\u0005X\u0082\u000e\u00a2\u0006\u0002\n\u0000R\u001d\u0010\u00bc\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00bd\u0001\u0010%\"\u0005\b\u00be\u0001\u0010\'R\u001d\u0010\u00bf\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c0\u0001\u0010%\"\u0005\b\u00c1\u0001\u0010\'R\u001d\u0010\u00c2\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c3\u0001\u0010%\"\u0005\b\u00c4\u0001\u0010\'R\u001d\u0010\u00c5\u0001\u001a\u00020#X\u0086\u000e\u00a2\u0006\u0010\n\u0000\u001a\u0005\b\u00c6\u0001\u0010%\"\u0005\b\u00c7\u0001\u0010\'\u00a8\u0006\u00fc\u0001"}, d2 = {"Lllc/aerMist/app/ui/devices/SetDeviceFragment;", "Landroidx/fragment/app/Fragment;", "Landroid/view/View$OnClickListener;", "()V", "allDevices", "", "getAllDevices", "()I", "setAllDevices", "(I)V", "bleDevice", "Lcom/clj/fastble/data/BleDevice;", "bleList", "Ljava/util/ArrayList;", "bluetoothController", "Lllc/aerMist/app/helpers/BluetoothController;", "getBluetoothController", "()Lllc/aerMist/app/helpers/BluetoothController;", "setBluetoothController", "(Lllc/aerMist/app/helpers/BluetoothController;)V", "byteArrayOF", "", "getByteArrayOF", "()[B", "byteArrayON", "getByteArrayON", "charset", "Ljava/nio/charset/Charset;", "getCharset", "()Ljava/nio/charset/Charset;", "connectionStateCoordinator", "Lllc/aerMist/app/observers/NewObservableCoordinator;", "getConnectionStateCoordinator", "()Lllc/aerMist/app/observers/NewObservableCoordinator;", "dateAndTimeSynch", "", "getDateAndTimeSynch", "()Ljava/lang/String;", "setDateAndTimeSynch", "(Ljava/lang/String;)V", "daysInWeek", "", "getDaysInWeek", "()[I", "setDaysInWeek", "([I)V", "deviceNameValue", "getDeviceNameValue", "setDeviceNameValue", "deviceObject", "Lllc/aerMist/app/models/MyDevice;", "getDeviceObject", "()Lllc/aerMist/app/models/MyDevice;", "setDeviceObject", "(Lllc/aerMist/app/models/MyDevice;)V", "dialogDisconnectedDevice", "Lllc/aerMist/app/ui/popup/DevicesDisconnected;", "filterTime", "getFilterTime", "setFilterTime", "firstTimer", "getFirstTimer", "setFirstTimer", "fourthTimer", "getFourthTimer", "setFourthTimer", "friday", "getFriday", "setFriday", "gatt", "Landroid/bluetooth/BluetoothGatt;", "gattCallback", "Lcom/clj/fastble/callback/BleGattCallback;", "intervalFR", "getIntervalFR", "intervalFS", "getIntervalFS", "intervalMo", "getIntervalMo", "intervalOn", "getIntervalOn", "intervalSA", "getIntervalSA", "intervalSS", "getIntervalSS", "intervalSU", "getIntervalSU", "intervalTH", "getIntervalTH", "intervalTu", "getIntervalTu", "intervalValue", "getIntervalValue", "setIntervalValue", "([B)V", "intervalWE", "getIntervalWE", "isFromDB", "", "()Z", "setFromDB", "(Z)V", "isSelected", "setSelected", "isTimeSync", "setTimeSync", "mainDevicePositon", "getMainDevicePositon", "setMainDevicePositon", "mistValueSeconds", "monday", "getMonday", "setMonday", "nonStopOn", "getNonStopOn", "numberPickerPopup", "Lllc/aerMist/app/ui/popup/NumberPickerPopup;", "getNumberPickerPopup", "()Lllc/aerMist/app/ui/popup/NumberPickerPopup;", "setNumberPickerPopup", "(Lllc/aerMist/app/ui/popup/NumberPickerPopup;)V", "payload", "Lllc/aerMist/app/models/BytePayload;", "prefs", "Lllc/aerMist/app/shared/util/PreferenceCache;", "getPrefs", "()Lllc/aerMist/app/shared/util/PreferenceCache;", "prefs$delegate", "Lkotlin/Lazy;", "responseTimmer", "getResponseTimmer", "setResponseTimmer", "saturday", "getSaturday", "setSaturday", "scheduleFR", "getScheduleFR", "scheduleMo", "getScheduleMo", "scheduleModel", "Lllc/aerMist/app/models/ScheduleModel;", "scheduleModelArgs", "Lllc/aerMist/app/ui/devices/SetDeviceFragmentArgs;", "getScheduleModelArgs", "()Lllc/aerMist/app/ui/devices/SetDeviceFragmentArgs;", "scheduleModelArgs$delegate", "Landroidx/navigation/NavArgsLazy;", "scheduleSA", "getScheduleSA", "scheduleSU", "getScheduleSU", "scheduleTH", "getScheduleTH", "scheduleTu", "getScheduleTu", "scheduleWE", "getScheduleWE", "secondTimer", "getSecondTimer", "setSecondTimer", "shortString", "getShortString", "setShortString", "shortString2", "getShortString2", "setShortString2", "shortString3", "getShortString3", "setShortString3", "shortString4", "getShortString4", "setShortString4", "singleDeviceName", "getSingleDeviceName", "setSingleDeviceName", "sprayFriq", "getSprayFriq", "sprayFriquency", "getSprayFriquency", "setSprayFriquency", "sprayPDON", "getSprayPDON", "setSprayPDON", "sunday", "getSunday", "setSunday", "suspendValueSeconds", "tag", "thirdTimer", "getThirdTimer", "setThirdTimer", "thursday", "getThursday", "setThursday", "tuesday", "getTuesday", "setTuesday", "wednesday", "getWednesday", "setWednesday", "checkIntervalResponse", "", "response", "checkNonStopResponse", "checkScheduleRespone", "connectDevice", "formatDaySchedule", "formatTimer", "getActiveDaysFromDb", "getDayInWeek", "day", "getRegister", "getSeconds", "value", "getTimeFromSeconds", "seconds", "getZone", "time", "navigateToSetSchedule", "onActivityCreated", "savedInstanceState", "Landroid/os/Bundle;", "onActivityResult", "requestCode", "resultCode", "data", "Landroid/content/Intent;", "onClick", "id", "Landroid/view/View;", "onCreateView", "inflater", "Landroid/view/LayoutInflater;", "container", "Landroid/view/ViewGroup;", "sendCommand", "input", "sendTimeSynchCommand", "setClickListener", "setDisplayMode", "setIntervalView", "setMotionLayoutListener", "setNonStopView", "setNumberPicker", "setScheduleView", "setTabItemVisibility", "state", "setTimeZone", "setTimeZone2", "setTouchSwipeListener", "setViewAndSendCommand", "showDisconnectedDeviceDialog", "app_localApiDebug"})
 public final class SetDeviceFragment extends androidx.fragment.app.Fragment implements android.view.View.OnClickListener {
     private final kotlin.Lazy prefs$delegate = null;
     private int tag = 0;
@@ -110,40 +110,6 @@ public final class SetDeviceFragment extends androidx.fragment.app.Fragment impl
     @org.jetbrains.annotations.NotNull()
     public llc.aerMist.app.models.MyDevice deviceObject;
     private int mainDevicePositon = 0;
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String workingTime = "";
-    private boolean isOn = false;
-    private boolean isNonStop = false;
-    private boolean isSprayingMode = false;
-    private boolean mondayActive = false;
-    private boolean tuesdayActive = false;
-    private boolean wednesdayActive = false;
-    private boolean thursdayActive = false;
-    private boolean fridayActive = false;
-    private boolean saturdayActive = false;
-    private boolean sundayActive = false;
-    private boolean isSprayPerDay = false;
-    private boolean isSprayFriquencu = false;
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String firstStartTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String secondStartTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String thirdStartTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String fourtStartTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String firstStopTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String secondStopTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String thirdStopTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String fourtStopTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String mistTime = "";
-    @org.jetbrains.annotations.NotNull()
-    private java.lang.String suspendTime = "";
     @org.jetbrains.annotations.NotNull()
     private java.lang.String deviceNameValue = "";
     private int allDevices = 0;
@@ -515,189 +481,6 @@ public final class SetDeviceFragment extends androidx.fragment.app.Fragment impl
     }
     
     @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getWorkingTime() {
-        return null;
-    }
-    
-    public final void setWorkingTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    public final boolean isOn() {
-        return false;
-    }
-    
-    public final void setOn(boolean p0) {
-    }
-    
-    public final boolean isNonStop() {
-        return false;
-    }
-    
-    public final void setNonStop(boolean p0) {
-    }
-    
-    public final boolean isSprayingMode() {
-        return false;
-    }
-    
-    public final void setSprayingMode(boolean p0) {
-    }
-    
-    public final boolean getMondayActive() {
-        return false;
-    }
-    
-    public final void setMondayActive(boolean p0) {
-    }
-    
-    public final boolean getTuesdayActive() {
-        return false;
-    }
-    
-    public final void setTuesdayActive(boolean p0) {
-    }
-    
-    public final boolean getWednesdayActive() {
-        return false;
-    }
-    
-    public final void setWednesdayActive(boolean p0) {
-    }
-    
-    public final boolean getThursdayActive() {
-        return false;
-    }
-    
-    public final void setThursdayActive(boolean p0) {
-    }
-    
-    public final boolean getFridayActive() {
-        return false;
-    }
-    
-    public final void setFridayActive(boolean p0) {
-    }
-    
-    public final boolean getSaturdayActive() {
-        return false;
-    }
-    
-    public final void setSaturdayActive(boolean p0) {
-    }
-    
-    public final boolean getSundayActive() {
-        return false;
-    }
-    
-    public final void setSundayActive(boolean p0) {
-    }
-    
-    public final boolean isSprayPerDay() {
-        return false;
-    }
-    
-    public final void setSprayPerDay(boolean p0) {
-    }
-    
-    public final boolean isSprayFriquencu() {
-        return false;
-    }
-    
-    public final void setSprayFriquencu(boolean p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getFirstStartTime() {
-        return null;
-    }
-    
-    public final void setFirstStartTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getSecondStartTime() {
-        return null;
-    }
-    
-    public final void setSecondStartTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getThirdStartTime() {
-        return null;
-    }
-    
-    public final void setThirdStartTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getFourtStartTime() {
-        return null;
-    }
-    
-    public final void setFourtStartTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getFirstStopTime() {
-        return null;
-    }
-    
-    public final void setFirstStopTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getSecondStopTime() {
-        return null;
-    }
-    
-    public final void setSecondStopTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getThirdStopTime() {
-        return null;
-    }
-    
-    public final void setThirdStopTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getFourtStopTime() {
-        return null;
-    }
-    
-    public final void setFourtStopTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getMistTime() {
-        return null;
-    }
-    
-    public final void setMistTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
-    public final java.lang.String getSuspendTime() {
-        return null;
-    }
-    
-    public final void setSuspendTime(@org.jetbrains.annotations.NotNull()
-    java.lang.String p0) {
-    }
-    
-    @org.jetbrains.annotations.NotNull()
     public final java.lang.String getDeviceNameValue() {
         return null;
     }
@@ -769,10 +552,6 @@ public final class SetDeviceFragment extends androidx.fragment.app.Fragment impl
     public final int getDayInWeek(@org.jetbrains.annotations.NotNull()
     java.lang.String day) {
         return 0;
-    }
-    
-    public final void readTimerSync(@org.jetbrains.annotations.NotNull()
-    java.lang.String response) {
     }
     
     private final java.lang.String getRegister(java.lang.String response) {

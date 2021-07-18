@@ -71,11 +71,9 @@ class RenameDevicePopup(val position: Int, val deviceName: String) : DialogFragm
             }
             1 -> {
                 dialogView.deviceId.text = secondDeviceObj?.name
-
             }
             2 -> {
                 dialogView.deviceId.text = thirdDeviceObj?.name
-
             }
             3 -> {
                 dialogView.deviceId.text = fourthDeviceObj?.name
@@ -99,22 +97,22 @@ class RenameDevicePopup(val position: Int, val deviceName: String) : DialogFragm
 
             when (position) {
                 0 -> {
-                    val newDevice = firstDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
+                    val newDevice = firstDeviceObj?.let { it1 -> MyDevice(it1.name, newName, true) }
                     val json = gson.toJson(newDevice)
                     prefs.firstDevice = json
                 }
                 1 -> {
-                    val newDevice = secondDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
+                    val newDevice = secondDeviceObj?.let { it1 -> MyDevice(it1.name, newName, true) }
                     val json = gson.toJson(newDevice)
                     prefs.secondDevice = json
                 }
                 2 -> {
-                    val newDevice = thirdDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
+                    val newDevice = thirdDeviceObj?.let { it1 -> MyDevice(it1.name, newName, true) }
                     val json = gson.toJson(newDevice)
                     prefs.thirdDevice = json
                 }
                 3 -> {
-                    val newDevice = fourthDeviceObj?.let { it1 -> MyDevice(it1.name, newName, false) }
+                    val newDevice = fourthDeviceObj?.let { it1 -> MyDevice(it1.name, newName, true) }
                     val json = gson.toJson(newDevice)
                     prefs.fourthDevice = json
                 }

@@ -119,14 +119,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
     var responseTimerThree = 0
     var responseTimerFour = 0
     var mainRegister = "EE000.".toByteArray(charset)
-     var  deviceOneObj:MyDevice?=null
-     var  deviceTwoObj:MyDevice?=null
-     var  deviceThreeObj:MyDevice?=null
-     var  deviceFourObj:MyDevice?=null
+    var deviceOneObj: MyDevice? = null
+    var deviceTwoObj: MyDevice? = null
+    var deviceThreeObj: MyDevice? = null
+    var deviceFourObj: MyDevice? = null
     var sprayPDON =
-        "EE0400.".toByteArray(charset)//OVO PROVJETITI DA LI JE O-OF 1-ON Spray time per day
+        "EE0400.".toByteArray(charset)
     val sprayFriq =
-        "EE0501.".toByteArray(charset)//na “Spray frequency” switch (X=0, switch je ON, X=1 switch je OFF)
+        "EE0501.".toByteArray(charset)
     val scheduleMo = "EE0300"
     val scheduleTu = "EE0301"
     val scheduleWE = "EE0302"
@@ -152,32 +152,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private lateinit var scheduleModel: ScheduleModel
     var deviceObject: MyDevice? = null
     var mainDevicePositon = 0
-    var workingTime = ""
-    var isOn = false
-    var isNonStop = false
-    var isSprayingMode = false
-    var mondayActive = false
-    var tuesdayActive = false
-    var wednesdayActive = false
-    var thursdayActive = false
-    var fridayActive = false
-    var saturdayActive = false
-    var sundayActive = false
-    var isSprayPerDay = false
-    var isSprayFriquencu = false
-    var firstStartTime: String = ""
-    var secondStartTime: String = ""
-    var thirdStartTime: String = ""
-    var fourtStartTime: String = ""
-    var firstStopTime: String = ""
-    var secondStopTime: String = ""
-    var thirdStopTime: String = ""
-    var fourtStopTime: String = ""
-    var mistTime: String = ""
-    var suspendTime: String = ""
-    var counter = 0
-    var nonStopCounter = 0
-    var time = ""
+
     private var dialogDisconnectedDevice: DevicesDisconnected? = null
     var savedDevicesNumber = 0
 
@@ -199,8 +174,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         setSecondDevice()
         setThirdDevice()
         setFourthDevice()
-        formatDateAndTime()
-        deviceNumber.text = allDevices.toString() + " of " + savedDevicesNumber + " devices"
+        deviceNumber?.text = allDevices.toString() + " of " + savedDevicesNumber + " devices"
         var fullCommand = ""
         fullCommand = fullCommand + "EE07000000"
         fullCommand = fullCommand + mistValueSeconds
@@ -210,111 +184,106 @@ class HomeFragment : Fragment(), View.OnClickListener {
         intervalValue = fullCommand.toByteArray(charset)
         val observer = Observer<CharArray> {
             mainDevicePositon = connectionStateCoordinator.bleDevicePosition
-            Log.e("D", "mainDevicePositon DEVIXW " + mainDevicePositon)
 
             var response = ""
             for (item in it) {
                 response = response + item
             }
-            Log.e("D", "mainDevicePositon response " + response)
-            Log.e("D", "misTimeSync " + isTimeSync)
 
-          //  if (!isTimeSync) {
+            if (tag == 0) {
 
-                if (tag == 0) {
-
-                    when (mainDevicePositon) {
-                        0 -> {
-                            checkNonStopResponse(response, firstBleDevice, firstGate)
-                        }
-                        1 -> {
-                            checkNonStopResponse(response, secondBleDevice, secondGate)
-                        }
-                        2 -> {
-                            checkNonStopResponse(response, thirdBleDevice, thirdGate)
-                        }
-                        3 -> {
-                            checkNonStopResponse(response, fourthBleDevice, fourthGate)
-                        }
+                when (mainDevicePositon) {
+                    0 -> {
+                        checkNonStopResponse(response, firstBleDevice, firstGate)
                     }
-                } else if (tag == 1) {
-                    when (mainDevicePositon) {
-                        0 -> {
-                            checkIntervalResponse(response, firstBleDevice, firstGate)
-                        }
-                        1 -> {
-                            checkIntervalResponse(response, secondBleDevice, secondGate)
-                        }
-                        2 -> {
-                            checkIntervalResponse(response, thirdBleDevice, thirdGate)
-                        }
-                        3 -> {
-                            checkIntervalResponse(response, fourthBleDevice, fourthGate)
-                        }
+                    1 -> {
+                        checkNonStopResponse(response, secondBleDevice, secondGate)
                     }
-                } else if (tag == 2) {
-                    when (mainDevicePositon) {
-                        0 -> {
-                            checkScheduleRespone(
-                                response,
-                                firstBleDevice,
-                                firstGate,
-                                mainDevicePositon
-                            )
-                        }
-                        1 -> {
-                            checkScheduleRespone(
-                                response,
-                                secondBleDevice,
-                                secondGate,
-                                mainDevicePositon
-                            )
-                        }
-                        2 -> {
-                            checkScheduleRespone(
-                                response,
-                                thirdBleDevice,
-                                thirdGate,
-                                mainDevicePositon
-                            )
-                        }
-                        3 -> {
-                            checkScheduleRespone(
-                                response,
-                                fourthBleDevice,
-                                fourthGate,
-                                mainDevicePositon
-                            )
-                        }
+                    2 -> {
+                        checkNonStopResponse(response, thirdBleDevice, thirdGate)
+                    }
+                    3 -> {
+                        checkNonStopResponse(response, fourthBleDevice, fourthGate)
                     }
                 }
-      //      }
+            } else if (tag == 1) {
+                when (mainDevicePositon) {
+                    0 -> {
+                        checkIntervalResponse(response, firstBleDevice, firstGate)
+                    }
+                    1 -> {
+                        checkIntervalResponse(response, secondBleDevice, secondGate)
+                    }
+                    2 -> {
+                        checkIntervalResponse(response, thirdBleDevice, thirdGate)
+                    }
+                    3 -> {
+                        checkIntervalResponse(response, fourthBleDevice, fourthGate)
+                    }
+                }
+            } else if (tag == 2) {
+                when (mainDevicePositon) {
+                    0 -> {
+                        checkScheduleRespone(
+                            response,
+                            firstBleDevice,
+                            firstGate,
+                            mainDevicePositon
+                        )
+                    }
+                    1 -> {
+                        checkScheduleRespone(
+                            response,
+                            secondBleDevice,
+                            secondGate,
+                            mainDevicePositon
+                        )
+                    }
+                    2 -> {
+                        checkScheduleRespone(
+                            response,
+                            thirdBleDevice,
+                            thirdGate,
+                            mainDevicePositon
+                        )
+                    }
+                    3 -> {
+                        checkScheduleRespone(
+                            response,
+                            fourthBleDevice,
+                            fourthGate,
+                            mainDevicePositon
+                        )
+                    }
+                }
+            }
+            //      }
         }
 
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
         val observer2 = Observer<BleDevice> {
             connectDevice(it)
+
             val size =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-            allDevices=size
+            allDevices = size
 
-            deviceNumber.text = allDevices.toString() + " of " + savedDevicesNumber + " devices"
+            deviceNumber?.text = allDevices.toString() + " of " + savedDevicesNumber + " devices"
             if (size == 0) {
                 showDisconnectedDeviceDialog()
                 bleBg?.setImageDrawable(
                     ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
                 )
-            }
-            else
-                if (size!=0 && size < savedDevicesNumber) {
-                bleBg?.setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
-                )
-            } else if (size == savedDevicesNumber) {
-                bleBg?.setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
-                )
-            }
+            } else
+                if (size != 0 && size < savedDevicesNumber) {
+                    bleBg?.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
+                    )
+                } else if (size == savedDevicesNumber) {
+                    bleBg?.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
+                    )
+                }
 
         }
         connectionStateCoordinator.bleDisconnectDevices.observe(viewLifecycleOwner, observer2)
@@ -325,61 +294,16 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 isSelected = true
                 daysInWeek = scheduleModel.days!!
                 for (item in daysInWeek) {
-                    Log.e("D", "daysInWeek " + item)
                 }
-                Log.e("D", "dan pondedaljek " + daysInWeek.get(0))
-                Log.e("D", "dan utorak " + daysInWeek.get(1))
+
                 formatDaySchedule()
             }
         } else {
             setNonStopView()
         }
-        setDeviceObject()
-     synchTime()
+        synchTime()
 
-        Handler().postDelayed({
             setDisplayMode()
-        }, 1000)
-
-        var i = 0
-        val observer3 = Observer<Boolean> {
-            Log.e("D","ODJE ULAZIIIII "+it)
-            allDevices =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-            if (it == true) {
-              //  i = i + 1
-                setDisplayMode()
-
-            }
-
-//            if (i == allDevices) {
-//                setDisplayMode()
-//            }
-        }
-        val observer4 = Observer<Boolean> {
-            Log.e("D","ODJE AAAAAAAAAAA "+it)
-setDeviceObject()
-            if (it == true) {
-                setDisplayMode()
-            }
-        }
-        val observer5 = Observer<Boolean> {
-            if (it == true) {
-                setDisplayMode()
-            }
-
-        }
-        val observer6 = Observer<Boolean> {
-            if (it == true) {
-                setDisplayMode()
-
-            }
-        }
-
-//        connectionStateCoordinator.isFirstTimeSynch.observe(viewLifecycleOwner, observer3)
-//        connectionStateCoordinator.isSecondTimeSynch.observe(viewLifecycleOwner, observer4)
-//        connectionStateCoordinator.isThirdTimeSynch.observe(viewLifecycleOwner, observer5)
-//        connectionStateCoordinator.isFourthTimeSynch.observe(viewLifecycleOwner, observer6)
     }
 
 
@@ -394,11 +318,42 @@ setDeviceObject()
 
     fun connectDevice(bleDevice: BleDevice) {
         if (bleDevice.name == deviceOneObj?.name || bleDevice.name == deviceTwoObj?.name || bleDevice.name == deviceThreeObj?.name || bleDevice.name == deviceFourObj?.name) {
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-                bleDevice,
-                gattCallback
-            )
+            if (connectionStateCoordinator.bluetoothController?.bluetoothManager?.isConnected(
+                    bleDevice
+                ) == false
+            ) {
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                    bleDevice,
+                    gattCallback
+                )
+            }
+
         }
+    }
+
+    fun setTimeZone(time: String?): String {
+        var fullTime = ""
+        var zone = "am"
+        if (time?.length == 4) {
+            var hour = time.substring(0, 2).toIntOrNull()
+            var min = time.substring(2, 4).toIntOrNull()
+            if (hour != null) {
+                if (hour < 12) {
+                    zone = "am"
+                } else {
+                    hour = hour - 12
+                    zone = "pm"
+                }
+            }
+
+            if (hour != null && min != null) {
+                fullTime = hour.toString() + ":" + min + zone
+                if (hour == 0 && min == 0) {
+                    fullTime = ""
+                }
+            }
+        }
+        return fullTime
     }
 
     private val gattCallback = object : BleGattCallback() {
@@ -415,7 +370,7 @@ setDeviceObject()
             if (dialogDisconnectedDevice != null) dialogDisconnectedDevice?.dialog?.dismiss()
             val size =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-            allDevices=size
+            allDevices = size
             deviceNumber?.text = allDevices.toString() + " of " + savedDevicesNumber + " devices"
 
             if (size == 0) {
@@ -423,9 +378,8 @@ setDeviceObject()
                 bleBg?.setImageDrawable(
                     ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
                 )
-            }
-            else
-                if (size!=0 && size < savedDevicesNumber) {
+            } else
+                if (size != 0 && size < savedDevicesNumber) {
                     bleBg?.setImageDrawable(
                         ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
                     )
@@ -470,9 +424,7 @@ setDeviceObject()
                 setScheduleView()
             }
             btnStart -> {
-                if (allDevices>0) {
-                    Log.e("D", "TAG " + btnStart.tag)
-                    Log.e("D", "TAG isTimeSync " + isTimeSync)
+                if (allDevices > 0) {
                     isTimeSync = false
                     carViewHome.isEnabled = false
 
@@ -520,20 +472,17 @@ setDeviceObject()
                                 Handler().postDelayed({
                                     motionLayout?.transitionToEnd()
                                     motionLayout?.transitionToStart()
+                                    startingTv.visibility = View.INVISIBLE
+                                    setTabItemVisibility(true)
                                 }, 700)
                                 synchTime()
-
                             }, 700)
                         } else {
                             btnStart.tag = "start"
-                            Log.e("D", "ULAZIIII ")
-//                        var i = 0
-//                        for (item in bleList) {
-//                            sendCommand(byteArrayOF, item, gattList.get(i))
-//                            i++
-//                        }
+
                             motionLayout?.transitionToEnd()
                             motionLayout?.transitionToStart()
+
                             firstGate?.let {
                                 firstBleDevice?.let { it1 ->
                                     sendCommand(
@@ -578,10 +527,7 @@ setDeviceObject()
                                 guideline?.setGuidelinePercent(1f)
 
                                 var i = 0
-//                            for (item in bleList) {
-//                                sendCommand(intervalOn, item, gattList.get(i))
-//                                i++
-//                            }
+
                                 firstGate?.let {
                                     firstBleDevice?.let { it1 ->
                                         sendCommand(
@@ -622,7 +568,7 @@ setDeviceObject()
                                     }, 700)
                                     synchTime()
 
-                                }, 700)
+                                }, 2000)
                             } else {
                                 motionLayout.transitionToEnd()
                                 motionLayout.transitionToStart()
@@ -674,7 +620,6 @@ setDeviceObject()
                     } else if (tag == 2) {
                         setTabView()
                         if (btnStart.tag == "start") {
-
                             if (!isSelected) {
                                 //  if (scheduleModel.timer.get(0)=="0.0")
                                 Snackbar.make(
@@ -683,11 +628,11 @@ setDeviceObject()
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                                 return
-                            } else if (scheduleModel.timer!!.get(0).hours == "0" && scheduleModel.timer!!.get(
+                            } else if (scheduleModel.timer!!.get(0).hours == "00" && scheduleModel.timer!!.get(
                                     1
-                                ).hours == "0" && scheduleModel.timer!!.get(2).hours == "0" && scheduleModel.timer!!.get(
+                                ).hours == "00" && scheduleModel.timer!!.get(2).hours == "00" && scheduleModel.timer!!.get(
                                     3
-                                ).hours == "0"
+                                ).hours == "00"
                             ) {
                                 Snackbar.make(
                                     requireView(),
@@ -701,10 +646,7 @@ setDeviceObject()
                             startingTv.visibility = View.VISIBLE
                             btnStart.tag = "stop"
                             var i = 0
-//                        for (item in bleList) {
-//                            sendCommand(intervalOn, item, gattList.get(i))
-//                            i++
-//                        }
+
                             firstGate?.let {
                                 firstBleDevice?.let { it1 ->
                                     sendCommand(
@@ -737,10 +679,6 @@ setDeviceObject()
                                     )
                                 }
                             }
-//                            Handler().postDelayed({
-//                                motionLayout.transitionToEnd()
-//                                motionLayout.transitionToStart()
-//                            }, 1500)
                             Handler().postDelayed({
                                 Handler().postDelayed({
                                     motionLayout?.transitionToEnd()
@@ -748,17 +686,13 @@ setDeviceObject()
                                 }, 700)
                                 synchTime()
 
-                            }, 700)
+                            }, 2500)
                         } else {
                             btnStart.tag = "start"
                             var i = 0
                             guideline?.setGuidelinePercent(0.65f)
                             motionLayout.transitionToEnd()
                             motionLayout.transitionToStart()
-//                        for (item in bleList) {
-//                            sendCommand(byteArrayOF, item, gattList.get(i))
-//                            i++
-//                        }
                             firstGate?.let {
                                 firstBleDevice?.let { it1 ->
                                     sendCommand(
@@ -791,8 +725,13 @@ setDeviceObject()
                                     )
                                 }
                             }
-                        }
+                            firstTimerTv?.visibility=View.INVISIBLE
+                            secondTimerTv?.visibility=View.INVISIBLE
+                            thirdTimerTv?.visibility=View.INVISIBLE
+                            fourthTimerTv?.visibility=View.INVISIBLE
+                            synchTime()
 
+                        }
                     }
                 }
             }
@@ -807,35 +746,7 @@ setDeviceObject()
         }
     }
 
-    fun formatDateAndTime() {
-        val currentDateTime = LocalDateTime.now()
-        val min = currentDateTime.minute
-        val hour = currentDateTime.hour
-        val sec = currentDateTime.second
-        val year = currentDateTime.year
-        val dayOfWeek = currentDateTime.dayOfWeek
-        val month = currentDateTime.format(DateTimeFormatter.ofPattern("MM"))
-        val day = currentDateTime.format(DateTimeFormatter.ofPattern("dd"))
-        val dayNumber = getDayInWeek(dayOfWeek.toString().toLowerCase())
 
-        var secString = ""
-        if (sec < 10) {
-            secString = "0" + sec
-        } else {
-            secString = sec.toString()
-        }
-        var minString = ""
-        if (min < 10) {
-            minString = "0" + min
-        } else {
-            minString = min.toString()
-        }
-        dateAndTimeSynch =
-            "EE000+" + year + month + day + hour + minString + secString + dayNumber + "."
-
-        Log.e("D", "dateAndTimeSynch $dateAndTimeSynch")
-        //    firstGate?.let { firstBleDevice?.let { it1 -> sendCommand(dateAndTimeSynch.toByteArray(charset), it1, it) } }
-    }
 
     fun getDayInWeek(day: String): Int {
         var dayInWeek = 0
@@ -854,15 +765,12 @@ setDeviceObject()
     fun formatDaySchedule() {
         daysInWeek = scheduleModel.days!!
         monday = scheduleMo + daysInWeek.get(0) + "."
-        Log.e("D", "MONDAY " + monday)
         tuesday = scheduleTu + daysInWeek.get(1) + "."
         wednesday = scheduleWE + daysInWeek.get(2) + "."
         thursday = scheduleTH + daysInWeek.get(3) + "."
         friday = scheduleFR + daysInWeek.get(4) + "."
         saturday = scheduleSA + daysInWeek.get(5) + "."
         sunday = scheduleSU + daysInWeek.get(6) + "."
-        Log.e("D", "PONEDELJAK " + daysInWeek.get(0))
-        Log.e("D", "UTORAK " + daysInWeek.get(1))
 
         if (daysInWeek.get(0) == 0) {
             mondayTv.alpha = 1f
@@ -913,17 +821,17 @@ setDeviceObject()
         val minOne2 = scheduleModel.timerToSend?.get(0)!!.min
         val hourTwo2 = scheduleModel.timerToSend?.get(1)!!.hours
         val minTwo2 = scheduleModel.timerToSend?.get(1)!!.min
-
-        firstTimer = "EE060000" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
-        Log.e("D", "PRVI TAJMER ZA SLANJE " + firstTimer)
-        firstTimerTv.text =
+        firstTimerTv?.text =
             hourOne + ":" + minOne + formatOne + "-" + hourTwo + ":" + minTwo + formatTwo
-        if (hourOne != "0" && hourTwo != "0") {
+        if (hourOne != "00" && minOne != "00") {
             firstTimerTv.visibility = View.VISIBLE
+            firstTimer = "EE060000" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
+
         } else {
             firstTimerTv.visibility = View.INVISIBLE
+            firstTimer = "EE060001" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
+
         }
-        Log.e("D", "firstTimer " + firstTimer)
         val hourThree = scheduleModel.timer?.get(2)!!.hours
         val minThree = scheduleModel.timer?.get(2)!!.min
         val formatThree = scheduleModel.timer?.get(2)!!.format
@@ -934,15 +842,15 @@ setDeviceObject()
         val minThree2 = scheduleModel.timerToSend?.get(2)!!.min
         val hourFour2 = scheduleModel.timerToSend?.get(3)!!.hours
         val minFour2 = scheduleModel.timerToSend?.get(3)!!.min
-        secondTimer = "EE060010" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
-        secondTimerTv.text =
-            hourThree + ":" + minThree + formatThree + "-" + hourFour + ":" + hourFour + formatFour
-        if (hourThree != "0" && hourFour != "0") {
-            secondTimerTv.visibility = View.VISIBLE
+        secondTimerTv?.text =
+            hourThree + ":" + minThree + formatThree + "-" + hourFour + ":" + minFour + formatFour
+        if (hourThree != "00" && minFour != "00") {
+            secondTimer = "EE060010" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
+            secondTimerTv?.visibility = View.VISIBLE
         } else {
-            secondTimerTv.visibility = View.INVISIBLE
+            secondTimer = "EE060011" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
+            secondTimerTv?.visibility = View.INVISIBLE
         }
-        Log.e("D", "secondTimer " + secondTimer)
         val hourFive = scheduleModel.timer?.get(4)!!.hours
         val minFive = scheduleModel.timer?.get(4)!!.min
         val formatFive = scheduleModel.timer?.get(4)!!.format
@@ -953,15 +861,16 @@ setDeviceObject()
         val minFive2 = scheduleModel.timerToSend?.get(4)!!.min
         val hourSix2 = scheduleModel.timerToSend?.get(5)!!.hours
         val minSix2 = scheduleModel.timerToSend?.get(5)!!.min
-        thirdTimer = "EE060020" + hourFive2 + minFive2 + hourSix2 + minSix2 + "."
-        thirdTimerTv.text =
+        thirdTimerTv?.text =
             hourFive + ":" + minFive + formatFive + "-" + hourSix + ":" + minSix + formatSix
-        if (hourFive != "0" && hourSix != "0") {
-            thirdTimerTv.visibility = View.VISIBLE
+        if (hourFive != "00" && minFive != "00") {
+            thirdTimerTv?.visibility = View.VISIBLE
+            thirdTimer = "EE060020" + hourFive2 + minFive2 + hourSix2 + minSix2 + "."
         } else {
-            thirdTimerTv.visibility = View.INVISIBLE
+            thirdTimerTv?.visibility = View.INVISIBLE
+            thirdTimer = "EE060021" + hourFive2 + minFive2 + hourSix2 + minSix2 + "."
+
         }
-        Log.e("D", "thirdTimer " + thirdTimer)
         val hourSeven = scheduleModel.timer?.get(6)!!.hours
         val formatSeven = scheduleModel.timer?.get(6)!!.format
         val minSeven = scheduleModel.timer?.get(6)!!.min
@@ -972,39 +881,36 @@ setDeviceObject()
         val minSeven2 = scheduleModel.timerToSend?.get(6)!!.min
         val hourEight2 = scheduleModel.timerToSend?.get(7)!!.hours
         val minEight2 = scheduleModel.timerToSend?.get(7)!!.min
-        fourthTimer = "EE060030" + hourSeven2 + minSeven2 + hourEight2 + minEight2 + "."
-        fourthTimerTv.text =
+        fourthTimerTv?.text =
             hourSeven + ":" + minSeven + formatSeven + "-" + hourEight + ":" + minEight + formatEight
-        if (hourSeven != "0" && hourEight != "0") {
-            fourthTimerTv.visibility = View.VISIBLE
+        if (hourSeven != "00" && minSeven != "00") {
+            fourthTimerTv?.visibility = View.VISIBLE
+            fourthTimer = "EE060030" + hourSeven2 + minSeven2 + hourEight2 + minEight2 + "."
         } else {
-            fourthTimerTv.visibility = View.INVISIBLE
+            fourthTimerTv?.visibility = View.INVISIBLE
+            fourthTimer = "EE060031" + hourSeven2 + minSeven2 + hourEight2 + minEight2 + "."
+
         }
-        Log.e("D", "fourthTimer " + fourthTimer)
         val sss = getSeconds(scheduleModel.suspend.toString())
-        val ppp = getSeconds(scheduleModel.timer.toString())
-        var friqu = "EE07000000" + sss + ppp + "."
+        val ppp = getSeconds(scheduleModel.mist.toString())
+        var friqu = "EE07000000" + ppp +"00"+ sss + "."
         sprayFriquency = friqu
-        mistValue.text = scheduleModel.mist.toString()
-        suspendValue.text = scheduleModel.suspend.toString()
+        mistValue?.text = scheduleModel.mist.toString()
+        suspendValue?.text = scheduleModel.suspend.toString()
     }
 
     fun checkNonStopResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
-        Log.e("D", "responseNonStop" + response)
         when (response) {
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
             // "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE110." -> {
                 prefs.isFromHomeScreen = true
-            //    synchTime()
-                Log.e("d", "uspjesno zavrseno  ")
             }
         }
     }
 
     fun checkIntervalResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
-        Log.e("D", "INTERVAL RESPONSE " + response)
         when (response) {
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalMo, it1, it) } }
@@ -1028,11 +934,9 @@ setDeviceObject()
             "EE150." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
             "EE171." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalValue, it1, it) } }
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
-         //     "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            //     "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE110." -> {
-                Log.e("d", "uspjesno zavrseno")
                 prefs.isFromHomeScreen = true
-             //   synchTime()
             }
         }
     }
@@ -1043,7 +947,6 @@ setDeviceObject()
         gatt: BluetoothGatt?,
         number: Int
     ) {
-        Log.e("D", "Response $number " + response)
         when (response) {
             "EE120." -> gatt?.let {
                 bleDevice?.let { it1 ->
@@ -1300,7 +1203,8 @@ setDeviceObject()
 
             }
             "EE16003." -> {
-                if (scheduleModel.nonStop == true) {
+                if (scheduleModel.nonStop == false) {
+
                     gatt?.let {
                         bleDevice?.let { it1 ->
                             sendCommand(
@@ -1326,101 +1230,81 @@ setDeviceObject()
             "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             //   "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE110." -> {
-                Log.e("d", "uspjesno zavrseno")
                 prefs.isFromHomeScreen = true
-             //   synchTime()
             }
 
         }
     }
 
-    fun setDeviceObject() {
-        val deviceOne = prefs.firstDevice
-        val gson = Gson()
-        val deviceObjectOne = gson.fromJson(deviceOne, MyDevice::class.java)
-        val deviceTwo = prefs.secondDevice
-        val deviceObjectTwo = gson.fromJson(deviceTwo, MyDevice::class.java)
-        val deviceThree = prefs.thirdDevice
-        val deviceObjectThree = gson.fromJson(deviceThree, MyDevice::class.java)
-        val deviceFour = prefs.fourthDevice
-        val deviceObjectFour = gson.fromJson(deviceFour, MyDevice::class.java)
-        if (firstBleDevice?.name == deviceObjectOne?.name) {
-            if (!deviceOne.isNullOrEmpty()) {
-                Log.e("D","ULazi prvi")
-                deviceObject =
-                    gson.fromJson(deviceOne, MyDevice::class.java)
-            }
-        } else if (secondBleDevice?.name == deviceObjectTwo?.name) {
-            if (!deviceTwo.isNullOrEmpty()) {
-                Log.e("D","ULazi drugi")
 
-                deviceObject =
-                    gson.fromJson(deviceTwo, MyDevice::class.java)
-            }
-        } else if (thirdBleDevice?.name == deviceObjectThree?.name) {
-            if (!deviceThree.isNullOrEmpty()) {
-                Log.e("D","ULazi treci")
-
-                deviceObject = gson.fromJson(deviceThree, MyDevice::class.java)
-            }
-        } else if (fourthBleDevice?.name == deviceObjectFour?.name) {
-            if (!deviceFour.isNullOrEmpty()) {
-                Log.e("D","ULazi cervdaa")
-                deviceObject =
-                    gson.fromJson(deviceFour, MyDevice::class.java)
-            }
-        }
-    }
 
     fun setDisplayMode() {
 
         if (deviceObject != null) {
-            Log.e("D","deviceObject?.isOn "+deviceObject?.isOn)
 
             val isOn = deviceObject?.isOn
-            Log.e("D","isOn "+isOn)
-            Log.e("D","prefs.isFromHomeScreen "+prefs.isFromHomeScreen)
             if (isOn == true && prefs.isFromHomeScreen) {
-                motionLayout?.transitionToEnd()
-                btnStart.tag = "stop"
-                isTimeSync = false
-                carViewHome.isEnabled = false
-                if (deviceObject?.isSparayMode == true) {
-                    if (deviceObject?.isSprayPerDay == false) {
-                        intervalImg.performClick()
-                        tabName.text = resources.getString(R.string.interval)
-                        tab_icon.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.interval_blue_icon
-                            )
-                        )
+                btnStart?.isEnabled = false
+                Handler().postDelayed({
+                    btnStart?.isEnabled = true
+                    btnStart?.tag = "stop"
+                    motionLayout?.transitionToEnd()
+                    isTimeSync = false
+                    carViewHome?.isEnabled = false
 
+                    if (deviceObject?.isSparayMode == true) {
+                        if (deviceObject?.isSprayPerDay == false) {
+                            intervalImg?.performClick()
+                            tabName?.text = resources.getString(R.string.interval)
+                            tab_icon?.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.interval_blue_icon
+                                )
+                            )
+
+                        } else {
+                            scheduleImg?.performClick()
+                            tabName?.text = resources.getString(R.string.schedule)
+                            tab_icon?.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.calendar_blue_icon
+                                )
+                            )
+                            //    setTabItemVisibility(true)
+                            setScheduleActiveView()
+                        }
                     } else {
-                        scheduleImg.performClick()
-                        tabName.text = resources.getString(R.string.schedule)
-                        tab_icon.setImageDrawable(
+                        nonStopImg?.performClick()
+                        tabName?.text = resources.getString(R.string.non_stop)
+                        tab_icon?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
-                                R.drawable.calendar_blue_icon
+                                R.drawable.non_stop_blue_icon
                             )
                         )
-                        //    setTabItemVisibility(true)
-                    }
-                } else {
-                    nonStopImg.performClick()
-                    Log.e("D", "tTAG!1 " + btnStart.tag)
-                    tabName.text = resources.getString(R.string.non_stop)
-                    tab_icon.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.non_stop_blue_icon
-                        )
-                    )
 
+                    }
+                },1000)
+                if (tag!=0)
+                {
+                    val ss = deviceObject?.mistTime
+                    val pp = deviceObject?.suspendTime
+                    mistValue?.text = ss?.let { getTimeFromSeconds(it) }
+                    suspendValue?.text = pp?.let { getTimeFromSeconds(it) }
+                    mistValue?.visibility=View.VISIBLE
+                    suspendValue?.visibility=View.VISIBLE
+                    if (ss != null) {
+                        mistValueSeconds=ss
+                    }
+                    if (pp != null) {
+                        suspendValueSeconds=pp
+                    }
                 }
             }
         }
+
     }
 
     fun setFirstDevice() {
@@ -1429,11 +1313,9 @@ setDeviceObject()
             savedDevicesNumber = savedDevicesNumber + 1
             val gson = Gson()
             deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
+            deviceObject=deviceOneObj
             var i = 0
             for (item in bleList) {
-                Log.e("D", "item " + item)
-                Log.e("D", "deviceObjName " + deviceOneObj?.name)
-
                 if (deviceOneObj?.name == item.name) {
                     firstBleDevice = item
                     firstGate =
@@ -1455,6 +1337,7 @@ setDeviceObject()
 
             val gson = Gson()
             deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
+            deviceObject=deviceTwoObj
             for (item in bleList) {
                 if (deviceTwoObj?.name == item.name) {
                     secondBleDevice = item
@@ -1475,6 +1358,7 @@ setDeviceObject()
             savedDevicesNumber = savedDevicesNumber + 1
             val gson = Gson()
             deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
+            deviceObject=deviceThreeObj
             for (item in bleList) {
                 if (deviceThreeObj?.name == item.name) {
                     thirdBleDevice = item
@@ -1496,6 +1380,7 @@ setDeviceObject()
             savedDevicesNumber = savedDevicesNumber + 1
             val gson = Gson()
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
+            deviceObject=deviceFourObj
             for (item in bleList) {
                 if (deviceFourObj?.name == item.name) {
                     fourthBleDevice = item
@@ -1565,9 +1450,8 @@ setDeviceObject()
                 p2: Int
             ) {
                 startingTv.visibility = View.GONE
-                if (intervalImg.visibility == View.VISIBLE) {
+                if (btnStart.tag == "stop") {
                     setTabItemVisibility(true)
-                    Log.e("D", "tTAG!2 " + btnStart.tag)
 
                     guideline?.setGuidelinePercent(1f)
 
@@ -1591,20 +1475,19 @@ setDeviceObject()
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, constraintSet: Int) {
-                Log.e("D", "tTAG!4 " + btnStart?.tag)
-                startingTv.visibility = View.GONE
+                startingTv?.visibility = View.GONE
 
                 if (constraintSet == R.id.start) {
-                    btnStart.setBackgroundResource(R.drawable.blue_radius_8)
-                    btnStart.text = getString(R.string.start)
+                    btnStart?.setBackgroundResource(R.drawable.blue_radius_8)
+                    btnStart?.text = getString(R.string.start)
                     btnStart.isEnabled = true
-                    carViewHome.isEnabled = true
+                    carViewHome?.isEnabled = true
                     setTabItemVisibility(false)
 
                 } else {
-                    btnStart.setBackgroundResource(R.drawable.container_light_blue)
-                    btnStart.text = getString(R.string.stop)
-                    btnStart.isEnabled = true
+                    btnStart?.setBackgroundResource(R.drawable.container_light_blue)
+                    btnStart?.text = getString(R.string.stop)
+                    btnStart?.isEnabled = true
                     setTabItemVisibility(true)
                 }
             }
@@ -1615,12 +1498,9 @@ setDeviceObject()
                 p2: Boolean,
                 p3: Float
             ) {
-
             }
-
         })
     }
-
 
     fun setClickListener() {
         nonStopImg.setOnClickListener(this)
@@ -1705,16 +1585,6 @@ setDeviceObject()
         }
     }
 
-
-    fun turnOnOFDevice(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
-        val pos = gatt.services.size - 1
-        bluetoothController.writeCommand(
-            bleDevice,
-            input,
-            gatt.services.get(pos).characteristics.get(0)
-        )
-    }
-
     fun setNonStopView() {
         tag = 0
         mistTv?.visibility = View.INVISIBLE
@@ -1740,22 +1610,19 @@ setDeviceObject()
         scheduleTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         val size =
             connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-        Log.e("d", "size " + size)
-        Log.e("d", "savedDevicesNumber " + size)
         if (size == 0) {
             bleBg?.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
             )
+        } else if (size != 0 && size < savedDevicesNumber) {
+            bleBg?.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
+            )
+        } else if (size == savedDevicesNumber) {
+            bleBg?.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
+            )
         }
-            else    if (size!=0 && size < savedDevicesNumber) {
-                bleBg?.setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
-                )
-            } else if (size == savedDevicesNumber) {
-                bleBg?.setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
-                )
-            }
 
 
         guideline?.setGuidelinePercent(1f)
@@ -1777,6 +1644,22 @@ setDeviceObject()
                 R.drawable.schedule_icon
             )
         )
+        val ss = deviceObject?.mistTime
+        val pp = deviceObject?.suspendTime
+        mistValue?.text = ss?.let { getTimeFromSeconds(it) }
+        suspendValue?.text = pp?.let { getTimeFromSeconds(it) }
+        if (ss != null) {
+            mistValueSeconds=ss
+        }
+        else{
+            mistValue?.text="5s"
+        }
+        if (pp != null) {
+            suspendValueSeconds=pp
+        }
+        else{
+            suspendValue?.text="5s"
+        }
     }
 
     fun setIntervalView() {
@@ -1814,8 +1697,7 @@ setDeviceObject()
             bleBg?.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
             )
-        }
-        else    if (size!=0 && size < savedDevicesNumber) {
+        } else if (size != 0 && size < savedDevicesNumber) {
             bleBg?.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
             )
@@ -1836,6 +1718,23 @@ setDeviceObject()
         secondTimerTv?.visibility = View.INVISIBLE
         thirdTimerTv?.visibility = View.INVISIBLE
         fourthTimerTv?.visibility = View.INVISIBLE
+        val ss = deviceObject?.mistTime
+        val pp = deviceObject?.suspendTime
+        mistValue?.text = ss?.let { getTimeFromSeconds(it) }
+        suspendValue?.text = pp?.let { getTimeFromSeconds(it) }
+
+        if (ss != null) {
+            mistValueSeconds=ss
+        }
+        else{
+            mistValue?.text="5s"
+        }
+        if (pp != null) {
+            suspendValueSeconds=pp
+        }
+        else{
+            suspendValue?.text="5s"
+        }
     }
 
     fun setScheduleView() {
@@ -1883,8 +1782,7 @@ setDeviceObject()
             bleBg?.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
             )
-        }
-        else  if (size!=0 && size < savedDevicesNumber) {
+        } else if (size != 0 && size < savedDevicesNumber) {
             bleBg?.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
             )
@@ -1894,15 +1792,67 @@ setDeviceObject()
             )
         }
         guideline?.setGuidelinePercent(0.65f)
+        val ss = deviceObject?.mistTime
+        val pp = deviceObject?.suspendTime
+        mistValue?.text = ss?.let { getTimeFromSeconds(it) }
+        suspendValue?.text = pp?.let { getTimeFromSeconds(it) }
+        if (ss != null) {
+            mistValueSeconds=ss
+        }
+        if (pp != null) {
+            suspendValueSeconds=pp
+        }
     }
 
+    fun setScheduleActiveView() {
+        val first =
+            setTimeZone(deviceObject?.firstStartTime) + " - " + setTimeZone(deviceObject?.firstStopTime)
+        val second =
+            setTimeZone(deviceObject?.secondStartTime) + " - " + setTimeZone(deviceObject?.secondStopTime)
+        val third =
+            setTimeZone(deviceObject?.thirdStartTime) + " - " + setTimeZone(deviceObject?.thirdStopTime)
+        val fourt =
+            setTimeZone(deviceObject?.fourtStartTime) + " - " + setTimeZone(deviceObject?.fourtStopTime)
+
+        firstTimerTv?.text = first
+        secondTimerTv?.text = second
+        thirdTimerTv?.text = third
+        fourthTimerTv?.text = fourt
+        if (first == " - ") {
+            firstTimerTv?.visibility = View.INVISIBLE
+        }
+        if (second == " - ") {
+            secondTimerTv?.visibility = View.INVISIBLE
+        }
+        if (third == " - ") {
+            thirdTimerTv?.visibility = View.INVISIBLE
+        }
+        if (fourt == " - ") {
+            fourthTimerTv?.visibility = View.INVISIBLE
+        }
+        mistValue?.text=getTimeFromSeconds(deviceObject?.mistTime!!)
+        suspendValue?.text=getTimeFromSeconds(deviceObject?.suspendTime!!)
+        if(tag!=0)
+        {
+            mistValue?.visibility=View.VISIBLE
+            suspendValue?.visibility=View.VISIBLE
+        }
+        val ss = deviceObject?.mistTime
+        val pp = deviceObject?.suspendTime
+        if (ss != null) {
+            mistValueSeconds=ss
+        }
+        if (pp != null) {
+            suspendValueSeconds=pp
+        }
+    }
 
     fun setTabView() {
 
         when (tag) {
             0 -> {
-                tabName.text = resources.getString(R.string.non_stop)
-                tab_icon.setImageDrawable(
+                tabName?.text = resources.getString(R.string.non_stop)
+                tab_icon?.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.non_stop_blue_icon
@@ -1910,8 +1860,8 @@ setDeviceObject()
                 )
             }
             1 -> {
-                tabName.text = resources.getString(R.string.interval)
-                tab_icon.setImageDrawable(
+                tabName?.text = resources.getString(R.string.interval)
+                tab_icon?.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.interval_blue_icon
@@ -1919,8 +1869,8 @@ setDeviceObject()
                 )
             }
             2 -> {
-                tabName.text = resources.getString(R.string.schedule)
-                tab_icon.setImageDrawable(
+                tabName?.text = resources.getString(R.string.schedule)
+                tab_icon?.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.calendar_blue_icon
@@ -1965,8 +1915,8 @@ setDeviceObject()
                     mistValueSeconds = mist?.let { getSeconds(it) }.toString()
                     suspendValueSeconds = suspend?.let { getSeconds(it) }.toString()
 
-                    mistValue.text = mist
-                    suspendValue.text = suspend
+                    mistValue?.text = mist
+                    suspendValue?.text = suspend
                     var fullCommand = ""
                     fullCommand = fullCommand + "EE07000000"
                     fullCommand = fullCommand + mistValueSeconds
@@ -2163,14 +2113,12 @@ setDeviceObject()
         } else {
             minString = min.toString()
         }
-        dateAndTimeSynch ="EE0c0."
-           // "EE000+" + year + month + day + setHour + minString + secString + dayNumber + "."
+        dateAndTimeSynch =
+            "EE000+" + year + month + day + setHour + minString + secString + dayNumber + "."
 
         Log.e("D", "dateAndTimeSynch $dateAndTimeSynch")
         firstBleDevice?.let {
-            Log.e("D", "ULAZI PRVI BLE")
             firstGate?.let { it1 ->
-                Log.e("D", "ulazi prvi gatt")
                 sendCommand(
                     dateAndTimeSynch.toByteArray(charset),
                     it, it1
@@ -2179,9 +2127,7 @@ setDeviceObject()
         }
 
         secondBleDevice?.let {
-            Log.e("D", "ulazi ble uredjajj 2")
             secondGate?.let { it1 ->
-                Log.e("D", "ulazi gatt 2")
                 sendCommand(
                     dateAndTimeSynch.toByteArray(charset),
                     it, it1

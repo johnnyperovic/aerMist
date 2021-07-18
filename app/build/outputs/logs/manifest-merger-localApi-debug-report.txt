@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 application
-INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:21:5-47:19
+INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:21:5-48:19
 MERGED from [com.google.firebase:firebase-crashlytics-ktx:18.1.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\9121da00d046aaee8f1f039aeb515f77\jetified-firebase-crashlytics-ktx-18.1.0\AndroidManifest.xml:23:5-31:19
 MERGED from [com.google.firebase:firebase-crashlytics-ktx:18.1.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\9121da00d046aaee8f1f039aeb515f77\jetified-firebase-crashlytics-ktx-18.1.0\AndroidManifest.xml:23:5-31:19
 MERGED from [com.google.firebase:firebase-analytics-ktx:19.0.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\ad492c42bd7655e42ca0a69ab14700f6\jetified-firebase-analytics-ktx-19.0.0\AndroidManifest.xml:7:5-15:19
@@ -72,29 +72,29 @@ MERGED from [com.google.android.datatransport:transport-runtime:3.0.1] C:\Users\
 	android:label
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:27:9-41
 	android:fullBackupContent
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:25:9-59
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:24:9-42
 	android:roundIcon
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:28:9-46
 	android:configChanges
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:24:9-46
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:25:9-46
 	tools:targetApi
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:32:9-28
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:33:9-28
 	android:icon
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:26:9-43
 	android:allowBackup
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:23:9-35
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:23:9-36
 	android:theme
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:30:9-40
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:31:9-40
 	android:usesCleartextTraffic
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:31:9-44
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:32:9-44
 	android:name
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:22:9-47
 manifest
-ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
+ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
 MERGED from [androidx.databinding:databinding-adapters:4.1.3] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\a05f8d0a513d82a96f35eca386d0119a\databinding-adapters-4.1.3\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.databinding:databinding-runtime:4.1.3] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\12efe6438c0ca4fa91f2c07011e8514b\databinding-runtime-4.1.3\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-crashlytics-ktx:18.1.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\9121da00d046aaee8f1f039aeb515f77\jetified-firebase-crashlytics-ktx-18.1.0\AndroidManifest.xml:15:1-33:12
@@ -191,22 +191,22 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\Nikola\.gradle\c
 MERGED from [com.google.android.datatransport:transport-runtime:3.0.1] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\43b66b39b943d97bdebf021434f3cc87\jetified-transport-runtime-3.0.1\AndroidManifest.xml:15:1-41:12
 MERGED from [com.google.android.datatransport:transport-api:3.0.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\acf4faef8325b3b84b69fe2c90701295\jetified-transport-api-3.0.0\AndroidManifest.xml:15:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.0.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\fc4794b7c79b3909f1f5f1b81da5e259\jetified-annotation-experimental-1.0.0\AndroidManifest.xml:17:1-24:12
-INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
-INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
 	package
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:4:5-30
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-49:12
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:1-50:12
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:2:11-69
@@ -489,27 +489,27 @@ INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\And
 		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml
 uses-library#org.apache.http.legacy
-ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:34:9-36:40
+ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:35:9-37:40
 	android:required
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:36:13-37
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:37:13-37
 	android:name
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:35:13-50
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:36:13-50
 activity#llc.aerMist.app.ui.MainActivity
-ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:38:9-46:20
+ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:39:9-47:20
 	android:screenOrientation
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:40:13-49
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:41:13-49
 	android:name
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:39:13-59
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:40:13-59
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:41:13-45:29
+ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:42:13-46:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:42:17-69
+ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:43:17-69
 	android:name
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:42:25-66
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:43:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:44:17-77
+ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:45:17-77
 	android:name
-		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:44:27-74
+		ADDED from C:\Users\Nikola\Desktop\aerMistAplikacija\android\app\src\main\AndroidManifest.xml:45:27-74
 service#com.google.firebase.components.ComponentDiscoveryService
 ADDED from [com.google.firebase:firebase-crashlytics-ktx:18.1.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\9121da00d046aaee8f1f039aeb515f77\jetified-firebase-crashlytics-ktx-18.1.0\AndroidManifest.xml:24:9-30:19
 MERGED from [com.google.firebase:firebase-analytics-ktx:19.0.0] C:\Users\Nikola\.gradle\caches\transforms-2\files-2.1\ad492c42bd7655e42ca0a69ab14700f6\jetified-firebase-analytics-ktx-19.0.0\AndroidManifest.xml:8:9-14:19

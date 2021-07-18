@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -18,7 +17,6 @@ import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_devices.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import llc.aerMist.app.R
 import llc.aerMist.app.models.MyDevice
 import llc.aerMist.app.models.ScheduleModel
@@ -27,6 +25,7 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import llc.aerMist.app.ui.popup.RemoveDevicePopup
 import llc.aerMist.app.ui.popup.RenameDevicePopup
 import org.koin.android.ext.android.inject
+import java.lang.reflect.Method
 
 
 class MenageDevicesFragment : Fragment(), View.OnClickListener {
@@ -48,7 +47,6 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
     private var fourthDevicePosition = 0
     private var isFourthConnected = false
     private lateinit var renameDeviceDialog: RenameDevicePopup
-    private lateinit var resetFilterDialog: RemoveDevicePopup
     private lateinit var removeDevicePopup: RemoveDevicePopup
     var firstDeviceNewName: String = ""
     var secondDeviceNewName: String = ""
@@ -92,13 +90,11 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             }
         }
         val observer3 = Observer<Boolean> {
-            Log.e("D","I ODJE ULAZI "+it)
             if (it == true) {
                 setFirstDevice()
             }
         }
         val observer4 = Observer<Boolean> {
-            Log.e("D","I ODJE ULAZI2222222 "+it)
             if (it == true) {
                 setSecondDevice()
             }
@@ -112,7 +108,6 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             if (it == true) {
                 setFourthDevice()
             }
-
         }
 
         connectionStateCoordinator.isFirstTimeSynch.observe(viewLifecycleOwner, observer3)
@@ -151,72 +146,81 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             ) {
                 if (bleDevice.name == deviceOneObj?.name) {
 
-                    firstDeviceState.text = resources.getString(R.string.offline)
-                    firstDeviceState.setTextColor(
+                    firstDeviceState?.text = resources.getString(R.string.offline)
+                    firstDeviceState?.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.someGrayColor
                         )
                     )
-                    firstDotColor.setImageDrawable(
+                    firstDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
                         )
+                    )
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                        bleDevice,
+                        gattCallback
                     )
                 }
                 if (bleDevice.name == deviceTwoObj?.name) {
-                    secondDeviceState.setTextColor(
+                    secondDeviceState?.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.someGrayColor
                         )
                     )
-                    secondDeviceState.text = resources.getString(R.string.offline)
-                    secondDotColor.setImageDrawable(
+                    secondDeviceState?.text = resources.getString(R.string.offline)
+                    secondDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
                         )
+                    )
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                        bleDevice,
+                        gattCallback
                     )
                 }
                 if (bleDevice.name == deviceThreeObj?.name) {
-                    thirdDeviceState.setTextColor(
+                    thirdDeviceState?.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.someGrayColor
                         )
                     )
-                    thirdDeviceState.text = resources.getString(R.string.offline)
-                    thirdDotColor.setImageDrawable(
+                    thirdDeviceState?.text = resources.getString(R.string.offline)
+                    thirdDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
                         )
+                    )
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                        bleDevice,
+                        gattCallback
                     )
                 }
                 if (bleDevice.name == deviceFourObj?.name) {
-                    fourthDeviceState.setTextColor(
+                    fourthDeviceState?.setTextColor(
                         ContextCompat.getColor(
                             requireContext(),
                             R.color.someGrayColor
                         )
                     )
-                    fourthDeviceState.text = resources.getString(R.string.offline)
-                    fourthDotColor.setImageDrawable(
+                    fourthDeviceState?.text = resources.getString(R.string.offline)
+                    fourthDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
                         )
                     )
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                        bleDevice,
+                        gattCallback
+                    )
                 }
-                Log.e("D", "NIJE KONEKTOVAN")
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-                    bleDevice,
-                    gattCallback
-                )
-            } else {
-                Log.e("D", " KONEKTOVAN")
 
             }
         } else {
@@ -226,21 +230,17 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
 
     private val gattCallback = object : BleGattCallback() {
         override fun onStartConnect() {
-            Log.e("D", "onStartConnectMenage ")
         }
 
         override fun onConnectFail(device: BleDevice, exception: BleException) {
-            Log.e("D", "onConnectFaildMenageDevices")
             if (device?.name == deviceOneObj?.name) {
                 connectDevice(device)
             }
             if (device?.name == deviceTwoObj?.name) {
                 connectDevice(device)
-
             }
             if (device?.name == deviceThreeObj?.name) {
                 connectDevice(device)
-
             }
             if (device?.name == deviceFourObj?.name) {
                 connectDevice(device)
@@ -248,14 +248,15 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
         }
 
         override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
-            Log.e("D", "onConnectSuccess  " + bleDevicee.name)
 
             val size =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
             totalDeviceNumber?.text = size.toString() + "/" + deviceTotalNumber + " devices"
             if (bleDevicee.name == deviceOneObj?.name) {
-                firstDeviceState.text = resources.getString(R.string.standby)
-                firstDeviceState.setTextColor(
+                isFirstConnected=true
+                firstBleDevice=bleDevicee
+                firstDeviceState?.text = resources.getString(R.string.standby)
+                firstDeviceState?.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.someGrayColor
@@ -269,8 +270,10 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 )
             }
             if (bleDevicee.name == deviceTwoObj?.name) {
+                isSecondConnected=true
+                secondBleDevice=bleDevicee
                 secondDeviceState?.text = resources.getString(R.string.standby)
-                secondDeviceState.setTextColor(
+                secondDeviceState?.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.someGrayColor
@@ -284,6 +287,8 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 )
             }
             if (bleDevicee.name == deviceThreeObj?.name) {
+                isThirdConnected=true
+                thirdBleDevice=bleDevicee
                 thirdDeviceState?.text = resources.getString(R.string.standby)
                 thirdDeviceState.setTextColor(
                     ContextCompat.getColor(
@@ -299,8 +304,10 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 )
             }
             if (bleDevicee.name == deviceFourObj?.name) {
+                isFourthConnected=true
+                fourthBleDevice=bleDevicee
                 fourthDeviceState?.text = resources.getString(R.string.standby)
-                fourthDeviceState.setTextColor(
+                fourthDeviceState?.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
                         R.color.someGrayColor
@@ -329,6 +336,9 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         R.drawable.red_dot
                     )
                 )
+                gatt?.close()
+                connectionStateCoordinator.firstGatt=null
+
             }
             if (device?.name == deviceTwoObj?.name) {
                 secondDeviceState?.text = resources.getString(R.string.offline)
@@ -338,26 +348,43 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         R.drawable.red_dot
                     )
                 )
+               gatt?.close()
+                connectionStateCoordinator.secondGatt=null
+
             }
             if (device?.name == deviceThreeObj?.name) {
-                thirdDeviceState.text = resources.getString(R.string.offline)
-                thirdDotColor.setImageDrawable(
+                thirdDeviceState?.text = resources.getString(R.string.offline)
+                thirdDotColor?.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.red_dot
                     )
                 )
+                gatt?.close()
+                connectionStateCoordinator.thirdGatt=null
             }
             if (device?.name == deviceFourObj?.name) {
-                fourthDeviceState.text = resources.getString(R.string.offline)
-                fourthDotColor.setImageDrawable(
+                fourthDeviceState?.text = resources.getString(R.string.offline)
+                fourthDotColor?.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.red_dot
                     )
                 )
+                gatt?.close()
+                connectionStateCoordinator.fourthGatt=null
+            }
+
+            try {
+                // BluetoothGatt gatt
+                val refresh: Method? = gatt?.javaClass?.getMethod("refresh")
+                if (refresh != null) {
+                    refresh.invoke(gatt)
+                }
+            } catch (e: Exception) {
             }
         }
+
     }
 
     fun showRenameDialog(positon: Int, name: String) {
@@ -381,13 +408,12 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
     fun setFirstDevice() {
         val deviceOne = prefs.firstDevice
         if (deviceOne.length > 1) {
-            Log.e("D","ODJE ULAZI ")
             firstCardView.visibility = View.VISIBLE
             val gson = Gson()
             deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
-            firstDeviceName.text = deviceOneObj?.newName
+            firstDeviceName?.text = deviceOneObj?.newName
             firstDeviceNewName = deviceOneObj?.newName.toString()
-            firstId.text = deviceOneObj?.name
+            firstId?.text = deviceOneObj?.name
             var i = 0
             deviceTotalNumber =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
@@ -396,27 +422,22 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                     connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
             }
             for (item in bleList) {
-                Log.e("D","ODJE ULAZI OVO JE ITEM  "+item.name)
-                Log.e("D","ODJE ULAZI deviceOneObj?.name   "+deviceOneObj?.name)
-                Log.e("D","ODJE ULAZI deviceOneObj?.isOn   "+deviceOneObj?.isOn)
 
                 if (deviceOneObj?.name == item.name) {
-                    Log.e("D", "prvi " + i)
                     firstDevicePostion = i
                     isFirstConnected = true
                     firstBleDevice = item
                     if (deviceOneObj?.isOn == true) {
-                        Log.e("D", "TREBA DA JE ONLINE")
-                        firstMode.visibility = View.VISIBLE
-                        modeTv.visibility = View.VISIBLE
-                        firstDeviceState.text = resources.getString(R.string.misting)
-                        firstDeviceState.setTextColor(
+                        firstMode?.visibility = View.VISIBLE
+                        modeTv?.visibility = View.VISIBLE
+                        firstDeviceState?.text = resources.getString(R.string.misting)
+                        firstDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.blue
                             )
                         )
-                        firstDotColor.setImageDrawable(
+                        firstDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.blue_circle
@@ -424,28 +445,27 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         )
                         if (deviceOneObj?.isSparayMode == true) {
                             if (deviceOneObj?.isSprayPerDay == false) {
-                                firstMode.text = resources.getString(R.string.interval)
+                                firstMode?.text = resources.getString(R.string.interval)
 
                             } else {
-                                firstMode.text = resources.getString(R.string.schedule)
+                                firstMode?.text = resources.getString(R.string.schedule)
                             }
                         } else {
-                            firstMode.text = resources.getString(R.string.non_stop)
+                            firstMode?.text = resources.getString(R.string.non_stop)
                         }
                         return
                     } else {
-                        Log.e("D", "TREBA DA JE STANDBY")
 
-                        firstMode.visibility = View.INVISIBLE
-                        modeTv.visibility = View.INVISIBLE
-                        firstDeviceState.text = resources.getString(R.string.standby)
-                        firstDeviceState.setTextColor(
+                        firstMode?.visibility = View.INVISIBLE
+                        modeTv?.visibility = View.INVISIBLE
+                        firstDeviceState?.text = resources.getString(R.string.standby)
+                        firstDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.someGrayColor
                             )
                         )
-                        firstDotColor.setImageDrawable(
+                        firstDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.green_dot
@@ -457,12 +477,10 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 } else {
                     i = i + 1
                     isFirstConnected = false
-                    Log.e("D", "A ODJE VEC NIJE")
-
-                    firstDeviceState.text = resources.getString(R.string.offline)
-                    firstMode.visibility = View.INVISIBLE
-                    modeTv.visibility = View.INVISIBLE
-                    firstDotColor.setImageDrawable(
+                    firstDeviceState?.text = resources.getString(R.string.offline)
+                    firstMode?.visibility = View.INVISIBLE
+                    modeTv?.visibility = View.INVISIBLE
+                    firstDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
@@ -480,13 +498,13 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
 
         val deviceTwo = prefs.secondDevice
         if (deviceTwo.length > 1) {
-            secondCardView.visibility = View.VISIBLE
+            secondCardView?.visibility = View.VISIBLE
             val gson = Gson()
             deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
-            secondDeviceName.text = deviceTwoObj?.newName
+            secondDeviceName?.text = deviceTwoObj?.newName
             secondDeviceNewName = deviceTwoObj?.newName.toString()
             var i = 0
-            secondId.text = deviceTwoObj?.name
+            secondId?.text = deviceTwoObj?.name
             deviceTotalNumber =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
             if (deviceTotalNumber > 0) {
@@ -500,16 +518,16 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                     secondBleDevice = item
                     // secondDeviceState.text = resources.getString(R.string.online)
                     if (deviceTwoObj?.isOn == true) {
-                        secondMode.visibility = View.VISIBLE
-                        modeTv2.visibility = View.VISIBLE
-                        secondDeviceState.text = resources.getString(R.string.misting)
-                        secondDeviceState.setTextColor(
+                        secondMode?.visibility = View.VISIBLE
+                        modeTv2?.visibility = View.VISIBLE
+                        secondDeviceState?.text = resources.getString(R.string.misting)
+                        secondDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.blue
                             )
                         )
-                        secondDotColor.setImageDrawable(
+                        secondDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.blue_circle
@@ -517,26 +535,26 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         )
                         if (deviceTwoObj?.isSparayMode == true) {
                             if (deviceTwoObj?.isSprayPerDay == false) {
-                                secondMode.text = resources.getString(R.string.interval)
+                                secondMode?.text = resources.getString(R.string.interval)
                             } else {
-                                secondMode.text = resources.getString(R.string.schedule)
+                                secondMode?.text = resources.getString(R.string.schedule)
 
                             }
                         } else {
-                            secondMode.text = resources.getString(R.string.non_stop)
+                            secondMode?.text = resources.getString(R.string.non_stop)
                         }
                         return
                     } else {
-                        secondMode.visibility = View.INVISIBLE
-                        modeTv2.visibility = View.INVISIBLE
-                        secondDeviceState.text = resources.getString(R.string.standby)
-                        secondDeviceState.setTextColor(
+                        secondMode?.visibility = View.INVISIBLE
+                        modeTv2?.visibility = View.INVISIBLE
+                        secondDeviceState?.text = resources.getString(R.string.standby)
+                        secondDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.someGrayColor
                             )
                         )
-                        secondDotColor.setImageDrawable(
+                        secondDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.green_dot
@@ -548,10 +566,10 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 } else {
                     i = i + 1
                     isSecondConnected = false
-                    secondDeviceState.text = resources.getString(R.string.offline)
-                    secondMode.visibility = View.INVISIBLE
-                    modeTv2.visibility = View.INVISIBLE
-                    secondDotColor.setImageDrawable(
+                    secondDeviceState?.text = resources.getString(R.string.offline)
+                    secondMode?.visibility = View.INVISIBLE
+                    modeTv2?.visibility = View.INVISIBLE
+                    secondDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
@@ -561,8 +579,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             }
             deviceTotalNumber = deviceTotalNumber + 1
         } else {
-            Log.e("D", "odje ulaiz")
-            secondCardView.visibility = View.GONE
+            secondCardView?.visibility = View.GONE
         }
     }
 
@@ -573,9 +590,9 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             thirdCardView.visibility = View.VISIBLE
             val gson = Gson()
             deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
-            thirdDeviceName.text = deviceThreeObj?.newName
+            thirdDeviceName?.text = deviceThreeObj?.newName
             thirdDeviceNewName = deviceThreeObj?.newName.toString()
-            thirdId.text = deviceThreeObj?.name
+            thirdId?.text = deviceThreeObj?.name
             var i = 0
             deviceTotalNumber =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
@@ -589,16 +606,16 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                     isThirdConnected = true
                     thirdDevicePosition = i
                     if (deviceThreeObj?.isOn == true) {
-                        thirdMode.visibility = View.VISIBLE
-                        modeTv3.visibility = View.VISIBLE
-                        thirdDeviceState.text = resources.getString(R.string.misting)
-                        thirdDeviceState.setTextColor(
+                        thirdMode?.visibility = View.VISIBLE
+                        modeTv3?.visibility = View.VISIBLE
+                        thirdDeviceState?.text = resources.getString(R.string.misting)
+                        thirdDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.blue
                             )
                         )
-                        thirdDotColor.setImageDrawable(
+                        thirdDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.blue_circle
@@ -606,25 +623,25 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         )
                         if (deviceThreeObj?.isSparayMode == true) {
                             if (deviceThreeObj?.isSprayPerDay == false) {
-                                thirdMode.text = resources.getString(R.string.interval)
+                                thirdMode?.text = resources.getString(R.string.interval)
                             } else {
-                                thirdMode.text = resources.getString(R.string.schedule)
+                                thirdMode?.text = resources.getString(R.string.schedule)
                             }
                         } else {
-                            thirdMode.text = resources.getString(R.string.non_stop)
+                            thirdMode?.text = resources.getString(R.string.non_stop)
                         }
                         return
                     } else {
-                        thirdMode.visibility = View.INVISIBLE
-                        modeTv3.visibility = View.INVISIBLE
-                        thirdDeviceState.text = resources.getString(R.string.standby)
-                        thirdDeviceState.setTextColor(
+                        thirdMode?.visibility = View.INVISIBLE
+                        modeTv3?.visibility = View.INVISIBLE
+                        thirdDeviceState?.text = resources.getString(R.string.standby)
+                        thirdDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.someGrayColor
                             )
                         )
-                        thirdDotColor.setImageDrawable(
+                        thirdDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.green_dot
@@ -635,10 +652,10 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 } else {
                     isThirdConnected = false
                     i = i + 1
-                    thirdMode.visibility = View.INVISIBLE
-                    modeTv3.visibility = View.INVISIBLE
-                    thirdDeviceState.text = resources.getString(R.string.offline)
-                    thirdDotColor.setImageDrawable(
+                    thirdMode?.visibility = View.INVISIBLE
+                    modeTv3?.visibility = View.INVISIBLE
+                    thirdDeviceState?.text = resources.getString(R.string.offline)
+                    thirdDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
@@ -648,21 +665,20 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             }
             deviceTotalNumber = deviceTotalNumber + 1
         } else {
-            thirdCardView.visibility = View.GONE
+            thirdCardView?.visibility = View.GONE
         }
     }
 
     fun setFourthDevice() {
-        Log.e("D", "SETUJE CETVRTI")
 
         val deviceFour = prefs.fourthDevice
         if (deviceFour.length > 1) {
-            fourthCardView.visibility = View.VISIBLE
+            fourthCardView?.visibility = View.VISIBLE
             val gson = Gson()
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
-            fourthDeviceName.text = deviceFourObj?.newName
+            fourthDeviceName?.text = deviceFourObj?.newName
             fourthDeviceNewName = deviceFourObj?.newName.toString()
-            fourthId.text = deviceFourObj?.name
+            fourthId?.text = deviceFourObj?.name
             var i = 0
             deviceTotalNumber =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
@@ -676,16 +692,16 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                     isFourthConnected = true
                     fourthDevicePosition = i
                     if (deviceFourObj?.isOn == true) {
-                        fourthMode.visibility = View.VISIBLE
-                        modeTv4.visibility = View.VISIBLE
-                        fourthDeviceState.text = resources.getString(R.string.misting)
-                        fourthDeviceState.setTextColor(
+                        fourthMode?.visibility = View.VISIBLE
+                        modeTv4?.visibility = View.VISIBLE
+                        fourthDeviceState?.text = resources.getString(R.string.misting)
+                        fourthDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.blue
                             )
                         )
-                        fourthDotColor.setImageDrawable(
+                        fourthDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.blue_circle
@@ -693,27 +709,27 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         )
                         if (deviceFourObj?.isSparayMode == true) {
                             if (deviceFourObj?.isSprayPerDay == false) {
-                                fourthMode.text = resources.getString(R.string.interval)
+                                fourthMode?.text = resources.getString(R.string.interval)
 
                             } else {
-                                fourthMode.text = resources.getString(R.string.schedule)
+                                fourthMode?.text = resources.getString(R.string.schedule)
 
                             }
                         } else {
-                            fourthMode.text = resources.getString(R.string.non_stop)
+                            fourthMode?.text = resources.getString(R.string.non_stop)
                         }
                         return
                     } else {
-                        fourthMode.visibility = View.INVISIBLE
-                        modeTv4.visibility = View.INVISIBLE
-                        fourthDeviceState.text = resources.getString(R.string.standby)
-                        fourthDeviceState.setTextColor(
+                        fourthMode?.visibility = View.INVISIBLE
+                        modeTv4?.visibility = View.INVISIBLE
+                        fourthDeviceState?.text = resources.getString(R.string.standby)
+                        fourthDeviceState?.setTextColor(
                             ContextCompat.getColor(
                                 requireContext(),
                                 R.color.someGrayColor
                             )
                         )
-                        fourthDotColor.setImageDrawable(
+                        fourthDotColor?.setImageDrawable(
                             ContextCompat.getDrawable(
                                 requireContext(),
                                 R.drawable.green_dot
@@ -724,10 +740,10 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 } else {
                     i = i + 1
                     isFourthConnected = false
-                    fourthDeviceState.text = resources.getString(R.string.offline)
-                    fourthMode.visibility = View.INVISIBLE
-                    modeTv4.visibility = View.INVISIBLE
-                    fourthDotColor.setImageDrawable(
+                    fourthDeviceState?.text = resources.getString(R.string.offline)
+                    fourthMode?.visibility = View.INVISIBLE
+                    modeTv4?.visibility = View.INVISIBLE
+                    fourthDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
                             R.drawable.red_dot
@@ -737,7 +753,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             }
             deviceTotalNumber = deviceTotalNumber + 1
         } else {
-            fourthCardView.visibility = View.GONE
+            fourthCardView?.visibility = View.GONE
         }
     }
 
@@ -773,26 +789,26 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
             }
             firstInfoDots -> {
 
-                firstPopup.visibility = View.VISIBLE
+                firstPopup?.visibility = View.VISIBLE
             }
             secondClickView -> {
                 secondBleDevice?.let { navigateToDevice(it.name, isSecondConnected) }
             }
             secondInfoDots -> {
-                secondPopup.visibility = View.VISIBLE
+                secondPopup?.visibility = View.VISIBLE
             }
 
             thirdClickView -> {
                 thirdBleDevice?.let { navigateToDevice(it.name, isThirdConnected) }
             }
             thirdInfoDots -> {
-                thirdPopup.visibility = View.VISIBLE
+                thirdPopup?.visibility = View.VISIBLE
             }
             fourthClickView -> {
                 fourthBleDevice?.let { navigateToDevice(it.name, isFourthConnected) }
             }
             fourthInfoDots -> {
-                fourthPopup.visibility = View.VISIBLE
+                fourthPopup?.visibility = View.VISIBLE
             }
             renameFirstDevice -> {
                 showRenameDialog(0, firstDeviceNewName)
@@ -843,6 +859,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun navigateToDevice(name: String, isConnected: Boolean) {
+
         if (isConnected) {
             val model: ScheduleModel = ScheduleModel(null, null, null, null, null)
             val action =
@@ -870,38 +887,42 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                     val position = data?.getInt("position", 0)
                     if (isDeleted == true) {
                         deviceTotalNumber = deviceTotalNumber - 1
+                        if (deviceTotalNumber==0)
+                        {
+                            navigateToSearchFragment()
+                        }
                     }
                     when (position) {
                         0 -> {
-                            firstDeviceName.text = name
+                            firstDeviceName?.text = name
                             firstDeviceNewName = name.toString()
-                            firstPopup.visibility = View.GONE
+                            firstPopup?.visibility = View.GONE
                             if (isDeleted == true) {
-                                firstCardView.visibility = View.GONE
+                                firstCardView?.visibility = View.GONE
                             }
                         }
                         1 -> {
-                            secondDeviceName.text = name
+                            secondDeviceName?.text = name
                             secondDeviceNewName = name.toString()
-                            secondPopup.visibility = View.GONE
+                            secondPopup?.visibility = View.GONE
                             if (isDeleted == true) {
                                 secondCardView.visibility = View.GONE
                             }
                         }
                         2 -> {
-                            thirdDeviceName.text = name
+                            thirdDeviceName?.text = name
                             thirdDeviceNewName = name.toString()
                             thirdPopup.visibility = View.GONE
                             if (isDeleted == true) {
-                                thirdCardView.visibility = View.GONE
+                                thirdCardView?.visibility = View.GONE
                             }
                         }
                         3 -> {
-                            fourthDeviceName.text = name
+                            fourthDeviceName?.text = name
                             fourthDeviceNewName = name.toString()
-                            fourthPopup.visibility = View.GONE
+                            fourthPopup?.visibility = View.GONE
                             if (isDeleted == true) {
-                                fourthCardView.visibility = View.GONE
+                                fourthCardView?.visibility = View.GONE
                             }
                         }
                     }

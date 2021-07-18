@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,11 +20,10 @@ import com.clj.fastble.callback.BleScanCallback
 import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_devices.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.mistValue
-import kotlinx.android.synthetic.main.fragment_home.suspendValue
 import kotlinx.android.synthetic.main.fragment_set_device.*
 import kotlinx.android.synthetic.main.my_devices_fragment.*
 import kotlinx.android.synthetic.main.my_devices_fragment.btnAddNewDevice
@@ -75,7 +73,6 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import llc.aerMist.app.ui.popup.RemoveDevicePopup
 import llc.aerMist.app.ui.popup.RenameDevicePopup
 import org.koin.android.ext.android.inject
-import java.io.IOException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -106,6 +103,8 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
     var thirdGate: BluetoothGatt? = null
     var fourthBleDevice: BleDevice? = null
     var fourthGate: BluetoothGatt? = null
+    val firstCommand = "EE0c0."
+
     private lateinit var renameDeviceDialog: RenameDevicePopup
     private lateinit var removeDevicePopup: RemoveDevicePopup
     var workingTime = ""
@@ -275,7 +274,6 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
     fun checkConnection() {
         val deviceNumber =
             connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
-        Log.e("D", "device number " + deviceNumber)
         if (deviceNumber!! > 0) {
             var bleList = ArrayList<BleDevice>()
             bleList =
@@ -363,35 +361,41 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             //    bluetoothController?.bluetoothManager?.cancelScan()
         }
         connectionStateCoordinator.listBleDevices.clear()
-    //    bluetoothController?.startScan()
-val firstMac=prefs.firstBleDevice
-val secondMac=prefs.secondBleDevice
-val thirdMac=prefs.thirdBleDevice
-val fourthMac=prefs.fourthBleDevice
-        if (firstMac.length>0)
-        {
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(firstMac,gattCallback)
+        //    bluetoothController?.startScan()
+        val firstMac = prefs.firstBleDevice
+        val secondMac = prefs.secondBleDevice
+        val thirdMac = prefs.thirdBleDevice
+        val fourthMac = prefs.fourthBleDevice
+        if (firstMac.length > 0) {
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                firstMac,
+                gattCallback
+            )
         }
-        if (secondMac.length>0)
-        {
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(secondMac,gattCallback)
+        if (secondMac.length > 0) {
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                secondMac,
+                gattCallback
+            )
         }
-        if (thirdMac.length>0)
-        {
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(thirdMac,gattCallback)
+        if (thirdMac.length > 0) {
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                thirdMac,
+                gattCallback
+            )
         }
-        if (fourthMac.length>0)
-        {
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(fourthMac,gattCallback)
+        if (fourthMac.length > 0) {
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                fourthMac,
+                gattCallback
+            )
         }
     }
 
 
     fun readResponse() {
-        //  Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
         for (service in firstGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
                 for (service in service.characteristics) {
                     if (service.uuid.toString().equals("0000ffe1-0000-1000-8000-00805f9b34fb")) {
                         bluetoothController?.blueGattAdapter?.addResult(service.service)
@@ -402,8 +406,6 @@ val fourthMac=prefs.fourthBleDevice
         }
         bluetoothController?.bleDeviceMain = firstBleDevice
         connectionStateCoordinator.firstGatt = firstGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
-
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -411,18 +413,15 @@ val fourthMac=prefs.fourthBleDevice
                 firstBleDevice,
                 service?.characteristics!!.get(0)
             )
-            firstBleDevice?.let { sendCommand("EE0c0.".toByteArray(charset), it, firstGate!!) }
-
-           firstBleDevice?.let { sendTimeSynchCommand(firstGate!!, it) }
-
+            Handler().postDelayed({
+                firstBleDevice?.let { sendTimeSynchCommand(firstGate!!, it) }
+            }, 1000)
         }
     }
 
     fun readSecondResponse() {
         for (service in secondGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
-
                 if (service.characteristics.get(0).uuid.toString()
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
                 ) {
@@ -432,7 +431,6 @@ val fourthMac=prefs.fourthBleDevice
         }
         bluetoothController?.bleDeviceMain = secondBleDevice
         connectionStateCoordinator.secondGatt = secondGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -440,16 +438,15 @@ val fourthMac=prefs.fourthBleDevice
                 secondBleDevice,
                 service?.characteristics!!.get(0)
             )
-            secondBleDevice?.let { sendCommand("EE0c0.".toByteArray(charset), it, secondGate!!) }
-
-            secondBleDevice?.let { sendTimeSynchCommand(secondGate!!, it) }
+            Handler().postDelayed({
+                secondBleDevice?.let { sendTimeSynchCommand(secondGate!!, it) }
+            }, 1000)
         }
     }
 
     fun readThirdResponse() {
         for (service in thirdGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
 
                 if (service.characteristics.get(0).uuid.toString()
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
@@ -460,7 +457,6 @@ val fourthMac=prefs.fourthBleDevice
         }
         bluetoothController?.bleDeviceMain = thirdBleDevice
         connectionStateCoordinator.thirdGatt = thirdGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -468,17 +464,15 @@ val fourthMac=prefs.fourthBleDevice
                 thirdBleDevice,
                 service?.characteristics!!.get(0)
             )
-            thirdBleDevice?.let { sendCommand("EE0c0.".toByteArray(charset), it, thirdGate!!) }
-
-            thirdBleDevice?.let { sendTimeSynchCommand(thirdGate!!, it) }
+            Handler().postDelayed({
+                thirdBleDevice?.let { sendTimeSynchCommand(thirdGate!!, it) }
+            }, 1000)
         }
     }
 
     fun readFourthResponse() {
         for (service in fourthGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
-
                 if (service.characteristics.get(0).uuid.toString()
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
                 ) {
@@ -488,7 +482,6 @@ val fourthMac=prefs.fourthBleDevice
         }
         bluetoothController?.bleDeviceMain = fourthBleDevice
         connectionStateCoordinator.fourthGatt = fourthGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -496,9 +489,9 @@ val fourthMac=prefs.fourthBleDevice
                 fourthBleDevice,
                 service?.characteristics!!.get(0)
             )
-            fourthBleDevice?.let { sendCommand("EE0c0.".toByteArray(charset), it, fourthGate!!) }
-
-            fourthBleDevice?.let { sendTimeSynchCommand(fourthGate!!, it) }
+            Handler().postDelayed({
+                fourthBleDevice?.let { sendTimeSynchCommand(fourthGate!!, it) }
+            }, 1000)
 
         }
     }
@@ -506,7 +499,10 @@ val fourthMac=prefs.fourthBleDevice
     private fun navigateToAvailableDevices() {
 
         if (bluetoothController?.bluetoothManager!!.isBlueEnable) {
-       connectionStateCoordinator?.bluetoothController?.bluetoothManager?.cancelScan()
+            try {
+                connectionStateCoordinator?.bluetoothController?.bluetoothManager?.cancelScan()
+            } catch (e: Exception) {
+            }
             findNavController().navigate(R.id.action_my_devices_to_search_devices)
         } else {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -528,7 +524,6 @@ val fourthMac=prefs.fourthBleDevice
         findNavController().navigate(action)
     }
 
-    @SuppressLint("SetTextI18n")
     fun setFirstDevice() {
         deviceOne = prefs.firstDevice
         if (!deviceOne.isNullOrEmpty()) {
@@ -546,7 +541,6 @@ val fourthMac=prefs.fourthBleDevice
         deviceNumber.text = "$deviceTotalNumber/4 devices"
     }
 
-    @SuppressLint("SetTextI18n")
 
     fun setSecondDevice() {
         val deviceTwo = prefs.secondDevice
@@ -559,6 +553,7 @@ val fourthMac=prefs.fourthBleDevice
             secondDevice = deviceTwoObj.name
             deviceTotalNumber = deviceTotalNumber + 1
             secondDeviceId.text = resources.getString(R.string.device_id) + deviceTwoObj.name
+
         } else {
             secondCardView.visibility = View.GONE
         }
@@ -578,6 +573,7 @@ val fourthMac=prefs.fourthBleDevice
             thirdDeviceNewName = deviceThreeObj.name
             deviceTotalNumber = deviceTotalNumber + 1
             thirdDeviceId.text = resources.getString(R.string.device_id) + deviceThreeObj.name
+
         } else {
             thirdCardView.visibility = View.GONE
         }
@@ -597,6 +593,7 @@ val fourthMac=prefs.fourthBleDevice
             fourthDeviceNewName = deviceFourObj.name
             deviceTotalNumber = deviceTotalNumber + 1
             fourthDeviceId.text = resources.getString(R.string.device_id) + deviceFourObj.name
+
         } else {
             fourthCardView.visibility = View.GONE
         }
@@ -605,30 +602,13 @@ val fourthMac=prefs.fourthBleDevice
 
     private val scanCallback = object : BleScanCallback() {
         override fun onScanStarted(success: Boolean) {
-            Log.e("myDevice", "Scan started on my device")
         }
 
         override fun onScanning(bleDevice: BleDevice) {
-            Log.e("onScanning", "bleDevice.name " + bleDevice.name)
-//            if (bleDevice.name != null) {
-//                connectionStateCoordinator.listBleDevices.add(bleDevice)
-//                if (bleDevice.name == firstDevice) {
-//                    bluetoothController?.connect(bleDevice)
-//                }
-//                if (bleDevice.name == secondDevice) {
-//                    bluetoothController?.connect(bleDevice)
-//                }
-//                if (bleDevice.name == thirdDevice) {
-//                    bluetoothController?.connect(bleDevice)
-//                }
-//                if (bleDevice.name == fourthDevice) {
-//                    bluetoothController?.connect(bleDevice)
-//                }
-//            }
+
         }
 
         override fun onScanFinished(scanResultList: List<BleDevice>) {
-            Log.e("d", "Scan done from MyDevicesFragment" + scanResultList.size)
             availableDevicesList = scanResultList
             list = scanResultList
         }
@@ -646,7 +626,6 @@ val fourthMac=prefs.fourthBleDevice
 
         override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
             connectionStateCoordinator.bluetoothConnectionState.value = "connected"
-            Log.e("d", "BLE DEVICE onConnect  " + bleDevicee.name)
             if (bleDevicee.name == firstDevice) {
                 firstDotColor?.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -660,6 +639,7 @@ val fourthMac=prefs.fourthBleDevice
                 firstBleDevice = bleDevicee
                 firstGate = gatt
                 readResponse()
+
             }
             if (bleDevicee.name == secondDevice) {
                 secondDotColor?.setImageDrawable(
@@ -715,7 +695,7 @@ val fourthMac=prefs.fourthBleDevice
             status: Int
         ) {
             Log.e("D", "device disocnnected " + bleDevice.device.name)
-            connectionStateCoordinator.bleDisconnectDevices.value =  bleDevice
+            connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
             connectionStateCoordinator.isDeviceConnected = false
             if (bleDevice.name == firstDevice) {
                 firstDotColor?.setImageDrawable(
@@ -775,6 +755,15 @@ val fourthMac=prefs.fourthBleDevice
             "EE000+" + year + month + day + setHour + minString + secString + dayNumber + "."
 
         Log.e("D", "dateAndTimeSynch $dateAndTimeSynch")
+        gatt?.let {
+            bleDevice?.let { it1 ->
+                sendCommand(
+                    firstCommand.toByteArray(
+                        charset
+                    ), it1, it
+                )
+            }
+        }
 
         gatt?.let {
             bleDevice?.let { it1 ->
@@ -826,6 +815,7 @@ val fourthMac=prefs.fourthBleDevice
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
+
             var newDataChar = CharArray(data.size)
             for ((index, byte) in data.withIndex()) {
                 newDataChar[index] = byte.toChar()
@@ -836,6 +826,7 @@ val fourthMac=prefs.fourthBleDevice
             var firstPart = ""
 
             for (item in newDataChar) {
+
                 response = response + item
                 if (item.equals(',')) {
                     if (shortString.length > 0) {
@@ -843,7 +834,6 @@ val fourthMac=prefs.fourthBleDevice
                         shortString = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -883,7 +873,6 @@ val fourthMac=prefs.fourthBleDevice
                         shortString2 = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -920,7 +909,6 @@ val fourthMac=prefs.fourthBleDevice
                         shortString3 = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -959,7 +947,6 @@ val fourthMac=prefs.fourthBleDevice
                         shortString4 = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -981,14 +968,11 @@ val fourthMac=prefs.fourthBleDevice
 
     fun readTimerSync(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
-
         when (register) {
 
             "0" -> {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
-                Log.e("D", "OVO JE VRIJEME " + time)
                 workingTime = time.toString()
                 if (prefs.startWorkingTimeFD == "") {
                     prefs.startWorkingTimeFD = workingTime
@@ -996,13 +980,11 @@ val fourthMac=prefs.fourthBleDevice
             }
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("D", "subString " + subString)
                 if (subString == "0") {
                     isOn = true
                 } else {
                     isOn = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1014,8 +996,6 @@ val fourthMac=prefs.fourthBleDevice
                     isNonStop = false
                     isSprayingMode = true
                 }
-                Log.e("d", "isNonStop " + isNonStop)
-                Log.e("d", "isSprayingMode " + isSprayingMode)
 
             }
             "3" -> {
@@ -1029,7 +1009,6 @@ val fourthMac=prefs.fourthBleDevice
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive = true
@@ -1070,7 +1049,6 @@ val fourthMac=prefs.fourthBleDevice
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay = true
                 } else {
@@ -1087,8 +1065,6 @@ val fourthMac=prefs.fourthBleDevice
             }
             "6" -> {
                 val timZoneId = response.get(7)
-                Log.e("D", "ZONA " + timZoneId)
-
                 when (timZoneId) {
                     '0' -> {
                         firstStartTime = response.substring(9, 13)
@@ -1108,10 +1084,6 @@ val fourthMac=prefs.fourthBleDevice
                         fourtStopTime = response.substring(13, response.length - 1)
                     }
                 }
-                Log.e("D", "firstStartTime " + firstStartTime)
-                Log.e("D", "firstStopTime " + firstStopTime)
-                Log.e("D", "secondStartTime " + secondStartTime)
-                Log.e("D", "secondStopTime " + secondStopTime)
             }
             "7" -> {
                 mistTime = response.substring(11, 14)
@@ -1152,18 +1124,15 @@ val fourthMac=prefs.fourthBleDevice
                     mistTime,
                     suspendTime
                 )
-                Log.e("D", "MIST TIME " + mistTime)
-                Log.e("D", "suspendTime TIME " + suspendTime)
                 val json = gson.toJson(newDevice)
                 prefs.firstDevice = json
-                connectionStateCoordinator.isFirstTimeSynch.value=true
+                connectionStateCoordinator.isFirstTimeSynch.value = true
             }
         }
     }
 
     fun readTimerSync2(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
 
         when (register) {
             "0" -> {
@@ -1176,13 +1145,11 @@ val fourthMac=prefs.fourthBleDevice
             }
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("D", "subString " + subString)
                 if (subString == "0") {
                     isOn2 = true
                 } else {
                     isOn2 = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1208,7 +1175,6 @@ val fourthMac=prefs.fourthBleDevice
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive2 = true
@@ -1249,7 +1215,6 @@ val fourthMac=prefs.fourthBleDevice
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay2 = true
                 } else {
@@ -1329,7 +1294,7 @@ val fourthMac=prefs.fourthBleDevice
                 )
                 val json = gson.toJson(newDevice)
                 prefs.secondDevice = json
-                connectionStateCoordinator.isSecondTimeSynch.value=true
+                connectionStateCoordinator.isSecondTimeSynch.value = true
 
             }
         }
@@ -1338,7 +1303,6 @@ val fourthMac=prefs.fourthBleDevice
 
     fun readTimerSync3(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
 
         when (register) {
             "0" -> {
@@ -1356,7 +1320,6 @@ val fourthMac=prefs.fourthBleDevice
                 } else {
                     isOn3 = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1382,7 +1345,6 @@ val fourthMac=prefs.fourthBleDevice
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive3 = true
@@ -1423,7 +1385,6 @@ val fourthMac=prefs.fourthBleDevice
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay3 = true
                 } else {
@@ -1501,7 +1462,7 @@ val fourthMac=prefs.fourthBleDevice
                 )
                 val json = gson.toJson(newDevice)
                 prefs.thirdDevice = json
-                connectionStateCoordinator.isThirdTimeSynch.value=true
+                connectionStateCoordinator.isThirdTimeSynch.value = true
 
             }
         }
@@ -1509,7 +1470,6 @@ val fourthMac=prefs.fourthBleDevice
 
     fun readTimerSync4(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
 
         when (register) {
             "0" -> {
@@ -1522,13 +1482,11 @@ val fourthMac=prefs.fourthBleDevice
             }
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("D", "subString " + subString)
                 if (subString == "0") {
                     isOn4 = true
                 } else {
                     isOn4 = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1554,7 +1512,6 @@ val fourthMac=prefs.fourthBleDevice
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive4 = true
@@ -1595,7 +1552,6 @@ val fourthMac=prefs.fourthBleDevice
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay4 = true
                 } else {
@@ -1673,7 +1629,7 @@ val fourthMac=prefs.fourthBleDevice
                 )
                 val json = gson.toJson(newDevice)
                 prefs.thirdDevice = json
-                connectionStateCoordinator.isFourthTimeSynch.value=true
+                connectionStateCoordinator.isFourthTimeSynch.value = true
 
             }
         }
@@ -1709,11 +1665,20 @@ val fourthMac=prefs.fourthBleDevice
         when (id) {
             btnAddNewDevice -> navigateToAvailableDevices()
             btnDone -> {
+                if(deviceTotalNumber==0)
+                {
+                    Snackbar.make(
+                        requireView(),
+                        "Please add one or more devices",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+                else{
                 if (deviceTotalNumber == 1) {
                     navigateToDevice()
                 } else {
                     navigateToMain()
-
+                }
                 }
             }
             firstInfoDots -> firstPopup.visibility = View.VISIBLE
@@ -1821,14 +1786,11 @@ val fourthMac=prefs.fourthBleDevice
                         4 -> {
                             if (resultCode == Activity.RESULT_OK) {
                                 if (bluetoothController?.bluetoothAdapter!!.isEnabled) {
-                                    Log.e("D", "Bluetooth has been enabled")
                                     connectionStateCoordinator.listBleDevices.clear()
                                     bluetoothController?.startScan()
                                 } else {
-                                    Log.e("D", "Bluetooth has been disabled")
                                 }
                             } else if (resultCode == Activity.RESULT_CANCELED) {
-                                Log.e("D", "Bluetooth enabling has been canceled")
                             }
                         }
                     }

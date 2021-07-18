@@ -32,13 +32,13 @@ class SplashFragment : Fragment() {
     var bluetoothController: BluetoothController? = null
     val connectionStateCoordinator = NewObservableCoordinator
     var deviceOne = ""
-    lateinit var deviceOneObj: MyDevice
+     var deviceOneObj: MyDevice?=null
     var deviceTwo = ""
-    lateinit var deviceTwoObj: MyDevice
+     var deviceTwoObj: MyDevice?=null
     var deviceThree = ""
-    lateinit var deviceThreeObj: MyDevice
+     var deviceThreeObj: MyDevice?=null
     var deviceFour = ""
-    lateinit var deviceFourObj: MyDevice
+     var deviceFourObj: MyDevice?=null
     val charset = Charsets.UTF_8
     var firstDevice: String = ""
     var firstDeviceNewName: String = ""
@@ -81,7 +81,6 @@ class SplashFragment : Fragment() {
     var suspendTime: String = ""
     var deviceNameValue = ""
     var time = ""
-    var intervalValue = "".toByteArray(charset)
     var shortString = ""
     var shortString2 = ""
     var shortString3 = ""
@@ -109,7 +108,6 @@ class SplashFragment : Fragment() {
     var fourtStopTime2: String = ""
     var mistTime2: String = ""
     var suspendTime2: String = ""
-    var intervalValue2 = "".toByteArray(charset)
     var dateAndTimeSynch = ""
     val firstCommand="EE0c0."
     var workingTime3 = ""
@@ -135,7 +133,6 @@ class SplashFragment : Fragment() {
     var fourtStopTime3: String = ""
     var mistTime3: String = ""
     var suspendTime3: String = ""
-    var intervalValue3 = "".toByteArray(charset)
 
     var workingTime4 = ""
     var isOn4 = false
@@ -160,7 +157,6 @@ class SplashFragment : Fragment() {
     var fourtStopTime4: String = ""
     var mistTime4: String = ""
     var suspendTime4: String = ""
-    var intervalValue4 = "".toByteArray(charset)
     var bleDeviceToPass:String=""
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -233,8 +229,13 @@ class SplashFragment : Fragment() {
 
         Handler().postDelayed({
             firstBleDevice?.let { sendTimeSynchCommand(firstGate!!, it) }
+            Handler().postDelayed({
             secondBleDevice?.let { sendTimeSynchCommand(secondGate!!, it) }
-            thirdBleDevice?.let { sendTimeSynchCommand(thirdGate!!, it) }
+            }, 1000)
+            Handler().postDelayed({
+                thirdBleDevice?.let { sendTimeSynchCommand(thirdGate!!, it) }
+            }, 1000)
+
             fourthBleDevice?.let { sendTimeSynchCommand(fourthGate!!, it) }
             Handler().postDelayed({
             val allDevices =
@@ -248,7 +249,7 @@ class SplashFragment : Fragment() {
             else if  (allDevices >1) {
                 navigateToHome()
             }
-            }, 2000)
+            }, 1000)
         }, 3000)
     }    @SuppressLint("SetTextI18n")
     fun setFirstDevice() {
@@ -256,8 +257,8 @@ class SplashFragment : Fragment() {
         if (!deviceOne.isNullOrEmpty()) {
             val gson = Gson()
             deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
-            firstDeviceNewName = deviceOneObj.newName
-            firstDevice = deviceOneObj.name
+            firstDeviceNewName = deviceOneObj?.newName.toString()
+            firstDevice = deviceOneObj?.name.toString()
         }
     }
 
@@ -268,8 +269,8 @@ class SplashFragment : Fragment() {
         if (!deviceTwo.isNullOrEmpty()) {
             val gson = Gson()
             deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
-            secondDeviceNewName = deviceTwoObj.newName
-            secondDevice = deviceTwoObj.name
+            secondDeviceNewName = deviceTwoObj?.newName.toString()
+            secondDevice = deviceTwoObj?.name.toString()
         }
     }
 
@@ -280,8 +281,8 @@ class SplashFragment : Fragment() {
         if (!deviceThree.isNullOrEmpty()) {
             val gson = Gson()
             deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
-            thirdDevice = deviceThreeObj.name
-            thirdDeviceNewName = deviceThreeObj.name
+            thirdDevice = deviceThreeObj?.name.toString()
+            thirdDeviceNewName = deviceThreeObj?.name.toString()
 
         }
     }
@@ -292,8 +293,8 @@ class SplashFragment : Fragment() {
         if (!deviceFour.isNullOrEmpty()) {
             val gson = Gson()
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
-            fourthDevice = deviceFourObj.name
-            fourthDeviceNewName = deviceFourObj.name
+            fourthDevice = deviceFourObj?.name.toString()
+            fourthDeviceNewName = deviceFourObj?.name.toString()
         }
     }
 
@@ -362,7 +363,12 @@ class SplashFragment : Fragment() {
             gatt: BluetoothGatt,
             status: Int
         ) {
-            connectionStateCoordinator.bleDisconnectDevices.value =  bleDevice
+
+            if (deviceOneObj?.name==bleDevice.name ||deviceTwoObj?.name==bleDevice.name || deviceThreeObj?.name==bleDevice.name  || deviceFourObj?.name==bleDevice.name )
+            {
+                connectionStateCoordinator.bleDisconnectDevices.value =  bleDevice
+
+            }
         }
     }
     fun navigateToDevice() {
@@ -371,10 +377,8 @@ class SplashFragment : Fragment() {
         findNavController().navigate(action)
     }
     fun readResponse() {
-        //  Log.e("D", "onConnectSuccess SERVICE SIZE " + firstGate.services.size)
         for (service in firstGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
                 for (service in service.characteristics) {
                     if (service.uuid.toString().equals("0000ffe1-0000-1000-8000-00805f9b34fb")) {
                         bluetoothController?.blueGattAdapter?.addResult(service.service)
@@ -385,8 +389,6 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = firstBleDevice
         connectionStateCoordinator.firstGatt = firstGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
-
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -394,16 +396,12 @@ class SplashFragment : Fragment() {
                 firstBleDevice,
                 service?.characteristics!!.get(0)
             )
-//           firstBleDevice?.let { sendCommand(firstCommand.toByteArray(charset), it, firstGate!!) }
-//            firstBleDevice?.let { sendTimeSynchCommand(firstGate!!, it) }
-
         }
     }
 
     fun readSecondResponse() {
         for (service in secondGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
 
                 if (service.characteristics.get(0).uuid.toString()
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
@@ -414,7 +412,6 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = secondBleDevice
         connectionStateCoordinator.secondGatt = secondGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -422,8 +419,6 @@ class SplashFragment : Fragment() {
                 secondBleDevice,
                 service?.characteristics!!.get(0)
             )
-//            secondBleDevice?.let { sendCommand(firstCommand.toByteArray(charset), it, secondGate!!) }
-//            secondBleDevice?.let { sendTimeSynchCommand(secondGate!!, it) }
         }
     }
     private val writeCallback = object : BleWriteCallback() {
@@ -437,7 +432,6 @@ class SplashFragment : Fragment() {
     fun readThirdResponse() {
         for (service in thirdGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
 
                 if (service.characteristics.get(0).uuid.toString()
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
@@ -448,7 +442,6 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = thirdBleDevice
         connectionStateCoordinator.thirdGatt = thirdGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -456,15 +449,12 @@ class SplashFragment : Fragment() {
                 thirdBleDevice,
                 service?.characteristics!!.get(0)
             )
-//            thirdBleDevice?.let { sendCommand(firstCommand.toByteArray(charset), it, thirdGate!!) }
-//            thirdBleDevice?.let { sendTimeSynchCommand(thirdGate!!, it) }
         }
     }
 
     fun readFourthResponse() {
         for (service in fourthGate?.services!!) {
             if (service.characteristics.size > 0) {
-                Log.e("d", "UUID " + service.characteristics.get(0).uuid)
 
                 if (service.characteristics.get(0).uuid.toString()
                         .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
@@ -475,7 +465,6 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = fourthBleDevice
         connectionStateCoordinator.fourthGatt = fourthGate
-        //   Log.e("D", "bleDevicee.mac " + bleDevicee.mac)
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -483,9 +472,6 @@ class SplashFragment : Fragment() {
                 fourthBleDevice,
                 service?.characteristics!!.get(0)
             )
-//            fourthBleDevice?.let { sendCommand(firstCommand.toByteArray(charset), it, fourthGate!!) }
-//            fourthBleDevice?.let { sendTimeSynchCommand(fourthGate!!, it) }
-
         }
     }
 
@@ -540,15 +526,19 @@ class SplashFragment : Fragment() {
                 )
             }
         }
-        gatt?.let {
-            bleDevice?.let { it1 ->
-                sendCommand(
-                    dateAndTimeSynch.toByteArray(
-                        charset
-                    ), it1, it
-                )
-            }
-        }
+
+
+    Handler().postDelayed({
+            gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        dateAndTimeSynch.toByteArray(
+                            charset
+                        ), it1, it
+                    )
+                }
+            }},1000)
+
     }
 
     fun getDayInWeek(day: String): Int {
@@ -590,7 +580,6 @@ class SplashFragment : Fragment() {
                         shortString = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -630,7 +619,6 @@ class SplashFragment : Fragment() {
                         shortString2 = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -667,7 +655,6 @@ class SplashFragment : Fragment() {
                         shortString3 = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -706,7 +693,6 @@ class SplashFragment : Fragment() {
                         shortString4 = ""
                     }
                     firstPart = response
-                    Log.e("D", "RESPONSE " + response)
                     if (getRegister(firstPart) == "7") {
                         firstPart = firstPart + "."
                     }
@@ -726,28 +712,22 @@ class SplashFragment : Fragment() {
     }
     fun readTimerSync(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
 
         when (register) {
 
             "0" -> {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
-                Log.e("D", "OVO JE VRIJEME " + time)
                 workingTime = time.toString()
-                if (prefs.startWorkingTimeFD == "") {
-                    prefs.startWorkingTimeFD = workingTime
-                }
+
             }
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("D", "subString " + subString)
                 if (subString == "0") {
                     isOn = true
                 } else {
                     isOn = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -759,8 +739,6 @@ class SplashFragment : Fragment() {
                     isNonStop = false
                     isSprayingMode = true
                 }
-                Log.e("d", "isNonStop " + isNonStop)
-                Log.e("d", "isSprayingMode " + isSprayingMode)
 
             }
             "3" -> {
@@ -774,7 +752,6 @@ class SplashFragment : Fragment() {
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive = true
@@ -815,7 +792,6 @@ class SplashFragment : Fragment() {
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay = true
                 } else {
@@ -832,7 +808,6 @@ class SplashFragment : Fragment() {
             }
             "6" -> {
                 val timZoneId = response.get(7)
-                Log.e("D", "ZONA " + timZoneId)
 
                 when (timZoneId) {
                     '0' -> {
@@ -853,81 +828,71 @@ class SplashFragment : Fragment() {
                         fourtStopTime = response.substring(13, response.length - 1)
                     }
                 }
-                Log.e("D", "firstStartTime " + firstStartTime)
-                Log.e("D", "firstStopTime " + firstStopTime)
-                Log.e("D", "secondStartTime " + secondStartTime)
-                Log.e("D", "secondStopTime " + secondStopTime)
+
             }
             "7" -> {
                 mistTime = response.substring(11, 14)
                 suspendTime = response.substring(16, 19)
-                var fullCommand = ""
-                fullCommand = fullCommand + "EE07000000"
-                fullCommand = fullCommand + mistTime
-                fullCommand = fullCommand + "00"
-                fullCommand = fullCommand + suspendTime
-                fullCommand = fullCommand + "."
-                intervalValue = fullCommand.toByteArray(charset)
+
                 val gson = Gson()
-                val newDevice = MyDevice(
-                    deviceOneObj.name,
-                    deviceOneObj.newName,
-                    true,
-                    workingTime,
-                    isOn,
-                    isNonStop,
-                    isSprayingMode,
-                    mondayActive,
-                    tuesdayActive,
-                    wednesdayActive,
-                    thursdayActive,
-                    fridayActive,
-                    saturdayActive,
-                    sundayActive,
-                    isSprayPerDay,
-                    isSprayFriquencu,
-                    firstStartTime,
-                    firstStopTime,
-                    secondStartTime,
-                    secondStopTime,
-                    thirdStartTime,
-                    thirdStopTime,
-                    fourtStartTime,
-                    fourtStopTime,
-                    mistTime,
-                    suspendTime
-                )
-                Log.e("D", "MIST TIME " + mistTime)
-                Log.e("D", "suspendTime TIME " + suspendTime)
-                val json = gson.toJson(newDevice)
-                prefs.firstDevice = json
-                connectionStateCoordinator.isFirstTimeSynch.value=true
+
+                val deviceOnex = prefs.firstDevice
+                if (!deviceOnex.isNullOrEmpty()) {
+                    deviceOneObj = gson.fromJson(deviceOnex, MyDevice::class.java)
+                    val newDevice = MyDevice(
+                        deviceOneObj?.name.toString(),
+                        deviceOneObj?.newName.toString(),
+                        true,
+                        workingTime,
+                        isOn,
+                        isNonStop,
+                        isSprayingMode,
+                        mondayActive,
+                        tuesdayActive,
+                        wednesdayActive,
+                        thursdayActive,
+                        fridayActive,
+                        saturdayActive,
+                        sundayActive,
+                        isSprayPerDay,
+                        isSprayFriquencu,
+                        firstStartTime,
+                        firstStopTime,
+                        secondStartTime,
+                        secondStopTime,
+                        thirdStartTime,
+                        thirdStopTime,
+                        fourtStartTime,
+                        fourtStopTime,
+                        mistTime,
+                        suspendTime
+                    )
+                    val json = gson.toJson(newDevice)
+                    prefs.firstDevice = json
+                    connectionStateCoordinator.isFirstTimeSynch.value = true
+                }
             }
         }
     }
 
     fun readTimerSync2(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
+
 
         when (register) {
             "0" -> {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
                 workingTime2 = time.toString()
-                if (prefs.startWorkingTimeSD == "") {
-                    prefs.startWorkingTimeSD = workingTime2
-                }
+
             }
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("D", "subString " + subString)
                 if (subString == "0") {
                     isOn2 = true
                 } else {
                     isOn2 = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -953,7 +918,6 @@ class SplashFragment : Fragment() {
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive2 = true
@@ -994,7 +958,6 @@ class SplashFragment : Fragment() {
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay2 = true
                 } else {
@@ -1036,46 +999,44 @@ class SplashFragment : Fragment() {
             "7" -> {
                 mistTime2 = response.substring(11, 14)
                 suspendTime2 = response.substring(16, 19)
-                var fullCommand = ""
-                fullCommand = fullCommand + "EE07000000"
-                fullCommand = fullCommand + mistTime
-                fullCommand = fullCommand + "00"
-                fullCommand = fullCommand + suspendTime
-                fullCommand = fullCommand + "."
-                intervalValue2 = fullCommand.toByteArray(charset)
-                val gson = Gson()
-                val newDevice = MyDevice(
-                    deviceTwoObj.name,
-                    deviceTwoObj.newName,
-                    true,
-                    workingTime2,
-                    isOn2,
-                    isNonStop2,
-                    isSprayingMode2,
-                    mondayActive2,
-                    tuesdayActive2,
-                    wednesdayActive2,
-                    thursdayActive2,
-                    fridayActive2,
-                    saturdayActive2,
-                    sundayActive2,
-                    isSprayPerDay2,
-                    isSprayFriquencu2,
-                    firstStartTime2,
-                    firstStopTime2,
-                    secondStartTime2,
-                    secondStopTime2,
-                    thirdStartTime2,
-                    thirdStopTime2,
-                    fourtStartTime2,
-                    fourtStopTime2,
-                    mistTime2,
-                    suspendTime2
-                )
-                val json = gson.toJson(newDevice)
-                prefs.secondDevice = json
-                connectionStateCoordinator.isSecondTimeSynch.value=true
 
+                val deviceTwox = prefs.secondDevice
+                if (!deviceTwox.isNullOrEmpty()) {
+                    val gson = Gson()
+                    deviceTwoObj = gson.fromJson(deviceTwox, MyDevice::class.java)
+                    val newDevice = MyDevice(
+                        deviceTwoObj?.name.toString(),
+                        deviceTwoObj?.newName.toString(),
+                        true,
+                        workingTime2,
+                        isOn2,
+                        isNonStop2,
+                        isSprayingMode2,
+                        mondayActive2,
+                        tuesdayActive2,
+                        wednesdayActive2,
+                        thursdayActive2,
+                        fridayActive2,
+                        saturdayActive2,
+                        sundayActive2,
+                        isSprayPerDay2,
+                        isSprayFriquencu2,
+                        firstStartTime2,
+                        firstStopTime2,
+                        secondStartTime2,
+                        secondStopTime2,
+                        thirdStartTime2,
+                        thirdStopTime2,
+                        fourtStartTime2,
+                        fourtStopTime2,
+                        mistTime2,
+                        suspendTime2
+                    )
+                    val json = gson.toJson(newDevice)
+                    prefs.secondDevice = json
+                    connectionStateCoordinator.isSecondTimeSynch.value = true
+
+                }
             }
         }
     }
@@ -1083,16 +1044,14 @@ class SplashFragment : Fragment() {
 
     fun readTimerSync3(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
+
 
         when (register) {
             "0" -> {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
                 workingTime3 = time.toString()
-                if (prefs.startWorkingTimeTD == "") {
-                    prefs.startWorkingTimeTD = workingTime3
-                }
+
             }
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1101,7 +1060,6 @@ class SplashFragment : Fragment() {
                 } else {
                     isOn3 = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1127,7 +1085,6 @@ class SplashFragment : Fragment() {
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive3 = true
@@ -1168,7 +1125,6 @@ class SplashFragment : Fragment() {
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay3 = true
                 } else {
@@ -1208,72 +1164,63 @@ class SplashFragment : Fragment() {
             "7" -> {
                 mistTime3 = response.substring(11, 14)
                 suspendTime3 = response.substring(16, 19)
-                var fullCommand = ""
-                fullCommand = fullCommand + "EE07000000"
-                fullCommand = fullCommand + mistTime
-                fullCommand = fullCommand + "00"
-                fullCommand = fullCommand + suspendTime
-                fullCommand = fullCommand + "."
-                intervalValue3 = fullCommand.toByteArray(charset)
-                val gson = Gson()
-                val newDevice = MyDevice(
-                    deviceThreeObj.name,
-                    deviceThreeObj.newName,
-                    true,
-                    workingTime3,
-                    isOn3,
-                    isNonStop3,
-                    isSprayingMode3,
-                    mondayActive3,
-                    tuesdayActive3,
-                    wednesdayActive3,
-                    thursdayActive3,
-                    fridayActive3,
-                    saturdayActive3,
-                    sundayActive3,
-                    isSprayPerDay3,
-                    isSprayFriquencu3,
-                    firstStartTime3,
-                    firstStopTime3,
-                    secondStartTime3,
-                    secondStopTime3,
-                    thirdStartTime3,
-                    thirdStopTime3,
-                    fourtStartTime3,
-                    fourtStopTime3,
-                    mistTime3,
-                    suspendTime3
-                )
-                val json = gson.toJson(newDevice)
-                prefs.thirdDevice = json
-                connectionStateCoordinator.isThirdTimeSynch.value=true
 
+                val gson = Gson()
+                val deviceThreex = prefs.thirdDevice
+                if (!deviceThreex.isNullOrEmpty()) {
+                    deviceThreeObj = gson.fromJson(deviceThreex, MyDevice::class.java)
+                    val newDevice = MyDevice(
+                        deviceThreeObj?.name.toString(),
+                        deviceThreeObj?.newName.toString(),
+                        true,
+                        workingTime3,
+                        isOn3,
+                        isNonStop3,
+                        isSprayingMode3,
+                        mondayActive3,
+                        tuesdayActive3,
+                        wednesdayActive3,
+                        thursdayActive3,
+                        fridayActive3,
+                        saturdayActive3,
+                        sundayActive3,
+                        isSprayPerDay3,
+                        isSprayFriquencu3,
+                        firstStartTime3,
+                        firstStopTime3,
+                        secondStartTime3,
+                        secondStopTime3,
+                        thirdStartTime3,
+                        thirdStopTime3,
+                        fourtStartTime3,
+                        fourtStopTime3,
+                        mistTime3,
+                        suspendTime3
+                    )
+                    val json = gson.toJson(newDevice)
+                    prefs.thirdDevice = json
+                    connectionStateCoordinator.isThirdTimeSynch.value = true
+                }
             }
         }
     }
 
     fun readTimerSync4(response: String) {
         val register = getRegister(response)
-        Log.e("D", "register " + register)
 
         when (register) {
             "0" -> {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
                 workingTime4 = time.toString()
-                if (prefs.startWorkingTimeFRD == "") {
-                    prefs.startWorkingTimeFRD = workingTime4
-                }
             }
             "1" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("D", "subString " + subString)
                 if (subString == "0") {
                     isOn4 = true
                 } else {
                     isOn4 = false
                 }
-                Log.e("d", "isOn " + isOn)
             }
             "2" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1299,7 +1246,6 @@ class SplashFragment : Fragment() {
                     val isFriday = charArray.get(4)
                     val isSaturday = charArray.get(5)
                     val isSunday = charArray.get(6)
-                    Log.e("D", "isSunday " + isSunday)
                     //0-AKTIVAN
                     if (isMonday == '0') {
                         mondayActive4 = true
@@ -1340,7 +1286,6 @@ class SplashFragment : Fragment() {
             }
             "4" -> {
                 val subString = response.substring(6, response.length - 1)
-                Log.e("d", "SPRAY PER DAY " + subString)
                 if (subString == "0") {
                     isSprayPerDay4 = true
                 } else {
@@ -1380,46 +1325,43 @@ class SplashFragment : Fragment() {
             "7" -> {
                 mistTime4 = response.substring(11, 14)
                 suspendTime4 = response.substring(16, 19)
-                var fullCommand = ""
-                fullCommand = fullCommand + "EE07000000"
-                fullCommand = fullCommand + mistTime
-                fullCommand = fullCommand + "00"
-                fullCommand = fullCommand + suspendTime
-                fullCommand = fullCommand + "."
-                intervalValue4 = fullCommand.toByteArray(charset)
-                val gson = Gson()
-                val newDevice = MyDevice(
-                    deviceFourObj.name,
-                    deviceFourObj.newName,
-                    true,
-                    workingTime4,
-                    isOn4,
-                    isNonStop4,
-                    isSprayingMode4,
-                    mondayActive4,
-                    tuesdayActive4,
-                    wednesdayActive4,
-                    thursdayActive4,
-                    fridayActive4,
-                    saturdayActive4,
-                    sundayActive4,
-                    isSprayPerDay4,
-                    isSprayFriquencu4,
-                    firstStartTime4,
-                    firstStopTime4,
-                    secondStartTime4,
-                    secondStopTime4,
-                    thirdStartTime4,
-                    thirdStopTime4,
-                    fourtStartTime4,
-                    fourtStopTime4,
-                    mistTime4,
-                    suspendTime4
-                )
-                val json = gson.toJson(newDevice)
-                prefs.thirdDevice = json
-                connectionStateCoordinator.isFourthTimeSynch.value=true
 
+                val gson = Gson()
+                val deviceFourx = prefs.fourthDevice
+                if (!deviceFourx.isNullOrEmpty()) {
+                    deviceFourObj = gson.fromJson(deviceFourx, MyDevice::class.java)
+                    val newDevice = MyDevice(
+                        deviceFourObj?.name.toString(),
+                        deviceFourObj?.newName.toString(),
+                        true,
+                        workingTime4,
+                        isOn4,
+                        isNonStop4,
+                        isSprayingMode4,
+                        mondayActive4,
+                        tuesdayActive4,
+                        wednesdayActive4,
+                        thursdayActive4,
+                        fridayActive4,
+                        saturdayActive4,
+                        sundayActive4,
+                        isSprayPerDay4,
+                        isSprayFriquencu4,
+                        firstStartTime4,
+                        firstStopTime4,
+                        secondStartTime4,
+                        secondStopTime4,
+                        thirdStartTime4,
+                        thirdStopTime4,
+                        fourtStartTime4,
+                        fourtStopTime4,
+                        mistTime4,
+                        suspendTime4
+                    )
+                    val json = gson.toJson(newDevice)
+                    prefs.thirdDevice = json
+                    connectionStateCoordinator.isFourthTimeSynch.value = true
+                }
             }
         }
     }

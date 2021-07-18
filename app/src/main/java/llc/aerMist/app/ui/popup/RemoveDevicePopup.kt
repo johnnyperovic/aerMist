@@ -57,49 +57,46 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
             when (position) {
                 0 -> {
                     if (filter) {
-                        prefs.cleanFirstDevice()
+                        prefs.cleanFirstFilter()
                     } else {
                         prefs.cleanFirstDevice()
                         connectionStateCoordinator.firstGatt?.disconnect()
-                        connectionStateCoordinator.firstGatt = null
                         prefs.isDeleted=true
                     }
                 }
                 1 -> {
                     if (filter) {
-                        prefs.cleanSecondDevice()
+                        prefs.cleanSecondFilter()
                     } else {
                         prefs.cleanSecondDevice()
                         connectionStateCoordinator.secondGatt?.disconnect()
-                        connectionStateCoordinator.secondGatt = null
                         prefs.isDeleted=true
                     }
                 }
                 2 -> {
                     if (filter) {
-                        prefs.cleanThirdDevice()
+                        prefs.cleanThirdFilter()
 
                     } else {
                         prefs.cleanThirdDevice()
                         connectionStateCoordinator.thirdGatt?.disconnect()
-                        connectionStateCoordinator.thirdGatt = null
                         prefs.isDeleted=true
                     }
                 }
                 3 -> {
                     if (filter) {
-                        prefs.cleanFourthDevice()
+                        prefs.cleanFourthFilter()
 
                     } else {
                         prefs.cleanFourthDevice()
                         connectionStateCoordinator.fourthGatt?.disconnect()
-                        connectionStateCoordinator.fourthGatt = null
                         prefs.isDeleted=true
                     }
                 }
             }
 
             val i: Intent = Intent()
+                .putExtra("name", deviceName)
                 .putExtra("position", position)
                 .putExtra("isDeleted", isDeleted)
                 .putExtra("isFilter", filter)
