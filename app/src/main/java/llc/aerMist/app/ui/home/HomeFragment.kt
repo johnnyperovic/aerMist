@@ -295,7 +295,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 daysInWeek = scheduleModel.days!!
                 for (item in daysInWeek) {
                 }
-
                 formatDaySchedule()
             }
         } else {
@@ -347,7 +346,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
 
             if (hour != null && min != null) {
-                fullTime = hour.toString() + ":" + min + zone
+                if (hour<10 && hour!=0)
+                {
+                    fullTime = "0"+hour.toString() + ":" + min + zone
+                }
+                else{
+                    fullTime = hour.toString() + ":" + min + zone
+                }
+
                 if (hour == 0 && min == 0) {
                     fullTime = ""
                 }
@@ -624,7 +630,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                                 //  if (scheduleModel.timer.get(0)=="0.0")
                                 Snackbar.make(
                                     requireView(),
-                                    "You must choose  days and interval",
+                                    getString(R.string.you_must_choose),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                                 return
@@ -636,7 +642,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
                             ) {
                                 Snackbar.make(
                                     requireView(),
-                                    "You must choose  days and interval",
+                                    getString(R.string.you_must_choose),
                                     Snackbar.LENGTH_SHORT
                                 ).show()
                                 return
@@ -811,16 +817,24 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     fun formatTimer() {
-        val hourOne = scheduleModel.timer?.get(0)!!.hours
+        var hourOne = scheduleModel.timer?.get(0)!!.hours
         val formatOne = scheduleModel.timer?.get(0)!!.format
         val minOne = scheduleModel.timer?.get(0)!!.min
-        val hourTwo = scheduleModel.timer?.get(1)!!.hours
+        var hourTwo = scheduleModel.timer?.get(1)!!.hours
         val minTwo = scheduleModel.timer?.get(1)!!.min
         val formatTwo = scheduleModel.timer?.get(1)!!.format
         val hourOne2 = scheduleModel.timerToSend?.get(0)!!.hours
         val minOne2 = scheduleModel.timerToSend?.get(0)!!.min
         val hourTwo2 = scheduleModel.timerToSend?.get(1)!!.hours
         val minTwo2 = scheduleModel.timerToSend?.get(1)!!.min
+        if (hourOne.length<2)
+        {
+            hourOne="0"+hourOne
+        }
+        if (hourTwo.length<2)
+        {
+            hourTwo="0"+hourTwo
+        }
         firstTimerTv?.text =
             hourOne + ":" + minOne + formatOne + "-" + hourTwo + ":" + minTwo + formatTwo
         if (hourOne != "00" && minOne != "00") {
@@ -832,16 +846,24 @@ class HomeFragment : Fragment(), View.OnClickListener {
             firstTimer = "EE060001" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
 
         }
-        val hourThree = scheduleModel.timer?.get(2)!!.hours
+        var hourThree = scheduleModel.timer?.get(2)!!.hours
         val minThree = scheduleModel.timer?.get(2)!!.min
         val formatThree = scheduleModel.timer?.get(2)!!.format
-        val hourFour = scheduleModel.timer?.get(3)!!.hours
+        var hourFour = scheduleModel.timer?.get(3)!!.hours
         val minFour = scheduleModel.timer?.get(3)!!.min
         val formatFour = scheduleModel.timer?.get(3)!!.format
         val hourThree2 = scheduleModel.timerToSend?.get(2)!!.hours
         val minThree2 = scheduleModel.timerToSend?.get(2)!!.min
         val hourFour2 = scheduleModel.timerToSend?.get(3)!!.hours
         val minFour2 = scheduleModel.timerToSend?.get(3)!!.min
+        if (hourThree.length<2)
+        {
+            hourThree="0"+hourThree
+        }
+        if (hourFour.length<2)
+        {
+            hourFour="0"+hourFour
+        }
         secondTimerTv?.text =
             hourThree + ":" + minThree + formatThree + "-" + hourFour + ":" + minFour + formatFour
         if (hourThree != "00" && minFour != "00") {
@@ -851,16 +873,24 @@ class HomeFragment : Fragment(), View.OnClickListener {
             secondTimer = "EE060011" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
             secondTimerTv?.visibility = View.INVISIBLE
         }
-        val hourFive = scheduleModel.timer?.get(4)!!.hours
+        var hourFive = scheduleModel.timer?.get(4)!!.hours
         val minFive = scheduleModel.timer?.get(4)!!.min
         val formatFive = scheduleModel.timer?.get(4)!!.format
-        val hourSix = scheduleModel.timer?.get(5)!!.hours
+        var hourSix = scheduleModel.timer?.get(5)!!.hours
         val minSix = scheduleModel.timer?.get(5)!!.min
         val formatSix = scheduleModel.timer?.get(5)!!.format
         val hourFive2 = scheduleModel.timerToSend?.get(4)!!.hours
         val minFive2 = scheduleModel.timerToSend?.get(4)!!.min
         val hourSix2 = scheduleModel.timerToSend?.get(5)!!.hours
         val minSix2 = scheduleModel.timerToSend?.get(5)!!.min
+        if (hourFive.length<2)
+        {
+            hourFive="0"+hourFive
+        }
+        if (hourSix.length<2)
+        {
+            hourSix="0"+hourSix
+        }
         thirdTimerTv?.text =
             hourFive + ":" + minFive + formatFive + "-" + hourSix + ":" + minSix + formatSix
         if (hourFive != "00" && minFive != "00") {
@@ -869,18 +899,25 @@ class HomeFragment : Fragment(), View.OnClickListener {
         } else {
             thirdTimerTv?.visibility = View.INVISIBLE
             thirdTimer = "EE060021" + hourFive2 + minFive2 + hourSix2 + minSix2 + "."
-
         }
-        val hourSeven = scheduleModel.timer?.get(6)!!.hours
+        var hourSeven = scheduleModel.timer?.get(6)!!.hours
         val formatSeven = scheduleModel.timer?.get(6)!!.format
         val minSeven = scheduleModel.timer?.get(6)!!.min
-        val hourEight = scheduleModel.timer?.get(7)!!.hours
+        var hourEight = scheduleModel.timer?.get(7)!!.hours
         val minEight = scheduleModel.timer?.get(7)!!.min
         val formatEight = scheduleModel.timer?.get(7)!!.format
         val hourSeven2 = scheduleModel.timerToSend?.get(6)!!.hours
         val minSeven2 = scheduleModel.timerToSend?.get(6)!!.min
         val hourEight2 = scheduleModel.timerToSend?.get(7)!!.hours
         val minEight2 = scheduleModel.timerToSend?.get(7)!!.min
+        if (hourSeven.length<2)
+        {
+            hourSeven="0"+hourSeven
+        }
+        if (hourEight.length<2)
+        {
+            hourEight="0"+hourEight
+        }
         fourthTimerTv?.text =
             hourSeven + ":" + minSeven + formatSeven + "-" + hourEight + ":" + minEight + formatEight
         if (hourSeven != "00" && minSeven != "00") {
@@ -1845,6 +1882,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         if (pp != null) {
             suspendValueSeconds=pp
         }
+        getActiveDaysFromDb()
     }
 
     fun setTabView() {
@@ -2159,6 +2197,68 @@ class HomeFragment : Fragment(), View.OnClickListener {
         dialogDisconnectedDevice = DevicesDisconnected(false)
         dialogDisconnectedDevice?.isCancelable = true
         dialogDisconnectedDevice?.show(childFragmentManager, "")
+    }
+    fun getActiveDaysFromDb() {
+        if (deviceObject!=null) {
+            val one = deviceObject?.monday
+            val two = deviceObject?.tuesday
+            val three = deviceObject?.wednesday
+            val four = deviceObject?.thursday
+            val five = deviceObject?.friday
+            val six = deviceObject?.saturday
+            val seven = deviceObject?.saturday
+
+            if (one == true) {
+                mondayTv?.alpha = 1f
+                monday = scheduleMo + "0."
+            } else {
+                mondayTv?.alpha = 0.3f
+                monday = scheduleMo + "1."
+            }
+            if (two == true) {
+                tuesdayTv?.alpha = 1f
+                tuesday = scheduleTu + "0."
+            } else {
+                tuesdayTv?.alpha = 0.3f
+                tuesday = scheduleTu + "1."
+            }
+            if (three == true) {
+                wednesdayTv?.alpha = 1f
+                wednesday = scheduleWE + "0."
+            } else {
+                wednesdayTv?.alpha = 0.3f
+                wednesday = scheduleWE + "1."
+            }
+            if (four == true) {
+                thusdayTv?.alpha = 1f
+                thursday = scheduleTH + "0."
+            } else {
+                thusdayTv?.alpha = 0.3f
+                thursday = scheduleTH + "1."
+            }
+
+            if (five == true) {
+                fridayTv?.alpha = 1f
+                friday = scheduleFR + "0."
+            } else {
+                fridayTv?.alpha = 0.3f
+                friday = scheduleFR + "1."
+            }
+            if (six == true) {
+                saturdayTv?.alpha = 1f
+                saturday = scheduleSA + "0."
+            } else {
+                saturdayTv?.alpha = 0.3f
+                saturday = scheduleSA + "1."
+            }
+            if (seven == true) {
+                sundayTv?.alpha = 1f
+                sunday = scheduleSU + "0."
+            } else {
+                sundayTv?.alpha = 0.3f
+                sunday = scheduleSU + "1."
+            }
+        }
     }
 }
 

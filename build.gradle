@@ -1,9 +1,8 @@
 buildscript {
     ext.kotlin_version = '1.4.10'
     ext.navigation_version = "2.3.0"
-    // TODO: Uncomment if using Crashlytics/Google services, delete if not
     ext.googleServices_version = "4.3.3"
-  ext.crashlyticsGradle_version = "2.0.0-beta03"
+    ext.crashlyticsGradle_version = "2.0.0-beta03"
     repositories {
         google()
         jcenter()
@@ -14,14 +13,8 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
 
-//        // TODO: Uncomment if using Crashlytics/Google services, delete if not
-//        classpath "com.google.gms:google-services:$googleServices_version"
-//       classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsGradle_version"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
-// TODO: Change dependency versions, if needed
 ext {
     desugar_version = "1.0.10"
     appcompat_version = "1.2.0"

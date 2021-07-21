@@ -255,19 +255,16 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             val gson = Gson()
             deviceTwoObj = gson.fromJson(deviceTwo, MyDevice::class.java)
             nameToSend = deviceTwoObj.name
-
         }
         if (!deviceThree.isNullOrEmpty()) {
             val gson = Gson()
             deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
             nameToSend = deviceThreeObj.name
-
         }
         if (!deviceFour.isNullOrEmpty()) {
             val gson = Gson()
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
             nameToSend = deviceFourObj.name
-
         }
     }
 
@@ -352,14 +349,6 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         bluetoothController?.bluetoothAdapter?.startDiscovery()
         connectionStateCoordinator.isDeviceConnected = false
         bluetoothController?.bluetoothManager?.init(requireActivity().application)
-//        val scanRuleConfig = BleScanRuleConfig.Builder()
-//            .setAutoConnect(true)
-//            .setScanTimeOut(10000)
-//            .build()
-//        BleManager.getInstance().initScanRule(scanRuleConfig)
-        if (bluetoothController?.bluetoothManager?.isBlueEnable == true) {
-            //    bluetoothController?.bluetoothManager?.cancelScan()
-        }
         connectionStateCoordinator.listBleDevices.clear()
         //    bluetoothController?.startScan()
         val firstMac = prefs.firstBleDevice
@@ -511,9 +500,6 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun navigateToMain() {
-        if (bluetoothController?.bluetoothManager?.isBlueEnable == true) {
-            //  bluetoothController?.bluetoothManager?.cancelScan()
-        }
 
         findNavController().navigate(R.id.action_my_devices_to_main_fragment)
     }

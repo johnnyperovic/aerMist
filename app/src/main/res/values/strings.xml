@@ -79,5 +79,6 @@
     <string name="all_devices_are_disconnected">All your devices are disconnected. Please ensure that at least one has power and that you are within range
 </string>
     <string name="all">All</string>
+    <string name="you_must_choose">You must choose days and interval</string>
 
 </resources>

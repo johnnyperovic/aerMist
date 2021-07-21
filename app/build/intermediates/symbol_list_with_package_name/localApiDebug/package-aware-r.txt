@@ -2762,6 +2762,7 @@ string v7_preference_off
 string v7_preference_on
 string we
 string yes
+string you_must_choose
 string you_want_to_reset
 string you_will_lose_all_your_setting
 string your_device_is_disconnected

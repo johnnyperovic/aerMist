@@ -65,7 +65,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
     var eightTimmer2: TimerModel = TimerModel("00", "00", "")
     var type = 0
     var deviceName = ""
-    var nonStop=false
+    var nonStop = false
     private val prefs: PreferenceCache by inject()
     private lateinit var deviceObject: MyDevice
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -148,58 +148,52 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
         val thirdEnd = deviceObject.thirdStopTime
         val fourtStart = deviceObject.fourtStartTime
         val fourtEnd = deviceObject.fourtStopTime
-        Log.e("D", "firstStart " + firstStart)
-        Log.e("d", "secondStart " + secondStart)
-        Log.e("d", "secondEnd " + secondEnd)
-        Log.e("f", "fourtStart " + fourtStart)
-
+        formatTimerModel(firstStart, 1)
+        formatTimerModel(firstEnd, 2)
+        formatTimerModel(secondStart, 3)
+        formatTimerModel(secondEnd, 4)
+        formatTimerModel(thirdStart, 5)
+        formatTimerModel(thirdEnd, 6)
+        formatTimerModel(fourtStart, 7)
+        formatTimerModel(fourtEnd, 8)
         if (firstStart.length == 4 && firstStart != "0000") {
-            startTimeValue.text =
+            startTimeValue?.text =
                 setTimeZone2(firstStart, 1)
+
         }
         if (firstEnd.length == 4 && firstEnd != "0000") {
-            stopTimeValue.text =
+            stopTimeValue?.text =
                 setTimeZone2(firstEnd, 2)
         }
         if (secondStart.length == 4 && secondStart != "0000" && secondEnd.length == 4 && secondEnd != "0000") {
-            secondStartTimeValue.text =
+            secondStartTimeValue?.text =
                 setTimeZone2(secondStart, 3)
-            secondStopTimeValue.text =
+            secondStopTimeValue?.text =
                 setTimeZone2(secondEnd, 4)
             secondStartTimeValue?.visibility = View.VISIBLE
             secondStopTimeValue?.visibility = View.VISIBLE
-            closeSecondTimer.visibility = View.VISIBLE
+            closeSecondTimer?.visibility = View.VISIBLE
         }
         if (thirdStart.length == 4 && thirdStart != "0000" && thirdEnd.length == 4 && thirdEnd != "0000") {
-            thirdStartTimeValue.text =
+            thirdStartTimeValue?.text =
                 setTimeZone2(thirdStart, 5)
-            thirdStopTimerValue.text =
+            thirdStopTimerValue?.text =
                 setTimeZone2(thirdEnd, 6)
             thirdStartTimeValue?.visibility = View.VISIBLE
             thirdStopTimerValue?.visibility = View.VISIBLE
-            closeThirdTimer.visibility = View.VISIBLE
+            closeThirdTimer?.visibility = View.VISIBLE
         }
         if (fourtStart.length == 4 && fourtStart != "0000" && fourtEnd.length == 4 && fourtEnd != "0000") {
-            fourthStartTimeValue.text =
+            fourthStartTimeValue?.text =
                 setTimeZone2(fourtStart, 7)
-            fourthStopTimeValue.text =
+            fourthStopTimeValue?.text =
                 setTimeZone2(fourtEnd, 8)
             fourthStartTimeValue?.visibility = View.VISIBLE
             fourthStopTimeValue?.visibility = View.VISIBLE
-            closeFourthTimer.visibility = View.VISIBLE
+            closeFourthTimer?.visibility = View.VISIBLE
         }
-//        if (thirdStart.length == 4 && thirdStart != "0000")
-//        {
-//            thirdTimerTv.text =
-//                setTimeZone2(thirdStart) + "-" + setTimeZone2(thirdEnd)
-//        }
-//        if (fourtStart.length == 4 && fourtStart != "0000")
-//        {
-//            fourthTimerTv2.text =
-//                setTimeZone2(fourtStart) + "-" + setTimeZone2(fourtEnd)
-//        }
-        mistTimeValue.text = getTimeFromSeconds(deviceObject.mistTime)
-        suspendValue.text = getTimeFromSeconds(deviceObject.suspendTime)
+        mistTimeValue?.text = getTimeFromSeconds(deviceObject.mistTime)
+        suspendValue?.text = getTimeFromSeconds(deviceObject.suspendTime)
         getActiveDays()
     }
 
@@ -270,7 +264,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
 
             var hour = time.substring(0, 2).toIntOrNull()
             var min = time.substring(2, 4).toIntOrNull()
-            hour?.let { min?.let { it1 -> formatTime(it, it1, position) } }
+            //   hour?.let { min?.let { it1 -> formatTime(it, it1, position) } }
             if (hour != null) {
                 if (hour < 12) {
                     zone = "am"
@@ -411,6 +405,8 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
                 numberOfOpenTimers = numberOfOpenTimers - 1
                 thirdTimmer = TimerModel("00", "00", "")
                 fourtTimmer = TimerModel("00", "00", "")
+                thirdTimmer2 = TimerModel("00", "00", "")
+                fourtTimmer2 = TimerModel("00", "00", "")
 
             }
             closeThirdTimer -> {
@@ -422,6 +418,9 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
                 numberOfOpenTimers = numberOfOpenTimers - 1
                 fifthTimmer = TimerModel("00", "00", "")
                 sixthTimmer = TimerModel("00", "00", "")
+                fifthTimmer2 = TimerModel("00", "00", "")
+                sixthTimmer2 = TimerModel("00", "00", "")
+
 
             }
             closeFourthTimer -> {
@@ -433,6 +432,8 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
                 numberOfOpenTimers = numberOfOpenTimers - 1
                 seventhTimmer = TimerModel("00", "00", "")
                 eightTimmer = TimerModel("00", "00", "")
+                seventhTimmer2 = TimerModel("00", "00", "")
+                eightTimmer2 = TimerModel("00", "00", "")
             }
 
             startTimeValue -> {
@@ -541,7 +542,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
                         eightTimmer
                     )
                 val isNonSton = radioBtnNS.isChecked
-                Log.e("d","isNonSton "+isNonSton)
+                Log.e("d", "isNonSton " + isNonSton)
                 val model = ScheduleModel(numbers, timerList, timerList2, isNonSton, mist, suspend)
                 if (type == 0) {
 
@@ -586,8 +587,8 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
 
                     mist = data?.getString("mist").toString()
                     suspend = data?.getString("suspend").toString()
-                    mistTimeValue.text = mist
-                    suspendValue.text = suspend
+                    mistTimeValue?.text = mist
+                    suspendValue?.text = suspend
                 }
             }
             3 -> {
@@ -613,9 +614,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
         var hour2ToSend = ""
         var format = "am"
         var setMin = min.toString()
-        if (hour == 0) {
-            hour += 12
-        } else if (hour > 12) {
+        if (hour > 12) {
             hour -= 12
             format = "pm"
         }
@@ -700,6 +699,79 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    fun formatTimerModel(timer: String, position: Int) {
+        var hour = timer.substring(0, 2).toIntOrNull()
+        var min = timer.substring(2, 4).toIntOrNull()
+        var hour2 = hour
+        var hour2ToSend = ""
+        var format = "am"
+        var setMin = min.toString()
+        if (hour != null) {
+            if (hour > 12) {
+                hour -= 12
+                format = "pm"
+            }
+        }
+        var setHour = hour.toString()
+        if (hour != null) {
+            if (hour < 10) {
+                setHour = "0" + hour
+            }
+        }
+        if (hour2 == 0) {
+            hour2 += 12
+        }
+        hour2ToSend = hour2.toString()
+        if (hour2 != null) {
+            if (hour2 < 10) {
+                hour2ToSend = "0" + hour2
+            }
+        }
+        if (min != null) {
+            if (min < 10) {
+                setMin = "0" + min
+            }
+        }
+
+        when (position) {
+            1 -> {
+                firstTimer = TimerModel(setHour, setMin, format)
+                firstTimer2 = TimerModel(hour2ToSend, setMin, format)
+            }
+            2 -> {
+                secondTimer = TimerModel(setHour, setMin, format)
+                secondTimer2 = TimerModel(hour2ToSend, setMin, format)
+            }
+            3 -> {
+
+                thirdTimmer = TimerModel(setHour, setMin, format)
+                thirdTimmer2 = TimerModel(hour2ToSend, setMin, format)
+            }
+            4 -> {
+                fourtTimmer = TimerModel(setHour, setMin, format)
+                fourtTimmer2 = TimerModel(hour2ToSend, setMin, format)
+            }
+            5 -> {
+                fifthTimmer = TimerModel(setHour, setMin, format)
+                fifthTimmer2 = TimerModel(hour2ToSend, setMin, format)
+
+            }
+            6 -> {
+                sixthTimmer = TimerModel(setHour, setMin, format)
+                sixthTimmer2 = TimerModel(hour2ToSend, setMin, format)
+            }
+            7 -> {
+                seventhTimmer = TimerModel(setHour, setMin, format)
+                seventhTimmer2 = TimerModel(hour2ToSend, setMin, format)
+
+            }
+            8 -> {
+                eightTimmer = TimerModel(setHour, setMin, format)
+                eightTimmer2 = TimerModel(hour2ToSend, setMin, format)
+            }
+        }
+    }
+
     fun setScheduleView(model: ScheduleModel) {
 
         val firstStart =
@@ -768,15 +840,12 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
         }
 
         if (!firstStart.contains("null") && !firstStop.contains("null") && !firstStart.contains("00") && firstStart.length > 0) {
-            Log.e("D", "OVO JE RPVI START " + firstStart)
-            Log.e("D", "OVO JE RPVI firstStop " + firstStop)
+
             startTimeValue?.text = firstStart
             stopTimeValue?.text = firstStop
 
         }
         if (!secondStart.contains("null") && !secondStop.contains("null") && !secondStart.contains("00") && secondStart.length > 0) {
-            Log.e("D", "OVO JE RPVI secondStart " + secondStart)
-            Log.e("D", "OVO JE RPVI secondStop " + secondStop)
             secondStartTimeValue?.text = secondStart
             secondStopTimeValue?.text = secondStop
             secondStartTimeValue?.visibility = View.VISIBLE
@@ -801,7 +870,6 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
 
         }
     }
-
 
 
     fun getActiveDays() {

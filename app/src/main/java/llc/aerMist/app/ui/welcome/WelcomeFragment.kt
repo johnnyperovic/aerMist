@@ -15,12 +15,12 @@ import org.koin.android.ext.android.inject
 
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
     private val prefs: PreferenceCache by inject()
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 2;
+    private val REQUEST_PERMISSIONS_REQUEST_CODE = 2
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (!checkPermissions()) {
-            requestPermissions2()
+            requestPermissions()
         }
         if (hasDevicesFromDB()) {
             navigateToMyDevices()
@@ -50,7 +50,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
     /**
      * this method request to permission asked.
      */
-    private fun requestPermissions2() {
+    private fun requestPermissions() {
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
             requireActivity(),
             Manifest.permission.ACCESS_FINE_LOCATION

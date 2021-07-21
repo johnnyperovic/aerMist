@@ -1,13 +1,18 @@
 package llc.aerMist.app.ui.splash
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.bluetooth.BluetoothGatt
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -158,6 +163,7 @@ class SplashFragment : Fragment() {
     var mistTime4: String = ""
     var suspendTime4: String = ""
     var bleDeviceToPass:String=""
+    private val REQUEST_PERMISSIONS_REQUEST_CODE = 2
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -165,10 +171,40 @@ class SplashFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
+    private fun checkPermissions(): Boolean {
+        val permissionState = ActivityCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        return permissionState == PackageManager.PERMISSION_GRANTED
+    }
+
+    /**
+     * this method request to permission asked.
+     */
+    private fun requestPermissions() {
+        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
+            requireActivity(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        if (shouldProvideRationale) {
+            Log.i("TAG", "Displaying permission rationale to provide additional context.")
+        } else {
+            Log.i("TAG", "Requesting permission")
+            // previously and checked "Never ask again".
+            ActivityCompat.requestPermissions(
+                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_PERMISSIONS_REQUEST_CODE
+            )
+        }
+    }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if (!checkPermissions()) {
+            requestPermissions()
+        }
         deviceOne = prefs.firstDevice
         deviceTwo = prefs.secondDevice
         deviceThree = prefs.thirdDevice
@@ -305,6 +341,25 @@ class SplashFragment : Fragment() {
 
     private fun navigateToHome() {
         findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        Log.i("TAG", "onRequestPermissionResult")
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.size <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                Log.i("TAG", "User interaction was cancelled.")
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted. Kick off the process of building and connecting
+                // GoogleApiClient.
+                //  buildGoogleApiClient()
+            } else {
+                // Permission denied.
+            }
+        }
     }
 
     private val gattCallback = object : BleGattCallback() {

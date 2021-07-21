@@ -5,6 +5,7 @@ import android.app.Activity
 import android.bluetooth.BluetoothGatt
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -219,8 +220,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             if (!deviceOne.isNullOrEmpty()) {
                 deviceObject =
                     gson.fromJson(deviceOne, MyDevice::class.java)
-                var filTime = prefs.startWorkingTimeFD
-                var workTime = deviceObject.workingTime
+                val filTime = prefs.startWorkingTimeFD
+                val workTime = deviceObject.workingTime
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
                     filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
                 }
@@ -230,8 +231,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             if (!deviceTwo.isNullOrEmpty()) {
                 deviceObject =
                     gson.fromJson(deviceTwo, MyDevice::class.java)
-                var filTime = prefs.startWorkingTimeSD
-                var workTime = deviceObject.workingTime
+                val filTime = prefs.startWorkingTimeSD
+                val workTime = deviceObject.workingTime
 
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
                     filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
@@ -242,8 +243,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             mainDevicePositon = 2
             if (!deviceThree.isNullOrEmpty()) {
                 deviceObject = gson.fromJson(deviceThree, MyDevice::class.java)
-                var filTime = prefs.startWorkingTimeTD
-                var workTime = deviceObject.workingTime
+                val filTime = prefs.startWorkingTimeTD
+                val workTime = deviceObject.workingTime
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
                     filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
                 }
@@ -253,8 +254,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             if (!deviceFour.isNullOrEmpty()) {
                 deviceObject =
                     gson.fromJson(deviceFour, MyDevice::class.java)
-                var filTime = prefs.startWorkingTimeFRD
-                var workTime = deviceObject.workingTime
+                val filTime = prefs.startWorkingTimeFRD
+                val workTime = deviceObject.workingTime
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
                     filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
                 }
@@ -272,7 +273,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             daysInWeek = scheduleModel?.days!!
             isFromDB = false
             isSelected = true
-            setScheduleView()
+            setActiveScheduleView()
             formatDaySchedule()
         } else {
             setNonStopView()
@@ -341,7 +342,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     fun setDisplayMode() {
         val isOn = deviceObject.isOn
         if (isOn) {
-            motionLayoutDevice.transitionToEnd()
+            btnStart?.isEnabled = false
+            Handler().postDelayed({
+                btnStart?.isEnabled = true
+                motionLayoutDevice.transitionToEnd()
             isTimeSync = false
             carViewDevice.isEnabled = false
             if (deviceObject.isSparayMode) {
@@ -372,7 +376,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                             R.drawable.calendar_blue_icon
                         )
                     )
-                    setTabItemVisibility(true)
+                  //  setTabItemVisibility(true)
                     if (btnStart.tag == "start") {
                         startingTv.visibility = View.VISIBLE
                         btnStart.tag = "stop"
@@ -396,6 +400,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     btnStart.tag = "start"
                 }
             }
+            },1000)
         }
     }
 
@@ -456,14 +461,52 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         }
         return dayInWeek
     }
-
-
-
-    private fun getRegister(response: String): String {
-        var pos = response.get(5)
-        return pos.toString()
+    fun setActiveScheduleView()
+    {
+        tag = 2
+        mistTv?.visibility = View.VISIBLE
+        mistValue?.visibility = View.VISIBLE
+        suspendTv?.visibility = View.VISIBLE
+        suspendValue?.visibility = View.VISIBLE
+        btnEdit?.visibility = View.VISIBLE
+        thirdLine?.visibility = View.VISIBLE
+        mondayTv?.visibility = View.VISIBLE
+        tuesdayTV2?.visibility = View.VISIBLE
+        wednesdayTv?.visibility = View.VISIBLE
+        thusdayTv?.visibility = View.VISIBLE
+        fridayTv?.visibility = View.VISIBLE
+        saturdayTv?.visibility = View.VISIBLE
+        sundayTv?.visibility = View.VISIBLE
+        firstTimerTv.visibility = View.VISIBLE
+        secondTimerTv.visibility = View.VISIBLE
+        thirdTimerTv.visibility = View.VISIBLE
+        fourthTimerTv2.visibility = View.VISIBLE
+        nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        nonStopImg.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.non_stop_icon
+            )
+        )
+        intervalImg.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.interval_icon
+            )
+        )
+        scheduleImg.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.schedule_orange_icon
+            )
+        )
+        bleBg.setImageDrawable(
+            ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
+        )
+        guideline.setGuidelinePercent(0.65f)
     }
-
     fun formatDaySchedule() {
         monday = scheduleMo + daysInWeek.get(0) + "."
         tuesday = scheduleTu + daysInWeek.get(1) + "."
@@ -717,6 +760,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE16000." -> gatt?.let {
                 responseTimmer = 0
                 bleDevice?.let { it1 ->
+                    Log.e("D","secondTimer "+secondTimer)
                     sendCommand(
                         secondTimer.toByteArray(
                             charset
@@ -726,6 +770,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16101." -> gatt?.let {
                 bleDevice?.let { it1 ->
+                    Log.e("D","secondTimer "+secondTimer)
                     sendCommand(
                         secondTimer.toByteArray(
                             charset
@@ -735,6 +780,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16001." -> gatt?.let {
                 bleDevice?.let { it1 ->
+                    Log.e("D","thirdTimer "+thirdTimer)
+
                     sendCommand(
                         thirdTimer.toByteArray(
                             charset
@@ -744,6 +791,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16102." -> gatt?.let {
                 bleDevice?.let { it1 ->
+                    Log.e("D","thirdTimer "+thirdTimer)
+
                     sendCommand(
                         thirdTimer.toByteArray(
                             charset
@@ -753,6 +802,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16002." -> gatt?.let {
                 bleDevice?.let { it1 ->
+                    Log.e("D","fourthTimer "+fourthTimer)
+
                     sendCommand(
                         fourthTimer.toByteArray(
                             charset
@@ -762,6 +813,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16103." -> gatt?.let {
                 bleDevice?.let { it1 ->
+                    Log.e("D","fourthTimer "+fourthTimer)
                     sendCommand(
                         fourthTimer.toByteArray(
                             charset
@@ -859,10 +911,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val minOne2 = scheduleModel?.timerToSend?.get(0)!!.min
         val hourTwo2 = scheduleModel?.timerToSend?.get(1)!!.hours
         val minTwo2 = scheduleModel?.timerToSend?.get(1)!!.min
-        firstTimerTv.text =
-            setTimeZone(hourOne + minOne) + formatOne + " - " + setTimeZone(hourTwo + minTwo) + formatTwo
+
         //    hourOne + ":" + minOne + formatOne + " - " + hourTwo + ":" + minTwo + formatTwo
-        if (hourOne != "00" && hourTwo != "00") {
+        if (hourOne != "00" && hourTwo != "00" ) {
+            firstTimerTv.text =
+                setTimeZone(hourOne + minOne,formatOne) + " - " + setTimeZone(hourTwo + minTwo,formatTwo)
             firstTimer = "EE060000" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
             firstTimerTv.visibility = View.VISIBLE
         } else {
@@ -881,7 +934,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val hourFour2 = scheduleModel?.timerToSend?.get(3)!!.hours
         val minFour2 = scheduleModel?.timerToSend?.get(3)!!.min
         secondTimerTv.text =
-            setTimeZone(hourThree + minThree) + formatThree + " - " + setTimeZone(hourFour + minFour) + formatFour
+            setTimeZone(hourThree + minThree,formatThree) + " - " + setTimeZone(hourFour + minFour,formatFour)
         if (hourThree != "00" && hourFour != "00") {
             secondTimerTv.visibility = View.VISIBLE
             secondTimer = "EE060010" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
@@ -901,8 +954,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val hourSix2 = scheduleModel?.timerToSend?.get(5)!!.hours
         val minSix2 = scheduleModel?.timerToSend?.get(5)!!.min
             thirdTimerTv.text =
-            setTimeZone(hourFive + minFive) + formatFive + " - " + setTimeZone(hourSix + minSix) + formatSix
-
+            setTimeZone(hourFive + minFive,formatFive) + " - " + setTimeZone(hourSix + minSix,formatSix)
         //  hourFive + ":" + minFive + formatFive + " - " + hourSix + ":" + minSix + "" + formatSix
         if (hourFive != "00" && hourSix != "00") {
             thirdTimerTv.visibility = View.VISIBLE
@@ -924,8 +976,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val hourEight2 = scheduleModel?.timerToSend?.get(7)!!.hours
         val minEight2 = scheduleModel?.timerToSend?.get(7)!!.min
     fourthTimerTv2?.text =
-            setTimeZone(hourSeven + minSeven) + formatSeven + " - " + setTimeZone(hourEight + minEight) + formatEight
-
+            setTimeZone(hourSeven + minSeven,formatSeven) + " - " + setTimeZone(hourEight + minEight,formatEight)
         if (hourSeven != "00" && hourEight != "00") {
             fourthTimerTv2.visibility = View.VISIBLE
             fourthTimer = "EE060030" + hourSeven2 + minSeven2 + hourEight2 + minEight2 + "."
@@ -957,29 +1008,50 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
             if (hour != null && min != null) {
-                fullTime = hour.toString() + ":" + min + zone
+                if (hour<10)
+                {
+                    if (hour==0)
+                    {
+                        fullTime=""
+                    }
+                    else{
+                        fullTime = "0"+hour.toString() + ":" + min + zone
+                    }
+                }
+                else{
+                    fullTime = hour.toString() + ":" + min + zone
+                }
             }
         }
         return fullTime
     }
 
-    fun setTimeZone(time: String): String {
+    fun setTimeZone(time: String,format:String): String {
         var fullTime = ""
-        var zone = "am"
         if (time.length == 4) {
 
             var hour = time.substring(0, 2).toIntOrNull()
             var min = time.substring(2, 4).toIntOrNull()
             if (hour != null) {
                 if (hour < 12) {
-                    zone = "am"
                 } else {
                     hour = hour - 12
-                    zone = "pm"
                 }
             }
             if (hour != null && min != null) {
-                fullTime = hour.toString() + ":" + min
+                if (hour<10)
+                {
+                    if (hour==0)
+                    {
+                        fullTime=""
+                    }
+                    else{
+                        fullTime = "0"+hour.toString() + ":" + min+format
+                    }
+                }
+                else{
+                    fullTime = hour.toString() + ":" + min+format
+                }
             }
         }
         return fullTime
@@ -1302,24 +1374,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         //  if (scheduleModel.timer.get(0)=="0.0")
                         Snackbar.make(
                             requireView(),
-                            "You must choose days and interval",
+                            getString(R.string.you_must_choose),
                             Snackbar.LENGTH_SHORT
                         ).show()
                         return
                     }
-//                    else if (scheduleModel?.timer!!.get(0).hours == "0" && scheduleModel?.timer!!.get(
-//                            1
-//                        ).hours == "0" && scheduleModel?.timer!!.get(2).hours == "0" && scheduleModel?.timer!!.get(
-//                            3
-//                        ).hours == "0"
-//                    ) {
-//                        Snackbar.make(
-//                            requireView(),
-//                            "You must choose days and interval",
-//                            Snackbar.LENGTH_SHORT
-//                        ).show()
-//                        return
-//                    }
                     startingTv.visibility = View.VISIBLE
 
                     gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
@@ -1543,16 +1602,16 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val fourtStart = deviceObject.fourtStartTime
         val fourtEnd = deviceObject.fourtStopTime
         if (firstStart.length == 4 && firstStart != "0000") {
-            firstTimerTv.text = setTimeZone2(firstStart) + "-" + setTimeZone2(firstEnd)
+            firstTimerTv?.text = setTimeZone2(firstStart) + "-" + setTimeZone2(firstEnd)
             isSelected = true
             firstTimer = "EE060000" + firstStart + firstEnd + "."
         }
         else{
             firstTimer = "EE060001" + "0000" + "0000" + "."
-
+            firstTimerTv?.visibility=View.INVISIBLE
         }
         if (secondStart.length == 4 && secondStart != "0000") {
-            secondTimerTv.text =
+            secondTimerTv?.text =
                 setTimeZone2(secondStart) + "-" + setTimeZone2(secondEnd)
             secondTimer = "EE060010" + secondStart + secondEnd + "."
             secondTimerTv?.visibility=View.VISIBLE

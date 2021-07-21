@@ -2761,9 +2761,10 @@ int string v7_preference_off 0x7f1100a7
 int string v7_preference_on 0x7f1100a8
 int string we 0x7f1100a9
 int string yes 0x7f1100aa
-int string you_want_to_reset 0x7f1100ab
-int string you_will_lose_all_your_setting 0x7f1100ac
-int string your_device_is_disconnected 0x7f1100ad
+int string you_must_choose 0x7f1100ab
+int string you_want_to_reset 0x7f1100ac
+int string you_will_lose_all_your_setting 0x7f1100ad
+int string your_device_is_disconnected 0x7f1100ae
 int style AlertDialog_AppCompat 0x7f120000
 int style AlertDialog_AppCompat_Light 0x7f120001
 int style AndroidThemeColorAccentYellow 0x7f120002
