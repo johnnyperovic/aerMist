@@ -59,7 +59,6 @@ class AddDevicePopup(val device: BleDevice) : DialogFragment() {
             } else if (prefs.firstDevice.length > 0 && prefs.secondDevice.length > 0 && prefs.thirdDevice.length == 0) {
                 prefs.thirdDevice = json
                 prefs.thirdBleDevice = device.mac
-
             } else if (prefs.firstDevice.length > 0 && prefs.secondDevice.length == 0) {
                 prefs.secondDevice = json
                 prefs.secondBleDevice = device.mac

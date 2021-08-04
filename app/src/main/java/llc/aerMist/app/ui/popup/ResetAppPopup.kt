@@ -7,6 +7,7 @@ import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
+import com.clj.fastble.BleManager
 import kotlinx.android.synthetic.main.dialog_reset_app.view.*
 import llc.aerMist.app.R
 import llc.aerMist.app.observers.NewObservableCoordinator
@@ -39,12 +40,36 @@ class ResetAppPopup() : DialogFragment() {
             dialog?.dismiss()
         }
         dialogView.resetBtn.setOnClickListener {
-            connectionStateCoordinator.firstGatt=null
+         //   connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnectAllDevice()
+            val firstBle=connectionStateCoordinator.firstDevice
+            val secondBle=connectionStateCoordinator.secondDevice
+            val thirdBle=connectionStateCoordinator.thirdDevice
+            val fourthBle=connectionStateCoordinator.fourthDevice
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(firstBle)
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(secondBle)
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(thirdBle)
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(fourthBle)
+            connectionStateCoordinator.firstGatt?.disconnect()
+            connectionStateCoordinator.secondGatt?.disconnect()
+            connectionStateCoordinator.thirdGatt?.disconnect()
+            connectionStateCoordinator.fourthGatt?.disconnect()
+            connectionStateCoordinator.firstGatt?.close()
+            connectionStateCoordinator.firstGatt?.close()
+            connectionStateCoordinator.secondGatt?.close()
+            connectionStateCoordinator.secondGatt?.close()
+            connectionStateCoordinator.thirdGatt?.close()
+            connectionStateCoordinator.thirdGatt?.close()
+            connectionStateCoordinator.fourthGatt?.close()
+            BleManager.getInstance().disconnectAllDevice()
+            BleManager.getInstance().destroy()
             connectionStateCoordinator.secondGatt=null
             connectionStateCoordinator.thirdGatt=null
             connectionStateCoordinator.fourthGatt=null
+            connectionStateCoordinator.firstDevice=null
+            connectionStateCoordinator.secondDevice=null
+            connectionStateCoordinator.thirdDevice=null
+            connectionStateCoordinator.fourthDevice=null
             connectionStateCoordinator.listBleDevices.clear()
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnectAllDevice()
             prefs.clear()
             dialog?.dismiss()
             navigateToWelcomeScreen()

@@ -9,11 +9,11 @@ import kotlin.Suppress
 import kotlin.jvm.JvmStatic
 import llc.aerMist.app.models.ScheduleModel
 
-data class HomeFragmentArgs(
-  val model: ScheduleModel? = null
+public data class HomeFragmentArgs(
+  public val model: ScheduleModel? = null
 ) : NavArgs {
   @Suppress("CAST_NEVER_SUCCEEDS")
-  fun toBundle(): Bundle {
+  public fun toBundle(): Bundle {
     val result = Bundle()
     if (Parcelable::class.java.isAssignableFrom(ScheduleModel::class.java)) {
       result.putParcelable("model", this.model as Parcelable?)
@@ -23,9 +23,9 @@ data class HomeFragmentArgs(
     return result
   }
 
-  companion object {
+  public companion object {
     @JvmStatic
-    fun fromBundle(bundle: Bundle): HomeFragmentArgs {
+    public fun fromBundle(bundle: Bundle): HomeFragmentArgs {
       bundle.setClassLoader(HomeFragmentArgs::class.java.classLoader)
       val __model : ScheduleModel?
       if (bundle.containsKey("model")) {

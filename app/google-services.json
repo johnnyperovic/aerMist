@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:163808369714:android:4a60678fde7b9ab038b02b",
+        "mobilesdk_app_id": "1:163808369714:android:42da7a990107831838b02b",
         "android_client_info": {
-          "package_name": "llc.aerMist.app.di"
+          "package_name": "llc.aerMist.app"
         }
       },
       "oauth_client": [

@@ -10,16 +10,16 @@ import kotlin.Suppress
 import llc.aerMist.app.R
 import llc.aerMist.app.models.ScheduleModel
 
-class HomeFragmentDirections private constructor() {
+public class HomeFragmentDirections private constructor() {
   private data class ActionScheduleToSetScheduleFragment(
-    val type: Int = 0,
-    val name: String = "",
-    val model: ScheduleModel? = null
+    public val type: Int = 0,
+    public val name: String = "",
+    public val model: ScheduleModel? = null
   ) : NavDirections {
-    override fun getActionId(): Int = R.id.action_schedule_to_set_schedule_fragment
+    public override fun getActionId(): Int = R.id.action_schedule_to_set_schedule_fragment
 
     @Suppress("CAST_NEVER_SUCCEEDS")
-    override fun getArguments(): Bundle {
+    public override fun getArguments(): Bundle {
       val result = Bundle()
       result.putInt("type", this.type)
       result.putString("name", this.name)
@@ -32,8 +32,8 @@ class HomeFragmentDirections private constructor() {
     }
   }
 
-  companion object {
-    fun actionScheduleToSetScheduleFragment(
+  public companion object {
+    public fun actionScheduleToSetScheduleFragment(
       type: Int = 0,
       name: String = "",
       model: ScheduleModel? = null

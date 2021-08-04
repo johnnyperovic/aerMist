@@ -3,11 +3,18 @@ package llc.aerMist.app.ui.splash
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
+import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothGatt
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +29,6 @@ import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.my_devices_fragment.*
 import llc.aerMist.app.R
 import llc.aerMist.app.helpers.BluetoothController
 import llc.aerMist.app.models.MyDevice
@@ -31,19 +37,27 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
+
 
 class SplashFragment : Fragment() {
     private val prefs: PreferenceCache by inject()
     var bluetoothController: BluetoothController? = null
     val connectionStateCoordinator = NewObservableCoordinator
+    private val REQUEST_LOCATION_PERMISSION = 11
+    private val locationPermission = Manifest.permission.ACCESS_FINE_LOCATION
+    val REQUEST_CODE_PERMISSION_LOCATION = 5
+    var locationEnabled = false
     var deviceOne = ""
-     var deviceOneObj: MyDevice?=null
+    var deviceOneObj: MyDevice? = null
     var deviceTwo = ""
-     var deviceTwoObj: MyDevice?=null
+    var deviceTwoObj: MyDevice? = null
     var deviceThree = ""
-     var deviceThreeObj: MyDevice?=null
+    var deviceThreeObj: MyDevice? = null
     var deviceFour = ""
-     var deviceFourObj: MyDevice?=null
+    var deviceFourObj: MyDevice? = null
     val charset = Charsets.UTF_8
     var firstDevice: String = ""
     var firstDeviceNewName: String = ""
@@ -61,6 +75,11 @@ class SplashFragment : Fragment() {
     var thirdGate: BluetoothGatt? = null
     var fourthBleDevice: BleDevice? = null
     var fourthGate: BluetoothGatt? = null
+    var firstTimerActiv = false
+    var secondTimerActiv = false
+    var thirdTimerActiv = false
+    var fourthTimerActiv = false
+    var bluetoothEnabled = false
     var workingTime = ""
     var isOn = false
     var isNonStop = false
@@ -113,8 +132,12 @@ class SplashFragment : Fragment() {
     var fourtStopTime2: String = ""
     var mistTime2: String = ""
     var suspendTime2: String = ""
+    var firstTimerActiv2 = false
+    var secondTimerActiv2 = false
+    var thirdTimerActiv2 = false
+    var fourthTimerActiv2 = false
     var dateAndTimeSynch = ""
-    val firstCommand="EE0c0."
+    val firstCommand = "EE0c0."
     var workingTime3 = ""
     var isOn3 = false
     var isNonStop3 = false
@@ -138,7 +161,11 @@ class SplashFragment : Fragment() {
     var fourtStopTime3: String = ""
     var mistTime3: String = ""
     var suspendTime3: String = ""
-
+    var firstTimerActiv3 = false
+    var secondTimerActiv3 = false
+    var thirdTimerActiv3 = false
+    var fourthTimerActiv3 = false
+    var dialogInterface: DialogInterface? = null
     var workingTime4 = ""
     var isOn4 = false
     var isNonStop4 = false
@@ -162,7 +189,12 @@ class SplashFragment : Fragment() {
     var fourtStopTime4: String = ""
     var mistTime4: String = ""
     var suspendTime4: String = ""
-    var bleDeviceToPass:String=""
+    var firstTimerActiv4 = false
+    var secondTimerActiv4 = false
+    var thirdTimerActiv4 = false
+    var fourthTimerActiv4 = false
+    var bleDeviceToPass: String = ""
+    var counter = 0
     private val REQUEST_PERMISSIONS_REQUEST_CODE = 2
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -171,44 +203,9 @@ class SplashFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
-    private fun checkPermissions(): Boolean {
-        val permissionState = ActivityCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        return permissionState == PackageManager.PERMISSION_GRANTED
-    }
-
-    /**
-     * this method request to permission asked.
-     */
-    private fun requestPermissions() {
-        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
-            requireActivity(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-        if (shouldProvideRationale) {
-            Log.i("TAG", "Displaying permission rationale to provide additional context.")
-        } else {
-            Log.i("TAG", "Requesting permission")
-            // previously and checked "Never ask again".
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_PERMISSIONS_REQUEST_CODE
-            )
-        }
-    }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (!checkPermissions()) {
-            requestPermissions()
-        }
-        deviceOne = prefs.firstDevice
-        deviceTwo = prefs.secondDevice
-        deviceThree = prefs.thirdDevice
-        deviceFour = prefs.fourthDevice
         bluetoothController =
             BluetoothController(
                 notifyCallback,
@@ -222,18 +219,109 @@ class SplashFragment : Fragment() {
             )
         bluetoothController?.bluetoothManager
             ?.enableLog(true)
-            ?.setReConnectCount(2, 1000)
-            ?.setConnectOverTime(18000)?.operateTimeout = 1000
+            ?.setReConnectCount(200, 1000)
+            ?.setConnectOverTime(4000)
+        //   ?.operateTimeout = 1000
 
 
         connectionStateCoordinator.bluetoothController = bluetoothController
         bluetoothController?.bluetoothAdapter?.startDiscovery()
         connectionStateCoordinator.isDeviceConnected = false
         bluetoothController?.bluetoothManager?.init(requireActivity().application)
+        if (bluetoothController?.bluetoothManager?.isBlueEnable == false) {
+            val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBluetoothIntent, 1)
+        }
+        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        var gps_enabled = false
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (gps_enabled == false) {
+            turnOnLocation()
+        } else if (!bluetoothController?.bluetoothManager!!.isBlueEnable) {
+            val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBluetoothIntent, 1)
+        } else {
+            connectionStateCoordinator.bluetoothController?.gattCallback = gattCallback
+            connectDevices()
+        }
+        deviceOne = prefs.firstDevice
+        deviceTwo = prefs.secondDevice
+        deviceThree = prefs.thirdDevice
+        deviceFour = prefs.fourthDevice
+
         setFirstDevice()
         setSecondDevice()
         setThirdDevice()
         setFourthDevice()
+    }
+
+    fun turnOnLocation() {
+        val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionDeniedList = ArrayList<String>()
+        for (permission in permissions) {
+            val permissionCheck = context?.let {
+                ContextCompat.checkSelfPermission(it, permission)
+            }
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+                onPermissionGranted(permission)
+            } else {
+                permissionDeniedList.add(permission)
+            }
+        }
+        if (!permissionDeniedList.isEmpty()) {
+            val deniedPermissions = permissionDeniedList.toTypedArray()
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it,
+                    deniedPermissions,
+                    REQUEST_CODE_PERMISSION_LOCATION
+                )
+            }
+        }
+    }
+
+    private fun onPermissionGranted(permission: String) {
+        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        var gps_enabled = false
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (gps_enabled == false) {
+            when (permission) {
+                Manifest.permission.ACCESS_FINE_LOCATION ->
+                    if (Build.VERSION.SDK_INT >=
+                        Build.VERSION_CODES.M
+                    ) {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("Info")
+                            .setMessage("You need to turn on your location")
+                            .setNegativeButton("Cancel", { dialog, which ->
+                                dialogInterface = dialog
+                                dialog.cancel()
+                            })
+
+                            .setPositiveButton("Settings", { dialog, which ->
+                                dialogInterface = dialog
+                                dialog.cancel()
+                                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                                startActivityForResult(intent, 55)
+                                dialog?.dismiss()
+
+                            })
+                            .setCancelable(false)
+                            .show()
+                    } else {
+                    }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun connectDevices() {
         val firstMac = prefs.firstBleDevice
         val secondMac = prefs.secondBleDevice
         val thirdMac = prefs.thirdBleDevice
@@ -264,30 +352,31 @@ class SplashFragment : Fragment() {
         }
 
         Handler().postDelayed({
-            firstBleDevice?.let { sendTimeSynchCommand(firstGate!!, it) }
+            firstBleDevice?.let { firstGate?.let { it1 -> sendTimeSynchCommand(it1, it) } }
             Handler().postDelayed({
-            secondBleDevice?.let { sendTimeSynchCommand(secondGate!!, it) }
+                secondBleDevice?.let { secondGate?.let { it1 -> sendTimeSynchCommand(it1, it) } }
             }, 1000)
             Handler().postDelayed({
-                thirdBleDevice?.let { sendTimeSynchCommand(thirdGate!!, it) }
+                thirdBleDevice?.let { thirdGate?.let { it1 -> sendTimeSynchCommand(it1, it) } }
             }, 1000)
 
-            fourthBleDevice?.let { sendTimeSynchCommand(fourthGate!!, it) }
+            fourthBleDevice?.let { fourthGate?.let { it1 -> sendTimeSynchCommand(it1, it) } }
             Handler().postDelayed({
-            val allDevices =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-            if (allDevices == 0) {
-                navigateToWelcome()
-            }
-            if (allDevices == 1) {
-                navigateToDevice()
-            }
-            else if  (allDevices >1) {
-                navigateToHome()
-            }
+//                val allDevices =
+//                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+                checkTotalNumber()
+                if (counter == 0) {
+                    navigateToWelcome()
+                }
+                if (counter == 1) {
+                    navigateToDevice()
+                } else if (counter > 1) {
+                    navigateToHome()
+                }
             }, 1000)
         }, 3000)
-    }    @SuppressLint("SetTextI18n")
+    }
+
     fun setFirstDevice() {
         deviceOne = prefs.firstDevice
         if (!deviceOne.isNullOrEmpty()) {
@@ -319,7 +408,6 @@ class SplashFragment : Fragment() {
             deviceThreeObj = gson.fromJson(deviceThree, MyDevice::class.java)
             thirdDevice = deviceThreeObj?.name.toString()
             thirdDeviceNewName = deviceThreeObj?.name.toString()
-
         }
     }
 
@@ -336,79 +424,73 @@ class SplashFragment : Fragment() {
 
 
     private fun navigateToWelcome() {
-        findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
+        view?.post {
+            findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
+            //   findNavController().popBackStack()
+
+        }
     }
 
     private fun navigateToHome() {
-        findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
-    }
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String?>,
-        grantResults: IntArray
-    ) {
-        Log.i("TAG", "onRequestPermissionResult")
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.size <= 0) {
-                // If user interaction was interrupted, the permission request is cancelled and you
-                // receive empty arrays.
-                Log.i("TAG", "User interaction was cancelled.")
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission was granted. Kick off the process of building and connecting
-                // GoogleApiClient.
-                //  buildGoogleApiClient()
-            } else {
-                // Permission denied.
-            }
+        view?.post {
+            findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
+            //   findNavController().popBackStack()
+
         }
     }
 
-    private val gattCallback = object : BleGattCallback() {
+    fun connectDevice(bleDevice: BleDevice) {
+        connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+            bleDevice,
+            gattCallback
+        )
+    }
+
+    val gattCallback = object : BleGattCallback() {
         override fun onStartConnect() {
-            Log.e("D", "onStartConnect ")
+            Log.e("D", "onStartConnect111 ")
         }
 
         override fun onConnectFail(bleDevice: BleDevice, exception: BleException) {
-            Log.e("D", "onConnectFail")
+            Log.e("D", "onConnectFail111")
 
+            connectDevice(bleDevice)
         }
 
         override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
-            connectionStateCoordinator.bluetoothConnectionState.value = "connected"
-            Log.e("d", " onConnectSuccess  " + bleDevicee.name)
+            connectionStateCoordinator.bluetoothConnectionState.value = bleDevicee
+            Log.e("d", " onConnectSuccess111  " + bleDevicee.name)
             if (bleDevicee.name == firstDevice) {
                 firstBleDevice = bleDevicee
                 if (bleDevicee != null) {
-                    bleDeviceToPass=bleDevicee.name
+                    bleDeviceToPass = bleDevicee.name
                 }
                 firstGate = gatt
                 readResponse()
             }
             if (bleDevicee.name == secondDevice) {
                 if (bleDevicee != null) {
-                    bleDeviceToPass=bleDevicee.name
+                    bleDeviceToPass = bleDevicee.name
                 }
                 secondBleDevice = bleDevicee
                 secondGate = gatt
                 readSecondResponse()
-
             }
             if (bleDevicee.name == thirdDevice) {
                 if (bleDevicee != null) {
-                    bleDeviceToPass=bleDevicee.name
+                    bleDeviceToPass = bleDevicee.name
                 }
                 thirdBleDevice = bleDevicee
                 thirdGate = gatt
                 readThirdResponse()
-
             }
             if (bleDevicee.name == fourthDevice) {
                 if (bleDevicee != null) {
-                    bleDeviceToPass=bleDevicee.name
+                    bleDeviceToPass = bleDevicee.name
                 }
                 fourthBleDevice = bleDevicee
                 fourthGate = gatt
                 readFourthResponse()
-
             }
         }
 
@@ -418,19 +500,24 @@ class SplashFragment : Fragment() {
             gatt: BluetoothGatt,
             status: Int
         ) {
-
-            if (deviceOneObj?.name==bleDevice.name ||deviceTwoObj?.name==bleDevice.name || deviceThreeObj?.name==bleDevice.name  || deviceFourObj?.name==bleDevice.name )
-            {
-                connectionStateCoordinator.bleDisconnectDevices.value =  bleDevice
-
+            if (deviceOneObj?.name == bleDevice.name || deviceTwoObj?.name == bleDevice.name || deviceThreeObj?.name == bleDevice.name || deviceFourObj?.name == bleDevice.name) {
+                connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
+                gatt?.connect()
             }
         }
     }
+
     fun navigateToDevice() {
         prefs.isOneDevice = true
-        val action = SplashFragmentDirections.actionSplashFragmentToDeviceFragment(bleDeviceToPass)
-        findNavController().navigate(action)
+        view?.post {
+            findNavController().navigate(
+                SplashFragmentDirections.actionSplashFragmentToDeviceFragment(
+                    bleDeviceToPass
+                )
+            )
+        }
     }
+
     fun readResponse() {
         for (service in firstGate?.services!!) {
             if (service.characteristics.size > 0) {
@@ -444,13 +531,16 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = firstBleDevice
         connectionStateCoordinator.firstGatt = firstGate
+        connectionStateCoordinator.firstDevice = firstBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            bluetoothController?.readNotification(
-                firstBleDevice,
-                service?.characteristics!!.get(0)
-            )
+            service?.characteristics?.let {
+                bluetoothController?.readNotification(
+                    firstBleDevice,
+                    it.get(0)
+                )
+            }
         }
     }
 
@@ -467,15 +557,19 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = secondBleDevice
         connectionStateCoordinator.secondGatt = secondGate
+        connectionStateCoordinator.secondDevice = secondBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            bluetoothController?.readNotification2(
-                secondBleDevice,
-                service?.characteristics!!.get(0)
-            )
+            service?.characteristics?.let {
+                bluetoothController?.readNotification2(
+                    secondBleDevice,
+                    it.get(0)
+                )
+            }
         }
     }
+
     private val writeCallback = object : BleWriteCallback() {
         override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
         }
@@ -484,6 +578,7 @@ class SplashFragment : Fragment() {
         }
 
     }
+
     fun readThirdResponse() {
         for (service in thirdGate?.services!!) {
             if (service.characteristics.size > 0) {
@@ -497,13 +592,16 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = thirdBleDevice
         connectionStateCoordinator.thirdGatt = thirdGate
+        connectionStateCoordinator.thirdDevice = thirdBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            bluetoothController?.readNotification3(
-                thirdBleDevice,
-                service?.characteristics!!.get(0)
-            )
+            service?.characteristics?.let {
+                bluetoothController?.readNotification3(
+                    thirdBleDevice,
+                    it.get(0)
+                )
+            }
         }
     }
 
@@ -520,13 +618,16 @@ class SplashFragment : Fragment() {
         }
         bluetoothController?.bleDeviceMain = fourthBleDevice
         connectionStateCoordinator.fourthGatt = fourthGate
+        connectionStateCoordinator.fourthDevice = fourthBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            bluetoothController?.readNotification4(
-                fourthBleDevice,
-                service?.characteristics!!.get(0)
-            )
+            service?.characteristics?.let {
+                bluetoothController?.readNotification4(
+                    fourthBleDevice,
+                    it.get(0)
+                )
+            }
         }
     }
 
@@ -583,7 +684,7 @@ class SplashFragment : Fragment() {
         }
 
 
-    Handler().postDelayed({
+        Handler().postDelayed({
             gatt?.let {
                 bleDevice?.let { it1 ->
                     sendCommand(
@@ -592,7 +693,8 @@ class SplashFragment : Fragment() {
                         ), it1, it
                     )
                 }
-            }},1000)
+            }
+        }, 1000)
 
     }
 
@@ -609,6 +711,7 @@ class SplashFragment : Fragment() {
         }
         return dayInWeek
     }
+
     private val notifyCallback = object : BleNotifyCallback() {
         override fun onNotifySuccess() {
         }
@@ -700,6 +803,7 @@ class SplashFragment : Fragment() {
                 newDataChar[index] = byte.toChar()
             }
             connectionStateCoordinator.bleDevicePosition = 2
+            connectionStateCoordinator.bluetoothByteArray.value = newDataChar
             var response = ""
             var firstPart = ""
             for (item in newDataChar) {
@@ -761,10 +865,17 @@ class SplashFragment : Fragment() {
             }
         }
     }
+
     private fun getRegister(response: String): String {
-        var pos = response.get(5)
-        return pos.toString()
+
+        var pos = ""
+        if (response.length > 4) {
+            pos = response.get(5).toString()
+        }
+        return pos
+
     }
+
     fun readTimerSync(response: String) {
         val register = getRegister(response)
 
@@ -866,19 +977,51 @@ class SplashFragment : Fragment() {
 
                 when (timZoneId) {
                     '0' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                firstTimerActiv = true
+                            } else {
+                                firstTimerActiv = false
+                            }
+                        }
                         firstStartTime = response.substring(9, 13)
                         firstStopTime = response.substring(13, response.length - 1)
 
                     }
                     '1' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                secondTimerActiv = true
+                            } else {
+                                secondTimerActiv = false
+                            }
+                        }
                         secondStartTime = response.substring(9, 13)
                         secondStopTime = response.substring(13, response.length - 1)
                     }
                     '2' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                thirdTimerActiv = true
+                            } else {
+                                thirdTimerActiv = false
+                            }
+                        }
                         thirdStartTime = response.substring(9, 13)
                         thirdStopTime = response.substring(13, response.length - 1)
                     }
                     '3' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                fourthTimerActiv = true
+                            } else {
+                                fourthTimerActiv = false
+                            }
+                        }
                         fourtStartTime = response.substring(9, 13)
                         fourtStopTime = response.substring(13, response.length - 1)
                     }
@@ -913,12 +1056,16 @@ class SplashFragment : Fragment() {
                         isSprayFriquencu,
                         firstStartTime,
                         firstStopTime,
+                        firstTimerActiv,
                         secondStartTime,
                         secondStopTime,
+                        secondTimerActiv,
                         thirdStartTime,
                         thirdStopTime,
+                        thirdTimerActiv,
                         fourtStartTime,
                         fourtStopTime,
+                        fourthTimerActiv,
                         mistTime,
                         suspendTime
                     )
@@ -1033,18 +1180,50 @@ class SplashFragment : Fragment() {
                 when (timZoneId) {
 
                     '0' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                firstTimerActiv2 = true
+                            } else {
+                                firstTimerActiv2 = false
+                            }
+                        }
                         firstStartTime2 = response.substring(9, 13)
                         firstStopTime2 = response.substring(13, response.length - 1)
                     }
                     '1' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                secondTimerActiv2 = true
+                            } else {
+                                secondTimerActiv2 = false
+                            }
+                        }
                         secondStartTime2 = response.substring(9, 13)
                         secondStopTime2 = response.substring(13, response.length - 1)
                     }
                     '2' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                thirdTimerActiv2 = true
+                            } else {
+                                thirdTimerActiv2 = false
+                            }
+                        }
                         thirdStartTime2 = response.substring(9, 13)
                         thirdStopTime2 = response.substring(13, response.length - 1)
                     }
                     '3' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                fourthTimerActiv2 = true
+                            } else {
+                                fourthTimerActiv2 = false
+                            }
+                        }
                         fourtStartTime2 = response.substring(9, 13)
                         fourtStopTime2 = response.substring(13, response.length - 1)
                     }
@@ -1078,12 +1257,16 @@ class SplashFragment : Fragment() {
                         isSprayFriquencu2,
                         firstStartTime2,
                         firstStopTime2,
+                        firstTimerActiv2,
                         secondStartTime2,
                         secondStopTime2,
+                        secondTimerActiv2,
                         thirdStartTime2,
                         thirdStopTime2,
+                        thirdTimerActiv2,
                         fourtStartTime2,
                         fourtStopTime2,
+                        fourthTimerActiv2,
                         mistTime2,
                         suspendTime2
                     )
@@ -1099,8 +1282,6 @@ class SplashFragment : Fragment() {
 
     fun readTimerSync3(response: String) {
         val register = getRegister(response)
-
-
         when (register) {
             "0" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1198,18 +1379,50 @@ class SplashFragment : Fragment() {
                 val timZoneId = response.get(7)
                 when (timZoneId) {
                     '0' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                firstTimerActiv3 = true
+                            } else {
+                                firstTimerActiv3 = false
+                            }
+                        }
                         firstStartTime3 = response.substring(9, 13)
                         firstStopTime3 = response.substring(13, 17)
                     }
                     '1' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                secondTimerActiv3 = true
+                            } else {
+                                secondTimerActiv3 = false
+                            }
+                        }
                         secondStartTime3 = response.substring(9, 13)
                         secondStopTime3 = response.substring(13, 17)
                     }
                     '2' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                thirdTimerActiv3 = true
+                            } else {
+                                thirdTimerActiv3 = false
+                            }
+                        }
                         thirdStartTime3 = response.substring(9, 13)
                         thirdStopTime3 = response.substring(13, 17)
                     }
                     '3' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                fourthTimerActiv3 = true
+                            } else {
+                                fourthTimerActiv3 = false
+                            }
+                        }
                         fourtStartTime3 = response.substring(9, 13)
                         fourtStopTime3 = response.substring(13, 17)
                     }
@@ -1243,12 +1456,16 @@ class SplashFragment : Fragment() {
                         isSprayFriquencu3,
                         firstStartTime3,
                         firstStopTime3,
+                        firstTimerActiv3,
                         secondStartTime3,
                         secondStopTime3,
+                        secondTimerActiv3,
                         thirdStartTime3,
                         thirdStopTime3,
+                        thirdTimerActiv3,
                         fourtStartTime3,
                         fourtStopTime3,
+                        fourthTimerActiv3,
                         mistTime3,
                         suspendTime3
                     )
@@ -1287,8 +1504,6 @@ class SplashFragment : Fragment() {
                     isNonStop4 = false
                     isSprayingMode4 = true
                 }
-
-
             }
             "3" -> {
                 val subString = response.substring(6, response.length - 1)
@@ -1359,18 +1574,50 @@ class SplashFragment : Fragment() {
                 val timZoneId = response.get(7)
                 when (timZoneId) {
                     '0' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                firstTimerActiv4 = true
+                            } else {
+                                firstTimerActiv4 = false
+                            }
+                        }
                         firstStartTime4 = response.substring(9, 13)
                         firstStopTime4 = response.substring(13, response.length - 1)
                     }
                     '1' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                secondTimerActiv4 = true
+                            } else {
+                                secondTimerActiv4 = false
+                            }
+                        }
                         secondStartTime4 = response.substring(9, 13)
                         secondStopTime4 = response.substring(13, response.length - 1)
                     }
                     '2' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                thirdTimerActiv4 = true
+                            } else {
+                                thirdTimerActiv4 = false
+                            }
+                        }
                         thirdStartTime4 = response.substring(9, 13)
                         thirdStopTime4 = response.substring(13, response.length - 1)
                     }
                     '3' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                fourthTimerActiv4 = true
+                            } else {
+                                fourthTimerActiv4 = false
+                            }
+                        }
                         fourtStartTime4 = response.substring(9, 13)
                         fourtStopTime4 = response.substring(13, response.length - 1)
                     }
@@ -1404,22 +1651,94 @@ class SplashFragment : Fragment() {
                         isSprayFriquencu4,
                         firstStartTime4,
                         firstStopTime4,
+                        firstTimerActiv4,
                         secondStartTime4,
                         secondStopTime4,
+                        secondTimerActiv4,
                         thirdStartTime4,
                         thirdStopTime4,
+                        thirdTimerActiv4,
                         fourtStartTime4,
                         fourtStopTime4,
+                        fourthTimerActiv4,
                         mistTime4,
                         suspendTime4
                     )
                     val json = gson.toJson(newDevice)
-                    prefs.thirdDevice = json
+                    prefs.fourthDevice = json
                     connectionStateCoordinator.isFourthTimeSynch.value = true
                 }
             }
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        var gps_enabled = false
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+        }
+        if (requestCode == 55) {
+            if (!gps_enabled) {
+                turnOnLocation()
+            }
+        }
+        if (requestCode == 1) {
+            if (bluetoothController?.bluetoothAdapter?.isEnabled == true) {
+                Log.e("D", "Bluetooth has been enabled")
+                bluetoothEnabled = true
+                if (bluetoothEnabled && gps_enabled) {
+                    connectDevices()
+                } else {
+//                    if (!gps_enabled) {
+//                        turnOnLocation()
+//                    }
+                }
+            } else {
+                Log.e("D", "Bluetooth has been disabled")
+                bluetoothEnabled = false
+                val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBluetoothIntent, 1)
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            Log.e("D", "Bluetooth enabling has been canceled")
+            bluetoothEnabled = false
+            if (bluetoothController?.bluetoothAdapter?.isEnabled == true) {
+                Log.e("D", "Bluetooth has been enabled")
+                bluetoothEnabled = true
+                if (bluetoothEnabled && gps_enabled) {
+                    connectDevices()
+                } else {
+                    if (!gps_enabled) {
+                        turnOnLocation()
+                    }
+                }
+            } else {
+                bluetoothEnabled = false
+                val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                startActivityForResult(enableBluetoothIntent, 1)
+            }
+        }
+    }
+
+    fun checkTotalNumber() {
+        counter = 0
+        if (deviceOneObj != null) {
+            counter = counter + 1
+        }
+        if (deviceTwoObj != null) {
+            counter = counter + 1
+        }
+        if (deviceThreeObj != null) {
+            counter = counter + 1
+        }
+        if (deviceFourObj != null) {
+            counter = counter + 1
+        }
+    }
+
 }
+
 

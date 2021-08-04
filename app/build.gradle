@@ -3,17 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
 String appName = "aerMist"
-
-// TODO: Change fixed version value (leave at 0.0 for new project)
-def majorVersion = "0.0"
-
-/**
- * Function to calculate dynamic version value
- * based on the number of commits to the repository
- **/
+def majorVersion = "1.1"
 static def generateVersionCode() {
     def result = "git rev-list --all --count".execute().text.trim()
     if (result.empty) result = "PowerShell -Command git rev-list HEAD --count".execute().text.trim()
@@ -21,8 +15,6 @@ static def generateVersionCode() {
     return result.toInteger()
 }
 
-// TODO: Add keystore.jks file in app root folder, and if needed, keystore_debug.jks file
-// TODO: Change values in app/keystore.properties file
 Properties keystore
 Boolean keystoreFileExists = project.file('keystore.properties').exists()
 if (keystoreFileExists) {
@@ -41,6 +33,14 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     signingConfigs {
+
+        release {
+            storeFile file('aerKeystore.jks')
+            keyAlias 'aerMistAlias'
+            storePassword 'aerMist123'
+            keyPassword 'aerMist123'
+        }
+
         if (keystoreFileExists) {
             release {
                 keyAlias keystore['KeyAlias']
@@ -49,18 +49,17 @@ android {
                 storePassword keystore['StorePassword']
             }
             debug {
-
             }
         }
     }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "llc.aerMis"
+        applicationId "llc.aerMist.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode generateVersionCode()
-        versionName "${majorVersion}.${generateVersionCode()}"
+        versionCode 101
+        versionName "${majorVersion}.${101}"
 
         manifestPlaceholders = [
                 appIcon       : "@mipmap/ic_launcher",
@@ -71,14 +70,29 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            initWith(buildTypes.release)
+            applicationIdSuffix '.production'
+            versionNameSuffix ' - Production'
+            useProguard false
+
+            // TODO: Insert correct icons for production build type
+            manifestPlaceholders = [
+                    appIcon       : "@mipmap/ic_launcher",
+                    appIconRounded: "@mipmap/ic_launcher_round",
+            ]
+
+            resValue "string", "app_name", "${appName} Production"
+
         }
         production {
             initWith(buildTypes.release)
             applicationIdSuffix '.production'
             versionNameSuffix ' - Production'
+            signingConfig signingConfigs.release
 
             // TODO: Insert correct icons for production build type
             manifestPlaceholders = [
@@ -161,25 +175,17 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
-    // Lottie
-    implementation "com.airbnb.android:lottie:$lottie_version"
 
     // Koin
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
 
-    // Timber
-    implementation "com.jakewharton.timber:timber:$timber_version"
     //BLE
     implementation 'com.clj.fastble:FastBleLib:2.3.4'
-    implementation platform('com.google.firebase:firebase-bom:28.2.0')
+    //Firebase
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
-    // Import the BoM for the Firebase platform
-    implementation platform('com.google.firebase:firebase-bom:28.2.1')
-
-    // Declare the dependencies for the Crashlytics and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
 

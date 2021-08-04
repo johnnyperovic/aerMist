@@ -10,14 +10,14 @@ import kotlin.Suppress
 import llc.aerMist.app.R
 import llc.aerMist.app.models.ScheduleModel
 
-class SetScheduleFragmentDirections private constructor() {
+public class SetScheduleFragmentDirections private constructor() {
   private data class ActionSetScheduleToHomeFragment(
-    val model: ScheduleModel? = null
+    public val model: ScheduleModel? = null
   ) : NavDirections {
-    override fun getActionId(): Int = R.id.action_set_schedule_to_home_fragment
+    public override fun getActionId(): Int = R.id.action_set_schedule_to_home_fragment
 
     @Suppress("CAST_NEVER_SUCCEEDS")
-    override fun getArguments(): Bundle {
+    public override fun getArguments(): Bundle {
       val result = Bundle()
       if (Parcelable::class.java.isAssignableFrom(ScheduleModel::class.java)) {
         result.putParcelable("model", this.model as Parcelable?)
@@ -29,13 +29,13 @@ class SetScheduleFragmentDirections private constructor() {
   }
 
   private data class ActionSetScheduleToDeviceFragmnent(
-    val myArg: String = "",
-    val model: ScheduleModel? = null
+    public val myArg: String = "",
+    public val model: ScheduleModel? = null
   ) : NavDirections {
-    override fun getActionId(): Int = R.id.action_set_schedule_to_device_fragmnent
+    public override fun getActionId(): Int = R.id.action_set_schedule_to_device_fragmnent
 
     @Suppress("CAST_NEVER_SUCCEEDS")
-    override fun getArguments(): Bundle {
+    public override fun getArguments(): Bundle {
       val result = Bundle()
       result.putString("myArg", this.myArg)
       if (Parcelable::class.java.isAssignableFrom(ScheduleModel::class.java)) {
@@ -47,11 +47,11 @@ class SetScheduleFragmentDirections private constructor() {
     }
   }
 
-  companion object {
-    fun actionSetScheduleToHomeFragment(model: ScheduleModel? = null): NavDirections =
+  public companion object {
+    public fun actionSetScheduleToHomeFragment(model: ScheduleModel? = null): NavDirections =
         ActionSetScheduleToHomeFragment(model)
 
-    fun actionSetScheduleToDeviceFragmnent(myArg: String = "", model: ScheduleModel? = null):
+    public fun actionSetScheduleToDeviceFragmnent(myArg: String = "", model: ScheduleModel? = null):
         NavDirections = ActionSetScheduleToDeviceFragmnent(myArg, model)
   }
 }

@@ -55,10 +55,10 @@ class SearchFragment : Fragment() {
         setDeviceNamaFromDb()
         bluetoothController =
             BluetoothController(null, null,null,null,null,scanCallback, null, requireContext())
-        bluetoothController.bluetoothManager
-            .enableLog(true)
-            .setReConnectCount(1, 4000)
-            .setConnectOverTime(18000).operateTimeout = 4000
+//        bluetoothController.bluetoothManager
+//            .enableLog(true)
+//            .setReConnectCount(200, 4000)
+//            .setConnectOverTime(18000).operateTimeout = 4000
         bluetoothController.bluetoothAdapter.startDiscovery()
         bluetoothController.bluetoothManager.init(requireActivity().application)
 
@@ -81,7 +81,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun navigateToMyDevices() {
+        view?.post {
         findNavController().navigate(R.id.action_available_devices_to_my_devices)
+        }
     }
 
     fun initRecycler() {
@@ -179,7 +181,6 @@ class SearchFragment : Fragment() {
             thirdDevice = deviceThreeObj.name
         }
         if (deviceFour.length > 1) {
-            thirdCardView.visibility = View.VISIBLE
             val gson = Gson()
             val deviceFourObj: MyDevice
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)

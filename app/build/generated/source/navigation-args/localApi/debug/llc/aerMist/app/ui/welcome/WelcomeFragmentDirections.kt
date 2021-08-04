@@ -4,12 +4,12 @@ import androidx.navigation.ActionOnlyNavDirections
 import androidx.navigation.NavDirections
 import llc.aerMist.app.R
 
-class WelcomeFragmentDirections private constructor() {
-  companion object {
-    fun actionWelcomeToSearchFragment(): NavDirections =
+public class WelcomeFragmentDirections private constructor() {
+  public companion object {
+    public fun actionWelcomeToSearchFragment(): NavDirections =
         ActionOnlyNavDirections(R.id.action_welcome_to_searchFragment)
 
-    fun actionWelcomeToMyDevices(): NavDirections =
+    public fun actionWelcomeToMyDevices(): NavDirections =
         ActionOnlyNavDirections(R.id.action_welcome_to_my_devices)
   }
 }

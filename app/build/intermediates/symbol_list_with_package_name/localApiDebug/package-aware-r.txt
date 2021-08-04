@@ -66,6 +66,10 @@ animator mtrl_fab_hide_motion_spec
 animator mtrl_fab_show_motion_spec
 animator mtrl_fab_transformation_sheet_collapse_spec
 animator mtrl_fab_transformation_sheet_expand_spec
+animator nav_default_enter_anim
+animator nav_default_exit_anim
+animator nav_default_pop_enter_anim
+animator nav_default_pop_exit_anim
 attr action
 attr actionBarDivider
 attr actionBarItemBackground
@@ -391,7 +395,6 @@ attr errorEnabled
 attr errorIconDrawable
 attr errorIconTint
 attr errorIconTintMode
-attr errorImage
 attr errorTextAppearance
 attr errorTextColor
 attr exitAnim
@@ -487,7 +490,6 @@ attr iconTint
 attr iconTintMode
 attr iconifiedByDefault
 attr imageButtonStyle
-attr imageUrl
 attr indeterminateProgressStyle
 attr initialActivityCount
 attr initialExpandedChildrenCount
@@ -614,23 +616,6 @@ attr listPreferredItemPaddingRight
 attr listPreferredItemPaddingStart
 attr logo
 attr logoDescription
-attr lottieAnimationViewStyle
-attr lottie_autoPlay
-attr lottie_cacheComposition
-attr lottie_colorFilter
-attr lottie_enableMergePathsForKitKatAndAbove
-attr lottie_fallbackRes
-attr lottie_fileName
-attr lottie_imageAssetsFolder
-attr lottie_loop
-attr lottie_progress
-attr lottie_rawRes
-attr lottie_renderMode
-attr lottie_repeatCount
-attr lottie_repeatMode
-attr lottie_scale
-attr lottie_speed
-attr lottie_url
 attr materialAlertDialogBodyTextStyle
 attr materialAlertDialogTheme
 attr materialAlertDialogTitleIconStyle
@@ -1878,7 +1863,6 @@ id auto
 id autoComplete
 id autoCompleteToEnd
 id autoCompleteToStart
-id automatic
 id availableDevicesRecycler
 id barrier
 id baseline
@@ -2047,7 +2031,6 @@ id guidelineEnd
 id guidelineQuarter
 id guidelineStart
 id guidelineThirdQuarter
-id hardware
 id hideable
 id home
 id homeAsUp
@@ -2087,7 +2070,6 @@ id linear
 id listMode
 id list_item
 id logo
-id lottie_layer_name
 id maiBlueBg
 id mainFragment
 id mainLayout
@@ -2203,8 +2185,6 @@ id resetFirstFilter
 id resetFourthFilter
 id resetSecondFilter
 id resetThirdFilter
-id restart
-id reverse
 id reverseSawtooth
 id right
 id right_icon
@@ -2273,7 +2253,6 @@ id snackbar_action
 id snackbar_text
 id snap
 id snapMargins
-id software
 id spacer
 id spinner
 id splashFragment
@@ -2642,6 +2621,7 @@ string common_google_play_services_unknown_issue
 string connecting
 string copy
 string default_error
+string default_web_client_id
 string description
 string description2
 string description3
@@ -2657,9 +2637,15 @@ string expand_button_title
 string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
+string fcm_fallback_notification_channel_label
 string filter
 string filter_
 string fr
+string gcm_defaultSenderId
+string google_api_key
+string google_app_id
+string google_crash_reporting_api_key
+string google_storage_bucket
 string hello_blank_fragment
 string hide_bottom_view_on_scroll_behavior
 string home
@@ -2728,6 +2714,7 @@ string path_password_eye_mask_strike_through
 string path_password_eye_mask_visible
 string path_password_strike_through
 string preference_copied
+string project_id
 string remove
 string remove_device
 string rename
@@ -3570,8 +3557,6 @@ styleable LinearLayoutCompat android_gravity android_orientation android_baselin
 styleable LinearLayoutCompat_Layout android_layout_gravity android_layout_width android_layout_height android_layout_weight
 styleable ListPopupWindow android_dropDownHorizontalOffset android_dropDownVerticalOffset
 styleable ListPreference android_entries android_entryValues entries entryValues useSimpleSummaryProvider
-styleable LottieAnimationView lottie_autoPlay lottie_cacheComposition lottie_colorFilter lottie_enableMergePathsForKitKatAndAbove lottie_fallbackRes lottie_fileName lottie_imageAssetsFolder lottie_loop lottie_progress lottie_rawRes lottie_renderMode lottie_repeatCount lottie_repeatMode lottie_scale lottie_speed lottie_url
-styleable LottieImageView errorImage imageUrl lottie_fileName lottie_loop lottie_renderMode lottie_repeatMode lottie_scale lottie_speed maxHeight maxWidth
 styleable MaterialAlertDialog backgroundInsetBottom backgroundInsetEnd backgroundInsetStart backgroundInsetTop
 styleable MaterialAlertDialogTheme materialAlertDialogBodyTextStyle materialAlertDialogTheme materialAlertDialogTitleIconStyle materialAlertDialogTitlePanelStyle materialAlertDialogTitleTextStyle
 styleable MaterialAutoCompleteTextView android_inputType
@@ -3614,7 +3599,6 @@ styleable PreferenceFragmentCompat android_layout android_divider android_divide
 styleable PreferenceGroup android_orderingFromXml initialExpandedChildrenCount orderingFromXml
 styleable PreferenceImageView android_maxWidth android_maxHeight maxHeight maxWidth
 styleable PreferenceTheme checkBoxPreferenceStyle dialogPreferenceStyle dropdownPreferenceStyle editTextPreferenceStyle preferenceCategoryStyle preferenceCategoryTitleTextAppearance preferenceFragmentCompatStyle preferenceFragmentListStyle preferenceFragmentStyle preferenceInformationStyle preferenceScreenStyle preferenceStyle preferenceTheme seekBarPreferenceStyle switchPreferenceCompatStyle switchPreferenceStyle
-styleable ProgressImageView errorImage imageUrl maxHeight maxWidth
 styleable PropertySet android_visibility android_alpha layout_constraintTag motionProgress visibilityMode
 styleable RangeSlider values
 styleable RecycleListView paddingBottomNoButtons paddingTopNoTitle

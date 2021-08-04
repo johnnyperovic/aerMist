@@ -84,13 +84,7 @@ class ProgressImageView : FrameLayout, RequestListener<Drawable> {
     }
 
     private fun readAttributeSet(attrs: AttributeSet?) {
-        attrs?.let {
-            val typedArray =
-                context.obtainStyledAttributes(it, R.styleable.ProgressImageView, 0, 0)
-            mImageUrl = typedArray.getString(R.styleable.ProgressImageView_imageUrl)
-            mErrorDrawable = typedArray.getDrawable(R.styleable.ProgressImageView_errorImage)
-            typedArray.recycle()
-        }
+
     }
 
     private fun setLoading(state: Boolean) {

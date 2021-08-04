@@ -12,13 +12,13 @@ import kotlin.Suppress
 import kotlin.jvm.JvmStatic
 import llc.aerMist.app.models.ScheduleModel
 
-data class SetScheduleFragmentArgs(
-  val type: Int = 0,
-  val name: String = "",
-  val model: ScheduleModel? = null
+public data class SetScheduleFragmentArgs(
+  public val type: Int = 0,
+  public val name: String = "",
+  public val model: ScheduleModel? = null
 ) : NavArgs {
   @Suppress("CAST_NEVER_SUCCEEDS")
-  fun toBundle(): Bundle {
+  public fun toBundle(): Bundle {
     val result = Bundle()
     result.putInt("type", this.type)
     result.putString("name", this.name)
@@ -30,9 +30,9 @@ data class SetScheduleFragmentArgs(
     return result
   }
 
-  companion object {
+  public companion object {
     @JvmStatic
-    fun fromBundle(bundle: Bundle): SetScheduleFragmentArgs {
+    public fun fromBundle(bundle: Bundle): SetScheduleFragmentArgs {
       bundle.setClassLoader(SetScheduleFragmentArgs::class.java.classLoader)
       val __type : Int
       if (bundle.containsKey("type")) {

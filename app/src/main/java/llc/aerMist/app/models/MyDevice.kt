@@ -21,12 +21,16 @@ data class MyDevice (
     val isFriquencyPerDay:Boolean=false,
     val firstStartTime:String="",
     val firstStopTime:String="",
+    val firstTimerActive:Boolean=false,
     val secondStartTime:String="",
     val secondStopTime:String="",
+    val secondTimerActive:Boolean=false,
     val thirdStartTime:String="",
     val thirdStopTime:String="",
+    val thirdTimerActive:Boolean=false,
     val fourtStartTime:String="",
     val fourtStopTime:String="",
+    val fourthTimerActive:Boolean=false,
     val mistTime:String="",
     val suspendTime:String=""
 )

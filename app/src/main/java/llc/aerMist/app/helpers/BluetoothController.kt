@@ -23,10 +23,10 @@ class BluetoothController(
     val notifyCallback2: BleNotifyCallback?,
     val notifyCallback3: BleNotifyCallback?,
     val notifyCallback4: BleNotifyCallback?,
-    val gattCallback: BleGattCallback?,
+    var gattCallback: BleGattCallback?,
     val scanCallback: BleScanCallback?,
     val writeCallback: BleWriteCallback?,
-     applicationContext: Context
+    applicationContext: Context
 ) {
     var bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     var bleDeviceMain: BleDevice? = null

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
@@ -75,16 +76,11 @@ import java.time.format.DateTimeFormatter
 class SetDeviceFragment : Fragment(), View.OnClickListener {
     private val prefs: PreferenceCache by inject()
     private var tag = 0
-    var shortString = ""
-    var shortString2 = ""
-    var shortString3 = ""
-    var shortString4 = ""
     var numberPickerPopup = NumberPickerPopup()
     lateinit var bluetoothController: BluetoothController
     val connectionStateCoordinator = NewObservableCoordinator
     private var bleDevice: BleDevice? = null
     private var gatt: BluetoothGatt? = null
-    private lateinit var payload: BytePayload
     private var mistValueSeconds = "005"
     private var suspendValueSeconds = "005"
     private val scheduleModelArgs: SetDeviceFragmentArgs by navArgs()
@@ -132,6 +128,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     var sprayFriquency = ""
     lateinit var daysInWeek: IntArray
     lateinit var deviceObject: MyDevice
+    var isNonSTtopActiv = true
     var mainDevicePositon = 0
     var deviceNameValue = ""
     var allDevices = 0
@@ -139,6 +136,9 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     var singleDeviceName = ""
     var isFromDB = true
     var filterTime = ""
+    var isScheduleCommandSend = false
+    var isNonStopCommandSend = false
+    var isIntervalCommandSend = false
 
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -161,13 +161,13 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     gatt =
                         connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
                             bleDevice
-                        )!!
+                        )
                 } else if (allDevices == 1) {
                     bleDevice = item
                     gatt =
                         connectionStateCoordinator.bluetoothController?.bluetoothManager?.getBluetoothGatt(
                             bleDevice
-                        )!!
+                        )
                     singleDeviceName = item.name
                 }
             }
@@ -204,7 +204,17 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
         }
         connectionStateCoordinator.bleDisconnectDevices.observe(viewLifecycleOwner, observer2)
-
+        val observer3 = Observer<BleDevice> {
+            if (deviceObject?.name == it.name) {
+                if (dialogDisconnectedDevice != null) dialogDisconnectedDevice?.dialog?.dismiss()
+                bleBg?.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
+                )
+                standbyTv?.text = resources.getString(R.string.standby)
+                btnStart?.isEnabled = true
+            }
+        }
+        connectionStateCoordinator.bluetoothConnectionState.observe(viewLifecycleOwner, observer3)
 
         val deviceOne = prefs.firstDevice
         val gson = Gson()
@@ -222,8 +232,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     gson.fromJson(deviceOne, MyDevice::class.java)
                 val filTime = prefs.startWorkingTimeFD
                 val workTime = deviceObject.workingTime
+                deviceName?.text = deviceObject.newName
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
-                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                    filterTime = (filTime.toIntOrNull()
+                        ?.let { workTime.toIntOrNull()?.minus(it) }).toString()
                 }
             }
         } else if (bleDevice?.name == deviceObjectTwo?.name || bleDevice?.name == singleDeviceName) {
@@ -233,9 +245,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     gson.fromJson(deviceTwo, MyDevice::class.java)
                 val filTime = prefs.startWorkingTimeSD
                 val workTime = deviceObject.workingTime
-
+                deviceName?.text = deviceObject.newName
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
-                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                    filterTime = (filTime.toIntOrNull()
+                        ?.let { workTime.toIntOrNull()?.minus(it) }).toString()
                 }
 
             }
@@ -245,8 +258,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 deviceObject = gson.fromJson(deviceThree, MyDevice::class.java)
                 val filTime = prefs.startWorkingTimeTD
                 val workTime = deviceObject.workingTime
+                deviceName?.text = deviceObject.newName
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
-                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                    filterTime = (filTime.toIntOrNull()
+                        ?.let { workTime.toIntOrNull()?.minus(it) }).toString()
                 }
             }
         } else if (bleDevice?.name == deviceObjectFour?.name || bleDevice?.name == singleDeviceName) {
@@ -256,8 +271,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     gson.fromJson(deviceFour, MyDevice::class.java)
                 val filTime = prefs.startWorkingTimeFRD
                 val workTime = deviceObject.workingTime
+                deviceName?.text = deviceObject.newName
                 if (!workTime.isNullOrEmpty() && !filterTime.isNullOrEmpty()) {
-                    filterTime = (workTime.toIntOrNull()!! - filTime.toIntOrNull()!!).toString()
+                    filterTime = (filTime.toIntOrNull()
+                        ?.let { workTime.toIntOrNull()?.minus(it) }).toString()
                 }
             }
         }
@@ -266,10 +283,16 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 filterValue.text = filterTime + "h"
             }
         }
-        deviceName.text = deviceObject.newName
-        if (scheduleModelArgs.model != null) scheduleModel = scheduleModelArgs.model!!
+        if (scheduleModelArgs.model != null) {
+            scheduleModel = scheduleModelArgs.model!!
+
+        }
+        if (scheduleModel?.nonStop != null) {
+            isNonSTtopActiv = scheduleModel!!.nonStop!!
+        }
 
         if (scheduleModel?.days != null) {
+            Log.e("D", "set device schedule " + scheduleModel)
             daysInWeek = scheduleModel?.days!!
             isFromDB = false
             isSelected = true
@@ -314,8 +337,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             bleBg?.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
             )
-            standbyTv.text = resources.getString(R.string.standby)
-            btnStart.isEnabled = true
+            standbyTv?.text = resources.getString(R.string.standby)
+            btnStart?.isEnabled = true
         }
 
         override fun onDisConnected(
@@ -332,7 +355,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         bleBg?.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
         )
-        standbyTv.text = resources.getString(R.string.offline)
+        standbyTv?.text = resources.getString(R.string.offline)
         btnStart.isEnabled = false
         dialogDisconnectedDevice = DevicesDisconnected(true)
         dialogDisconnectedDevice?.isCancelable = true
@@ -345,62 +368,62 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             btnStart?.isEnabled = false
             Handler().postDelayed({
                 btnStart?.isEnabled = true
-                motionLayoutDevice.transitionToEnd()
-            isTimeSync = false
-            carViewDevice.isEnabled = false
-            if (deviceObject.isSparayMode) {
-                if (!deviceObject.isSprayPerDay) {
+                motionLayoutDevice?.transitionToEnd()
+                isTimeSync = false
+                carViewDevice?.isEnabled = false
+                if (deviceObject.isSparayMode) {
+                    if (!deviceObject.isSprayPerDay) {
 
-                    intervalImg.performClick()
-                    tabName.text = resources.getString(R.string.interval)
-                    guideline?.setGuidelinePercent(1f)
-                    tab_icon.setImageDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.interval_blue_icon
+                        intervalImg?.performClick()
+                        tabName?.text = resources.getString(R.string.interval)
+                        guideline?.setGuidelinePercent(1f)
+                        tab_icon?.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.interval_blue_icon
+                            )
                         )
-                    )
-                    if (btnStart.tag == "start") {
-                        startingTv.visibility = View.VISIBLE
-                        btnStart.tag = "stop"
+                        if (btnStart.tag == "start") {
+                            startingTv?.visibility = View.VISIBLE
+                            btnStart?.tag = "stop"
+                        } else {
+                            btnStart?.tag = "start"
+                        }
                     } else {
-                        btnStart.tag = "start"
+                        scheduleImg?.performClick()
+                        guideline?.setGuidelinePercent(1f)
+                        tabName?.text = resources.getString(R.string.schedule)
+                        tab_icon?.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.calendar_blue_icon
+                            )
+                        )
+                        //  setTabItemVisibility(true)
+                        if (btnStart.tag == "start") {
+                            startingTv?.visibility = View.VISIBLE
+                            btnStart.tag = "stop"
+                        } else {
+                            btnStart.tag = "start"
+                        }
                     }
                 } else {
-                    scheduleImg.performClick()
-                    guideline?.setGuidelinePercent(1f)
-                    tabName.text = resources.getString(R.string.schedule)
-                    tab_icon.setImageDrawable(
+                    nonStopImg?.performClick()
+                    tabName?.text = resources.getString(R.string.non_stop)
+                    tab_icon?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
-                            R.drawable.calendar_blue_icon
+                            R.drawable.non_stop_blue_icon
                         )
                     )
-                  //  setTabItemVisibility(true)
-                    if (btnStart.tag == "start") {
-                        startingTv.visibility = View.VISIBLE
-                        btnStart.tag = "stop"
+                    if (btnStart?.tag == "start") {
+                        startingTv?.visibility = View.VISIBLE
+                        btnStart?.tag = "stop"
                     } else {
-                        btnStart.tag = "start"
+                        btnStart?.tag = "start"
                     }
                 }
-            } else {
-                nonStopImg.performClick()
-                tabName.text = resources.getString(R.string.non_stop)
-                tab_icon.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.non_stop_blue_icon
-                    )
-                )
-                if (btnStart.tag == "start") {
-                    startingTv.visibility = View.VISIBLE
-                    btnStart.tag = "stop"
-                } else {
-                    btnStart.tag = "start"
-                }
-            }
-            },1000)
+            }, 1000)
         }
     }
 
@@ -461,8 +484,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         }
         return dayInWeek
     }
-    fun setActiveScheduleView()
-    {
+
+    fun setActiveScheduleView() {
         tag = 2
         mistTv?.visibility = View.VISIBLE
         mistValue?.visibility = View.VISIBLE
@@ -507,7 +530,9 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         )
         guideline.setGuidelinePercent(0.65f)
     }
+
     fun formatDaySchedule() {
+        daysInWeek = scheduleModel?.days!!
         monday = scheduleMo + daysInWeek.get(0) + "."
         tuesday = scheduleTu + daysInWeek.get(1) + "."
         wednesday = scheduleWE + daysInWeek.get(2) + "."
@@ -554,12 +579,13 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     }
 
     fun checkNonStopResponse(response: String) {
+        Log.e("D", "NONSTOP " + response)
         when (response) {
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
             "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayOF, it1, it) } }
             "EE110." -> {
-                "USPJESNO ZAVRSENO"
+                isNonStopCommandSend = true
                 prefs.isFromHomeScreen = false
                 motionLayoutDevice.transitionToEnd()
                 motionLayoutDevice.transitionToStart()
@@ -595,7 +621,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE110." -> {
                 prefs.isFromHomeScreen = false
-                "USPJESNO ZAVRSENO"
+                isIntervalCommandSend = true
                 motionLayoutDevice.transitionToEnd()
                 motionLayoutDevice.transitionToStart()
                 sendTimeSynchCommand()
@@ -735,8 +761,21 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
             "EE1306." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayPDON, it1, it) } }
             "EE141." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayPDON, it1, it) } }
-            "EE140." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) } }
-            "EE151." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) } }
+            "EE140." -> gatt?.let {
+
+                if (isNonSTtopActiv == true) {
+                    bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) }
+                } else {
+                    bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) }
+                }
+            }
+            "EE151." -> gatt?.let {
+                if (isNonSTtopActiv == true) {
+                    bleDevice?.let { it1 -> sendCommand(sprayFriq, it1, it) }
+                } else {
+                    bleDevice?.let { it1 -> sendCommand(intervalFS, it1, it) }
+                }
+            }
 
             "EE150." -> gatt?.let {
                 bleDevice?.let { it1 ->
@@ -758,9 +797,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
             "EE16000." -> gatt?.let {
-                responseTimmer = 0
                 bleDevice?.let { it1 ->
-                    Log.e("D","secondTimer "+secondTimer)
                     sendCommand(
                         secondTimer.toByteArray(
                             charset
@@ -770,7 +807,6 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16101." -> gatt?.let {
                 bleDevice?.let { it1 ->
-                    Log.e("D","secondTimer "+secondTimer)
                     sendCommand(
                         secondTimer.toByteArray(
                             charset
@@ -780,8 +816,6 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16001." -> gatt?.let {
                 bleDevice?.let { it1 ->
-                    Log.e("D","thirdTimer "+thirdTimer)
-
                     sendCommand(
                         thirdTimer.toByteArray(
                             charset
@@ -791,7 +825,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16102." -> gatt?.let {
                 bleDevice?.let { it1 ->
-                    Log.e("D","thirdTimer "+thirdTimer)
+                    Log.e("D", "thirdTimer " + thirdTimer)
 
                     sendCommand(
                         thirdTimer.toByteArray(
@@ -802,7 +836,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16002." -> gatt?.let {
                 bleDevice?.let { it1 ->
-                    Log.e("D","fourthTimer "+fourthTimer)
+                    Log.e("D", "fourthTimer " + fourthTimer)
 
                     sendCommand(
                         fourthTimer.toByteArray(
@@ -813,7 +847,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE16103." -> gatt?.let {
                 bleDevice?.let { it1 ->
-                    Log.e("D","fourthTimer "+fourthTimer)
+                    Log.e("D", "fourthTimer " + fourthTimer)
                     sendCommand(
                         fourthTimer.toByteArray(
                             charset
@@ -823,7 +857,6 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             }
             "EE160." -> {
                 when (responseTimmer) {
-
                     0 -> gatt?.let {
                         responseTimmer = responseTimmer + 1
                         bleDevice?.let { it1 ->
@@ -855,7 +888,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         }
                     }
                     3 -> gatt?.let {
-                        responseTimmer = 0
+                        responseTimmer = responseTimmer + 1
                         bleDevice?.let { it1 ->
                             sendCommand(
                                 fourthTimer.toByteArray(
@@ -864,10 +897,33 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                             )
                         }
                     }
+                    4 -> {
+                        if (isNonSTtopActiv == false) {
+                            gatt?.let {
+                                bleDevice?.let { it1 ->
+                                    sendCommand(
+                                        sprayFriquency.toByteArray(
+                                            charset
+                                        ), it1, it
+                                    )
+                                }
+                            }
+                        } else {
+                            gatt?.let {
+                                bleDevice?.let { it1 ->
+                                    sendCommand(
+                                        byteArrayON,
+                                        it1,
+                                        it
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
             "EE16003." -> {
-                if (deviceObject.isNonStop == false) {
+                if (isNonSTtopActiv == false) {
                     gatt?.let {
                         bleDevice?.let { it1 ->
                             sendCommand(
@@ -890,9 +946,18 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 }
             }
-            "EE170." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
+            "EE170." -> gatt?.let {
+                bleDevice?.let { it1 ->
+                    sendCommand(
+                        byteArrayON,
+                        it1,
+                        it
+                    )
+                }
+            }
             "EE110." -> {
                 prefs.isFromHomeScreen = false
+                isScheduleCommandSend = true
                 motionLayoutDevice.transitionToEnd()
                 motionLayoutDevice.transitionToStart()
                 sendTimeSynchCommand()
@@ -901,21 +966,26 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     }
 
     fun formatTimer() {
-        val hourOne = scheduleModel?.timer?.get(0)!!.hours
-        val minOne = scheduleModel?.timer?.get(0)!!.min
-        val formatOne = scheduleModel?.timer?.get(0)!!.format
-        val hourTwo = scheduleModel?.timer?.get(1)!!.hours
-        val minTwo = scheduleModel?.timer?.get(1)!!.min
-        val formatTwo = scheduleModel?.timer?.get(1)!!.format
-        val hourOne2 = scheduleModel?.timerToSend?.get(0)!!.hours
-        val minOne2 = scheduleModel?.timerToSend?.get(0)!!.min
-        val hourTwo2 = scheduleModel?.timerToSend?.get(1)!!.hours
-        val minTwo2 = scheduleModel?.timerToSend?.get(1)!!.min
-
-        //    hourOne + ":" + minOne + formatOne + " - " + hourTwo + ":" + minTwo + formatTwo
-        if (hourOne != "00" && hourTwo != "00" ) {
-            firstTimerTv.text =
-                setTimeZone(hourOne + minOne,formatOne) + " - " + setTimeZone(hourTwo + minTwo,formatTwo)
+        val hourOne = scheduleModel?.timer?.get(0)?.hours
+        val minOne = scheduleModel?.timer?.get(0)?.min
+        val formatOne = scheduleModel?.timer?.get(0)?.format
+        val hourTwo = scheduleModel?.timer?.get(1)?.hours
+        val minTwo = scheduleModel?.timer?.get(1)?.min
+        val formatTwo = scheduleModel?.timer?.get(1)?.format
+        val hourOne2 = scheduleModel?.timerToSend?.get(0)?.hours
+        val minOne2 = scheduleModel?.timerToSend?.get(0)?.min
+        val hourTwo2 = scheduleModel?.timerToSend?.get(1)?.hours
+        val minTwo2 = scheduleModel?.timerToSend?.get(1)?.min
+        Log.e("D", "HOUR ONE " + hourOne)
+        Log.e("D", "HOUR two " + hourTwo)
+        if (hourOne != "00" && hourTwo != "00") {
+            firstTimerTv?.text =
+                formatOne?.let { setTimeZone(hourOne + minOne, it) } + " - " + formatTwo?.let {
+                    setTimeZone(
+                        hourTwo + minTwo,
+                        it
+                    )
+                }
             firstTimer = "EE060000" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
             firstTimerTv.visibility = View.VISIBLE
         } else {
@@ -923,18 +993,28 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             firstTimer = "EE060001" + hourOne2 + minOne2 + hourTwo2 + minTwo2 + "."
 
         }
-        val hourThree = scheduleModel?.timer?.get(2)!!.hours
-        val minThree = scheduleModel?.timer?.get(2)!!.min
-        val formatThree = scheduleModel?.timer?.get(2)!!.format
-        val hourFour = scheduleModel?.timer?.get(3)!!.hours
-        val minFour = scheduleModel?.timer?.get(3)!!.min
-        val formatFour = scheduleModel?.timer?.get(3)!!.format
-        val hourThree2 = scheduleModel?.timerToSend?.get(2)!!.hours
-        val minThree2 = scheduleModel?.timerToSend?.get(2)!!.min
-        val hourFour2 = scheduleModel?.timerToSend?.get(3)!!.hours
-        val minFour2 = scheduleModel?.timerToSend?.get(3)!!.min
-        secondTimerTv.text =
-            setTimeZone(hourThree + minThree,formatThree) + " - " + setTimeZone(hourFour + minFour,formatFour)
+        val hourThree = scheduleModel?.timer?.get(2)?.hours
+        val minThree = scheduleModel?.timer?.get(2)?.min
+        val formatThree = scheduleModel?.timer?.get(2)?.format
+        val hourFour = scheduleModel?.timer?.get(3)?.hours
+        val minFour = scheduleModel?.timer?.get(3)?.min
+        val formatFour = scheduleModel?.timer?.get(3)?.format
+        val hourThree2 = scheduleModel?.timerToSend?.get(2)?.hours
+        val minThree2 = scheduleModel?.timerToSend?.get(2)?.min
+        val hourFour2 = scheduleModel?.timerToSend?.get(3)?.hours
+        val minFour2 = scheduleModel?.timerToSend?.get(3)?.min
+        secondTimerTv?.text =
+            formatThree?.let {
+                setTimeZone(
+                    hourThree + minThree,
+                    it
+                )
+            } + " - " + formatFour?.let {
+                setTimeZone(
+                    hourFour + minFour,
+                    it
+                )
+            }
         if (hourThree != "00" && hourFour != "00") {
             secondTimerTv.visibility = View.VISIBLE
             secondTimer = "EE060010" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
@@ -943,18 +1023,23 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             secondTimerTv.visibility = View.INVISIBLE
             secondTimer = "EE060011" + hourThree2 + minThree2 + hourFour2 + minFour2 + "."
         }
-        val hourFive = scheduleModel?.timer?.get(4)!!.hours
-        val minFive = scheduleModel?.timer?.get(4)!!.min
-        val formatFive = scheduleModel?.timer?.get(4)!!.format
-        val hourSix = scheduleModel?.timer?.get(5)!!.hours
-        val minSix = scheduleModel?.timer?.get(5)!!.min
-        val formatSix = scheduleModel?.timer?.get(5)!!.format
-        val hourFive2 = scheduleModel?.timerToSend?.get(4)!!.hours
-        val minFive2 = scheduleModel?.timerToSend?.get(4)!!.min
-        val hourSix2 = scheduleModel?.timerToSend?.get(5)!!.hours
-        val minSix2 = scheduleModel?.timerToSend?.get(5)!!.min
-            thirdTimerTv.text =
-            setTimeZone(hourFive + minFive,formatFive) + " - " + setTimeZone(hourSix + minSix,formatSix)
+        val hourFive = scheduleModel?.timer?.get(4)?.hours
+        val minFive = scheduleModel?.timer?.get(4)?.min
+        val formatFive = scheduleModel?.timer?.get(4)?.format
+        val hourSix = scheduleModel?.timer?.get(5)?.hours
+        val minSix = scheduleModel?.timer?.get(5)?.min
+        val formatSix = scheduleModel?.timer?.get(5)?.format
+        val hourFive2 = scheduleModel?.timerToSend?.get(4)?.hours
+        val minFive2 = scheduleModel?.timerToSend?.get(4)?.min
+        val hourSix2 = scheduleModel?.timerToSend?.get(5)?.hours
+        val minSix2 = scheduleModel?.timerToSend?.get(5)?.min
+        thirdTimerTv?.text =
+            formatFive?.let { setTimeZone(hourFive + minFive, it) } + " - " + formatSix?.let {
+                setTimeZone(
+                    hourSix + minSix,
+                    it
+                )
+            }
         //  hourFive + ":" + minFive + formatFive + " - " + hourSix + ":" + minSix + "" + formatSix
         if (hourFive != "00" && hourSix != "00") {
             thirdTimerTv.visibility = View.VISIBLE
@@ -965,18 +1050,23 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             thirdTimer = "EE060021" + hourFive2 + minFive2 + hourSix2 + minSix2 + "."
 
         }
-        val hourSeven = scheduleModel?.timer?.get(6)!!.hours
-        val minSeven = scheduleModel?.timer?.get(6)!!.min
-        val formatSeven = scheduleModel?.timer?.get(6)!!.format
-        val hourEight = scheduleModel?.timer?.get(7)!!.hours
-        val minEight = scheduleModel?.timer?.get(7)!!.min
-        val formatEight = scheduleModel?.timer?.get(7)!!.format
-        val hourSeven2 = scheduleModel?.timerToSend?.get(6)!!.hours
-        val minSeven2 = scheduleModel?.timerToSend?.get(6)!!.min
-        val hourEight2 = scheduleModel?.timerToSend?.get(7)!!.hours
-        val minEight2 = scheduleModel?.timerToSend?.get(7)!!.min
-    fourthTimerTv2?.text =
-            setTimeZone(hourSeven + minSeven,formatSeven) + " - " + setTimeZone(hourEight + minEight,formatEight)
+        val hourSeven = scheduleModel?.timer?.get(6)?.hours
+        val minSeven = scheduleModel?.timer?.get(6)?.min
+        val formatSeven = scheduleModel?.timer?.get(6)?.format
+        val hourEight = scheduleModel?.timer?.get(7)?.hours
+        val minEight = scheduleModel?.timer?.get(7)?.min
+        val formatEight = scheduleModel?.timer?.get(7)?.format
+        val hourSeven2 = scheduleModel?.timerToSend?.get(6)?.hours
+        val minSeven2 = scheduleModel?.timerToSend?.get(6)?.min
+        val hourEight2 = scheduleModel?.timerToSend?.get(7)?.hours
+        val minEight2 = scheduleModel?.timerToSend?.get(7)?.min
+        fourthTimerTv2?.text =
+            formatSeven?.let {
+                setTimeZone(
+                    hourSeven + minSeven,
+                    it
+                )
+            } + " - " + formatEight?.let { setTimeZone(hourEight + minEight, it) }
         if (hourSeven != "00" && hourEight != "00") {
             fourthTimerTv2.visibility = View.VISIBLE
             fourthTimer = "EE060030" + hourSeven2 + minSeven2 + hourEight2 + minEight2 + "."
@@ -985,48 +1075,53 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
 
             fourthTimerTv2.visibility = View.INVISIBLE
         }
-        val sss = getSeconds(scheduleModel?.mist.toString())
-        val ppp = getSeconds(scheduleModel?.suspend.toString())
-        mistValue.text = scheduleModel?.mist.toString()
-        suspendValue.text = scheduleModel?.suspend.toString()
-        sprayFriquency = "EE07000000" + sss +"00"+ ppp + "."
+        val sss = scheduleModel?.mist.toString()
+        val ppp = scheduleModel?.suspend.toString()
+        mistValue?.text = getTimeFromSeconds(scheduleModel?.mist.toString())
+        suspendValue?.text = getTimeFromSeconds(scheduleModel?.suspend.toString())
+        if (scheduleModel?.nonStop == true) {
+            mistValue?.text = "-"
+            suspendValue?.text = "-"
+        }
+        sprayFriquency = "EE07000000" + sss + "00" + ppp + "."
     }
 
     fun setTimeZone2(time: String): String {
         var fullTime = ""
-        var zone = "am"
+        var zone = "pm"
         if (time.length == 4) {
-
             var hour = time.substring(0, 2).toIntOrNull()
             var min = time.substring(2, 4).toIntOrNull()
             if (hour != null) {
                 if (hour < 12) {
                     zone = "am"
-                } else {
+                } else if (hour > 12) {
                     hour = hour - 12
                     zone = "pm"
                 }
             }
             if (hour != null && min != null) {
-                if (hour<10)
-                {
-                    if (hour==0)
-                    {
-                        fullTime=""
+                if (hour < 10) {
+                    if (hour == 0) {
+                        fullTime = ""
+                    } else {
+                        fullTime = "0" + hour.toString() + ":" + min + zone
+                        if (min < 10) {
+                            fullTime = "0" + hour.toString() + ":" + "0" + min + zone
+                        }
                     }
-                    else{
-                        fullTime = "0"+hour.toString() + ":" + min + zone
-                    }
-                }
-                else{
+                } else {
                     fullTime = hour.toString() + ":" + min + zone
+                    if (min < 10) {
+                        fullTime = hour.toString() + ":" + "0" + min + zone
+                    }
                 }
             }
         }
         return fullTime
     }
 
-    fun setTimeZone(time: String,format:String): String {
+    fun setTimeZone(time: String, format: String): String {
         var fullTime = ""
         if (time.length == 4) {
 
@@ -1039,36 +1134,25 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
             if (hour != null && min != null) {
-                if (hour<10)
-                {
-                    if (hour==0)
-                    {
-                        fullTime=""
+                if (hour < 10) {
+                    if (hour == 0) {
+                        fullTime = ""
+                    } else {
+                        fullTime = "0" + hour.toString() + ":" + min + format
+                        if (min < 10) {
+                            fullTime = "0" + hour.toString() + ":" + "0" + min + format
+                        }
                     }
-                    else{
-                        fullTime = "0"+hour.toString() + ":" + min+format
-                    }
-                }
-                else{
-                    fullTime = hour.toString() + ":" + min+format
+                } else if (min < 10) {
+                    fullTime = hour.toString() + ":" + "0" + min + format
+
+                } else {
+                    fullTime = hour.toString() + ":" + min + format
+
                 }
             }
         }
         return fullTime
-    }
-
-    fun getZone(time: String): String {
-        var zone = ""
-        val timer = time.toIntOrNull()
-        if (timer != null) {
-            if (timer < 12) {
-                zone = "am"
-            } else {
-
-                zone = "pm"
-            }
-        }
-        return zone
     }
 
     fun setClickListener() {
@@ -1147,20 +1231,24 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             ) {
             }
 
-            override fun onTransitionCompleted(motionLayout: MotionLayout?, constraintSet: Int) {
+            override fun onTransitionCompleted(
+                motionLayout: MotionLayout?,
+                constraintSet: Int
+            ) {
 
                 if (constraintSet == R.id.start) {
                     btnStart.setBackgroundResource(R.drawable.blue_radius_8)
-                    btnStart.text = getString(R.string.start)
+                    btnStart?.text = getString(R.string.start)
                     btnStart.isEnabled = true
                     carViewDevice.isEnabled = true
+                    btnStart.tag = "start"
                 } else {
                     btnStart.setBackgroundResource(R.drawable.container_light_blue)
-                    btnStart.text = getString(R.string.stop)
+                    btnStart?.text = getString(R.string.stop)
                     btnStart.isEnabled = true
                     setTabItemVisibility(true)
                     guideline?.setGuidelinePercent(1f)
-
+                    btnStart.tag = "stop"
                 }
             }
 
@@ -1244,7 +1332,12 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             mistValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             suspendTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             suspendValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            firstLine.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            firstLine.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.white
+                )
+            )
             mondayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             tuesdayTV2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             wednesdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
@@ -1275,17 +1368,52 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             mistTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
             mistValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
             suspendTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            suspendValue.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            suspendValue.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_gray
+                )
+            )
             mondayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            tuesdayTV2?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            wednesdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            tuesdayTV2?.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_gray
+                )
+            )
+            wednesdayTv?.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_gray
+                )
+            )
             thusdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
             fridayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            saturdayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            saturdayTv?.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_gray
+                )
+            )
             sundayTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            firstTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            secondTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
-            thirdTimerTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.dark_gray))
+            firstTimerTv?.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_gray
+                )
+            )
+            secondTimerTv?.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_gray
+                )
+            )
+            thirdTimerTv?.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dark_gray
+                )
+            )
             fourthTimerTv2?.setTextColor(
                 ContextCompat.getColor(
                     requireContext(),
@@ -1304,7 +1432,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     fun setViewAndSendCommand() {
         when (tag) {
             0 -> {
-                tabName.text = resources.getString(R.string.non_stop)
+                tabName?.text = resources.getString(R.string.non_stop)
                 tab_icon.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
@@ -1313,7 +1441,6 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 )
                 if (btnStart.tag == "start") {
                     startingTv.visibility = View.VISIBLE
-
                     bleDevice?.let {
                         gatt?.let { it1 ->
                             sendCommand(
@@ -1322,6 +1449,14 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                             )
                         }
                     }
+                    Handler().postDelayed({
+                        if (startingTv.visibility == View.VISIBLE) {
+                            startingTv.visibility = View.GONE
+                            btnStart.tag = "start"
+                        } else {
+                            btnStart.tag = "stop"
+                        }
+                    }, 3000)
                     btnStart.tag = "stop"
                 } else {
                     bleDevice?.let {
@@ -1336,7 +1471,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
             1 -> {
-                tabName.text = resources.getString(R.string.interval)
+                tabName?.text = resources.getString(R.string.interval)
                 tab_icon.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
@@ -1346,7 +1481,14 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 if (btnStart.tag == "start") {
                     startingTv.visibility = View.VISIBLE
                     gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
-
+                    Handler().postDelayed({
+                        if (startingTv.visibility == View.VISIBLE) {
+                            startingTv.visibility = View.GONE
+                            btnStart.tag = "start"
+                        } else {
+                            btnStart.tag = "stop"
+                        }
+                    }, 3000)
                     btnStart.tag = "stop"
                 } else {
                     gatt?.let {
@@ -1362,7 +1504,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
             2 -> {
-                tabName.text = resources.getString(R.string.schedule)
+                tabName?.text = resources.getString(R.string.schedule)
                 tab_icon.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
@@ -1380,9 +1522,15 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         return
                     }
                     startingTv.visibility = View.VISIBLE
-
                     gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
-
+                    Handler().postDelayed({
+                        if (startingTv.visibility == View.VISIBLE) {
+                            startingTv.visibility = View.GONE
+                            btnStart.tag = "start"
+                        } else {
+                            btnStart.tag = "stop"
+                        }
+                    }, 3000)
                     btnStart.tag = "stop"
                 } else {
                     gatt?.let {
@@ -1428,8 +1576,8 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     val suspend = data?.getString("suspend")
                     suspendValueSeconds = suspend?.let { getSeconds(it) }.toString()
 
-                    mistValue.text = mist
-                    suspendValue.text = suspend
+                    mistValue?.text = mist
+                    suspendValue?.text = suspend
                     var fullCommand = ""
                     fullCommand = fullCommand + "EE07000000"
                     fullCommand = fullCommand + mistValueSeconds
@@ -1465,23 +1613,28 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
         intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
         scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        bleBg.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.green_circle))
+        bleBg?.setImageDrawable(
+            ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.green_circle
+            )
+        )
         activeValue?.text = deviceObject.workingTime + "h"
 
-        guideline.setGuidelinePercent(1f)
-        nonStopImg.setImageDrawable(
+        guideline?.setGuidelinePercent(1f)
+        nonStopImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.non_stop_orange_icon
             )
         )
-        intervalImg.setImageDrawable(
+        intervalImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.interval_icon
             )
         )
-        scheduleImg.setImageDrawable(
+        scheduleImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.schedule_icon
@@ -1491,6 +1644,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val pp = deviceObject.suspendTime
         mistValue?.text = getTimeFromSeconds(ss)
         suspendValue?.text = getTimeFromSeconds(pp)
+        if (btnStart.tag == "stop") {
+            startingTv?.visibility = View.GONE
+            btnStart.tag = "start"
+        }
     }
 
     fun setIntervalView() {
@@ -1546,7 +1703,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         fullCommand = fullCommand + "."
         intervalValue = fullCommand.toByteArray(charset)
         activeValue?.text = deviceObject.workingTime + "h"
-
+        if (btnStart.tag == "stop") {
+            startingTv?.visibility = View.GONE
+            btnStart.tag = "start"
+        }
     }
 
     fun setScheduleView() {
@@ -1568,114 +1728,137 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         secondTimerTv.visibility = View.VISIBLE
         thirdTimerTv.visibility = View.VISIBLE
         fourthTimerTv2.visibility = View.VISIBLE
-        nonStopTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        intervalTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
-        scheduleTv.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
-        nonStopImg.setImageDrawable(
+        nonStopTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        intervalTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.imgGray))
+        scheduleTv?.setTextColor(ContextCompat.getColor(requireContext(), R.color.orange))
+        nonStopImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.non_stop_icon
             )
         )
-        intervalImg.setImageDrawable(
+        intervalImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.interval_icon
             )
         )
-        scheduleImg.setImageDrawable(
+        scheduleImg?.setImageDrawable(
             ContextCompat.getDrawable(
                 requireContext(),
                 R.drawable.schedule_orange_icon
             )
         )
-        bleBg.setImageDrawable(
+        bleBg?.setImageDrawable(
             ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
         )
-        guideline.setGuidelinePercent(0.65f)
+        guideline?.setGuidelinePercent(0.65f)
         val firstStart = deviceObject.firstStartTime
         val firstEnd = deviceObject.firstStopTime
+        val firstActive = deviceObject.firstTimerActive
         val secondStart = deviceObject.secondStartTime
         val secondEnd = deviceObject.secondStopTime
+        val secondActive = deviceObject.secondTimerActive
         val thirdStart = deviceObject.thirdStartTime
         val thirdEnd = deviceObject.thirdStopTime
+        val thirdActiv = deviceObject.thirdTimerActive
         val fourtStart = deviceObject.fourtStartTime
         val fourtEnd = deviceObject.fourtStopTime
-        if (firstStart.length == 4 && firstStart != "0000") {
+        val fourthActiv = deviceObject.fourthTimerActive
+            if(deviceObject.isFriquencyPerDay)
+            {
+                isNonSTtopActiv =false
+            }
+        else{
+                isNonSTtopActiv=true
+            }
+        if (firstStart.length == 4 && firstStart != "0000" && firstActive) {
             firstTimerTv?.text = setTimeZone2(firstStart) + "-" + setTimeZone2(firstEnd)
             isSelected = true
             firstTimer = "EE060000" + firstStart + firstEnd + "."
-        }
-        else{
+        } else {
             firstTimer = "EE060001" + "0000" + "0000" + "."
-            firstTimerTv?.visibility=View.INVISIBLE
+            firstTimerTv?.visibility = View.INVISIBLE
         }
-        if (secondStart.length == 4 && secondStart != "0000") {
+        if (secondStart.length == 4 && secondStart != "0000" && secondActive) {
             secondTimerTv?.text =
                 setTimeZone2(secondStart) + "-" + setTimeZone2(secondEnd)
             secondTimer = "EE060010" + secondStart + secondEnd + "."
-            secondTimerTv?.visibility=View.VISIBLE
-        }
-        else{
+            secondTimerTv?.visibility = View.VISIBLE
+            isSelected = true
+
+        } else {
             secondTimer = "EE060011" + "0000" + "0000" + "."
-            secondTimerTv?.visibility=View.INVISIBLE
+            secondTimerTv?.visibility = View.INVISIBLE
+            isSelected = true
         }
-        if (thirdStart.length == 4 && thirdStart != "0000") {
+        if (thirdStart.length == 4 && thirdStart != "0000" && thirdActiv) {
             thirdTimerTv?.text =
                 setTimeZone2(thirdStart) + "-" + setTimeZone2(thirdEnd)
             thirdTimer = "EE060020" + thirdStart + thirdEnd + "."
-            thirdTimerTv?.visibility=View.VISIBLE
-        }else
-        {
+            thirdTimerTv?.visibility = View.VISIBLE
+            isSelected = true
+        } else {
             thirdTimer = "EE060021" + "0000" + "0000" + "."
-            thirdTimerTv?.visibility=View.INVISIBLE
+            thirdTimerTv?.visibility = View.INVISIBLE
         }
-        if (fourtStart.length == 4 && fourtStart != "0000") {
+        if (fourtStart.length == 4 && fourtStart != "0000" && fourthActiv) {
             fourthTimerTv2?.text =
                 setTimeZone2(fourtStart) + "-" + setTimeZone2(fourtEnd)
-            fourthTimerTv2?.visibility=View.VISIBLE
-
+            fourthTimerTv2?.visibility = View.VISIBLE
             fourthTimer = "EE060030" + fourtStart + fourtEnd + "."
-        }
-        else{
-            fourthTimerTv2?.visibility=View.INVISIBLE
+            isSelected = true
+        } else {
+            fourthTimerTv2?.visibility = View.INVISIBLE
             fourthTimer = "EE060031" + "0000" + "0000" + "."
         }
         val ss = deviceObject.mistTime
         val pp = deviceObject.suspendTime
         mistValue?.text = getTimeFromSeconds(ss)
         suspendValue?.text = getTimeFromSeconds(pp)
-        var fullCommand ="EE07000000"+deviceObject.mistTime+"00"+deviceObject.suspendTime+"."
+        if (deviceObject.isFriquencyPerDay == false) {
+            mistValue?.text = "-"
+            suspendValue?.text = "-"
+        }
+        var fullCommand =
+            "EE07000000" + deviceObject.mistTime + "00" + deviceObject.suspendTime + "."
         intervalValue = fullCommand.toByteArray(charset)
 
-        sprayFriquency = "EE07000000" + ss+"00" + pp + "."
+        sprayFriquency = "EE07000000" + ss + "00" + pp + "."
         activeValue?.text = deviceObject.workingTime + "h"
         getActiveDaysFromDb()
+        if (btnStart.tag == "stop") {
+            startingTv?.visibility = View.GONE
+            btnStart.tag = "start"
+        }
     }
 
 
     private fun navigateToSetSchedule() {
         if (isFromDB) {
-            val action =
-                bleDevice?.name?.let {
-                    SetDeviceFragmentDirections.actionSetDeviceToSetScheduleFragment(
-                        0,
-                        it
-                    )
-                }
-            action?.let { findNavController().navigate(it) }
+            view?.post {
+                val action =
+                    bleDevice?.name?.let {
+                        SetDeviceFragmentDirections.actionSetDeviceToSetScheduleFragment(
+                            0,
+                            it
+                        )
+                    }
+                action?.let { findNavController().navigate(it) }
+            }
         } else {
-
-            val action =
-                bleDevice?.name?.let {
-                    SetDeviceFragmentDirections.actionSetDeviceToSetScheduleFragment(
-                        0,
-                        it, scheduleModel
-                    )
-                }
-            action?.let { findNavController().navigate(it) }
+            view?.post {
+                Log.e("D", "SCHEDULE ZA SLANJE " + scheduleModel)
+                val action =
+                    bleDevice?.name?.let {
+                        SetDeviceFragmentDirections.actionSetDeviceToSetScheduleFragment(
+                            0,
+                            it, scheduleModel
+                        )
+                    }
+                action?.let { findNavController().navigate(it) }
+            }
         }
-
     }
 
     fun getSeconds(value: String): String {

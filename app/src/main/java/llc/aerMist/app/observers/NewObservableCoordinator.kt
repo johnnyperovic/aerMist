@@ -6,7 +6,7 @@ import com.clj.fastble.data.BleDevice
 import llc.aerMist.app.helpers.BluetoothController
 
 object NewObservableCoordinator {
-    var bluetoothConnectionState = MutableLiveData<String>("")
+    var bluetoothConnectionState = MutableLiveData<BleDevice>()
     var bluetoothByteArray = MutableLiveData<CharArray>()
     var bleDisconnectDevices = MutableLiveData<BleDevice>()
     var isFirstTimeSynch = MutableLiveData<Boolean>()
@@ -15,15 +15,18 @@ object NewObservableCoordinator {
     var isFourthTimeSynch = MutableLiveData<Boolean>()
     var listBleDevices: ArrayList<BleDevice> = ArrayList()
     var idString = MutableLiveData("")
-    var firstGatt : BluetoothGatt? = null
-    var secondGatt : BluetoothGatt? = null
-    var thirdGatt : BluetoothGatt? = null
-    var fourthGatt : BluetoothGatt? = null
-    var gatt : BluetoothGatt? = null
-    var bluetoothController : BluetoothController? = null
+    var firstGatt: BluetoothGatt? = null
+    var secondGatt: BluetoothGatt? = null
+    var thirdGatt: BluetoothGatt? = null
+    var fourthGatt: BluetoothGatt? = null
+    var firstDevice: BleDevice? = null
+    var secondDevice: BleDevice? = null
+    var thirdDevice: BleDevice? = null
+    var fourthDevice: BleDevice? = null
+    var gatt: BluetoothGatt? = null
+    var bluetoothController: BluetoothController? = null
     var isDeviceConnected = false
     var isDeviceAuthorized = false
     var bleDevicePosition = 0
-    var mode=MutableLiveData<String>("")
-
+    var mode = MutableLiveData<String>("")
 }

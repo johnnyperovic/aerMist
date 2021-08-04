@@ -22,22 +22,25 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         if (!checkPermissions()) {
             requestPermissions()
         }
-        if (hasDevicesFromDB()) {
-            navigateToMyDevices()
-        }
+//        if (hasDevicesFromDB()) {
+//            navigateToMyDevices()
+//        }
         btnSearch.setOnClickListener {
             navigateToSearch()
         }
     }
 
     private fun navigateToSearch() {
-        findNavController().navigate(R.id.action_welcome_to_searchFragment)
+        view?.post {
+            findNavController().navigate(R.id.action_welcome_to_searchFragment)
+        }
     }
 
-    private fun navigateToMyDevices(){
+    private fun navigateToMyDevices() {
+        view?.post {
         findNavController().navigate(R.id.action_welcome_to_my_devices)
     }
-
+}
 
     private fun checkPermissions(): Boolean {
         val permissionState = ActivityCompat.checkSelfPermission(
@@ -47,9 +50,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         return permissionState == PackageManager.PERMISSION_GRANTED
     }
 
-    /**
-     * this method request to permission asked.
-     */
+    
     private fun requestPermissions() {
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
             requireActivity(),
@@ -99,7 +100,6 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         if (deviceOne.length > 0 || deviceTwo.length > 0 || deviceThree.length > 0 || deviceFour.length > 0) {
             hasDevice = true
         }
-
         return hasDevice
     }
 }

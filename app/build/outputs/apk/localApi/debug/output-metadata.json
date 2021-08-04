@@ -4,14 +4,14 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "llc.aerMis",
+  "applicationId": "llc.aerMist.app",
   "variantName": "processLocalApiDebugResources",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 66,
-      "versionName": "0.0.66",
+      "versionCode": 101,
+      "versionName": "1.1.101",
       "outputFile": "app-localApi-debug.apk"
     }
   ]

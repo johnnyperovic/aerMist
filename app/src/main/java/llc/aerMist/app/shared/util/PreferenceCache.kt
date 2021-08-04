@@ -66,7 +66,24 @@ class PreferenceCache(val context: Context) {
             putBoolean(IS_FROM_HOME_SCREEN, value)
             apply()
         }
-
+    var scheduleModel: String
+        get() = prefs.getString(SCHEDULE_MODEL, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(SCHEDULE_MODEL, value)
+            apply()
+        }
+    var deviceState: String
+        get() = prefs.getString(DEVICE_STATE, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(DEVICE_STATE, value)
+            apply()
+        }
+    var intervalModel: String
+        get() = prefs.getString(INTERVAL_MODEL, "").orEmpty()
+        set(value) = with(prefs.edit()) {
+            putString(INTERVAL_MODEL, value)
+            apply()
+        }
     var firstDevice: String
         get() = prefs.getString(FIRST_DEVICE, "").orEmpty()
         set(value) = with(prefs.edit()) {
@@ -139,11 +156,14 @@ class PreferenceCache(val context: Context) {
             .remove(THIRD_BLE_DEVICE)
             .remove(FOURTH_BLE_DEVICE)
             .remove(IS_ONE_DEVICE)
+            .remove(SCHEDULE_MODEL)
+            .remove(DEVICE_STATE)
+            .remove(INTERVAL_MODEL)
             .apply()
     }
 
     fun cleanFirstDevice() {
-        prefs.edit().remove("first_device").apply()
+        prefs.edit().remove(FIRST_DEVICE).apply()
         prefs.edit().remove(FIRST_BLE_DEVICE).apply()
     }
 
@@ -158,7 +178,6 @@ class PreferenceCache(val context: Context) {
         prefs.edit()
             .remove(THIRD_DEVICE).apply()
         prefs.edit().remove(THIRD_BLE_DEVICE).apply()
-
     }
 
     fun cleanFourthDevice() {
@@ -192,6 +211,8 @@ class PreferenceCache(val context: Context) {
         private const val LOCALE = "locale"
         private const val UI_MODE = "ui_mode"
         private const val FIRST_DEVICE = "first_device"
+        private const val SCHEDULE_MODEL = "schedule_model"
+        private const val DEVICE_STATE = "device_state"
         private const val SECOND_DEVICE = "second_device"
         private const val THIRD_DEVICE = "third_device"
         private const val FOURTH_DEVICE = "fourth_device"
@@ -199,6 +220,7 @@ class PreferenceCache(val context: Context) {
         private const val SECOND_BLE_DEVICE = "second_ble_device"
         private const val THIRD_BLE_DEVICE = "third_ble_device"
         private const val FOURTH_BLE_DEVICE = "fourth_ble_device"
+        private const val INTERVAL_MODEL = "interval_model"
 
         private const val START_WORKING_TIME_FD = "start_working_time_fd"
         private const val START_WORKING_TIME_SD = "start_working_time_sd"

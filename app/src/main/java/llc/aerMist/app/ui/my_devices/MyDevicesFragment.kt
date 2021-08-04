@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleScanCallback
@@ -22,9 +23,6 @@ import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_devices.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_set_device.*
 import kotlinx.android.synthetic.main.my_devices_fragment.*
 import kotlinx.android.synthetic.main.my_devices_fragment.btnAddNewDevice
 import kotlinx.android.synthetic.main.my_devices_fragment.deviceNumber
@@ -77,6 +75,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 
 class MyDevicesFragment : Fragment(), View.OnClickListener {
@@ -104,7 +103,23 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
     var fourthBleDevice: BleDevice? = null
     var fourthGate: BluetoothGatt? = null
     val firstCommand = "EE0c0."
+    var firstTimerActiv=false
+    var secondTimerActiv=false
+    var thirdTimerActiv=false
+    var fourthTimerActiv=false
 
+    var firstTimerActiv2=false
+    var secondTimerActiv2=false
+    var thirdTimerActiv2=false
+    var fourthTimerActiv2=false
+    var firstTimerActiv3=false
+    var secondTimerActiv3=false
+    var thirdTimerActiv3=false
+    var fourthTimerActiv3=false
+    var firstTimerActiv4=false
+    var secondTimerActiv4=false
+    var thirdTimerActiv4=false
+    var fourthTimerActiv4=false
     private lateinit var renameDeviceDialog: RenameDevicePopup
     private lateinit var removeDevicePopup: RemoveDevicePopup
     var workingTime = ""
@@ -266,60 +281,71 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
             nameToSend = deviceFourObj.name
         }
+        if (deviceTotalNumber > 3) {
+            if (deviceTotalNumber > 3) {
+                btnAddNewDevice?.visibility = View.GONE
+            } else {
+                if (deviceTotalNumber > 3) {
+                    btnAddNewDevice?.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     fun checkConnection() {
         val deviceNumber =
             connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
-        if (deviceNumber!! > 0) {
-            var bleList = ArrayList<BleDevice>()
-            bleList =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
-            for (item in bleList) {
-                when (item.name) {
-                    firstDevice -> {
-                        firstDotColor?.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.green_dot
+        if (deviceNumber != null) {
+            if (deviceNumber > 0) {
+                var bleList = ArrayList<BleDevice>()
+                bleList =
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
+                for (item in bleList) {
+                    when (item.name) {
+                        firstDevice -> {
+                            firstDotColor?.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.green_dot
+                                )
                             )
-                        )
-                        firstDeviceState?.text = getString(R.string.online)
-                        firstProgressBar?.visibility = View.GONE
-                        firstInfoDots?.visibility = View.VISIBLE
-                    }
-                    secondDevice -> {
-                        secondDotColor?.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.green_dot
+                            firstDeviceState?.text = getString(R.string.online)
+                            firstProgressBar?.visibility = View.GONE
+                            firstInfoDots?.visibility = View.VISIBLE
+                        }
+                        secondDevice -> {
+                            secondDotColor?.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.green_dot
+                                )
                             )
-                        )
-                        secondDeviceState?.text = getString(R.string.online)
-                        secondProgressBar?.visibility = View.GONE
-                        secondInfoDots?.visibility = View.VISIBLE
-                    }
-                    thirdDevice -> {
-                        thirdDotColor?.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.green_dot
+                            secondDeviceState?.text = getString(R.string.online)
+                            secondProgressBar?.visibility = View.GONE
+                            secondInfoDots?.visibility = View.VISIBLE
+                        }
+                        thirdDevice -> {
+                            thirdDotColor?.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.green_dot
+                                )
                             )
-                        )
-                        thirdDeviceState?.text = getString(R.string.online)
-                        thirdProgressBar?.visibility = View.GONE
-                        thirdInfoDots?.visibility = View.VISIBLE
-                    }
-                    fourthDevice -> {
-                        fourthDotColor?.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.green_dot
+                            thirdDeviceState?.text = getString(R.string.online)
+                            thirdProgressBar?.visibility = View.GONE
+                            thirdInfoDots?.visibility = View.VISIBLE
+                        }
+                        fourthDevice -> {
+                            fourthDotColor?.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.green_dot
+                                )
                             )
-                        )
-                        fourthDeviceState?.text = getString(R.string.online)
-                        fourthProgressBar?.visibility = View.GONE
-                        fourthInfoDots?.visibility = View.VISIBLE
+                            fourthDeviceState?.text = getString(R.string.online)
+                            fourthProgressBar?.visibility = View.GONE
+                            fourthInfoDots?.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
@@ -341,8 +367,9 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             )
         bluetoothController?.bluetoothManager
             ?.enableLog(true)
-            ?.setReConnectCount(2, 1000)
-            ?.setConnectOverTime(18000)?.operateTimeout = 1000
+            ?.setReConnectCount(2000, 1000)
+            ?.setConnectOverTime(4000)
+        //.operateTimeout = 1000
 
 
         connectionStateCoordinator.bluetoothController = bluetoothController
@@ -390,7 +417,6 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                         bluetoothController?.blueGattAdapter?.addResult(service.service)
                     }
                 }
-
             }
         }
         bluetoothController?.bleDeviceMain = firstBleDevice
@@ -487,12 +513,14 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
 
     private fun navigateToAvailableDevices() {
 
-        if (bluetoothController?.bluetoothManager!!.isBlueEnable) {
+        if (bluetoothController?.bluetoothManager?.isBlueEnable == true) {
             try {
-                connectionStateCoordinator?.bluetoothController?.bluetoothManager?.cancelScan()
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.cancelScan()
             } catch (e: Exception) {
             }
-            findNavController().navigate(R.id.action_my_devices_to_search_devices)
+            view?.post {
+                findNavController().navigate(R.id.action_my_devices_to_search_devices)
+            }
         } else {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, 4)
@@ -500,14 +528,18 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun navigateToMain() {
-
-        findNavController().navigate(R.id.action_my_devices_to_main_fragment)
+        view?.post {
+            findNavController().navigate(R.id.action_my_devices_to_main_fragment)
+        }
     }
 
     fun navigateToDevice() {
         prefs.isOneDevice = true
-        val action = MyDevicesFragmentDirections.actionMyDevicesToDevice(nameToSend)
-        findNavController().navigate(action)
+        view?.post {
+            val action = MyDevicesFragmentDirections.actionMyDevicesToDevice(nameToSend)
+            findNavController().navigate(action)
+
+        }
     }
 
     fun setFirstDevice() {
@@ -558,12 +590,12 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             thirdDevice = deviceThreeObj.name
             thirdDeviceNewName = deviceThreeObj.name
             deviceTotalNumber = deviceTotalNumber + 1
-            thirdDeviceId.text = resources.getString(R.string.device_id) + deviceThreeObj.name
+            thirdDeviceId?.text = resources.getString(R.string.device_id) + deviceThreeObj.name
 
         } else {
             thirdCardView.visibility = View.GONE
         }
-        deviceNumber.text = "$deviceTotalNumber/4 devices"
+        deviceNumber?.text = "$deviceTotalNumber/4 devices"
 
     }
 
@@ -574,16 +606,16 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             fourthCardView.visibility = View.VISIBLE
             val gson = Gson()
             deviceFourObj = gson.fromJson(deviceFour, MyDevice::class.java)
-            fourthDeviceName.text = deviceFourObj.newName
+            fourthDeviceName?.text = deviceFourObj.newName
             fourthDevice = deviceFourObj.name
             fourthDeviceNewName = deviceFourObj.name
             deviceTotalNumber = deviceTotalNumber + 1
-            fourthDeviceId.text = resources.getString(R.string.device_id) + deviceFourObj.name
+            fourthDeviceId?.text = resources.getString(R.string.device_id) + deviceFourObj.name
 
         } else {
             fourthCardView.visibility = View.GONE
         }
-        deviceNumber.text = "$deviceTotalNumber/4 devices"
+        deviceNumber?.text = "$deviceTotalNumber/4 devices"
     }
 
     private val scanCallback = object : BleScanCallback() {
@@ -599,19 +631,27 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             list = scanResultList
         }
     }
+    fun connectDevice(bleDevice: BleDevice) {
+        connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+            bleDevice,
+            gattCallback
+        )
+    }
 
     private val gattCallback = object : BleGattCallback() {
         override fun onStartConnect() {
-            Log.e("D", "onStartConnect ")
+            Log.e("D", "onStartConnectmYdEVICES ")
         }
 
         override fun onConnectFail(bleDevice: BleDevice, exception: BleException) {
-            Log.e("D", "onConnectFail")
-
+            Log.e("D", "onConnectFailMyDEVICE")
+           // BleManager.getInstance().connect(bleDevice,gattCallback)
+            connectDevice(bleDevice)
         }
 
         override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
-            connectionStateCoordinator.bluetoothConnectionState.value = "connected"
+            connectionStateCoordinator.bluetoothConnectionState.value = bleDevicee
+
             if (bleDevicee.name == firstDevice) {
                 firstDotColor?.setImageDrawable(
                     ContextCompat.getDrawable(
@@ -624,8 +664,8 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 firstInfoDots?.visibility = View.VISIBLE
                 firstBleDevice = bleDevicee
                 firstGate = gatt
-                readResponse()
 
+                    readResponse()
             }
             if (bleDevicee.name == secondDevice) {
                 secondDotColor?.setImageDrawable(
@@ -639,8 +679,8 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 secondInfoDots?.visibility = View.VISIBLE
                 secondBleDevice = bleDevicee
                 secondGate = gatt
-                readSecondResponse()
 
+                    readSecondResponse()
             }
             if (bleDevicee.name == thirdDevice) {
                 thirdDotColor?.setImageDrawable(
@@ -654,8 +694,8 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 thirdInfoDots?.visibility = View.VISIBLE
                 thirdBleDevice = bleDevicee
                 thirdGate = gatt
-                readThirdResponse()
 
+                    readThirdResponse()
             }
             if (bleDevicee.name == fourthDevice) {
                 fourthDotColor?.setImageDrawable(
@@ -669,8 +709,8 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 fourthInfoDots?.visibility = View.VISIBLE
                 fourthBleDevice = bleDevicee
                 fourthGate = gatt
-                readFourthResponse()
 
+                    readFourthResponse()
             }
         }
 
@@ -680,30 +720,55 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             gatt: BluetoothGatt,
             status: Int
         ) {
-            Log.e("D", "device disocnnected " + bleDevice.device.name)
             connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
             connectionStateCoordinator.isDeviceConnected = false
             if (bleDevice.name == firstDevice) {
+                gatt?.connect()
                 firstDotColor?.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.red_dot
                     )
                 )
-                firstDeviceState?.text = "Ofline"
+                firstDeviceState?.text = getString(R.string.offline)
                 firstProgressBar?.visibility = View.GONE
                 firstInfoDots?.visibility = View.VISIBLE
             }
             if (bleDevice.name == secondDevice) {
+                gatt?.connect()
                 secondDotColor?.setImageDrawable(
                     ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.red_dot
                     )
                 )
-                secondDeviceState?.text = "Ofline"
+                secondDeviceState?.text = getString(R.string.offline)
                 secondProgressBar?.visibility = View.GONE
                 secondInfoDots?.visibility = View.VISIBLE
+            }
+            if (bleDevice.name == thirdDevice) {
+                gatt?.connect()
+                thirdDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
+                thirdDeviceState?.text = getString(R.string.offline)
+                thirdProgressBar?.visibility = View.GONE
+                thirdInfoDots?.visibility = View.VISIBLE
+            }
+            if (bleDevice.name == fourthDevice) {
+                gatt?.connect()
+                fourthDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
+                fourthDeviceState?.text = getString(R.string.offline)
+                fourthProgressBar?.visibility = View.GONE
+                fourthInfoDots?.visibility = View.VISIBLE
             }
         }
     }
@@ -885,6 +950,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 newDataChar[index] = byte.toChar()
             }
             connectionStateCoordinator.bleDevicePosition = 2
+            connectionStateCoordinator.bluetoothByteArray.value = newDataChar
             var response = ""
             var firstPart = ""
             for (item in newDataChar) {
@@ -948,8 +1014,11 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
     }
 
     private fun getRegister(response: String): String {
-        var pos = response.get(5)
-        return pos.toString()
+        var pos = ""
+        if (response.length > 4) {
+            pos = response.get(5).toString()
+        }
+        return pos
     }
 
     fun readTimerSync(response: String) {
@@ -1052,25 +1121,58 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             "6" -> {
                 val timZoneId = response.get(7)
                 when (timZoneId) {
-                    '0' -> {
-                        firstStartTime = response.substring(9, 13)
-                        firstStopTime = response.substring(13, response.length - 1)
+                        '0' -> {
+                            if (response.length > 7) {
+                                val value = response.get(8)
+                                if (value == '0') {
+                                    firstTimerActiv = true
+                                } else {
+                                    firstTimerActiv = false
+                                }
+                            }
+                            firstStartTime = response.substring(9, 13)
+                            firstStopTime = response.substring(13, response.length - 1)
 
+                        }
+                        '1' -> {
+                            if (response.length > 7) {
+                                val value = response.get(8)
+                                if (value == '0') {
+                                    secondTimerActiv = true
+                                } else {
+                                    secondTimerActiv = false
+                                }
+                            }
+                            secondStartTime = response.substring(9, 13)
+                            secondStopTime = response.substring(13, response.length - 1)
+                        }
+                        '2' -> {
+                            if (response.length > 7) {
+                                val value = response.get(8)
+                                if (value == '0') {
+                                    thirdTimerActiv = true
+                                } else {
+                                    thirdTimerActiv = false
+                                }
+                            }
+                            thirdStartTime = response.substring(9, 13)
+                            thirdStopTime = response.substring(13, response.length - 1)
+                        }
+                        '3' -> {
+                            if (response.length > 7) {
+                                val value = response.get(8)
+                                if (value == '0') {
+                                    fourthTimerActiv = true
+                                } else {
+                                    fourthTimerActiv = false
+                                }
+                            }
+                            fourtStartTime = response.substring(9, 13)
+                            fourtStopTime = response.substring(13, response.length - 1)
+                        }
                     }
-                    '1' -> {
-                        secondStartTime = response.substring(9, 13)
-                        secondStopTime = response.substring(13, response.length - 1)
-                    }
-                    '2' -> {
-                        thirdStartTime = response.substring(9, 13)
-                        thirdStopTime = response.substring(13, response.length - 1)
-                    }
-                    '3' -> {
-                        fourtStartTime = response.substring(9, 13)
-                        fourtStopTime = response.substring(13, response.length - 1)
-                    }
-                }
             }
+
             "7" -> {
                 mistTime = response.substring(11, 14)
                 suspendTime = response.substring(16, 19)
@@ -1083,8 +1185,8 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 intervalValue = fullCommand.toByteArray(charset)
                 val gson = Gson()
                 val newDevice = MyDevice(
-                    deviceOneObj.name,
-                    deviceOneObj.newName,
+                    deviceOneObj?.name.toString(),
+                    deviceOneObj?.newName.toString(),
                     true,
                     workingTime,
                     isOn,
@@ -1101,12 +1203,16 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                     isSprayFriquencu,
                     firstStartTime,
                     firstStopTime,
+                    firstTimerActiv,
                     secondStartTime,
                     secondStopTime,
+                    secondTimerActiv,
                     thirdStartTime,
                     thirdStopTime,
+                    thirdTimerActiv,
                     fourtStartTime,
                     fourtStopTime,
+                    fourthTimerActiv,
                     mistTime,
                     suspendTime
                 )
@@ -1220,24 +1326,67 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
 
                 when (timZoneId) {
 
-                    '0' -> {
-                        firstStartTime2 = response.substring(9, 13)
-                        firstStopTime2 = response.substring(13, response.length - 1)
-                    }
-                    '1' -> {
-                        secondStartTime2 = response.substring(9, 13)
-                        secondStopTime2 = response.substring(13, response.length - 1)
-                    }
-                    '2' -> {
-                        thirdStartTime2 = response.substring(9, 13)
-                        thirdStopTime2 = response.substring(13, response.length - 1)
-                    }
-                    '3' -> {
-                        fourtStartTime2 = response.substring(9, 13)
-                        fourtStopTime2 = response.substring(13, response.length - 1)
-                    }
+                        '0' -> {
+                            if (response.length>7)
+                            {
+                                val value=response.get(8)
+                                if (value=='0')
+                                {
+                                    firstTimerActiv2=true
+                                }
+                                else{
+                                    firstTimerActiv2 =false
+                                }
+                            }
+                            firstStartTime2 = response.substring(9, 13)
+                            firstStopTime2 = response.substring(13, response.length - 1)
+                        }
+                        '1' -> {
+                            if (response.length>7)
+                            {
+                                val value=response.get(8)
+                                if (value=='0')
+                                {
+                                    secondTimerActiv2=true
+                                }
+                                else{
+                                    secondTimerActiv2 =false
+                                }
+                            }
+                            secondStartTime2 = response.substring(9, 13)
+                            secondStopTime2 = response.substring(13, response.length - 1)
+                        }
+                        '2' -> {
+                            if (response.length>7)
+                            {
+                                val value=response.get(8)
+                                if (value=='0')
+                                {
+                                    thirdTimerActiv2=true
+                                }
+                                else{
+                                    thirdTimerActiv2 =false
+                                }
+                            }
+                            thirdStartTime2 = response.substring(9, 13)
+                            thirdStopTime2 = response.substring(13, response.length - 1)
+                        }
+                        '3' -> {
+                            if (response.length>7)
+                            {
+                                val value=response.get(8)
+                                if (value=='0')
+                                {
+                                    fourthTimerActiv2=true
+                                }
+                                else{
+                                    fourthTimerActiv2 =false
+                                }
+                            }
+                            fourtStartTime2 = response.substring(9, 13)
+                            fourtStopTime2 = response.substring(13, response.length - 1)
+                        }
                 }
-
             }
             "7" -> {
                 mistTime2 = response.substring(11, 14)
@@ -1251,8 +1400,8 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 intervalValue2 = fullCommand.toByteArray(charset)
                 val gson = Gson()
                 val newDevice = MyDevice(
-                    deviceTwoObj.name,
-                    deviceTwoObj.newName,
+                    deviceTwoObj?.name.toString(),
+                    deviceTwoObj?.newName.toString(),
                     true,
                     workingTime2,
                     isOn2,
@@ -1269,12 +1418,16 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                     isSprayFriquencu2,
                     firstStartTime2,
                     firstStopTime2,
+                    firstTimerActiv2,
                     secondStartTime2,
                     secondStopTime2,
+                    secondTimerActiv2,
                     thirdStartTime2,
                     thirdStopTime2,
+                    thirdTimerActiv2,
                     fourtStartTime2,
                     fourtStopTime2,
+                    fourthTimerActiv2,
                     mistTime2,
                     suspendTime2
                 )
@@ -1389,18 +1542,62 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 val timZoneId = response.get(7)
                 when (timZoneId) {
                     '0' -> {
+                        if (response.length>7)
+                        {
+                            val value=response.get(8)
+                            if (value=='0')
+                            {
+                                firstTimerActiv3=true
+                            }
+                            else{
+                                firstTimerActiv3 =false
+                            }
+                        }
                         firstStartTime3 = response.substring(9, 13)
                         firstStopTime3 = response.substring(13, 17)
                     }
                     '1' -> {
+                        if (response.length>7)
+                        {
+                            val value=response.get(8)
+                            if (value=='0')
+                            {
+                                secondTimerActiv3=true
+                            }
+                            else{
+                                secondTimerActiv3 =false
+                            }
+                        }
                         secondStartTime3 = response.substring(9, 13)
                         secondStopTime3 = response.substring(13, 17)
                     }
                     '2' -> {
+                        if (response.length>7)
+                        {
+                            val value=response.get(8)
+                            if (value=='0')
+                            {
+                                thirdTimerActiv3=true
+                            }
+                            else{
+                                thirdTimerActiv3 =false
+                            }
+                        }
                         thirdStartTime3 = response.substring(9, 13)
                         thirdStopTime3 = response.substring(13, 17)
                     }
                     '3' -> {
+                        if (response.length>7)
+                        {
+                            val value=response.get(8)
+                            if (value=='0')
+                            {
+                                fourthTimerActiv3=true
+                            }
+                            else{
+                                fourthTimerActiv3 =false
+                            }
+                        }
                         fourtStartTime3 = response.substring(9, 13)
                         fourtStopTime3 = response.substring(13, 17)
                     }
@@ -1437,12 +1634,16 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                     isSprayFriquencu3,
                     firstStartTime3,
                     firstStopTime3,
+                    firstTimerActiv3,
                     secondStartTime3,
                     secondStopTime3,
+                    secondTimerActiv3,
                     thirdStartTime3,
                     thirdStopTime3,
+                    thirdTimerActiv3,
                     fourtStartTime3,
                     fourtStopTime3,
+                    fourthTimerActiv3,
                     mistTime3,
                     suspendTime3
                 )
@@ -1556,23 +1757,54 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 val timZoneId = response.get(7)
                 when (timZoneId) {
                     '0' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                firstTimerActiv4 = true
+                            } else {
+                                firstTimerActiv4 = false
+                            }
+                        }
                         firstStartTime4 = response.substring(9, 13)
                         firstStopTime4 = response.substring(13, response.length - 1)
                     }
                     '1' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                secondTimerActiv4 = true
+                            } else {
+                                secondTimerActiv4 = false
+                            }
+                        }
                         secondStartTime4 = response.substring(9, 13)
                         secondStopTime4 = response.substring(13, response.length - 1)
                     }
                     '2' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                thirdTimerActiv4 = true
+                            } else {
+                                thirdTimerActiv4 = false
+                            }
+                        }
                         thirdStartTime4 = response.substring(9, 13)
                         thirdStopTime4 = response.substring(13, response.length - 1)
                     }
                     '3' -> {
+                        if (response.length > 7) {
+                            val value = response.get(8)
+                            if (value == '0') {
+                                fourthTimerActiv4 = true
+                            } else {
+                                fourthTimerActiv4 = false
+                            }
+                        }
                         fourtStartTime4 = response.substring(9, 13)
                         fourtStopTime4 = response.substring(13, response.length - 1)
                     }
                 }
-
             }
             "7" -> {
                 mistTime4 = response.substring(11, 14)
@@ -1604,19 +1836,22 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                     isSprayFriquencu4,
                     firstStartTime4,
                     firstStopTime4,
+                    firstTimerActiv4,
                     secondStartTime4,
                     secondStopTime4,
+                    secondTimerActiv4,
                     thirdStartTime4,
                     thirdStopTime4,
+                    thirdTimerActiv4,
                     fourtStartTime4,
                     fourtStopTime4,
+                    fourthTimerActiv4,
                     mistTime4,
                     suspendTime4
                 )
                 val json = gson.toJson(newDevice)
-                prefs.thirdDevice = json
+                prefs.fourthDevice = json
                 connectionStateCoordinator.isFourthTimeSynch.value = true
-
             }
         }
     }
@@ -1651,26 +1886,45 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         when (id) {
             btnAddNewDevice -> navigateToAvailableDevices()
             btnDone -> {
-                if(deviceTotalNumber==0)
-                {
+                if (deviceTotalNumber == 0) {
                     Snackbar.make(
                         requireView(),
                         "Please add one or more devices",
                         Snackbar.LENGTH_SHORT
                     ).show()
-                }
-                else{
-                if (deviceTotalNumber == 1) {
-                    navigateToDevice()
                 } else {
-                    navigateToMain()
-                }
+                    if (deviceTotalNumber == 1) {
+                        navigateToDevice()
+                    } else {
+                        navigateToMain()
+                    }
                 }
             }
-            firstInfoDots -> firstPopup.visibility = View.VISIBLE
-            secondInfoDots -> secondPopup.visibility = View.VISIBLE
-            thirdInfoDots -> thirdPopup.visibility = View.VISIBLE
-            fourthInfoDots -> fourthPopup.visibility = View.VISIBLE
+            firstInfoDots ->{
+                firstPopup.visibility = View.VISIBLE
+                secondPopup.visibility = View.INVISIBLE
+                thirdPopup.visibility = View.INVISIBLE
+                fourthPopup.visibility = View.INVISIBLE
+            }
+
+                secondInfoDots -> {
+                    secondPopup.visibility = View.VISIBLE
+                    firstPopup.visibility = View.INVISIBLE
+                    thirdPopup.visibility = View.INVISIBLE
+                    fourthPopup.visibility = View.INVISIBLE
+                }
+            thirdInfoDots -> {
+                thirdPopup.visibility = View.VISIBLE
+                firstPopup.visibility = View.INVISIBLE
+                secondPopup.visibility = View.INVISIBLE
+                fourthPopup.visibility = View.INVISIBLE
+            }
+            fourthInfoDots -> {
+                firstPopup.visibility = View.INVISIBLE
+                secondPopup.visibility = View.INVISIBLE
+                thirdPopup.visibility = View.INVISIBLE
+                fourthPopup.visibility = View.VISIBLE
+            }
             mainLayout -> {
                 firstPopup.visibility = View.GONE
                 secondPopup.visibility = View.GONE
@@ -1728,7 +1982,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                     val position = data?.getInt("position", 0)
                     when (position) {
                         0 -> {
-                            firstDeviceName.text = name
+                            firstDeviceName?.text = name
                             firstDeviceNewName = name.toString()
                             firstPopup.visibility = View.GONE
                             if (isDeleted == true) {
@@ -1739,39 +1993,39 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                             }
                         }
                         1 -> {
-                            secondDeviceName.text = name
+                            secondDeviceName?.text = name
                             secondDeviceNewName = name.toString()
                             secondPopup.visibility = View.GONE
                             if (isDeleted == true) {
                                 secondCardView.visibility = View.GONE
                                 deviceTotalNumber = deviceTotalNumber - 1
-                                deviceNumber.text = "$deviceTotalNumber/4 devices"
+                                deviceNumber?.text = "$deviceTotalNumber/4 devices"
                             }
                         }
                         2 -> {
-                            thirdDeviceName.text = name
+                            thirdDeviceName?.text = name
                             thirdDeviceNewName = name.toString()
                             thirdPopup.visibility = View.GONE
                             if (isDeleted == true) {
                                 thirdCardView.visibility = View.GONE
                                 deviceTotalNumber = deviceTotalNumber - 1
-                                deviceNumber.text = "$deviceTotalNumber/4 devices"
+                                deviceNumber?.text = "$deviceTotalNumber/4 devices"
                             }
                         }
                         3 -> {
-                            fourthDeviceName.text = name
+                            fourthDeviceName?.text = name
                             fourthDeviceNewName = name.toString()
                             fourthPopup.visibility = View.GONE
                             if (isDeleted == true) {
                                 fourthCardView.visibility = View.GONE
                                 deviceTotalNumber = deviceTotalNumber - 1
-                                deviceNumber.text = "$deviceTotalNumber/4 devices"
+                                deviceNumber?.text = "$deviceTotalNumber/4 devices"
                             }
                         }
 
                         4 -> {
                             if (resultCode == Activity.RESULT_OK) {
-                                if (bluetoothController?.bluetoothAdapter!!.isEnabled) {
+                                if (bluetoothController?.bluetoothAdapter?.isEnabled==true) {
                                     connectionStateCoordinator.listBleDevices.clear()
                                     bluetoothController?.startScan()
                                 } else {
@@ -1779,6 +2033,11 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                             } else if (resultCode == Activity.RESULT_CANCELED) {
                             }
                         }
+                    }
+                    if (deviceTotalNumber > 3) {
+                        btnAddNewDevice?.visibility = View.GONE
+                    } else {
+                        btnAddNewDevice?.visibility = View.VISIBLE
                     }
                 }
             }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">163808369714-viegdvfjscrcarhj63ar5i250cdk1r4a.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">163808369714</string>
+    <string name="google_api_key" translatable="false">AIzaSyDR--HHO6SnwV0M46pjEe_2d-7g4T-sE6Q</string>
+    <string name="google_app_id" translatable="false">1:163808369714:android:42da7a990107831838b02b</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDR--HHO6SnwV0M46pjEe_2d-7g4T-sE6Q</string>
+    <string name="google_storage_bucket" translatable="false">aermist-a327e.appspot.com</string>
+    <string name="project_id" translatable="false">aermist-a327e</string>
+</resources>

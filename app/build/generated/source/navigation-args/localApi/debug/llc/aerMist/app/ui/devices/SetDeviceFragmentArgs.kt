@@ -11,12 +11,12 @@ import kotlin.Suppress
 import kotlin.jvm.JvmStatic
 import llc.aerMist.app.models.ScheduleModel
 
-data class SetDeviceFragmentArgs(
-  val myArg: String = "",
-  val model: ScheduleModel? = null
+public data class SetDeviceFragmentArgs(
+  public val myArg: String = "",
+  public val model: ScheduleModel? = null
 ) : NavArgs {
   @Suppress("CAST_NEVER_SUCCEEDS")
-  fun toBundle(): Bundle {
+  public fun toBundle(): Bundle {
     val result = Bundle()
     result.putString("myArg", this.myArg)
     if (Parcelable::class.java.isAssignableFrom(ScheduleModel::class.java)) {
@@ -27,9 +27,9 @@ data class SetDeviceFragmentArgs(
     return result
   }
 
-  companion object {
+  public companion object {
     @JvmStatic
-    fun fromBundle(bundle: Bundle): SetDeviceFragmentArgs {
+    public fun fromBundle(bundle: Bundle): SetDeviceFragmentArgs {
       bundle.setClassLoader(SetDeviceFragmentArgs::class.java.classLoader)
       val __myArg : String?
       if (bundle.containsKey("myArg")) {
