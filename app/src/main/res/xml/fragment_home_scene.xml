@@ -47,8 +47,8 @@
             app:layout_constraintTop_toBottomOf="@id/whiteCircle" />
         <Constraint
             android:id="@+id/mistingTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="20dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/misting"
@@ -57,7 +57,8 @@
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@id/tabName"
             app:layout_constraintStart_toStartOf="@id/tabName"
-            app:layout_constraintTop_toBottomOf="@id/tabName" />
+            app:layout_constraintTop_toBottomOf="@id/tabName"
+            app:layout_editor_absoluteX="185dp" />
         <Constraint
             android:id="@+id/deviceNumber"
             android:layout_width="wrap_content"

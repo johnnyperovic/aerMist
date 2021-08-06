@@ -1944,6 +1944,8 @@ id deviceNameValue
 id deviceNumber
 id deviceState
 id deviceTv
+id dialogView
+id dialogViewDevice
 id dialog_button
 id dimensions
 id direct

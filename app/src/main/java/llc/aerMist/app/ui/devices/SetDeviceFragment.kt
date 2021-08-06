@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
@@ -17,12 +16,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.clj.fastble.callback.BleGattCallback
+import com.clj.fastble.callback.BleWriteCallback
 import com.clj.fastble.data.BleDevice
 import com.clj.fastble.exception.BleException
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_devices.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_set_device.*
 import kotlinx.android.synthetic.main.fragment_set_device.bleBg
 import kotlinx.android.synthetic.main.fragment_set_device.bleIcon
@@ -86,6 +85,10 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
     private val scheduleModelArgs: SetDeviceFragmentArgs by navArgs()
     private var scheduleModel: ScheduleModel? = null
     private var dialogDisconnectedDevice: DevicesDisconnected? = null
+    var deviceObjectOne:MyDevice?=null
+    var deviceObjectTwo:MyDevice?=null
+    var deviceObjectThree:MyDevice?=null
+    var deviceObjectFour:MyDevice?=null
     var dateAndTimeSynch = ""
     var isTimeSync = true
     var isSelected = false
@@ -172,7 +175,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 }
             }
         }
-
+        initBleConroller()
         val observer = Observer<CharArray> {
 
             var response = ""
@@ -195,16 +198,19 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         }
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
 
-        val observer2 = Observer<BleDevice> {
+        val disconnectedObserver = Observer<BleDevice> {
             if (deviceObject?.name == it.name) {
                 if (connectionStateCoordinator.bluetoothController?.bluetoothManager?.isConnected(it) == false) {
                     showDisconnectedDeviceDialog()
-                    connectDevice(it)
+                    if (connectionStateCoordinator.bluetoothController?.bluetoothManager!!.isConnected(it)==false)
+                    {
+                        connectDevice(it)
+                    }
                 }
             }
         }
-        connectionStateCoordinator.bleDisconnectDevices.observe(viewLifecycleOwner, observer2)
-        val observer3 = Observer<BleDevice> {
+        connectionStateCoordinator.bleDisconnectDevices.observe(viewLifecycleOwner, disconnectedObserver)
+        val connectedObserver = Observer<BleDevice> {
             if (deviceObject?.name == it.name) {
                 if (dialogDisconnectedDevice != null) dialogDisconnectedDevice?.dialog?.dismiss()
                 bleBg?.setImageDrawable(
@@ -212,19 +218,20 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 )
                 standbyTv?.text = resources.getString(R.string.standby)
                 btnStart?.isEnabled = true
+                dialogViewDevice?.visibility=View.GONE
             }
         }
-        connectionStateCoordinator.bluetoothConnectionState.observe(viewLifecycleOwner, observer3)
+        connectionStateCoordinator.bluetoothConnectionState.observe(viewLifecycleOwner, connectedObserver)
 
         val deviceOne = prefs.firstDevice
         val gson = Gson()
-        val deviceObjectOne = gson.fromJson(deviceOne, MyDevice::class.java)
+        deviceObjectOne = gson.fromJson(deviceOne, MyDevice::class.java)
         val deviceTwo = prefs.secondDevice
-        val deviceObjectTwo = gson.fromJson(deviceTwo, MyDevice::class.java)
+         deviceObjectTwo = gson.fromJson(deviceTwo, MyDevice::class.java)
         val deviceThree = prefs.thirdDevice
-        val deviceObjectThree = gson.fromJson(deviceThree, MyDevice::class.java)
+        deviceObjectThree = gson.fromJson(deviceThree, MyDevice::class.java)
         val deviceFour = prefs.fourthDevice
-        val deviceObjectFour = gson.fromJson(deviceFour, MyDevice::class.java)
+         deviceObjectFour = gson.fromJson(deviceFour, MyDevice::class.java)
         if (bleDevice?.name == deviceObjectOne?.name || bleDevice?.name == singleDeviceName) {
             mainDevicePositon = 0
             if (!deviceOne.isNullOrEmpty()) {
@@ -322,6 +329,34 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         }
     }
 
+    fun initBleConroller() {
+        bluetoothController =
+            BluetoothController(
+                null,
+                null,
+                null,
+                null,
+                gattCallback,
+                null,
+                writeCallback,
+                requireContext()
+            )
+//        bluetoothController?.bluetoothManager
+//            ?.enableLog(true)
+//            ?.setReConnectCount(10, 5000)
+//            ?.setConnectOverTime(5000)
+//            ?.operateTimeout = 5000
+
+//        connectionStateCoordinator.bluetoothController = bluetoothController
+//        bluetoothController.bluetoothAdapter.startDiscovery()
+//        connectionStateCoordinator.isDeviceConnected = false
+//        bluetoothController.bluetoothManager.init(requireActivity().application)
+//
+//        connectionStateCoordinator.listBleDevices.clear()
+//        bluetoothController.startScan()
+
+    }
+
     private val gattCallback = object : BleGattCallback() {
         override fun onStartConnect() {
             Log.e("D", "onStartConnect ")
@@ -333,12 +368,14 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         }
 
         override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
-            if (dialogDisconnectedDevice != null) dialogDisconnectedDevice?.dialog?.dismiss()
             bleBg?.setImageDrawable(
                 ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
             )
             standbyTv?.text = resources.getString(R.string.standby)
             btnStart?.isEnabled = true
+            dialogViewDevice?.visibility=View.GONE
+        //    readResponse(bleDevicee, gatt)
+
         }
 
         override fun onDisConnected(
@@ -347,19 +384,110 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             gatt: BluetoothGatt?,
             status: Int
         ) {
-
+showDisconnectedDeviceDialog()
         }
     }
+    fun readResponse(bleDevice: BleDevice?, gatt: BluetoothGatt?) {
+        if (bleDevice?.name == deviceObjectOne?.name) {
+            for (service in gatt?.services!!) {
+                if (service.characteristics.size > 0) {
+                    for (service in service.characteristics) {
+                        if (service.uuid.toString()
+                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
+                        ) {
+                            bluetoothController?.blueGattAdapter?.addResult(service.service)
+                        }
+                    }
+                }
+            }
+            connectionStateCoordinator.firstGatt = gatt
+            connectionStateCoordinator.firstDevice = bleDevice
 
+            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
+                val service = bluetoothController?.blueGattAdapter?.getItem(0)
+                service?.characteristics?.let {
+                    bluetoothController?.readNotification(
+                        bleDevice,
+                        it.get(0)
+                    )
+                }
+            }
+        } else if (bleDevice?.name == deviceObjectTwo?.name) {
+            for (service in gatt?.services!!) {
+                if (service.characteristics.size > 0) {
+                    for (service in service.characteristics) {
+                        if (service.uuid.toString()
+                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
+                        ) {
+                            bluetoothController?.blueGattAdapter?.addResult(service.service)
+                        }
+                    }
+                }
+            }
+            connectionStateCoordinator.secondGatt = gatt
+            connectionStateCoordinator.secondDevice = bleDevice
+
+            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
+                val service = bluetoothController?.blueGattAdapter?.getItem(0)
+                service?.characteristics?.let {
+                    bluetoothController?.readNotification2(
+                        bleDevice,
+                        it.get(0)
+                    )
+                }
+            }
+        } else if (bleDevice?.name == deviceObjectFour?.name) {
+            for (service in gatt?.services!!) {
+                if (service.characteristics.size > 0) {
+                    for (service in service.characteristics) {
+                        if (service.uuid.toString()
+                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
+                        ) {
+                            bluetoothController?.blueGattAdapter?.addResult(service.service)
+                        }
+                    }
+                }
+            }
+            connectionStateCoordinator.thirdGatt = gatt
+            connectionStateCoordinator.thirdDevice = bleDevice
+
+            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
+                val service = bluetoothController?.blueGattAdapter?.getItem(0)
+                service?.characteristics?.let {
+                    bluetoothController?.readNotification3(
+                        bleDevice,
+                        it.get(0)
+                    )
+                }
+            }
+        } else if (bleDevice?.name == deviceObjectFour?.name) {
+            for (service in gatt?.services!!) {
+                if (service.characteristics.size > 0) {
+                    for (service in service.characteristics) {
+                        if (service.uuid.toString()
+                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
+                        ) {
+                            bluetoothController?.blueGattAdapter?.addResult(service.service)
+                        }
+                    }
+                }
+            }
+            connectionStateCoordinator.fourthGatt = gatt
+            connectionStateCoordinator.fourthDevice = bleDevice
+
+            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
+                val service = bluetoothController?.blueGattAdapter?.getItem(0)
+                service?.characteristics?.let {
+                    bluetoothController?.readNotification4(
+                        bleDevice,
+                        it.get(0)
+                    )
+                }
+            }
+        }
+    }
     fun showDisconnectedDeviceDialog() {
-        bleBg?.setImageDrawable(
-            ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
-        )
-        standbyTv?.text = resources.getString(R.string.offline)
-        btnStart.isEnabled = false
-        dialogDisconnectedDevice = DevicesDisconnected(true)
-        dialogDisconnectedDevice?.isCancelable = true
-        dialogDisconnectedDevice?.show(childFragmentManager, "")
+        dialogViewDevice?.visibility=View.VISIBLE
     }
 
     fun setDisplayMode() {
@@ -468,6 +596,13 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     ), it1, it
                 )
             }
+        }
+    }
+    private val writeCallback = object : BleWriteCallback() {
+        override fun onWriteSuccess(current: Int, total: Int, justWrite: ByteArray?) {
+        }
+
+        override fun onWriteFailure(exception: BleException?) {
         }
     }
 
@@ -1239,13 +1374,13 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                 if (constraintSet == R.id.start) {
                     btnStart.setBackgroundResource(R.drawable.blue_radius_8)
                     btnStart?.text = getString(R.string.start)
-                    btnStart.isEnabled = true
+                    btnStart?.isEnabled = true
                     carViewDevice.isEnabled = true
                     btnStart.tag = "start"
                 } else {
                     btnStart.setBackgroundResource(R.drawable.container_light_blue)
                     btnStart?.text = getString(R.string.stop)
-                    btnStart.isEnabled = true
+                    btnStart?.isEnabled = true
                     setTabItemVisibility(true)
                     guideline?.setGuidelinePercent(1f)
                     btnStart.tag = "stop"
@@ -1440,7 +1575,7 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 )
                 if (btnStart.tag == "start") {
-                    startingTv.visibility = View.VISIBLE
+                    startingTv?.visibility = View.VISIBLE
                     bleDevice?.let {
                         gatt?.let { it1 ->
                             sendCommand(
@@ -1450,11 +1585,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         }
                     }
                     Handler().postDelayed({
-                        if (startingTv.visibility == View.VISIBLE) {
-                            startingTv.visibility = View.GONE
-                            btnStart.tag = "start"
+                        if (startingTv?.visibility == View.VISIBLE) {
+                            startingTv?.visibility = View.GONE
+                            btnStart?.tag = "start"
                         } else {
-                            btnStart.tag = "stop"
+                            btnStart?.tag = "stop"
                         }
                     }, 3000)
                     btnStart.tag = "stop"
@@ -1479,11 +1614,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                     )
                 )
                 if (btnStart.tag == "start") {
-                    startingTv.visibility = View.VISIBLE
+                    startingTv?.visibility = View.VISIBLE
                     gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
                     Handler().postDelayed({
-                        if (startingTv.visibility == View.VISIBLE) {
-                            startingTv.visibility = View.GONE
+                        if (startingTv?.visibility == View.VISIBLE) {
+                            startingTv?.visibility = View.GONE
                             btnStart.tag = "start"
                         } else {
                             btnStart.tag = "stop"
@@ -1521,11 +1656,12 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
                         ).show()
                         return
                     }
-                    startingTv.visibility = View.VISIBLE
+                    startingTv?.visibility = View.VISIBLE
+
                     gatt?.let { bleDevice?.let { it1 -> sendCommand(intervalOn, it1, it) } }
                     Handler().postDelayed({
-                        if (startingTv.visibility == View.VISIBLE) {
-                            startingTv.visibility = View.GONE
+                        if (startingTv?.visibility == View.VISIBLE) {
+                            startingTv?.visibility = View.GONE
                             btnStart.tag = "start"
                         } else {
                             btnStart.tag = "stop"
@@ -1765,13 +1901,11 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
         val fourtStart = deviceObject.fourtStartTime
         val fourtEnd = deviceObject.fourtStopTime
         val fourthActiv = deviceObject.fourthTimerActive
-            if(deviceObject.isFriquencyPerDay)
-            {
-                isNonSTtopActiv =false
-            }
-        else{
-                isNonSTtopActiv=true
-            }
+        if (deviceObject.isFriquencyPerDay) {
+            isNonSTtopActiv = false
+        } else {
+            isNonSTtopActiv = true
+        }
         if (firstStart.length == 4 && firstStart != "0000" && firstActive) {
             firstTimerTv?.text = setTimeZone2(firstStart) + "-" + setTimeZone2(firstEnd)
             isSelected = true
@@ -2038,4 +2172,5 @@ class SetDeviceFragment : Fragment(), View.OnClickListener {
             sunday = scheduleSU + "1."
         }
     }
+
 }

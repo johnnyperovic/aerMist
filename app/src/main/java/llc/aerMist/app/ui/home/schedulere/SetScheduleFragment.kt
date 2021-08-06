@@ -1200,4 +1200,5 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
         }
         return time
     }
+
 }

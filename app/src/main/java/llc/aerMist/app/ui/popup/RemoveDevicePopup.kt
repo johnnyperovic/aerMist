@@ -60,27 +60,32 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
                     if (filter) {
                         prefs.cleanFirstFilter()
                     } else {
-
-                        connectionStateCoordinator.firstGatt?.disconnect()
-                        val bleDevice=connectionStateCoordinator.firstDevice
-                        BleManager.getInstance().disconnect(bleDevice)
-                        Log.e("D","NAZIV "+bleDevice?.name)
-                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(bleDevice)
-                        prefs.cleanFirstDevice()
                         prefs.isDeleted = true
+                        prefs.cleanFirstDevice()
+                        val bleDevice=connectionStateCoordinator.firstDevice
+                       connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(bleDevice)
+                   //     BleManager.getInstance().disconnect(bleDevice)
+                          connectionStateCoordinator.firstGatt?.close()
+                         connectionStateCoordinator.firstDevice=null
+                         connectionStateCoordinator.firstGatt=null
+
+//                        connectionStateCoordinator.firstGatt?.services?.clear()
+//                        connectionStateCoordinator.firstGatt?.disconnect()
+//                        BleManager.getInstance().disconnect(bleDevice)
+//                        Log.e("D","NAZIV "+bleDevice?.name)
                     }
                 }
                 1 -> {
                     if (filter) {
                         prefs.cleanSecondFilter()
                     } else {
-                        connectionStateCoordinator.secondGatt?.disconnect()
-                        val bleDevice=connectionStateCoordinator.secondDevice
-                        BleManager.getInstance().disconnect(bleDevice)
-                        Log.e("D","NAZIV "+bleDevice?.name)
-                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(bleDevice)
                         prefs.cleanSecondDevice()
                         prefs.isDeleted = true
+                        val bleDevice=connectionStateCoordinator.secondDevice
+                        BleManager.getInstance().disconnect(bleDevice)
+                        connectionStateCoordinator.secondGatt?.close()
+                        connectionStateCoordinator.secondGatt=null
+                        connectionStateCoordinator.secondDevice=null
                     }
                 }
                 2 -> {
@@ -88,14 +93,15 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
                         prefs.cleanThirdFilter()
 
                     } else {
-
-                        connectionStateCoordinator.thirdGatt?.disconnect()
-                        val bleDevice=connectionStateCoordinator.thirdDevice
-                        BleManager.getInstance().disconnect(bleDevice)
-                        Log.e("D","NAZIV "+bleDevice?.name)
-                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(bleDevice)
                         prefs.cleanThirdDevice()
                         prefs.isDeleted = true
+                        val bleDevice=connectionStateCoordinator.thirdDevice
+                        BleManager.getInstance().disconnect(bleDevice)
+                        connectionStateCoordinator.thirdGatt?.close()
+                        connectionStateCoordinator.thirdGatt=null
+                        connectionStateCoordinator.thirdDevice=null
+
+
                     }
                 }
                 3 -> {
@@ -103,14 +109,13 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
                         prefs.cleanFourthFilter()
 
                     } else {
-                        connectionStateCoordinator.fourthGatt?.disconnect()
-                        val bleDevice=connectionStateCoordinator.fourthDevice
-                        BleManager.getInstance().disconnect(bleDevice)
-
-                        Log.e("D","NAZIV "+bleDevice?.name)
-                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(bleDevice)
                         prefs.cleanFourthDevice()
                         prefs.isDeleted = true
+                        val bleDevice=connectionStateCoordinator.fourthDevice
+                        BleManager.getInstance().disconnect(bleDevice)
+                        connectionStateCoordinator.fourthGatt?.close()
+                        connectionStateCoordinator.fourthGatt=null
+                        connectionStateCoordinator.fourthDevice=null
                     }
                 }
             }

@@ -135,7 +135,9 @@ class PreferenceCache(val context: Context) {
             putString(FOURTH_DEVICE, value)
             apply()
         }
-
+    fun clearDelete() {
+        prefs.edit()
+            .remove(IS_DELETED).apply()}
     fun clear() {
         prefs.edit()
             .remove(AUTH_TOKEN)

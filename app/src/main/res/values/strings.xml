@@ -75,8 +75,8 @@
     <string name="are_you_shure_you_want_to_remove">Are you shure you want to remove</string>
     <string name="reset_filter_title">Are you shoure,that you want to reset</string>
     <string name="connecting">Connecting</string>
-    <string name="your_device_is_disconnected">Your device is disconnected. Please ensure that  has power and that you are within range</string>
-    <string name="all_devices_are_disconnected">All your devices are disconnected. Please ensure that at least one has power and that you are within range
+    <string name="your_device_is_disconnected">Your device is disconnected.\n Please ensure that it has power and that you are within range</string>
+    <string name="all_devices_are_disconnected">All your devices are disconnected.\n Please ensure that at least one has power and that you are within range
 </string>
     <string name="all">All</string>
     <string name="you_must_choose">You must choose days and interval</string>

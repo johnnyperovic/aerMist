@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.clj.fastble.BleManager
 import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.callback.BleNotifyCallback
 import com.clj.fastble.callback.BleScanCallback
@@ -73,9 +72,7 @@ import llc.aerMist.app.ui.popup.RenameDevicePopup
 import org.koin.android.ext.android.inject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
 
 
 class MyDevicesFragment : Fragment(), View.OnClickListener {
@@ -365,18 +362,18 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 writeCallback,
                 requireContext()
             )
-        bluetoothController?.bluetoothManager
-            ?.enableLog(true)
-            ?.setReConnectCount(2000, 1000)
-            ?.setConnectOverTime(4000)
-        //.operateTimeout = 1000
+//        bluetoothController?.bluetoothManager
+//            ?.enableLog(true)
+//            ?.setReConnectCount(10, 4000)
+//            ?.setConnectOverTime(4000)
+//            ?.operateTimeout = 4000
 
-
-        connectionStateCoordinator.bluetoothController = bluetoothController
+//        connectionStateCoordinator.bluetoothController = bluetoothController
+        connectionStateCoordinator.bluetoothController?.bluetoothAdapter?.cancelDiscovery()
         bluetoothController?.bluetoothAdapter?.startDiscovery()
-        connectionStateCoordinator.isDeviceConnected = false
-        bluetoothController?.bluetoothManager?.init(requireActivity().application)
-        connectionStateCoordinator.listBleDevices.clear()
+//        connectionStateCoordinator.isDeviceConnected = false
+//        bluetoothController?.bluetoothManager?.init(requireActivity().application)
+//        connectionStateCoordinator.listBleDevices.clear()
         //    bluetoothController?.startScan()
         val firstMac = prefs.firstBleDevice
         val secondMac = prefs.secondBleDevice
@@ -421,7 +418,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         }
         bluetoothController?.bleDeviceMain = firstBleDevice
         connectionStateCoordinator.firstGatt = firstGate
-
+        connectionStateCoordinator.firstDevice = firstBleDevice
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
             bluetoothController?.readNotification(
@@ -446,6 +443,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         }
         bluetoothController?.bleDeviceMain = secondBleDevice
         connectionStateCoordinator.secondGatt = secondGate
+        connectionStateCoordinator.secondDevice = secondBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -472,6 +470,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         }
         bluetoothController?.bleDeviceMain = thirdBleDevice
         connectionStateCoordinator.thirdGatt = thirdGate
+        connectionStateCoordinator.thirdDevice = thirdBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -497,6 +496,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         }
         bluetoothController?.bleDeviceMain = fourthBleDevice
         connectionStateCoordinator.fourthGatt = fourthGate
+        connectionStateCoordinator.fourthDevice = fourthBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
@@ -632,10 +632,12 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         }
     }
     fun connectDevice(bleDevice: BleDevice) {
-        connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-            bleDevice,
-            gattCallback
-        )
+        if (connectionStateCoordinator.bluetoothController?.bluetoothManager!!.isConnected(bleDevice) == false) {
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                    bleDevice,
+                    gattCallback
+                )
+            }
     }
 
     private val gattCallback = object : BleGattCallback() {
@@ -720,57 +722,61 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
             gatt: BluetoothGatt,
             status: Int
         ) {
-            connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
-            connectionStateCoordinator.isDeviceConnected = false
-            if (bleDevice.name == firstDevice) {
-                gatt?.connect()
-                firstDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
+            if (prefs.isDeleted == false) {
+                connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
+                connectionStateCoordinator.isDeviceConnected = false
+                if (bleDevice.name == firstDevice) {
+                    gatt?.connect()
+                    firstDotColor?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.red_dot
+                        )
                     )
-                )
-                firstDeviceState?.text = getString(R.string.offline)
-                firstProgressBar?.visibility = View.GONE
-                firstInfoDots?.visibility = View.VISIBLE
-            }
-            if (bleDevice.name == secondDevice) {
-                gatt?.connect()
-                secondDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
+                    firstDeviceState?.text = getString(R.string.offline)
+                    firstProgressBar?.visibility = View.GONE
+                    firstInfoDots?.visibility = View.VISIBLE
+                }
+                if (bleDevice.name == secondDevice) {
+                    gatt?.connect()
+                    secondDotColor?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.red_dot
+                        )
                     )
-                )
-                secondDeviceState?.text = getString(R.string.offline)
-                secondProgressBar?.visibility = View.GONE
-                secondInfoDots?.visibility = View.VISIBLE
-            }
-            if (bleDevice.name == thirdDevice) {
-                gatt?.connect()
-                thirdDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
+                    secondDeviceState?.text = getString(R.string.offline)
+                    secondProgressBar?.visibility = View.GONE
+                    secondInfoDots?.visibility = View.VISIBLE
+                }
+                if (bleDevice.name == thirdDevice) {
+                    gatt?.connect()
+                    thirdDotColor?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.red_dot
+                        )
                     )
-                )
-                thirdDeviceState?.text = getString(R.string.offline)
-                thirdProgressBar?.visibility = View.GONE
-                thirdInfoDots?.visibility = View.VISIBLE
-            }
-            if (bleDevice.name == fourthDevice) {
-                gatt?.connect()
-                fourthDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
+                    thirdDeviceState?.text = getString(R.string.offline)
+                    thirdProgressBar?.visibility = View.GONE
+                    thirdInfoDots?.visibility = View.VISIBLE
+                }
+                if (bleDevice.name == fourthDevice) {
+                    gatt?.connect()
+                    fourthDotColor?.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.red_dot
+                        )
                     )
-                )
-                fourthDeviceState?.text = getString(R.string.offline)
-                fourthProgressBar?.visibility = View.GONE
-                fourthInfoDots?.visibility = View.VISIBLE
+                    fourthDeviceState?.text = getString(R.string.offline)
+                    fourthProgressBar?.visibility = View.GONE
+                    fourthInfoDots?.visibility = View.VISIBLE
+                }
             }
+            prefs.clearDelete()
         }
+
     }
 
     fun sendTimeSynchCommand(gatt: BluetoothGatt, bleDevice: BleDevice) {
@@ -1029,7 +1035,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
                 workingTime = time.toString()
-                if (prefs.startWorkingTimeFD == "") {
+                if (prefs.startWorkingTimeFD.isNullOrEmpty()) {
                     prefs.startWorkingTimeFD = workingTime
                 }
             }
@@ -1231,7 +1237,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
                 workingTime2 = time.toString()
-                if (prefs.startWorkingTimeSD == "") {
+                if (prefs.startWorkingTimeSD.isNullOrEmpty()) {
                     prefs.startWorkingTimeSD = workingTime2
                 }
             }
@@ -1448,7 +1454,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
                 workingTime3 = time.toString()
-                if (prefs.startWorkingTimeTD == "") {
+                if (prefs.startWorkingTimeTD.isNullOrEmpty()) {
                     prefs.startWorkingTimeTD = workingTime3
                 }
             }
@@ -1663,7 +1669,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 val subString = response.substring(6, response.length - 1)
                 val time = subString.toInt()
                 workingTime4 = time.toString()
-                if (prefs.startWorkingTimeFRD == "") {
+                if (prefs.startWorkingTimeFRD.isNullOrEmpty()) {
                     prefs.startWorkingTimeFRD = workingTime4
                 }
             }

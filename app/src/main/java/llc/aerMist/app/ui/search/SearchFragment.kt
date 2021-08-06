@@ -54,13 +54,13 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setDeviceNamaFromDb()
         bluetoothController =
-            BluetoothController(null, null,null,null,null,scanCallback, null, requireContext())
+            BluetoothController(null, null, null, null, null, scanCallback, null, requireContext())
 //        bluetoothController.bluetoothManager
 //            .enableLog(true)
 //            .setReConnectCount(200, 4000)
 //            .setConnectOverTime(18000).operateTimeout = 4000
-        bluetoothController.bluetoothAdapter.startDiscovery()
-        bluetoothController.bluetoothManager.init(requireActivity().application)
+//        bluetoothController.bluetoothAdapter.startDiscovery()
+//        bluetoothController.bluetoothManager.init(requireActivity().application)
 
         if (!bluetoothController.bluetoothAdapter.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -72,8 +72,7 @@ class SearchFragment : Fragment() {
 
         initRecycler()
         btnCancel.setOnClickListener {
-            if (bluetoothEnabled)
-            {
+            if (bluetoothEnabled) {
                 bluetoothController.bluetoothManager.cancelScan()
             }
             navigateToMyDevices()
@@ -82,7 +81,7 @@ class SearchFragment : Fragment() {
 
     private fun navigateToMyDevices() {
         view?.post {
-        findNavController().navigate(R.id.action_available_devices_to_my_devices)
+            findNavController().navigate(R.id.action_available_devices_to_my_devices)
         }
     }
 
@@ -137,13 +136,6 @@ class SearchFragment : Fragment() {
 
         override fun onScanFinished(scanResultList: List<BleDevice>) {
             Log.e("d", "Scan done from searcha " + scanResultList.size)
-//            progressBar?.visibility=View.INVISIBLE
-//            searchTv?.text="Scan done"
-//            connectionStateCoordinator.listBleDevices.clear()
-//            for (item in scanResultList) {
-//                connectionStateCoordinator.listBleDevices.add(item)
-//            }
-//            adapter?.notifyDataSetChanged()
         }
     }
 
