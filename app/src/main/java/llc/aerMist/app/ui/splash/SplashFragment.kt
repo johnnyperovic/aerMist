@@ -473,7 +473,6 @@ class SplashFragment : Fragment() {
 
         override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
             connectionStateCoordinator.bluetoothConnectionState.value = bleDevicee
-            Log.e("d", " onConnectSuccess111  " + bleDevicee.name)
             if (bleDevicee.name == firstDevice) {
                 firstBleDevice = bleDevicee
                 connectionStateCoordinator.firstDevice=firstBleDevice
@@ -522,7 +521,6 @@ class SplashFragment : Fragment() {
         ) {
             if (deviceOneObj?.name == bleDevice.name || deviceTwoObj?.name == bleDevice.name || deviceThreeObj?.name == bleDevice.name || deviceFourObj?.name == bleDevice.name) {
                 if (prefs.isDeleted == false) {
-                    Log.e("D", "DISCKONECT IZ status " + status)
                     connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
                     connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
                         bleDevice,
@@ -560,6 +558,11 @@ class SplashFragment : Fragment() {
         connectionStateCoordinator.firstDevice = firstBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
+            var size= bluetoothController?.blueGattAdapter!!.getCount()
+            for(item in 0..size)
+            {
+                Log.e("D","SERVICES SPLASH "+bluetoothController?.blueGattAdapter?.getItem(0) )
+            }
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
             service?.characteristics?.let {
                 bluetoothController?.readNotification(

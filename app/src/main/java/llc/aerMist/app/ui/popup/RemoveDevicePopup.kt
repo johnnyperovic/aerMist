@@ -69,10 +69,6 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
                          connectionStateCoordinator.firstDevice=null
                          connectionStateCoordinator.firstGatt=null
 
-//                        connectionStateCoordinator.firstGatt?.services?.clear()
-//                        connectionStateCoordinator.firstGatt?.disconnect()
-//                        BleManager.getInstance().disconnect(bleDevice)
-//                        Log.e("D","NAZIV "+bleDevice?.name)
                     }
                 }
                 1 -> {

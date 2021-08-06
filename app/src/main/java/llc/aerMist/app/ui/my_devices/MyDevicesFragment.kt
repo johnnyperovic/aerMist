@@ -420,6 +420,11 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
         connectionStateCoordinator.firstGatt = firstGate
         connectionStateCoordinator.firstDevice = firstBleDevice
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
+            var size= bluetoothController?.blueGattAdapter!!.getCount()
+            for(item in 0..size)
+            {
+                Log.e("D","SERVICES Devices  "+bluetoothController?.blueGattAdapter?.getItem(0) )
+            }
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
             bluetoothController?.readNotification(
                 firstBleDevice,
@@ -726,7 +731,7 @@ class MyDevicesFragment : Fragment(), View.OnClickListener {
                 connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
                 connectionStateCoordinator.isDeviceConnected = false
                 if (bleDevice.name == firstDevice) {
-                    gatt?.connect()
+                 //   gatt?.connect()
                     firstDotColor?.setImageDrawable(
                         ContextCompat.getDrawable(
                             requireContext(),
