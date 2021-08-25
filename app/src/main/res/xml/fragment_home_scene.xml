@@ -150,7 +150,8 @@
 
     <Transition
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start">
+        app:constraintSetStart="@+id/start"
+        app:duration="700">
 
     </Transition>
 </MotionScene>

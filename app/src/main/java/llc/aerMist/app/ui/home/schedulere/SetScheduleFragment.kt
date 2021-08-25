@@ -110,7 +110,6 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
             val gson = Gson()
             val model = gson.fromJson(scheduleModel2, ScheduleModel::class.java)
             model?.let { setScheduleView(it) }
-            Log.e("D","ulazi")
         } else {
             setScheduleView2()
         }
@@ -351,28 +350,40 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
         return seconds
     }
 
-    fun setTimeZone2(time: String, position: Int): String {
+    fun setTimeZone2(time: String,position: Int): String {
         var fullTime = ""
-        var zone = "am"
+        var zone = "pm"
         if (time.length == 4) {
-            Log.e("D", "TIME ZOVNE ULAZI " + time)
 
             var hour = time.substring(0, 2).toIntOrNull()
             var min = time.substring(2, 4).toIntOrNull()
-            //   hour?.let { min?.let { it1 -> formatTime(it, it1, position) } }
             if (hour != null) {
                 if (hour < 12) {
                     zone = "am"
-                } else {
+                } else if (hour>12){
                     hour = hour - 12
                     zone = "pm"
                 }
             }
-            if (hour != null && min != null) {
+        if (hour != null && min != null) {
+            if (hour < 10 && hour != 0) {
+                fullTime = "0" + hour.toString() + ":" + min + zone
+                if (min < 10) {
+                    fullTime = "0" + hour.toString() + ":" + "0" + min + zone
+                }
+            } else {
                 fullTime = hour.toString() + ":" + min + zone
+                if (min < 10) {
+                    fullTime = hour.toString() + ":" + "0" + min + zone
+                }
+            }
+
+            if (hour == 0 && min == 0) {
+                fullTime = ""
             }
         }
-        return fullTime
+    }
+    return fullTime
     }
 
     override fun onCreateView(
@@ -636,10 +647,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
                         seventhTimmer2,
                         eightTimmer2
                     )
-                Log.e("D","MIST ONCLICK "+mist)
                 val isNonSton = radioBtnNS.isChecked
-                Log.e("d", "isNonSton " + isNonSton)
-                Toast.makeText(requireContext(),""+isNonSton,Toast.LENGTH_SHORT).show()
 
                 val model = ScheduleModel(numbers, timerList, timerList2, isNonSton, mist, suspend)
                 if (type == 0) {
@@ -748,35 +756,35 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
 
         when (position) {
             1 -> {
-                startTimeValue.setText(
+                startTimeValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(format)
                 )
                 firstTimer = TimerModel(setHour, setMin, format)
                 firstTimer2 = TimerModel(hour2ToSend, setMin, format)
             }
             2 -> {
-                stopTimeValue.setText(
+                stopTimeValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(format)
                 )
                 secondTimer = TimerModel(setHour, setMin, format)
                 secondTimer2 = TimerModel(hour2ToSend, setMin, format)
             }
             3 -> {
-                secondStartTimeValue.setText(
+                secondStartTimeValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(format)
                 )
                 thirdTimmer = TimerModel(setHour, setMin, format)
                 thirdTimmer2 = TimerModel(hour2ToSend, setMin, format)
             }
             4 -> {
-                secondStopTimeValue.setText(
+                secondStopTimeValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(format)
                 )
                 fourtTimmer = TimerModel(setHour, setMin, format)
                 fourtTimmer2 = TimerModel(hour2ToSend, setMin, format)
             }
             5 -> {
-                thirdStartTimeValue.setText(
+                thirdStartTimeValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                         .append(format)
                 )
@@ -785,7 +793,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
 
             }
             6 -> {
-                thirdStopTimerValue.setText(
+                thirdStopTimerValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                         .append(format)
                 )
@@ -793,7 +801,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
                 sixthTimmer2 = TimerModel(hour2ToSend, setMin, format)
             }
             7 -> {
-                fourthStartTimeValue.setText(
+                fourthStartTimeValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                         .append(format)
                 )
@@ -802,7 +810,7 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
 
             }
             8 -> {
-                fourthStopTimeValue.setText(
+                fourthStopTimeValue?.setText(
                     StringBuilder().append(setHour).append(" : ").append(setMin).append(" ")
                         .append(format)
                 )
@@ -811,7 +819,32 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+    fun setTimeZone(time: String?, zone: String?): String {
+        var fullTime = ""
+        if (time?.length == 4) {
+            var hour = time.substring(0, 2).toIntOrNull()
+            var min = time.substring(2, 4).toIntOrNull()
 
+            if (hour != null && min != null) {
+                if (hour < 10 && hour != 0) {
+                    fullTime = "0" + hour.toString() + ":" + min + zone
+                    if (min < 10) {
+                        fullTime = "0" + hour.toString() + ":" + "0" + min + zone
+                    }
+                } else {
+                    fullTime = hour.toString() + ":" + min + zone
+                    if (min < 10) {
+                        fullTime = hour.toString() + ":" + "0" + min + zone
+                    }
+                }
+
+                if (hour == 0 && min == 0) {
+                    fullTime = ""
+                }
+            }
+        }
+        return fullTime
+    }
     fun formatTimerModel(timer: String, position: Int) {
         var hour = timer.substring(0, 2).toIntOrNull()
         var min = timer.substring(2, 4).toIntOrNull()
@@ -890,8 +923,8 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
 
     fun setScheduleView(model: ScheduleModel) {
 
-        val firstStart =
-            model.timer?.get(0)?.hours?.let { checkLenght(it) } + ":" +  model.timer?.get(0)?.min?.let { checkLenght(it) }+ model.timer?.get(0)?.format
+         val firstStart=
+             model.timer?.get(0)?.hours?.let { checkLenght(it) } + ":" +  model.timer?.get(0)?.min?.let { checkLenght(it) }+ model.timer?.get(0)?.format
         val firstStop =
             model.timer?.get(1)?.hours?.let { checkLenght(it) } + ":" +  model.timer?.get(1)?.min?.let { checkLenght(it) }  + model.timer?.get(1)?.format
         val secondStart =
@@ -1194,9 +1227,10 @@ class SetScheduleFragment : Fragment(), View.OnClickListener {
     fun checkLenght(timer: String):String
     {
         var time=timer
-        if (timer.length==1)
-        {
-            time="0"+timer
+        if (timer.length>0) {
+            if (timer.toIntOrNull()!! < 10) {
+                time = "0" + timer
+            }
         }
         return time
     }

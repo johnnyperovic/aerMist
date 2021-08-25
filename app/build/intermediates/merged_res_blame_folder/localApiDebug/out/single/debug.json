@@ -36,10 +36,6 @@
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\layout\\fragment_interval.xml"
     },
     {
-        "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\xml_fragment_home_scene2.xml.flat",
-        "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\xml\\fragment_home_scene2.xml"
-    },
-    {
         "merged": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\build\\intermediates\\res\\merged\\localApi\\debug\\drawable-xxhdpi_interval_blue_icon.png.flat",
         "source": "C:\\Users\\Nikola\\Desktop\\aerMistAplikacija\\android\\app\\src\\main\\res\\drawable-xxhdpi\\interval_blue_icon.png"
     },

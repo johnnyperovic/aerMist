@@ -521,20 +521,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/guideline" />
 
-            <TextView
-                android:id="@+id/startingTv"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:background="@color/white"
-                android:fontFamily="@font/roboto_regular"
-                android:gravity="center"
-                android:text="@string/starting"
-                android:textColor="@color/dark_text"
-                android:textSize="14sp"
-                android:visibility="gone"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="@id/btnStart" />
+
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineCenter"

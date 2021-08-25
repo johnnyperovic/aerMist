@@ -19,7 +19,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class BluetoothController(
-    val notifyCallback: BleNotifyCallback?,
+    var notifyCallback: BleNotifyCallback?,
     val notifyCallback2: BleNotifyCallback?,
     val notifyCallback3: BleNotifyCallback?,
     val notifyCallback4: BleNotifyCallback?,

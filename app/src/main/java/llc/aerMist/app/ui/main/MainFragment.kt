@@ -20,7 +20,7 @@ import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
     private lateinit var navController: NavController
-    val connectionStateCoordinator = NewObservableCoordinator
+    var connectionStateCoordinator:NewObservableCoordinator?=null
     private val prefs: PreferenceCache by inject()
     var counter = 0
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +34,10 @@ class MainFragment : Fragment() {
             childFragmentManager.findFragmentById(R.id.nav_fragment) as NavHostFragment
         navController = NavHostFragment.findNavController(navHostFragment)
         val navGraph = navController.navInflater.inflate(R.navigation.nav_graph)
+        connectionStateCoordinator=NewObservableCoordinator
         val deviceNumber =
-            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+            connectionStateCoordinator?.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
         checkTotalNumber()
-        Log.e("D","main counter "+counter)
         if (deviceNumber == 1 || deviceNumber == 0 && counter==1) {
             navGraph.startDestination = R.id.deviceFragment
             showBottomNav()

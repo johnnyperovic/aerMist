@@ -46,7 +46,6 @@ import kotlinx.android.synthetic.main.fragment_home.scheduleTv
 import kotlinx.android.synthetic.main.fragment_home.secondLine
 import kotlinx.android.synthetic.main.fragment_home.secondTimerTv
 import kotlinx.android.synthetic.main.fragment_home.standbyTv
-import kotlinx.android.synthetic.main.fragment_home.startingTv
 import kotlinx.android.synthetic.main.fragment_home.sundayTv
 import kotlinx.android.synthetic.main.fragment_home.suspendTv
 import kotlinx.android.synthetic.main.fragment_home.suspendValue
@@ -72,7 +71,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
     private val prefs: PreferenceCache by inject()
     private var tag = 0
     var numberPickerPopup = NumberPickerPopup()
-    lateinit var bluetoothController: BluetoothController
+    var bluetoothController: BluetoothController? = null
     val connectionStateCoordinator = NewObservableCoordinator
     var firstBleDevice: BleDevice? = null
     var secondBleDevice: BleDevice? = null
@@ -157,27 +156,43 @@ class HomeFragment : Fragment(), View.OnClickListener {
     val scheduleDellay = 1600
     var disconectedDialog: DevicesDisconnected? = null
 
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         setClickListener()
         setMotionLayoutListener()
         setTouchSwipeListener()
+        bluetoothController = connectionStateCoordinator.bluetoothController
+
         allDevices =
             connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
         if (allDevices > 0) {
             bleList =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
         }
-        initBleConroller()
         setFirstDevice()
         setSecondDevice()
         setThirdDevice()
         setFourthDevice()
         checkTotalNumber()
         deviceNumber?.text = allDevices.toString() + " of " + counter + " devices"
-
+        val scheduleModel = prefs.scheduleModel
+        val gson = Gson()
+        val model = gson.fromJson(scheduleModel, ScheduleModel::class.java)
+        deviceObject = model
+        if (deviceObject?.timer?.get(0)?.hours != "00" || deviceObject?.timer?.get(2)?.hours != "00" || deviceObject?.timer?.get(
+                4
+            )?.hours != "00" || deviceObject?.timer?.get(6)?.hours != "00"
+        ) {
+            isSelected = true
+        }
+        nonStopImg.performClick()
+        if (scheduleModelArgs.model != null) {
+            scheduleImg.performClick()
+            setScheduleActiveView()
+        } else {
+            setView()
+        }
         val observer = Observer<CharArray> {
             mainDevicePositon = connectionStateCoordinator.bleDevicePosition
             var response = ""
@@ -251,38 +266,18 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     }
                 }
             }
-            //      }
         }
 
         connectionStateCoordinator.bluetoothByteArray.observe(viewLifecycleOwner, observer)
-        val diconectedObserver = Observer<BleDevice> {
-            connectDevice(it)
-            val size =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-            allDevices = size
-            checkTotalNumber()
-            deviceNumber?.text = allDevices.toString() + " of " + counter + " devices"
-            standbyTv?.text = resources.getString(R.string.standby)
-            if (size == 0) {
-                showDisconnectedDeviceDialog()
-                bleBg?.setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
+        val diconectedObserverOne = Observer<BleDevice> {
+            connectionStateCoordinator.firstGattController?.let { it1 ->
+                setDisonectViewFirst(
+                    it,
+                    it1
                 )
-            } else
-                if (size != 0 && size < counter) {
-                    btnStart.isEnabled = true
-                    bleBg?.setImageDrawable(
-                        ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
-                    )
-                    removeDialog()
-                } else if (size == counter) {
-                    removeDialog()
-                    btnStart.isEnabled = true
-                    bleBg?.setImageDrawable(
-                        ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
-                    )
-                }
+            }
         }
+
         val conectedObserver = Observer<BleDevice> {
             val size =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
@@ -306,34 +301,66 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
                 )
             }
+            allDevices =
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+            if (allDevices > 0) {
+                bleList =
+                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
+            }
+            if (it.name == deviceOneObj?.name) {
+                setFirstDevice()
+            }
+            if (it.name == deviceTwoObj?.name) {
+                setSecondDevice()
+            }
+            if (it.name == deviceThreeObj?.name) {
+                setThirdDevice()
+            }
+            if (it.name == deviceFourObj?.name) {
+                setFourthDevice()
+            }
         }
-        connectionStateCoordinator.bleDisconnectDevices.observe(
+        connectionStateCoordinator.bleDisconnectDevicesFirst.observe(
             viewLifecycleOwner,
-            diconectedObserver
+            diconectedObserverOne
         )
-        connectionStateCoordinator.bluetoothConnectionState.observe(
+        connectionStateCoordinator.bluetoothConnectionStateFirst.observe(
             viewLifecycleOwner,
             conectedObserver
         )
-        val state = prefs.deviceState
-        val scheduleModel = prefs.scheduleModel
-        val gson = Gson()
-        val model = gson.fromJson(scheduleModel, ScheduleModel::class.java)
-        deviceObject = model
-        if (deviceObject?.timer?.get(0)?.hours != "00" || deviceObject?.timer?.get(2)?.hours != "00" || deviceObject?.timer?.get(
-                4
-            )?.hours != "00" || deviceObject?.timer?.get(6)?.hours != "00"
-        ) {
-            isSelected = true
-        }
-        nonStopImg.performClick()
-        if (scheduleModelArgs.model != null) {
-            scheduleImg.performClick()
-            setScheduleActiveView()
-        } else {
-            setView()
-        }
-        synchTime(4)
+
+        Handler().postDelayed({
+            synchTime(4)
+        }, 800)
+    }
+
+    fun setDisonectViewFirst(bleDevice: BleDevice?, gattCallback: BleGattCallback) {
+        bleDevice?.let { connectDevice(it, gattCallback) }
+        val size =
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+        allDevices = size
+        checkTotalNumber()
+        deviceNumber?.text = allDevices.toString() + " of " + counter + " devices"
+        standbyTv?.text = resources.getString(R.string.standby)
+        if (size == 0) {
+            showDisconnectedDeviceDialog()
+            bleBg?.setImageDrawable(
+                ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
+            )
+        } else
+            if (size != 0 && size < counter) {
+                btnStart.isEnabled = true
+                bleBg?.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
+                )
+                removeDialog()
+            } else if (size == counter) {
+                removeDialog()
+                btnStart.isEnabled = true
+                bleBg?.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
+                )
+            }
     }
 
     fun setView() {
@@ -412,9 +439,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
 
-    fun connectDevice(bleDevice: BleDevice) {
+    fun connectDevice(bleDevice: BleDevice, gattCallback: BleGattCallback) {
+        Log.e("D", "connectDevice " + bleDevice.name)
+
         if (connectionStateCoordinator.bluetoothController?.bluetoothManager!!.isConnected(bleDevice) == false) {
+            Log.e("D", "isConnected  == false")
+
             if (bleDevice.name == deviceOneObj?.name || bleDevice.name == deviceTwoObj?.name || bleDevice.name == deviceThreeObj?.name || bleDevice.name == deviceFourObj?.name) {
+                Log.e("D", "bleDevice.name " + deviceOneObj?.name)
 
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
                     bleDevice,
@@ -442,169 +474,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         fullTime = hour.toString() + ":" + "0" + min + zone
                     }
                 }
-
                 if (hour == 0 && min == 0) {
                     fullTime = ""
                 }
             }
         }
         return fullTime
-    }
-
-    //
-    private val gattCallback = object : BleGattCallback() {
-        override fun onStartConnect() {
-            Log.e("D", "onStartConnect ")
-        }
-
-        override fun onConnectFail(bleDevice: BleDevice, exception: BleException) {
-            Log.e("D", "onConnectFail")
-            connectDevice(bleDevice)
-        }
-
-        override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
-            btnStart?.isEnabled = true
-        //    readResponse(bleDevicee, gatt)
-
-            val size =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-            allDevices = size
-            deviceNumber?.text = allDevices.toString() + " of " + counter + " devices"
-            standbyTv?.text = resources.getString(R.string.standby)
-
-            if (size == 0) {
-                showDisconnectedDeviceDialog()
-                bleBg?.setImageDrawable(
-                    ContextCompat.getDrawable(requireContext(), R.drawable.red_circle)
-                )
-            } else
-                if (size != 0 && size < counter) {
-                    removeDialog()
-                    bleBg?.setImageDrawable(
-                        ContextCompat.getDrawable(requireContext(), R.drawable.yelow_img)
-                    )
-                    standbyTv?.text = resources.getString(R.string.standby)
-                } else if (size == counter) {
-                    removeDialog()
-                    bleBg?.setImageDrawable(
-                        ContextCompat.getDrawable(requireContext(), R.drawable.green_circle)
-                    )
-                }
-        }
-
-        override fun onDisConnected(
-            isActiveDisConnected: Boolean,
-            device: BleDevice?,
-            gatt: BluetoothGatt?,
-            status: Int
-        ) {
-            allDevices =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
-            deviceNumber?.text = allDevices.toString() + " of " + counter + " devices"
-            if (allDevices == 0) {
-                showDisconnectedDeviceDialog()
-            }
-        }
-    }
-
-    fun readResponse(bleDevice: BleDevice?, gatt: BluetoothGatt?) {
-        if (bleDevice?.name == deviceOneObj?.name) {
-            for (service in gatt?.services!!) {
-                if (service.characteristics.size > 0) {
-                    for (service in service.characteristics) {
-                        if (service.uuid.toString()
-                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                        ) {
-                            bluetoothController?.blueGattAdapter?.addResult(service.service)
-                        }
-                    }
-                }
-            }
-            connectionStateCoordinator.firstGatt = gatt
-            connectionStateCoordinator.firstDevice = bleDevice
-
-            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-                val service = bluetoothController?.blueGattAdapter?.getItem(0)
-                service?.characteristics?.let {
-                    bluetoothController?.readNotification(
-                        bleDevice,
-                        it.get(0)
-                    )
-                }
-            }
-        } else if (bleDevice?.name == deviceTwoObj?.name) {
-            for (service in gatt?.services!!) {
-                if (service.characteristics.size > 0) {
-                    for (service in service.characteristics) {
-                        if (service.uuid.toString()
-                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                        ) {
-                            bluetoothController?.blueGattAdapter?.addResult(service.service)
-                        }
-                    }
-                }
-            }
-            connectionStateCoordinator.secondGatt = gatt
-            connectionStateCoordinator.secondDevice = bleDevice
-
-            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-                val service = bluetoothController?.blueGattAdapter?.getItem(0)
-                service?.characteristics?.let {
-                    bluetoothController?.readNotification2(
-                        bleDevice,
-                        it.get(0)
-                    )
-                }
-            }
-        } else if (bleDevice?.name == deviceThreeObj?.name) {
-            for (service in gatt?.services!!) {
-                if (service.characteristics.size > 0) {
-                    for (service in service.characteristics) {
-                        if (service.uuid.toString()
-                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                        ) {
-                            bluetoothController?.blueGattAdapter?.addResult(service.service)
-                        }
-                    }
-                }
-            }
-            connectionStateCoordinator.thirdGatt = gatt
-            connectionStateCoordinator.thirdDevice = bleDevice
-
-            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-                val service = bluetoothController?.blueGattAdapter?.getItem(0)
-                service?.characteristics?.let {
-                    bluetoothController?.readNotification3(
-                        bleDevice,
-                        it.get(0)
-                    )
-                }
-            }
-        } else if (bleDevice?.name == deviceFourObj?.name) {
-            for (service in gatt?.services!!) {
-                if (service.characteristics.size > 0) {
-                    for (service in service.characteristics) {
-                        if (service.uuid.toString()
-                                .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                        ) {
-                            bluetoothController?.blueGattAdapter?.addResult(service.service)
-                        }
-                    }
-                }
-            }
-            connectionStateCoordinator.fourthGatt = gatt
-            connectionStateCoordinator.fourthDevice = bleDevice
-
-            if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-                val service = bluetoothController?.blueGattAdapter?.getItem(0)
-                service?.characteristics?.let {
-                    bluetoothController?.readNotification4(
-                        bleDevice,
-                        it.get(0)
-                    )
-                }
-            }
-        }
     }
 
     override fun onClick(id: View?) {
@@ -628,176 +503,67 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 setScheduleView()
             }
             btnStart -> {
-                // if (allDevices > 0) {
                 isTimeSync = false
                 carViewHome.isEnabled = false
 
-                if (tag == 0) {
+                if (bluetoothController?.bluetoothAdapter?.isEnabled == true) {
 
-                    val deviceState = DeviceState(tag, true)
-                    val gson = Gson()
-                    val json2 = gson.toJson(deviceState)
-                    prefs.deviceState = json2
-                    btnStart?.isEnabled = false
-                    if (btnStart.tag == "start") {
+                    if (tag == 0) {
                         setTabView()
-
-                        btnStart.tag = "stop"
-                        firstGate?.let {
-                            firstBleDevice?.let { it1 ->
-                                sendCommand(
-                                    nonStopOn,
-                                    it1, it
-                                )
-                            }
-                        }
-                        secondGate?.let {
-                            secondBleDevice?.let { it1 ->
-                                sendCommand(
-                                    nonStopOn,
-                                    it1, it
-                                )
-                            }
-                        }
-                        thirdGate?.let {
-                            thirdBleDevice?.let { it1 ->
-                                sendCommand(
-                                    nonStopOn,
-                                    it1, it
-                                )
-                            }
-                        }
-                        fourthGate?.let {
-                            fourthBleDevice?.let { it1 ->
-                                sendCommand(
-                                    nonStopOn,
-                                    it1, it
-                                )
-                            }
-                        }
-                        startingTv.visibility = View.VISIBLE
-                        Handler().postDelayed({
-                            Handler().postDelayed({
-                                motionLayout?.transitionToEnd()
-                                motionLayout?.transitionToStart()
-                                startingTv?.visibility = View.INVISIBLE
-                                setTabItemVisibility(true)
-                            }, 700)
-                            synchTime(4)
-                        }, 700)
-                    } else {
-                        btnStart.tag = "start"
-                        val deviceState = DeviceState(tag, false)
+                        motionLayout?.transitionToEnd()
+                        motionLayout?.transitionToStart()
+                        val deviceState = DeviceState(tag, true)
                         val gson = Gson()
                         val json2 = gson.toJson(deviceState)
                         prefs.deviceState = json2
-                        motionLayout?.transitionToEnd()
-                        motionLayout?.transitionToStart()
 
-                        firstGate?.let {
-                            firstBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        secondGate?.let {
-                            secondBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        thirdGate?.let {
-                            thirdBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        fourthGate?.let {
-                            fourthBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        synchTime(4)
-                    }
-                } else if (tag == 1) {
-                    if (!intervalValue.isEmpty()) {
-
-                        setTabView()
                         if (btnStart.tag == "start") {
-                            startingTv?.visibility = View.VISIBLE
                             btnStart.tag = "stop"
-                            guideline?.setGuidelinePercent(1f)
-                            val intervalModel: IntervalModel =
-                                IntervalModel(mistValueSeconds, suspendValueSeconds)
-                            val deviceState = DeviceState(tag, true)
-                            val gson = Gson()
-                            val json = gson.toJson(intervalModel)
-                            val json2 = gson.toJson(deviceState)
-                            prefs.intervalModel = json
-                            prefs.deviceState = json2
-
-                            var i = 0
-                            firstGate?.let {
-                                firstBleDevice?.let { it1 ->
-                                    sendCommand(
-                                        intervalOn,
-                                        it1, it
-                                    )
-                                }
-                            }
-                            secondGate?.let {
-                                secondBleDevice?.let { it1 ->
-                                    sendCommand(
-                                        intervalOn,
-                                        it1, it
-                                    )
-                                }
-                            }
-                            thirdGate?.let {
-                                thirdBleDevice?.let { it1 ->
-                                    sendCommand(
-                                        intervalOn,
-                                        it1, it
-                                    )
-                                }
-                            }
-                            fourthGate?.let {
-                                fourthBleDevice?.let { it1 ->
-                                    sendCommand(
-                                        intervalOn,
-                                        it1, it
-                                    )
-                                }
-                            }
-                            startingTv?.visibility = View.VISIBLE
                             Handler().postDelayed({
+                                firstGate?.let {
+                                    firstBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            nonStopOn,
+                                            it1, it
+                                        )
+                                    }
+                                }
+                                secondGate?.let {
+                                    secondBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            nonStopOn,
+                                            it1, it
+                                        )
+                                    }
+                                }
+                                thirdGate?.let {
+                                    thirdBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            nonStopOn,
+                                            it1, it
+                                        )
+                                    }
+                                }
+                                fourthGate?.let {
+                                    fourthBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            nonStopOn,
+                                            it1, it
+                                        )
+                                    }
+                                }
                                 Handler().postDelayed({
-                                    motionLayout?.transitionToEnd()
-                                    motionLayout?.transitionToStart()
-                                }, 700)
-                                synchTime(4)
+                                    synchTime(4)
+                                }, 800)
+                            }, 800)
 
-                            }, 2000)
                         } else {
-                            motionLayout.transitionToEnd()
-                            motionLayout.transitionToStart()
-                            guideline?.setGuidelinePercent(0.65f)
-
+                            btnStart.tag = "start"
                             val deviceState = DeviceState(tag, false)
                             val gson = Gson()
                             val json2 = gson.toJson(deviceState)
                             prefs.deviceState = json2
-                            btnStart.tag = "start"
-                            var i = 0
+
                             firstGate?.let {
                                 firstBleDevice?.let { it1 ->
                                     sendCommand(
@@ -830,146 +596,257 @@ class HomeFragment : Fragment(), View.OnClickListener {
                                     )
                                 }
                             }
-                            synchTime(4)
+                            Handler().postDelayed({
+                                synchTime(4)
+                            }, 800)
                         }
-                    } else {
-                        Snackbar.make(
-                            requireView(),
-                            "You must choose interval",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                    }
-                } else if (tag == 2) {
-                    setTabView()
-                    if (btnStart.tag == "start") {
-                        if (firstTimer.contains("null") || !isSelected) {
-                            //  if (scheduleModel.timer.get(0)=="0.0")
+                    } else if (tag == 1) {
+                        if (!intervalValue.isEmpty()) {
+//                            motionLayout?.transitionToEnd()
+//                            motionLayout?.transitionToStart()
+                            setTabView()
+                            if (btnStart.tag == "start") {
+                                btnStart.tag = "stop"
+                                motionLayout?.transitionToEnd()
+                                motionLayout?.transitionToStart()
+                                guideline?.setGuidelinePercent(1f)
+                                val intervalModel: IntervalModel =
+                                    IntervalModel(mistValueSeconds, suspendValueSeconds)
+                                val deviceState = DeviceState(tag, true)
+                                val gson = Gson()
+                                val json = gson.toJson(intervalModel)
+                                val json2 = gson.toJson(deviceState)
+                                prefs.intervalModel = json
+                                prefs.deviceState = json2
+
+                                var i = 0
+                                Handler().postDelayed({
+
+                                    firstGate?.let {
+                                        firstBleDevice?.let { it1 ->
+                                            sendCommand(
+                                                intervalOn,
+                                                it1, it
+                                            )
+                                        }
+                                    }
+                                    secondGate?.let {
+                                        secondBleDevice?.let { it1 ->
+                                            sendCommand(
+                                                intervalOn,
+                                                it1, it
+                                            )
+                                        }
+                                    }
+                                    thirdGate?.let {
+                                        thirdBleDevice?.let { it1 ->
+                                            sendCommand(
+                                                intervalOn,
+                                                it1, it
+                                            )
+                                        }
+                                    }
+                                    fourthGate?.let {
+                                        fourthBleDevice?.let { it1 ->
+                                            sendCommand(
+                                                intervalOn,
+                                                it1, it
+                                            )
+                                        }
+                                    }
+                                    Handler().postDelayed({
+                                        synchTime(4)
+                                    }, 2000)
+                                }, 800)
+                            } else {
+                                btnStart.tag = "start"
+                                motionLayout.transitionToEnd()
+                                motionLayout.transitionToStart()
+                                guideline?.setGuidelinePercent(0.65f)
+                                val deviceState = DeviceState(tag, false)
+                                val gson = Gson()
+                                val json2 = gson.toJson(deviceState)
+                                prefs.deviceState = json2
+                                var i = 0
+                                firstGate?.let {
+                                    firstBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            byteArrayOF,
+                                            it1, it
+                                        )
+                                    }
+                                }
+                                secondGate?.let {
+                                    secondBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            byteArrayOF,
+                                            it1, it
+                                        )
+                                    }
+                                }
+                                thirdGate?.let {
+                                    thirdBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            byteArrayOF,
+                                            it1, it
+                                        )
+                                    }
+                                }
+                                fourthGate?.let {
+                                    fourthBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            byteArrayOF,
+                                            it1, it
+                                        )
+                                    }
+                                }
+                                Handler().postDelayed({
+                                    synchTime(4)
+                                }, 800)
+
+                            }
+                        } else {
                             Snackbar.make(
                                 requireView(),
-                                getString(R.string.you_must_choose),
+                                "You must choose interval",
                                 Snackbar.LENGTH_SHORT
                             ).show()
-                            return
                         }
-                        guideline?.setGuidelinePercent(1f)
-
-                        startingTv?.visibility = View.VISIBLE
-                        btnStart.tag = "stop"
-                        var i = 0
-                        val deviceState = DeviceState(tag, true)
-                        val gson = Gson()
-                        val json2 = gson.toJson(deviceState)
-                        Log.e("D", "FirstTimmer " + firstTimer)
-                        Log.e("D", "SecondTimmer " + secondTimer)
-                        Log.e("D", "ThirdTimmer " + thirdTimer)
-                        Log.e("D", "FourthTimmer " + fourthTimer)
-                        Log.e("D", "sprayFriquency " + sprayFriquency)
-                        prefs.deviceState = json2
-                        firstGate?.let {
-                            firstBleDevice?.let { it1 ->
-                                sendCommand(
-                                    intervalOn,
-                                    it1, it
-                                )
+                    } else if (tag == 2) {
+                        setTabView()
+                        if (btnStart.tag == "start") {
+                            if (firstTimer.contains("null") || !isSelected) {
+                                //  if (scheduleModel.timer.get(0)=="0.0")
+                                Snackbar.make(
+                                    requireView(),
+                                    getString(R.string.you_must_choose),
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                                return
                             }
-                        }
+                            btnStart.tag = "stop"
+                            motionLayout?.transitionToEnd()
+                            motionLayout?.transitionToStart()
+                            Handler().postDelayed({
+                                guideline?.setGuidelinePercent(1f)
+                                var i = 0
+                                val deviceState = DeviceState(tag, true)
+                                val gson = Gson()
+                                val json2 = gson.toJson(deviceState)
 
-                        if (secondBleDevice != null) {
+                                prefs.deviceState = json2
+                                firstGate?.let {
+                                    firstBleDevice?.let { it1 ->
+                                        sendCommand(
+                                            intervalOn,
+                                            it1, it
+                                        )
+                                    }
+                                }
+
+                                if (secondBleDevice != null) {
+                                    secondGate?.let {
+                                        secondBleDevice?.let { it1 ->
+                                            Handler().postDelayed({
+                                                sendCommand(
+                                                    intervalOn,
+                                                    it1, it
+                                                )
+                                            }, 1000)
+                                        }
+                                    }
+                                }
+                                if (thirdBleDevice != null) {
+                                    thirdGate?.let {
+                                        thirdBleDevice?.let { it1 ->
+                                            Handler().postDelayed({
+                                                sendCommand(
+                                                    intervalOn,
+                                                    it1, it
+                                                )
+                                            }, 2000)
+                                        }
+                                    }
+                                }
+                                if (fourthBleDevice != null) {
+                                    fourthGate?.let {
+                                        fourthBleDevice?.let { it1 ->
+                                            Handler().postDelayed({
+                                                sendCommand(
+                                                    intervalOn,
+                                                    it1, it
+                                                )
+                                            }, 3000)
+                                        }
+                                    }
+                                }
+                                checkTotalNumber()
+                                // guideline?.setGuidelinePercent(0.6f)
+                                val delay = counter * 1000
+                                Handler().postDelayed({
+                                    synchTime(4)
+                                }, delay.toLong())
+                            }, 800)
+                        } else {
+                            btnStart.tag = "start"
+                            var i = 0
+                            responseTimerOne = 0
+                            responseTimerTwo = 0
+                            responseTimerThree = 0
+                            responseTimerFour = 0
+                            guideline?.setGuidelinePercent(0.65f)
+                            motionLayout.transitionToEnd()
+                            motionLayout.transitionToStart()
+                            val deviceState = DeviceState(tag, false)
+                            val gson = Gson()
+                            val json2 = gson.toJson(deviceState)
+                            prefs.deviceState = json2
+                            firstGate?.let {
+                                firstBleDevice?.let { it1 ->
+                                    sendCommand(
+                                        byteArrayOF,
+                                        it1, it
+                                    )
+                                }
+                            }
                             secondGate?.let {
                                 secondBleDevice?.let { it1 ->
-                                    Handler().postDelayed({
-                                        sendCommand(
-                                            intervalOn,
-                                            it1, it
-                                        )
-                                    }, 1000)
+                                    sendCommand(
+                                        byteArrayOF,
+                                        it1, it
+                                    )
                                 }
                             }
-                        }
-                        if (thirdBleDevice != null) {
                             thirdGate?.let {
                                 thirdBleDevice?.let { it1 ->
-                                    Handler().postDelayed({
-                                        sendCommand(
-                                            intervalOn,
-                                            it1, it
-                                        )
-                                    }, 2000)
+                                    sendCommand(
+                                        byteArrayOF,
+                                        it1, it
+                                    )
                                 }
                             }
-                        }
-                        if (fourthBleDevice != null) {
                             fourthGate?.let {
                                 fourthBleDevice?.let { it1 ->
-                                    Handler().postDelayed({
-                                        sendCommand(
-                                            intervalOn,
-                                            it1, it
-                                        )
-                                    }, 3000)
+                                    sendCommand(
+                                        byteArrayOF,
+                                        it1, it
+                                    )
                                 }
                             }
+                            Handler().postDelayed({
+                                synchTime(4)
+                            }, 1000)
                         }
-                        checkTotalNumber()
-                        val fullDelay = scheduleDellay * counter
-                        motionLayout?.transitionToEnd()
-                        motionLayout?.transitionToStart()
-                        startingTv?.visibility = View.GONE
-                        guideline?.setGuidelinePercent(0.6f)
-                        btnStart.tag = "stop"
-
-                    } else {
-                        btnStart.tag = "start"
-                        var i = 0
-                        responseTimerOne = 0
-                        responseTimerTwo = 0
-                        responseTimerThree = 0
-                        responseTimerFour = 0
-                        guideline?.setGuidelinePercent(0.65f)
-                        motionLayout.transitionToEnd()
-                        motionLayout.transitionToStart()
-                        val deviceState = DeviceState(tag, false)
-                        val gson = Gson()
-                        val json2 = gson.toJson(deviceState)
-                        prefs.deviceState = json2
-                        firstGate?.let {
-                            firstBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        secondGate?.let {
-                            secondBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        thirdGate?.let {
-                            thirdBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        fourthGate?.let {
-                            fourthBleDevice?.let { it1 ->
-                                sendCommand(
-                                    byteArrayOF,
-                                    it1, it
-                                )
-                            }
-                        }
-                        Handler().postDelayed({
-                            synchTime(4)
-                        }, 1500)
                     }
+                } else {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.turn_bluetooth_on),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    return
                 }
-                //  }
+
             }
             btnEdit -> {
                 if (tag == 1) {
@@ -995,53 +872,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             "sunday" -> dayInWeek = 6
         }
         return dayInWeek
-    }
-
-    fun formatDaySchedule() {
-        daysInWeek = deviceObject?.days!!
-        monday = scheduleMo + daysInWeek.get(0) + "."
-        tuesday = scheduleTu + daysInWeek.get(1) + "."
-        wednesday = scheduleWE + daysInWeek.get(2) + "."
-        thursday = scheduleTH + daysInWeek.get(3) + "."
-        friday = scheduleFR + daysInWeek.get(4) + "."
-        saturday = scheduleSA + daysInWeek.get(5) + "."
-        sunday = scheduleSU + daysInWeek.get(6) + "."
-
-        if (daysInWeek.get(0) == 0) {
-            mondayTv.alpha = 1f
-        } else {
-            mondayTv.alpha = 0.3f
-        }
-        if (daysInWeek.get(1) == 0) {
-            tuesdayTv.alpha = 1f
-        } else {
-            tuesdayTv.alpha = 0.3f
-        }
-        if (daysInWeek.get(2) == 0) {
-            wednesdayTv.alpha = 1f
-        } else {
-            wednesdayTv.alpha = 0.3f
-        }
-        if (daysInWeek.get(3) == 0) {
-            thusdayTv.alpha = 1f
-        } else {
-            thusdayTv.alpha = 0.3f
-        }
-        if (daysInWeek.get(4) == 0) {
-            fridayTv.alpha = 1f
-        } else {
-            fridayTv.alpha = 0.3f
-        }
-        if (daysInWeek.get(5) == 0) {
-            saturdayTv.alpha = 1f
-        } else {
-            saturdayTv.alpha = 0.3f
-        }
-        if (daysInWeek.get(6) == 0) {
-            sundayTv.alpha = 1f
-        } else {
-            sundayTv.alpha = 0.3f
-        }
     }
 
     fun formatTimer() {
@@ -1100,19 +930,12 @@ class HomeFragment : Fragment(), View.OnClickListener {
             fourthTimer = "EE060031" + hourSeven2 + minSeven2 + hourEight2 + minEight2 + "."
             fourthTimer2 = fourthTimer.toByteArray(charset)
         }
-
-        if (deviceObject?.nonStop == true) {
-
-        }
-//        mistValue?.text = scheduleModel.mist.toString()
-//        suspendValue?.text = scheduleModel.suspend.toString()
     }
 
     fun checkNonStopResponse(response: String, bleDevice: BleDevice?, gatt: BluetoothGatt?) {
         when (response) {
             "EE120." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE121." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(nonStopOn, it1, it) } }
-            // "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE110." -> {
                 prefs.isFromHomeScreen = true
             }
@@ -1613,97 +1436,28 @@ class HomeFragment : Fragment(), View.OnClickListener {
             //   "EE111." -> gatt?.let { bleDevice?.let { it1 -> sendCommand(byteArrayON, it1, it) } }
             "EE110." -> {
                 prefs.isFromHomeScreen = true
-                if (number == 0) {
-                    synchTime(0)
-                }
-                if (number == 1) {
-                    synchTime(1)
-                }
-                if (number == 2) {
-                    synchTime(2)
-                }
-                if (number == 3) {
-                    synchTime(3)
-                }
+//                if (number == 0) {
+//                    synchTime(0)
+//                }
+//                if (number == 1) {
+//                    synchTime(1)
+//                }
+//                if (number == 2) {
+//                    synchTime(2)
+//                }
+//                if (number == 3) {
+//                    synchTime(3)
+//                }
             }
 
         }
     }
-
-
-//    fun setDisplayMode() {
-//
-//        if (deviceObject != null) {
-//
-//            val isOn = deviceObject?.isOn
-//            if (isOn == true && prefs.isFromHomeScreen) {
-//                btnStart?.isEnabled = false
-//                Handler().postDelayed({
-//                    btnStart?.isEnabled = true
-//                    btnStart?.tag = "stop"
-//                    motionLayout?.transitionToEnd()
-//                    isTimeSync = false
-//                    carViewHome?.isEnabled = false
-//
-//                    if (deviceObject?.isSparayMode == true) {
-//                        if (deviceObject?.isSprayPerDay == false) {
-//                            intervalImg?.performClick()
-//                            tabName?.text = resources.getString(R.string.interval)
-//                            tab_icon?.setImageDrawable(
-//                                ContextCompat.getDrawable(
-//                                    requireContext(),
-//                                    R.drawable.interval_blue_icon
-//                                )
-//                            )
-//
-//                        } else {
-//                            scheduleImg?.performClick()
-//                            tabName?.text = resources.getString(R.string.schedule)
-//                            tab_icon?.setImageDrawable(
-//                                ContextCompat.getDrawable(
-//                                    requireContext(),
-//                                    R.drawable.calendar_blue_icon
-//                                )
-//                            )
-//                            //    setTabItemVisibility(true)
-//                            setScheduleActiveView()
-//                        }
-//                    } else {
-//                        nonStopImg?.performClick()
-//                        tabName?.text = resources.getString(R.string.non_stop)
-//                        tab_icon?.setImageDrawable(
-//                            ContextCompat.getDrawable(
-//                                requireContext(),
-//                                R.drawable.non_stop_blue_icon
-//                            )
-//                        )
-//
-//                    }
-//                }, 1000)
-//                if (tag != 0) {
-//                    val ss = deviceObject?.mistTime
-//                    val pp = deviceObject?.suspendTime
-//                    mistValue?.text = ss?.let { getTimeFromSeconds(it) }
-//                    suspendValue?.text = pp?.let { getTimeFromSeconds(it) }
-//                    mistValue?.visibility = View.VISIBLE
-//                    suspendValue?.visibility = View.VISIBLE
-//                    if (ss != null) {
-//                        mistValueSeconds = ss
-//                    }
-//                    if (pp != null) {
-//                        suspendValueSeconds = pp
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     fun setFirstDevice() {
         val deviceOne = prefs.firstDevice
         if (!deviceOne.isNullOrEmpty()) {
             val gson = Gson()
             deviceOneObj = gson.fromJson(deviceOne, MyDevice::class.java)
-            var i = 0
             for (item in bleList) {
                 if (deviceOneObj?.name == item.name) {
                     firstBleDevice = item
@@ -1832,20 +1586,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 constraintSet: Int,
                 p2: Int
             ) {
-                startingTv?.visibility = View.GONE
                 if (btnStart.tag == "stop") {
-                    setTabItemVisibility(true)
-
                     guideline?.setGuidelinePercent(1f)
-
+                    setTabItemVisibility(true)
                 } else {
                     setTabItemVisibility(false)
-                    if (tag == 0) {
-                        guideline?.setGuidelinePercent(1f)
-                    } else {
-                        guideline?.setGuidelinePercent(0.65f)
-                    }
                 }
+
             }
 
             override fun onTransitionChange(
@@ -1858,20 +1605,15 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, constraintSet: Int) {
-                startingTv?.visibility = View.GONE
-
                 if (constraintSet == R.id.start) {
                     btnStart?.setBackgroundResource(R.drawable.blue_radius_8)
                     btnStart?.text = getString(R.string.start)
                     btnStart?.isEnabled = true
                     carViewHome?.isEnabled = true
-                    setTabItemVisibility(false)
-
                 } else {
                     btnStart?.setBackgroundResource(R.drawable.container_light_blue)
                     btnStart?.text = getString(R.string.stop)
-                    btnStart?.isEnabled = true
-                    setTabItemVisibility(true)
+                    //   setTabItemVisibility(true)
                 }
             }
 
@@ -2030,20 +1772,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                 R.drawable.schedule_icon
             )
         )
-//        val ss = deviceObject?.mist
-//        val pp = deviceObject?.suspend
-//        mistValue?.text = ss?.let { getTimeFromSeconds(it) }
-//        suspendValue?.text = pp?.let { getTimeFromSeconds(it) }
-//        if (ss != null) {
-//            mistValueSeconds = ss
-//        } else {
-//            mistValue?.text = "5s"
-//        }
-//        if (pp != null) {
-//            suspendValueSeconds = pp
-//        } else {
-//            suspendValue?.text = "5s"
-//        }
     }
 
     fun setIntervalView() {
@@ -2199,16 +1927,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
             )
         }
         guideline?.setGuidelinePercent(0.65f)
-//        val ss = deviceObject?.mist
-//        val pp = deviceObject?.suspend
-//        mistValue?.text = ss?.let { getTimeFromSeconds(it) }
-//        suspendValue?.text = pp?.let { getTimeFromSeconds(it) }
-//        if (ss != null) {
-//            mistValueSeconds = ss
-//        }
-//        if (pp != null) {
-//            suspendValueSeconds = pp
-//        }
         setScheduleActiveView()
     }
 
@@ -2330,14 +2048,14 @@ class HomeFragment : Fragment(), View.OnClickListener {
 
     fun sendCommand(input: ByteArray, bleDevice: BleDevice, gatt: BluetoothGatt) {
         val pos = gatt.services.size - 1
-
-        connectionStateCoordinator.bluetoothController?.writeCommand(
-            bleDevice,
-            input,
-            gatt.services.get(pos).characteristics.get(0)
-        )
+        if (pos >= 0) {
+            connectionStateCoordinator.bluetoothController?.writeCommand(
+                bleDevice,
+                input,
+                gatt.services.get(pos).characteristics.get(0)
+            )
+        }
     }
-
 
     private fun navigateToSetSchedule() {
         view?.post {
@@ -2380,21 +2098,21 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
     }
 
-
-    fun initBleConroller() {
-        bluetoothController =
-            BluetoothController(
-                null,
-                null,
-                null,
-                null,
-                gattCallback,
-                null,
-                writeCallback,
-                requireContext()
-            )
-
-    }
+//
+//    fun initBleConroller() {
+//        bluetoothController =
+//            BluetoothController(
+//                null,
+//                null,
+//                null,
+//                null,
+//                gattCallback,
+//                null,
+//                writeCallback,
+//                requireContext()
+//            )
+//
+//    }
 
 
     private val writeCallback = object : BleWriteCallback() {
@@ -2608,7 +2326,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         )
                     }
                 }
-
                 secondBleDevice?.let {
                     secondGate?.let { it1 ->
                         sendCommand(
@@ -2618,7 +2335,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                     }
                 }
 
-
                 thirdBleDevice?.let {
                     thirdGate?.let { it1 ->
                         sendCommand(
@@ -2627,7 +2343,6 @@ class HomeFragment : Fragment(), View.OnClickListener {
                         )
                     }
                 }
-
                 fourthBleDevice?.let {
                     fourthGate?.let { it1 ->
                         sendCommand(
@@ -2753,6 +2468,13 @@ class HomeFragment : Fragment(), View.OnClickListener {
         if (deviceFourObj != null) {
             counter = counter + 1
         }
+        allDevices =
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size!!
+        if (allDevices > 0) {
+            bleList =
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice as ArrayList<BleDevice>
+        }
+        deviceNumber?.text = "$allDevices of $counter devices"
     }
 }
 

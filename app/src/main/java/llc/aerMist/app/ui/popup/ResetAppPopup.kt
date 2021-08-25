@@ -52,56 +52,6 @@ class ResetAppPopup() : DialogFragment() {
             val fourthBle = connectionStateCoordinator.fourthDevice
             connectionStateCoordinator.listBleDevices.clear()
             prefs.clear()
-//            for (i in 1..4) {
-//                Log.e("D", "OVO JE U " + i)
-//                when (i) {
-//                    1 -> {
-//                        connectionStateCoordinator.bluetoothController?.bluetoothAdapter?.cancelDiscovery()
-//                        prefs.isDeleted = true
-//                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(
-//                            firstBle
-//                        )
-//                        //
-//                     //   connectionStateCoordinator.firstGatt?.let { it1 -> refreshDeviceCache(it1) }
-//                        connectionStateCoordinator.firstGatt?.close()
-////                        connectionStateCoordinator.firstGatt = null
-////                        connectionStateCoordinator.firstDevice = null
-//                    }
-//                    2 -> {
-//                        connectionStateCoordinator.bluetoothController?.bluetoothAdapter?.cancelDiscovery()
-//
-//                        prefs.isDeleted = true
-//                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(
-//                            secondBle
-//                        )
-//                        connectionStateCoordinator.secondGatt?.let { it1 -> refreshDeviceCache(it1) }
-//                        connectionStateCoordinator.secondGatt?.close()
-////                        connectionStateCoordinator.secondGatt = null
-////                        connectionStateCoordinator.secondDevice = null
-//                    }
-//                    3 -> {
-//                        connectionStateCoordinator.bluetoothController?.bluetoothAdapter?.cancelDiscovery()
-//                        prefs.isDeleted = true
-//                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(
-//                            thirdBle
-//                        )
-//                        connectionStateCoordinator.thirdGatt?.let { it1 -> refreshDeviceCache(it1) }
-//                        connectionStateCoordinator.thirdGatt?.close()
-//
-//                    }
-//                    4 -> {
-//                        connectionStateCoordinator.bluetoothController?.bluetoothAdapter?.cancelDiscovery()
-//                        prefs.isDeleted = true
-//                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(
-//                            fourthBle
-//                        )
-//                        connectionStateCoordinator.fourthGatt?.let { it1 -> refreshDeviceCache(it1) }
-//                        connectionStateCoordinator.fourthGatt?.close()
-//
-//                    }
-//                }
-//            }
-
             deleteCache(requireContext())
             connectionStateCoordinator.bluetoothController?.bluetoothAdapter?.cancelDiscovery()
             deleteAppData()
@@ -130,17 +80,7 @@ class ResetAppPopup() : DialogFragment() {
         if (isVisible)
             super.dismiss()
     }
-    private fun refreshDeviceCache(gatt: BluetoothGatt): Boolean {
-        try {
-            val localMethod: Method? = gatt.javaClass.getMethod("refresh", *arrayOfNulls(0))
-            if (localMethod != null) {
-                return (localMethod.invoke(gatt, arrayOfNulls<Any>(0)) as Boolean)
-            }
-        } catch (localException: Exception) {
-            Log.e("D", "An exception occurred while refreshing device")
-        }
-        return false
-    }
+
     fun deleteCache(context: Context) {
         try {
             val dir: File = context.getCacheDir()

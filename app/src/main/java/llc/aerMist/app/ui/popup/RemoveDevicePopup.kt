@@ -5,11 +5,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.clj.fastble.BleManager
+import com.clj.fastble.scan.BleScanRuleConfig
 import kotlinx.android.synthetic.main.remove_reset_device_fragment.view.*
 import llc.aerMist.app.R
 import llc.aerMist.app.observers.NewObservableCoordinator
@@ -27,7 +27,7 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
         savedInstanceState: Bundle?
     ): View {
 
-        val builder = AlertDialog.Builder(requireContext())//,
+        val builder = AlertDialog.Builder(requireContext())
 
         if (dialog != null && dialog!!.window != null) {
             dialog!!.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -55,20 +55,24 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
         }
 
         dialogView.btnRemoveDevice.setOnClickListener {
+            val scanRuleConfig = BleScanRuleConfig.Builder()
+                .setAutoConnect(false)
+                .setScanTimeOut(10000)
+                .build()
+            BleManager.getInstance().initScanRule(scanRuleConfig)
             when (position) {
                 0 -> {
                     if (filter) {
                         prefs.cleanFirstFilter()
                     } else {
-                        prefs.isDeleted = true
                         prefs.cleanFirstDevice()
                         val bleDevice=connectionStateCoordinator.firstDevice
-                       connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(bleDevice)
-                   //     BleManager.getInstance().disconnect(bleDevice)
-                          connectionStateCoordinator.firstGatt?.close()
+                     //  connectionStateCoordinator.bluetoothController?.bluetoothManager?.disconnect(bleDevice)
+                        BleManager.getInstance().disconnect(bleDevice)
+                        connectionStateCoordinator.firstGatt?.close()
+                        //    BleManager.getInstance().disconnect(bleDevice)
                          connectionStateCoordinator.firstDevice=null
                          connectionStateCoordinator.firstGatt=null
-
                     }
                 }
                 1 -> {
@@ -76,7 +80,6 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
                         prefs.cleanSecondFilter()
                     } else {
                         prefs.cleanSecondDevice()
-                        prefs.isDeleted = true
                         val bleDevice=connectionStateCoordinator.secondDevice
                         BleManager.getInstance().disconnect(bleDevice)
                         connectionStateCoordinator.secondGatt?.close()
@@ -90,14 +93,11 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
 
                     } else {
                         prefs.cleanThirdDevice()
-                        prefs.isDeleted = true
                         val bleDevice=connectionStateCoordinator.thirdDevice
                         BleManager.getInstance().disconnect(bleDevice)
                         connectionStateCoordinator.thirdGatt?.close()
                         connectionStateCoordinator.thirdGatt=null
                         connectionStateCoordinator.thirdDevice=null
-
-
                     }
                 }
                 3 -> {
@@ -106,7 +106,6 @@ class RemoveDevicePopup(val position: Int, val deviceName: String, val filter: B
 
                     } else {
                         prefs.cleanFourthDevice()
-                        prefs.isDeleted = true
                         val bleDevice=connectionStateCoordinator.fourthDevice
                         BleManager.getInstance().disconnect(bleDevice)
                         connectionStateCoordinator.fourthGatt?.close()

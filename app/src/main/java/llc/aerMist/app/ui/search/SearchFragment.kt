@@ -54,7 +54,7 @@ class SearchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setDeviceNamaFromDb()
         bluetoothController =
-            BluetoothController(null, null, null, null, null, scanCallback, null, requireContext())
+            BluetoothController(null, null, null, null, connectionStateCoordinator.firstGattController, scanCallback, null, requireContext())
 //        bluetoothController.bluetoothManager
 //            .enableLog(true)
 //            .setReConnectCount(200, 4000)
@@ -124,12 +124,12 @@ class SearchFragment : Fragment() {
             Log.e("onScanning", "bleDevice.name " + bleDevice.name)
             if (bleDevice.name != null) {
                 val bleName = bleDevice.name
-                if (bleName.contains("FG") && bleName != firstDevice && bleName != secondDevice && bleName != thirdDevice && bleName != fourthDevice) {
+       //         if (bleName.contains("FG") && bleName != firstDevice && bleName != secondDevice && bleName != thirdDevice && bleName != fourthDevice) {
 
                     connectionStateCoordinator.listBleDevices.add(bleDevice)
                     adapter?.notifyDataSetChanged()
                     Log.e("d", "BLE DEVICE NAME " + bleDevice.name)
-                }
+             //   }
             }
         }
 

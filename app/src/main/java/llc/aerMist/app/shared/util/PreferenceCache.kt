@@ -54,12 +54,7 @@ class PreferenceCache(val context: Context) {
             putBoolean(IS_ONE_DEVICE, value)
             apply()
         }
-    var isDeleted: Boolean
-        get() = prefs.getBoolean(IS_DELETED, false)
-        set(value) = with(prefs.edit()) {
-            putBoolean(IS_DELETED, value)
-            apply()
-        }
+
     var isFromHomeScreen: Boolean
         get() = prefs.getBoolean(IS_FROM_HOME_SCREEN, false)
         set(value) = with(prefs.edit()) {

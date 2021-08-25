@@ -1,14 +1,18 @@
 package  llc.aerMist.app.observers
 
 import android.bluetooth.BluetoothGatt
+import android.bluetooth.BluetoothGattCallback
 import androidx.lifecycle.MutableLiveData
+import com.clj.fastble.callback.BleGattCallback
 import com.clj.fastble.data.BleDevice
 import llc.aerMist.app.helpers.BluetoothController
 
 object NewObservableCoordinator {
-    var bluetoothConnectionState = MutableLiveData<BleDevice>()
+    var bluetoothConnectionStateFirst = MutableLiveData<BleDevice>()
+    var bluetoothConnectionStateSecond= MutableLiveData<BleDevice>()
     var bluetoothByteArray = MutableLiveData<CharArray>()
-    var bleDisconnectDevices = MutableLiveData<BleDevice>()
+    var bleDisconnectDevicesFirst = MutableLiveData<BleDevice>()
+    var bleDisconnectDevicesSecond = MutableLiveData<BleDevice>()
     var isFirstTimeSynch = MutableLiveData<Boolean>()
     var isSecondTimeSynch = MutableLiveData<Boolean>()
     var isThirdTimeSynch = MutableLiveData<Boolean>()
@@ -23,7 +27,8 @@ object NewObservableCoordinator {
     var secondDevice: BleDevice? = null
     var thirdDevice: BleDevice? = null
     var fourthDevice: BleDevice? = null
-    var gatt: BluetoothGatt? = null
+    var firstGattController: BleGattCallback? = null
+    var secondGattController: BleGattCallback? = null
     var bluetoothController: BluetoothController? = null
     var isDeviceConnected = false
     var isDeviceAuthorized = false

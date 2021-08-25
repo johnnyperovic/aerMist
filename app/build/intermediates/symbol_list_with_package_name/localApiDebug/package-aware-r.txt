@@ -2747,6 +2747,7 @@ string suspend
 string th
 string timer
 string tu
+string turn_bluetooth_on
 string v7_preference_off
 string v7_preference_on
 string we
@@ -3640,7 +3641,6 @@ styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
 xml backup_descriptor
 xml fragment_home_scene
-xml fragment_home_scene2
 xml standalone_badge
 xml standalone_badge_gravity_bottom_end
 xml standalone_badge_gravity_bottom_start

@@ -77,7 +77,7 @@ import java.time.format.DateTimeFormatter
 class MenageDevicesFragment : Fragment(), View.OnClickListener {
     private val prefs: PreferenceCache by inject()
     private var deviceTotalNumber = 0
-    var bluetoothController: BluetoothController? = null
+   // var bluetoothController: BluetoothController? = null
     private var totalNumber = 0
     private var firstBleDevice: BleDevice? = null
     private var secondBleDevice: BleDevice? = null
@@ -127,23 +127,8 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
         setFourthDevice()
         setClickListener()
         checkTotalNumber()
-        bluetoothController =
-            BluetoothController(
-                null,
-                null,
-                null,
-                null,
-                gattCallback,
-                null,
-                null,
-                requireContext()
-            )
-//        bluetoothController?.bluetoothManager
-//            ?.enableLog(true)
-//            ?.setReConnectCount(10, 5000)
-//            ?.setConnectOverTime(5000)
-//            ?.operateTimeout = 5000
-        //  synchTime()
+        totalDeviceNumber?.text = deviceTotalNumber.toString() + "/" + counter + " devices"
+
         if (totalNumber == 1 && prefs.isOneDevice == true && counter == 1) {
             prefs.isOneDevice = false
             if (firstBleDevice != null) {
@@ -176,7 +161,6 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 setFourthDevice()
             }
         }
-        totalDeviceNumber?.text = deviceTotalNumber.toString() + "/" + counter + " devices"
         if (counter == 4) {
             btnAddNewDevice?.visibility = View.GONE
         }
@@ -184,73 +168,18 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
         connectionStateCoordinator.isSecondTimeSynch.observe(viewLifecycleOwner, observer4)
         connectionStateCoordinator.isThirdTimeSynch.observe(viewLifecycleOwner, observer5)
         connectionStateCoordinator.isFourthTimeSynch.observe(viewLifecycleOwner, observer6)
-        val observerDisconected = Observer<BleDevice> {
-            Log.e("D", "disconekt iz observera")
-            checkTotalNumber()
-            val size =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
-            totalDeviceNumber?.text = size.toString() + "/" + counter + " devices"
-            if (counter == 4) {
-                btnAddNewDevice?.visibility = View.GONE
-            }
-            if (it.name == deviceOneObj?.name) {
-                Log.e("D", "ULzi odje " + deviceOneObj?.name)
-                isFirstConnected = false
-                firstDeviceState?.text = resources.getString(R.string.offline)
-                firstMode?.visibility = View.INVISIBLE
-                modeTv?.visibility = View.INVISIBLE
-                firstDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
+        val observerDisconectedFirst = Observer<BleDevice> {
+            connectionStateCoordinator.firstGattController?.let { it1 ->
+                checkDisconectView(it,
+                    it1
                 )
-                connectDevice(it)
-
-            } else if (it.name == deviceTwoObj?.name) {
-                isSecondConnected = false
-                secondDeviceState?.text = resources.getString(R.string.offline)
-                secondMode?.visibility = View.INVISIBLE
-                modeTv2?.visibility = View.INVISIBLE
-                secondDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                connectDevice(it)
-
-            } else if (it.name == deviceThreeObj?.name) {
-                isThirdConnected = false
-                thirdDeviceState?.text = resources.getString(R.string.offline)
-                thirdMode?.visibility = View.INVISIBLE
-                modeTv3?.visibility = View.INVISIBLE
-                thirdDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                connectDevice(it)
-
-            } else if (it.name == deviceFourObj?.name) {
-                isFourthConnected = false
-                fourthDeviceState?.text = resources.getString(R.string.offline)
-                fourthMode?.visibility = View.INVISIBLE
-                modeTv4?.visibility = View.INVISIBLE
-                fourthDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                connectDevice(it)
             }
         }
-        connectionStateCoordinator.bleDisconnectDevices.observe(
+        connectionStateCoordinator.bleDisconnectDevicesFirst.observe(
             viewLifecycleOwner,
-            observerDisconected
+            observerDisconectedFirst
         )
+
         val observerConnected = Observer<BleDevice> {
             val size =
                 connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
@@ -269,7 +198,7 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                 setFourthDevice()
             }
         }
-        connectionStateCoordinator.bluetoothConnectionState.observe(
+        connectionStateCoordinator.bluetoothConnectionStateFirst.observe(
             viewLifecycleOwner,
             observerConnected
         )
@@ -282,7 +211,69 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_devices, container, false)
     }
+    fun checkDisconectView(bleDevice: BleDevice,gattCallback: BleGattCallback) {
+        checkTotalNumber()
+        val size =
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
+        totalDeviceNumber?.text = size.toString() + "/" + counter + " devices"
+        if (counter == 4) {
+            btnAddNewDevice?.visibility = View.GONE
+        }
+        if (connectionStateCoordinator.bluetoothController?.bluetoothManager!!.isConnected(bleDevice) == false) {
+            if (bleDevice.name == deviceOneObj?.name) {
+                isFirstConnected = false
+                firstDeviceState?.text = resources.getString(R.string.offline)
+                firstMode?.visibility = View.INVISIBLE
+                modeTv?.visibility = View.INVISIBLE
+                firstDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
+                connectDevice(bleDevice, gattCallback)
 
+            } else if (bleDevice.name == deviceTwoObj?.name) {
+                isSecondConnected = false
+                secondDeviceState?.text = resources.getString(R.string.offline)
+                secondMode?.visibility = View.INVISIBLE
+                modeTv2?.visibility = View.INVISIBLE
+                secondDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
+                connectDevice(bleDevice, gattCallback)
+
+            } else if (bleDevice.name == deviceThreeObj?.name) {
+                isThirdConnected = false
+                thirdDeviceState?.text = resources.getString(R.string.offline)
+                thirdMode?.visibility = View.INVISIBLE
+                modeTv3?.visibility = View.INVISIBLE
+                thirdDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
+                connectDevice(bleDevice, gattCallback)
+
+            } else if (bleDevice.name == deviceFourObj?.name) {
+                isFourthConnected = false
+                fourthDeviceState?.text = resources.getString(R.string.offline)
+                fourthMode?.visibility = View.INVISIBLE
+                modeTv4?.visibility = View.INVISIBLE
+                fourthDotColor?.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.red_dot
+                    )
+                )
+                connectDevice(bleDevice, gattCallback)
+            }
+        }
+    }
     fun checkTotalNumber() {
         counter = 0
         if (firstCardView?.visibility == View.VISIBLE) {
@@ -308,315 +299,15 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
         }
     }
 
-    fun connectDevice(bleDevice: BleDevice) {
-        if (prefs.isDeleted == false) {
-            if (bleDevice.name == deviceOneObj?.name) {
-
-                firstDeviceState?.text = resources.getString(R.string.offline)
-                firstDeviceState?.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.someGrayColor
-                    )
-                )
-                firstDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-                    bleDevice,
-                    gattCallback
-                )
-            }
-            if (bleDevice.name == deviceTwoObj?.name) {
-                secondDeviceState?.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.someGrayColor
-                    )
-                )
-                secondDeviceState?.text = resources.getString(R.string.offline)
-                secondDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-                    bleDevice,
-                    gattCallback
-                )
-            }
-            if (bleDevice.name == deviceThreeObj?.name) {
-                thirdDeviceState?.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.someGrayColor
-                    )
-                )
-                thirdDeviceState?.text = resources.getString(R.string.offline)
-                thirdDotColor?.setImageDrawable(
-                    requireContext().let {
-                        ContextCompat.getDrawable(
-                            it,
-                            R.drawable.red_dot
-                        )
-                    }
-                )
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-                    bleDevice,
-                    gattCallback
-                )
-            }
-            if (bleDevice.name == deviceFourObj?.name) {
-                fourthDeviceState?.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.someGrayColor
-                    )
-                )
-                fourthDeviceState?.text = resources.getString(R.string.offline)
-                fourthDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-                    bleDevice,
-                    gattCallback
-                )
-            }
-        } else {
-            prefs.isDeleted = false
+    fun connectDevice(bleDevice: BleDevice,gattCallback: BleGattCallback) {
+        if (connectionStateCoordinator.bluetoothController?.bluetoothManager!!.isConnected(bleDevice) == false) {
+            connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                bleDevice,
+                gattCallback
+            )
         }
     }
 
-    private val gattCallback = object : BleGattCallback() {
-        override fun onStartConnect() {
-        }
-
-        override fun onConnectFail(device: BleDevice, exception: BleException) {
-            if (device?.name == deviceOneObj?.name) {
-                connectDevice(device)
-            }
-            if (device?.name == deviceTwoObj?.name) {
-                connectDevice(device)
-            }
-            if (device?.name == deviceThreeObj?.name) {
-                connectDevice(device)
-            }
-            if (device?.name == deviceFourObj?.name) {
-                connectDevice(device)
-            }
-        }
-
-        override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
-            checkTotalNumber()
-            val size =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
-            totalDeviceNumber?.text = size.toString() + "/" + counter + " devices"
-            if (counter == 4) {
-                btnAddNewDevice?.visibility = View.GONE
-            }
-            if (bleDevicee.name == deviceOneObj?.name) {
-                isFirstConnected = true
-                firstBleDevice = bleDevicee
-                setFirstDevice()
-            //    readResponse(bleDevicee,gatt)
-
-            }
-            if (bleDevicee.name == deviceTwoObj?.name) {
-                isSecondConnected = true
-                secondBleDevice = bleDevicee
-                setSecondDevice()
-           //     readSecondResponse(bleDevicee,gatt)
-
-            }
-            if (bleDevicee.name == deviceThreeObj?.name) {
-                isThirdConnected = true
-                thirdBleDevice = bleDevicee
-                setThirdDevice()
-        //        readThirdResponse(bleDevicee,gatt)
-            }
-            if (bleDevicee.name == deviceFourObj?.name) {
-                isFourthConnected = true
-                fourthBleDevice = bleDevicee
-                setFourthDevice()
-       //         readFourthResponse(bleDevicee,gatt)
-            }
-        }
-
-        override fun onDisConnected(
-            isActiveDisConnected: Boolean,
-            device: BleDevice?,
-            gatt: BluetoothGatt?,
-            status: Int
-        ) {
-            Log.e("D", "disconekt iz menage onDisconected")
-            connectionStateCoordinator.bleDisconnectDevices.value = device
-            checkTotalNumber()
-            val size =
-                connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
-            totalDeviceNumber?.text = size.toString() + "/" + counter + " devices"
-            if (counter == 4) {
-                btnAddNewDevice?.visibility = View.GONE
-            }
-            if (device?.name == deviceOneObj?.name) {
-                firstDeviceState?.text = resources.getString(R.string.offline)
-                firstDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                //   device?.let { connectDevice(it) }
-
-            }
-            if (device?.name == deviceTwoObj?.name) {
-                secondDeviceState?.text = resources.getString(R.string.offline)
-                secondDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                //       device?.let { connectDevice(it) }
-
-            }
-            if (device?.name == deviceThreeObj?.name) {
-                thirdDeviceState?.text = resources.getString(R.string.offline)
-                thirdDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                //    device?.let { connectDevice(it) }
-            }
-            if (device?.name == deviceFourObj?.name) {
-                fourthDeviceState?.text = resources.getString(R.string.offline)
-                fourthDotColor?.setImageDrawable(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.red_dot
-                    )
-                )
-                //    device?.let { connectDevice(it) }
-            }
-
-//            try {
-//                // BluetoothGatt gatt
-//                val refresh: Method? = gatt?.javaClass?.getMethod("refresh")
-//                if (refresh != null) {
-//                    refresh.invoke(gatt)
-//                }
-//            } catch (e: Exception) {
-//            }
-        }
-
-    }
-
-    fun readResponse(bleDevice: BleDevice,gatt: BluetoothGatt) {
-        for (service in gatt?.services!!) {
-            if (service.characteristics.size > 0) {
-                for (service in service.characteristics) {
-                    if (service.uuid.toString().equals("0000ffe1-0000-1000-8000-00805f9b34fb")) {
-                        bluetoothController?.blueGattAdapter?.addResult(service.service)
-                    }
-                }
-            }
-        }
-        connectionStateCoordinator.firstGatt = gatt
-        connectionStateCoordinator.firstDevice = bleDevice
-
-        if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-            val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            service?.characteristics?.let {
-                bluetoothController?.readNotification(
-                    bleDevice,
-                    it.get(0)
-                )
-            }
-        }
-    }
-
-    fun readSecondResponse(bleDevice: BleDevice,gatt: BluetoothGatt) {
-        for (service in gatt?.services!!) {
-            if (service.characteristics.size > 0) {
-
-                if (service.characteristics.get(0).uuid.toString()
-                        .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                ) {
-                    bluetoothController?.blueGattAdapter?.addResult(service)
-                }
-            }
-        }
-        connectionStateCoordinator.secondGatt = gatt
-        connectionStateCoordinator.secondDevice = bleDevice
-
-        if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-            val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            service?.characteristics?.let {
-                bluetoothController?.readNotification2(
-                    bleDevice,
-                    it.get(0)
-                )
-            }
-        }
-    }
-
-    fun readThirdResponse(bleDevice: BleDevice,gatt: BluetoothGatt) {
-        for (service in gatt?.services!!) {
-            if (service.characteristics.size > 0) {
-
-                if (service.characteristics.get(0).uuid.toString()
-                        .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                ) {
-                    bluetoothController?.blueGattAdapter?.addResult(service)
-                }
-            }
-        }
-        connectionStateCoordinator.thirdGatt = gatt
-        connectionStateCoordinator.thirdDevice = bleDevice
-
-        if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-            val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            service?.characteristics?.let {
-                bluetoothController?.readNotification3(
-                    bleDevice,
-                    it.get(0)
-                )
-            }
-        }
-    }
-
-    fun readFourthResponse(bleDevice: BleDevice,gatt: BluetoothGatt) {
-        for (service in gatt?.services!!) {
-            if (service.characteristics.size > 0) {
-
-                if (service.characteristics.get(0).uuid.toString()
-                        .equals("0000ffe1-0000-1000-8000-00805f9b34fb")
-                ) {
-                    bluetoothController?.blueGattAdapter?.addResult(service)
-                }
-            }
-        }
-        connectionStateCoordinator.fourthGatt = gatt
-        connectionStateCoordinator.fourthDevice = bleDevice
-
-        if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-            val service = bluetoothController?.blueGattAdapter?.getItem(0)
-            service?.characteristics?.let {
-                bluetoothController?.readNotification4(
-                    bleDevice,
-                    it.get(0)
-                )
-            }
-        }
-    }
 
     fun showRenameDialog(positon: Int, name: String) {
         renameDeviceDialog = RenameDevicePopup(positon, name)
@@ -681,7 +372,6 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         if (deviceOneObj?.isSparayMode == true) {
                             if (deviceOneObj?.isSprayPerDay == false) {
                                 firstMode?.text = resources.getString(R.string.interval)
-
                             } else {
                                 firstMode?.text = resources.getString(R.string.schedule)
                             }
@@ -1182,9 +872,13 @@ class MenageDevicesFragment : Fragment(), View.OnClickListener {
                         }
                     }
                     checkTotalNumber()
+                    val size =
+                        connectionStateCoordinator.bluetoothController?.bluetoothManager?.allConnectedDevice?.size
+                    totalDeviceNumber?.text = size.toString() + " / " + counter + " devices"
                     if (counter == 0) {
                         navigateToSearchFragment()
                     }
+
                 }
             }
         }

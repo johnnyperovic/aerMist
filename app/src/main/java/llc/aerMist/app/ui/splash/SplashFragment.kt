@@ -19,6 +19,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -39,19 +40,14 @@ import llc.aerMist.app.shared.util.PreferenceCache
 import org.koin.android.ext.android.inject
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
 
 
 class SplashFragment : Fragment() {
     private val prefs: PreferenceCache by inject()
     var bluetoothController: BluetoothController? = null
     val connectionStateCoordinator = NewObservableCoordinator
-    private val REQUEST_LOCATION_PERMISSION = 11
-    private val locationPermission = Manifest.permission.ACCESS_FINE_LOCATION
     val REQUEST_CODE_PERMISSION_LOCATION = 5
-    var locationEnabled = false
     var deviceOne = ""
     var deviceOneObj: MyDevice? = null
     var deviceTwo = ""
@@ -219,13 +215,14 @@ class SplashFragment : Fragment() {
                 writeCallback,
                 requireContext()
             )
+        connectionStateCoordinator.firstGattController = gattCallback
         bluetoothController?.bluetoothManager
-            ?.enableLog(true)
-            ?.setReConnectCount(10, 2000)
-            ?.setConnectOverTime(2000)
-            ?.operateTimeout = 1000
+            ?.enableLog(false)
+            ?.setReConnectCount(10, 3000)
+            ?.setConnectOverTime(3000)
+            ?.operateTimeout = 2000
         val scanRuleConfig = BleScanRuleConfig.Builder()
-            .setAutoConnect(false)
+            .setAutoConnect(true)
             .setScanTimeOut(10000)
             .build()
         BleManager.getInstance().initScanRule(scanRuleConfig)
@@ -327,6 +324,7 @@ class SplashFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     fun connectDevices() {
+        Log.e("D","connect")
         val firstMac = prefs.firstBleDevice
         val secondMac = prefs.secondBleDevice
         val thirdMac = prefs.thirdBleDevice
@@ -453,33 +451,39 @@ class SplashFragment : Fragment() {
 
     val gattCallback = object : BleGattCallback() {
         override fun onStartConnect() {
-            Log.e("D", "onStartConnect111 ")
+            Log.e("D","onStartConnect ")
         }
 
         override fun onConnectFail(bleDevice: BleDevice, exception: BleException) {
-            Log.e("D", "onConnectFail111 ")
-            if (bleDevice.name == deviceOneObj?.name && bleDevice.name == deviceTwoObj?.name && bleDevice.name == deviceThreeObj?.name && bleDevice.name == deviceFourObj?.name) {
-                if (connectionStateCoordinator.bluetoothController?.bluetoothManager!!.isConnected(
-                        bleDevice
-                    ) == false
-                ) {
-                    connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
-                        bleDevice,
-                        this
-                    )
-                }
-            }
+
+            Log.e("D", "CONNECTION FAILD "+bleDevice.name)
+            if (connectionStateCoordinator.bluetoothController?.bluetoothManager!!.isConnected(
+                    bleDevice
+                ) == false
+            ) {
+                connectionStateCoordinator.firstGattController = this
+                connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
+                    bleDevice,
+                    this
+                )
+              }
         }
 
         override fun onConnectSuccess(bleDevicee: BleDevice, gatt: BluetoothGatt, status: Int) {
-            connectionStateCoordinator.bluetoothConnectionState.value = bleDevicee
+            Log.e("D", "onConnectSuccess "+bleDevicee.name)
+            setFirstDevice()
+            setSecondDevice()
+            setThirdDevice()
+            setFourthDevice()
             if (bleDevicee.name == firstDevice) {
                 firstBleDevice = bleDevicee
-                connectionStateCoordinator.firstDevice=firstBleDevice
+                connectionStateCoordinator.firstDevice = firstBleDevice
                 if (bleDevicee != null) {
                     bleDeviceToPass = bleDevicee.name
                 }
                 firstGate = gatt
+                Log.e("D", "onConnectSuccess111")
+                connectionStateCoordinator.bluetoothConnectionStateFirst.value = bleDevicee
                 readResponse()
             }
             if (bleDevicee.name == secondDevice) {
@@ -488,8 +492,9 @@ class SplashFragment : Fragment() {
                     bleDeviceToPass = bleDevicee.name
                 }
                 secondBleDevice = bleDevicee
-                connectionStateCoordinator.secondDevice=secondBleDevice
+                connectionStateCoordinator.secondDevice = secondBleDevice
                 secondGate = gatt
+                connectionStateCoordinator.bluetoothConnectionStateFirst.value = bleDevicee
                 readSecondResponse()
             }
             if (bleDevicee.name == thirdDevice) {
@@ -497,9 +502,10 @@ class SplashFragment : Fragment() {
                     bleDeviceToPass = bleDevicee.name
                 }
                 thirdBleDevice = bleDevicee
-                connectionStateCoordinator.thirdDevice=thirdBleDevice
+                connectionStateCoordinator.thirdDevice = thirdBleDevice
 
                 thirdGate = gatt
+                connectionStateCoordinator.bluetoothConnectionStateFirst.value = bleDevicee
                 readThirdResponse()
             }
             if (bleDevicee.name == fourthDevice) {
@@ -507,8 +513,9 @@ class SplashFragment : Fragment() {
                     bleDeviceToPass = bleDevicee.name
                 }
                 fourthBleDevice = bleDevicee
-                connectionStateCoordinator.fourthDevice=fourthBleDevice
+                connectionStateCoordinator.fourthDevice = fourthBleDevice
                 fourthGate = gatt
+                connectionStateCoordinator.bluetoothConnectionStateFirst.value = bleDevicee
                 readFourthResponse()
             }
         }
@@ -519,16 +526,27 @@ class SplashFragment : Fragment() {
             gatt: BluetoothGatt,
             status: Int
         ) {
-            if (deviceOneObj?.name == bleDevice.name || deviceTwoObj?.name == bleDevice.name || deviceThreeObj?.name == bleDevice.name || deviceFourObj?.name == bleDevice.name) {
-                if (prefs.isDeleted == false) {
-                    connectionStateCoordinator.bleDisconnectDevices.value = bleDevice
+
+            Log.e("D", "isActiveDisConnected  " + isActiveDisConnected)
+                if (isActiveDisConnected==false) {
+                    val scanRuleConfig = BleScanRuleConfig.Builder()
+                        .setAutoConnect(true)
+                        .setScanTimeOut(10000)
+                        .build()
+                    BleManager.getInstance().initScanRule(scanRuleConfig)
+                    connectionStateCoordinator.bleDisconnectDevicesFirst.value = bleDevice
                     connectionStateCoordinator.bluetoothController?.bluetoothManager?.connect(
                         bleDevice,
-                        this
+                        connectionStateCoordinator.firstGattController
                     )
-                }
-                prefs.clearDelete()
             }
+            else{
+                    val scanRuleConfig = BleScanRuleConfig.Builder()
+                        .setAutoConnect(false)
+                        .setScanTimeOut(10000)
+                        .build()
+                    BleManager.getInstance().initScanRule(scanRuleConfig)
+                }
         }
     }
 
@@ -558,11 +576,8 @@ class SplashFragment : Fragment() {
         connectionStateCoordinator.firstDevice = firstBleDevice
 
         if (bluetoothController?.blueGattAdapter?.getCount()!! > 0) {
-            var size= bluetoothController?.blueGattAdapter!!.getCount()
-            for(item in 0..size)
-            {
-                Log.e("D","SERVICES SPLASH "+bluetoothController?.blueGattAdapter?.getItem(0) )
-            }
+            var size = bluetoothController?.blueGattAdapter!!.getCount()
+
             val service = bluetoothController?.blueGattAdapter?.getItem(0)
             service?.characteristics?.let {
                 bluetoothController?.readNotification(
@@ -746,6 +761,7 @@ class SplashFragment : Fragment() {
         }
 
         override fun onNotifyFailure(exception: BleException) {
+            Log.e("D", "onNotifyFailure " + exception.description.toString())
         }
 
         override fun onCharacteristicChanged(data: ByteArray) {
@@ -1777,13 +1793,6 @@ class SplashFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        deviceOneObj=null
-        deviceTwoObj=null
-        deviceThreeObj=null
-        deviceFourObj=null
-    }
 }
 
 
