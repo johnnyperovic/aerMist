@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="llc.aerMist.app.ui.splash.SplashFragment"
+        android:name="llc.aerMis.production.ui.splash.SplashFragment"
         android:label="LoginFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -47,8 +47,8 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="llc.aerMist.app.ui.welcome.WelcomeFragment"
-        android:label="MainFragment"
+        android:name="llc.aerMis.production.ui.welcome.WelcomeFragment"
+        android:label="WelcomeFragment"
         tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_welcome_to_searchFragment"
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="llc.aerMist.app.ui.search.SearchFragment"
+        android:name="llc.aerMis.production.ui.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/search_fragment">
         <action
@@ -86,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/myDevicesFragment"
-        android:name="llc.aerMist.app.ui.my_devices.MyDevicesFragment"
+        android:name="llc.aerMis.production.ui.my_devices.MyDevicesFragment"
         android:label="DivaceFragment"
         tools:layout="@layout/my_devices_fragment">
         <action
@@ -135,19 +135,19 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="llc.aerMist.app.ui.main.MainFragment"
+        android:name="llc.aerMis.production.ui.main.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main" />
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="llc.aerMist.app.ui.home.HomeFragment"
+        android:name="llc.aerMis.production.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <argument
             android:name="model"
             android:defaultValue="@null"
-            app:argType="llc.aerMist.app.models.ScheduleModel"
+            app:argType="llc.aerMis.production.models.ScheduleModel"
             app:nullable="true" />
         <action
             android:id="@+id/action_schedule_to_set_schedule_fragment"
@@ -162,7 +162,7 @@
     </fragment>
     <fragment
         android:id="@+id/deviceFragment"
-        android:name="llc.aerMist.app.ui.devices.MenageDevicesFragment"
+        android:name="llc.aerMis.production.ui.devices.MenageDevicesFragment"
         android:label="DeviceFragment"
         tools:layout="@layout/fragment_devices">
         <action
@@ -191,7 +191,7 @@
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
-        android:name="llc.aerMist.app.ui.info.InfoFragment"
+        android:name="llc.aerMis.production.ui.info.InfoFragment"
         android:label="InfoFragment"
         tools:layout="@layout/fragment_info">
         <action
@@ -206,7 +206,7 @@
     </fragment>
     <fragment
         android:id="@+id/setScheduleFragment"
-        android:name="llc.aerMist.app.ui.home.schedulere.SetScheduleFragment"
+        android:name="llc.aerMis.production.ui.home.schedulere.SetScheduleFragment"
         android:label="SetScheduleFragment"
         tools:layout="@layout/fragment_set_schedule">
         <argument
@@ -220,7 +220,7 @@
         <argument
             android:name="model"
             android:defaultValue="@null"
-            app:argType="llc.aerMist.app.models.ScheduleModel"
+            app:argType="llc.aerMis.production.models.ScheduleModel"
             app:nullable="true" />
         <action
             android:id="@+id/action_set_schedule_to_home_fragment"
@@ -245,7 +245,7 @@
     </fragment>
     <fragment
         android:id="@+id/setDeviceFragment"
-        android:name="llc.aerMist.app.ui.devices.SetDeviceFragment"
+        android:name="llc.aerMis.production.ui.devices.SetDeviceFragment"
         android:label="SetDeviceFragment"
         tools:layout="@layout/fragment_set_device">
         <argument
@@ -255,7 +255,7 @@
 
         <argument
             android:name="model"
-            app:argType="llc.aerMist.app.models.ScheduleModel"
+            app:argType="llc.aerMis.production.models.ScheduleModel"
             app:nullable="true"
             android:defaultValue="@null"
             />

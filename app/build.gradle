@@ -3,17 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.crashlytics'
+//apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.firebase.crashlytics'
 
 String appName = "aerMist"
-def majorVersion = "1.1"
-static def generateVersionCode() {
-    def result = "git rev-list --all --count".execute().text.trim()
-    if (result.empty) result = "PowerShell -Command git rev-list HEAD --count".execute().text.trim()
-    if (result.empty) result = 1
-    return result.toInteger()
-}
+def majorVersion = "1.2"
 
 Properties keystore
 Boolean keystoreFileExists = project.file('keystore.properties').exists()
@@ -55,11 +49,11 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
     defaultConfig {
-        applicationId "llc.aerMist.app"
+        applicationId "llc.aerMis.production"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 101
-        versionName "${majorVersion}.${101}"
+        versionCode 103
+        versionName "${majorVersion}.${103}"
 
         manifestPlaceholders = [
                 appIcon       : "@mipmap/ic_launcher",
@@ -75,8 +69,7 @@ android {
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             initWith(buildTypes.release)
-            applicationIdSuffix '.production'
-            versionNameSuffix ' - Production'
+
             useProguard false
 
             // TODO: Insert correct icons for production build type
@@ -183,9 +176,9 @@ dependencies {
     //BLE
     implementation 'com.clj.fastble:FastBleLib:2.3.4'
     //Firebase
-    implementation 'com.google.firebase:firebase-analytics:19.0.0'
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+//    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+//    implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
+//    implementation 'com.google.firebase:firebase-messaging:22.0.0'
 
 }
 
