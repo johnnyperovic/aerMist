@@ -211,6 +211,15 @@ class SplashFragment : Fragment() {
                 writeCallback,
                 requireContext()
             )
+        deviceOne = prefs.firstDevice
+        deviceTwo = prefs.secondDevice
+        deviceThree = prefs.thirdDevice
+        deviceFour = prefs.fourthDevice
+
+        setFirstDevice()
+        setSecondDevice()
+        setThirdDevice()
+        setFourthDevice()
         connectionStateCoordinator.firstGattController = gattCallback
         connectionStateCoordinator.bluetoothController?.gattCallback = gattCallback
         bluetoothController?.bluetoothManager
@@ -250,15 +259,7 @@ class SplashFragment : Fragment() {
                 }
             }
         }
-        deviceOne = prefs.firstDevice
-        deviceTwo = prefs.secondDevice
-        deviceThree = prefs.thirdDevice
-        deviceFour = prefs.fourthDevice
 
-        setFirstDevice()
-        setSecondDevice()
-        setThirdDevice()
-        setFourthDevice()
     }
 
     fun turnOnLocation() {
@@ -363,7 +364,6 @@ class SplashFragment : Fragment() {
             }
         }, 4000)
     }
-
     fun setFirstDevice() {
         deviceOne = prefs.firstDevice
         if (!deviceOne.isNullOrEmpty()) {
