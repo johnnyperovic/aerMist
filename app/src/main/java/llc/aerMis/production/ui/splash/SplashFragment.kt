@@ -1,4 +1,4 @@
-package llc.aerMis.production.ui.splash
+ package llc.aerMis.production.ui.splash
 
 import android.Manifest
 import android.annotation.SuppressLint

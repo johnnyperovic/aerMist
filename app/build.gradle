@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-parcelize"
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 //apply plugin: 'com.google.gms.google-services'
@@ -46,12 +47,12 @@ android {
             }
         }
     }
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion 33
+    buildToolsVersion "33.0.1"
     defaultConfig {
         applicationId "llc.aerMis.production"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion 25
+        targetSdkVersion 33
         versionCode 105
         versionName "${majorVersion}.${105}"
 
@@ -70,7 +71,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             initWith(buildTypes.release)
 
-            useProguard false
 
             // TODO: Insert correct icons for production build type
             manifestPlaceholders = [
@@ -110,7 +110,8 @@ android {
         }
     }
     buildFeatures {
-        dataBinding = true
+       // dataBinding = true
+        viewBinding = true
     }
     flavorDimensions "apiUrl"
     productFlavors {
@@ -120,6 +121,7 @@ android {
 
         }
     }
+    namespace 'llc.aerMis.production'
 }
 
 dependencies {
